@@ -1,0 +1,101 @@
+<h1>Servicios Cliente</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<h2>Selecciona un equipo para ver sus servicios</h2>
+<div *ngIf="showEquipments">
+<div *ngFor="let equipo of equipos; let i = index">
+  <p>equipo</p>
+  <p>idEquipo: {{equipo.idEquipo}}</p>
+  <p>numero: {{i+1}}</p>
+  <p>Nombre: {{equipo.nombre}}</p>
+  <p>Modelo: {{equipo.modelo}}</p>
+  <button>Crear servicio</button>
+  <div *ngIf="equipo.Servicio">
+    <button (click)="getAllServicesWithRelations(equipo.idEquipo)">Ver servicios</button>
+  </div>
+</div>
+</div>
+
+<div *ngIf="showServicesByEquipment">
+  <h3>Servicio por equipo</h3>
+  <div *ngFor="let service of servicios">
+    <p>Id: {{service.idServicio}}</p>
+    <div *ngIf="service.fechaHoraRealizar; else noDate">
+      <p>Fecha y hora a realizar: {{service.fechaHoraRealizar}}</p>
+    </div>
+    <ng-template #noDate>
+      <p>Fecha y hora a realizar: Sin fecha</p>
+    </ng-template>
+    <p>Fecha Creado: {{service.fechaCreado}}</p>
+    <div *ngIf="service.fechaFinalizado; else noDateFinished">
+      <p>Fecha Finalizado: {{service.fechaFinalizado}}</p>
+    </div>
+    <ng-template #noDateFinished>
+      <p>Fecha Finalizado: Sin fecha</p>
+    </ng-template>
+    <p>Estado: {{service.estado}}</p>
+    <p>Prioridad: {{service.prioridad}}</p>
+    <div *ngIf="service.fechaHoraAsignadoTrabajador; else noDateAsigned">
+      <p>Fecha hora asignado trabajador: {{service.fechaHoraAsignadoTrabajador}}</p>
+    </div>
+    <ng-template #noDateAsigned>
+      <p>Fecha hora asignado trabajador: Sin fecha</p>
+    </ng-template>
+
+    <h3>Tipo de servicio</h3>
+    <p>Tipo: {{service.Tipo_Servicio ? service.Tipo_Servicio.tipoServicio : 'sin tipo servicio.'}}</p>
+    <h3>Trabajador</h3>
+    <div *ngIf="service.Trabajador; else noWorker">
+      <p>Id: {{service.Trabajador.idPersona}}</p>
+      <p>Nombre: {{service.Trabajador.nombre}}</p>
+      <p>Apellido: {{service.Trabajador.apellidos}}</p>
+      <p>Correo: {{service.Trabajador.correo}}</p>
+      <p>Dpi: {{service.Trabajador.dpi}}</p>
+    </div>
+    <ng-template #noWorker>
+      <p>No asignado</p>
+    </ng-template>
+    <button (click)="getOneService(service.idServicio)">Ver un servicio</button>
+  </div>
+</div>
+
+<div *ngIf="oneService && servicio">
+  <h3>Servicio</h3>
+  <p>Id: {{servicio.idServicio}}</p>
+  <div *ngIf="servicio.fechaHoraRealizar; else noDate">
+    <p>Fecha y hora a realizar: {{servicio.fechaHoraRealizar}}</p>
+  </div>
+  <ng-template #noDate>
+    <p>Fecha y hora a realizar: Sin fecha</p>
+  </ng-template>
+  <p>Fecha Creado: {{servicio.fechaCreado}}</p>
+  <div *ngIf="servicio.fechaFinalizado; else noDateFinished">
+    <p>Fecha Finalizado: {{servicio.fechaFinalizado}}</p>
+  </div>
+  <ng-template #noDateFinished>
+    <p>Fecha Finalizado: Sin fecha</p>
+  </ng-template>
+  <p>Estado: {{servicio.estado}}</p>
+  <p>Prioridad: {{servicio.prioridad}}</p>
+  <div *ngIf="servicio.fechaHoraAsignadoTrabajador; else noDateAsigned">
+    <p>Fecha hora asignado trabajador: {{servicio.fechaHoraAsignadoTrabajador}}</p>
+  </div>
+  <ng-template #noDateAsigned>
+    <p>Fecha hora asignado trabajador: Sin fecha</p>
+  </ng-template>
+
+  <h3>Tipo de servicio</h3>
+  <p>Tipo: {{servicio.Tipo_Servicio ? servicio.Tipo_Servicio.tipoServicio : 'sin tipo servicio.'}}</p>
+  <div *ngIf="servicio.Trabajador; else noWorker">
+    <h3>Trabajador</h3>
+    <p>Id: {{servicio.Trabajador.idPersona}}</p>
+    <p>Nombre: {{servicio.Trabajador.nombre}}</p>
+    <p>Apellido: {{servicio.Trabajador.apellidos}}</p>
+    <p>Correo: {{servicio.Trabajador.correo}}</p>
+    <p>Dpi: {{servicio.Trabajador.dpi}}</p>
+    <h4>Tipo Persona</h4>
+  </div>
+  <ng-template #noWorker>
+    <p>No asignado</p>
+  </ng-template>
+  <button (click)="this.idPersona ? getAllEquipment(this.idPersona) : ''">Ver todos los equipos</button>
+</div>

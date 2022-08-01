@@ -1,0 +1,16 @@
+<h1>Perfil</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<button (click)="prueba()">go</button>
+<div *ngIf="persona">
+  <h4>Empresa</h4>
+  <p>Nombre:
+    {{persona.Tipo_Persona && persona.Tipo_Persona.Empresa ? persona.Tipo_Persona.Empresa.nombre : 'No ingresada.'}}
+  </p>
+  <h3>Persona</h3>
+  <p>Rol: {{persona.Tipo_Persona ? persona.Tipo_Persona.tipo : 'No ingresada.'}}</p>
+  <p>Nombre: {{persona.nombre}}</p>
+  <p>Apellido: {{persona.apellidos}}</p>
+  <p>Correo: {{persona.correo}}</p>
+  <p>Dpi: {{persona.dpi}}</p>
+  <p>-----------------------------------------</p>
+</div>

@@ -1,0 +1,13 @@
+
+<h1>Telefonos</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<button (click)="prueba()">go</button>
+<div *ngFor="let telefono of telefonos">
+  <h3>Telefono</h3>
+  <p>Id: {{telefono.idTelefono}}</p>
+  <p>Numero: {{telefono.numero}}</p>
+  <h4>Tipo Telefono</h4>
+  <p>{{telefono.Tipo_Telefono ? 'Tipo: ' + telefono.Tipo_Telefono.tipo : 'No ingresado.'}}</p>
+  <h4>Persona: {{telefono.idPersona}}</h4>
+  <p>------------------------------------</p>
+</div>

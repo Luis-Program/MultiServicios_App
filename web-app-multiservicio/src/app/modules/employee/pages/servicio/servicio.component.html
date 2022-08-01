@@ -1,0 +1,69 @@
+<h1>Servicios Trabajador</h1>
+<h3 *ngIf="loading">Cargando</h3>
+
+<h2>Gráficas</h2>
+<div *ngIf="cantidadServicios">
+  <p>Servicios pendientes: {{cantidadServicios.pendientes}}</p>
+  <p>Servicios finalizados: {{cantidadServicios.finalizados}}</p>
+</div>
+<br>
+<div *ngFor="let service of servicios">
+  <h3>Servicio</h3>
+  <p>Id: {{service.idServicio}}</p>
+  <div *ngIf="service.fechaHoraRealizar; else noDate">
+    <p>Fecha y hora a realizar: {{service.fechaHoraRealizar}}</p>
+  </div>
+  <ng-template #noDate>
+    <p>Fecha y hora a realizar: Sin fecha</p>
+  </ng-template>
+  <p>Fecha Creado: {{service.fechaCreado}}</p>
+  <div *ngIf="service.fechaFinalizado; else noDateFinished">
+    <p>Fecha Finalizado: {{service.fechaFinalizado}}</p>
+  </div>
+  <ng-template #noDateFinished>
+    <p>Fecha Finalizado: Sin fecha</p>
+  </ng-template>
+  <p>Estado: {{service.estado}}</p>
+  <p>Prioridad: {{service.prioridad}}</p>
+  <div *ngIf="service.fechaHoraAsignadoTrabajador; else noDateAsigned">
+    <p>Fecha hora asignado trabajador: {{service.fechaHoraAsignadoTrabajador}}</p>
+  </div>
+  <ng-template #noDateAsigned>
+    <p>Fecha hora asignado trabajador: Sin fecha</p>
+  </ng-template>
+
+  <h3>Tipo de servicio</h3>
+  <p>Tipo: {{service.Tipo_Servicio ? service.Tipo_Servicio.tipoServicio : 'sin tipo servicio.'}}</p>
+
+  <h3>Equipo</h3>
+  <div *ngIf="service.Equipo; else noEquipment">
+    <p>Id: {{service.Equipo.idEquipo}}</p>
+    <p>Numero: {{service.Equipo.nombre}}</p>
+    <p>Modelo: {{service.Equipo.modelo}}</p>
+    <p>Estado: {{service.Equipo.estado}}</p>
+    <p>Fecha de último servicio: {{service.Equipo.fechaUltimoServicio}}</p>
+    <p>Plazo del servicio: {{service.Equipo.periodoDeServicio}}</p>
+    <p>Servicio preventivo Activo: {{service.Equipo.preventivoActivo}}</p>
+    <h4>Ubicación</h4>
+    <div *ngIf="service.Equipo.Direccion; else nullDirection">
+      <p>Dirección: {{service.Equipo.Direccion.direccion}}</p>
+      <p>Municipio: {{service.Equipo.Direccion.Municipio ? service.Equipo.Direccion.Municipio.nombre : 'No ingresado.'}}
+      </p>
+      <p>Departamento:
+        {{service.Equipo.Direccion.Municipio && service.Equipo.Direccion.Municipio.Departamento ? service.Equipo.Direccion.Municipio.Departamento.nombre : 'No ingresado.'}}
+      </p>
+      <p>Pais:
+        {{service.Equipo.Direccion.Municipio && service.Equipo.Direccion.Municipio.Departamento && service.Equipo.Direccion.Municipio.Departamento.Pais ? service.Equipo.Direccion.Municipio.Departamento.Pais.nombre : 'No ingresado.'}}
+      </p>
+    </div>
+    <ng-template #nullDirection>
+      <p>Dirección: No ingresado.</p>
+      <p>Municipio: No ingresado.</p>
+      <h3>Departamento: No ingresado.</h3>
+      <p>Pais: No ingresado.</p>
+    </ng-template>
+  </div>
+  <ng-template #noEquipment>
+    <p>Sin equipo</p>
+  </ng-template>
+</div>

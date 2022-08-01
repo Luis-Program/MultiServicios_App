@@ -1,0 +1,10 @@
+<h1>Tipos Personas</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<div *ngFor="let tipoPersona of tiposPersonas">
+  <h3>Tipo Persona</h3>
+  <p>Id: {{tipoPersona.idTipoPersona}}</p>
+  <p>Rol: {{tipoPersona.tipo}}</p>
+  <h4>Empresa</h4>
+  <p>{{tipoPersona.Empresa ? 'Nombre: ' + tipoPersona.Empresa.nombre : 'no ingresado.'}}</p>
+  <p>------------------------------------</p>
+</div>

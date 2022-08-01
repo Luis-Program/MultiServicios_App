@@ -1,0 +1,12 @@
+<h1>Home Global</h1>
+<div [ngSwitch]="rol">
+<div *ngSwitchCase="'Gerente General'">
+  <h1>HOME Gerente General</h1>
+</div>
+<div *ngSwitchCase="'Trabajador Operacional'">
+  <h1>HOME Trabajador Operacional</h1>
+</div>
+<div *ngSwitchCase="'Cliente'">
+  <h1>HOME Cliente</h1>
+</div>
+</div>

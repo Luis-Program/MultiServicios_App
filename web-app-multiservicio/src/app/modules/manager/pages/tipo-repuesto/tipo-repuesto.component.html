@@ -1,0 +1,7 @@
+<h1>Tipos de repuestos</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<div *ngFor="let tipoRepuesto of tipoRepuestos">
+  <p>Id: {{tipoRepuesto.idTipoRepuesto}}</p>
+  <p>Categoria: {{tipoRepuesto.tipo}}</p>
+</div>
+
