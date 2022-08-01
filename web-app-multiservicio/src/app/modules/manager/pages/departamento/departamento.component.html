@@ -1,0 +1,18 @@
+<h1>Departamentos</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<div *ngFor="let departamento of departamentos">
+  <h3>Departamento</h3>
+  <p>Id: {{departamento.idDepartamento}}</p>
+  <p>Nombre: {{departamento.nombre}}</p>
+  <p>Código: {{departamento.codigo}}</p>
+  <h3>Pais</h3>
+  <div *ngIf="departamento.Pais; else nullCountry">
+    <p>idPais: {{departamento.Pais.idPais}}</p>
+    <p>Nombre: {{departamento.Pais.nombre}}</p>
+    <p>Código: {{departamento.Pais.codigo}}</p>
+  </div>
+  <ng-template #nullCountry>
+    <p>No ingresado</p>
+  </ng-template>
+  <p>------------------------------------</p>
+</div>

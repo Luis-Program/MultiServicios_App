@@ -1,0 +1,54 @@
+<h1>Auditoria Servicios</h1>
+<h3 *ngIf="loading">Cargando</h3>
+
+<div *ngFor="let auditoriaServicio of auditoriaServicios">
+  <p>Id: {{auditoriaServicio.idAuditoriaServicio}}</p>
+  <p>Fecha y Hora: {{auditoriaServicio.fechaHora}}</p>
+  <p>Id servicio: {{auditoriaServicio.idServicio}}</p>
+  <p>Tipo Servicio: {{auditoriaServicio.tipoServicio}}</p>
+  <p>Prioridad: {{auditoriaServicio.prioridad}}</p>
+  <p>Nombre del Equipo: {{auditoriaServicio.nombreEquipo}}</p>
+  <p>Nombre del Cliente: {{auditoriaServicio.nombreCliente}}</p>
+  <p>DPI Cliente{{auditoriaServicio.dpiCliente}}</p>
+  <p>Fecha y hora de creación: {{auditoriaServicio.fechaHoraCreado}}</p>
+  <p>Empresa: {{auditoriaServicio.empresaCliente ? auditoriaServicio.empresaCliente : 'No ingresado.'}}</p>
+  <p>Nit Empresa: {{auditoriaServicio.empresaClienteNit}}</p>
+  <p>Fecha y hora de finalización:
+    {{auditoriaServicio.fechaHoraFinalizado ? auditoriaServicio.fechaHoraFinalizado : 'No ingresado.'}}</p>
+  <p>Estado: {{auditoriaServicio.estado}}</p>
+  <p>Trabajador encargado: {{auditoriaServicio.nombreTrabajador ? auditoriaServicio.nombreTrabajador : 'No asignado.'}}
+  </p>
+  <p>DPI: {{auditoriaServicio.dpiTrabajador ? auditoriaServicio.dpiTrabajador : 'No asignado.'}}</p>
+  <p>Fecha y hora de asignación del trabajador:
+    {{auditoriaServicio.fechaHoraAsignadoTrabajador ? auditoriaServicio.fechaHoraAsignadoTrabajador : 'Sin asignación.'}}
+  </p>
+  <p>Fecha y hora a ejecutar:
+    {{auditoriaServicio.fechaHoraRealizar ? auditoriaServicio.fechaHoraRealizar : 'No asignado.'}}</p>
+</div>
+
+<button (click)="getOneServiceAudit(1)">Obtener</button>
+
+<div *ngIf="auditoriaServicio">
+  <p>Id: {{auditoriaServicio.idAuditoriaServicio}}</p>
+  <p>Fecha y Hora: {{auditoriaServicio.fechaHora}}</p>
+  <p>Id servicio: {{auditoriaServicio.idServicio}}</p>
+  <p>Tipo Servicio: {{auditoriaServicio.tipoServicio}}</p>
+  <p>Prioridad: {{auditoriaServicio.prioridad}}</p>
+  <p>Nombre del Equipo: {{auditoriaServicio.nombreEquipo}}</p>
+  <p>Nombre del Cliente: {{auditoriaServicio.nombreCliente}}</p>
+  <p>DPI Cliente{{auditoriaServicio.dpiCliente}}</p>
+  <p>Fecha y hora de creación: {{auditoriaServicio.fechaHoraCreado}}</p>
+  <p>Empresa: {{auditoriaServicio.empresaCliente ? auditoriaServicio.empresaCliente : 'No ingresado.'}}</p>
+  <p>Nit Empresa: {{auditoriaServicio.empresaClienteNit}}</p>
+  <p>Fecha y hora de finalización:
+    {{auditoriaServicio.fechaHoraFinalizado ? auditoriaServicio.fechaHoraFinalizado : 'No ingresado.'}}</p>
+  <p>Estado: {{auditoriaServicio.estado}}</p>
+  <p>Trabajador encargado: {{auditoriaServicio.nombreTrabajador ? auditoriaServicio.nombreTrabajador : 'No asignado.'}}
+  </p>
+  <p>DPI: {{auditoriaServicio.dpiTrabajador ? auditoriaServicio.dpiTrabajador : 'No asignado.'}}</p>
+  <p>Fecha y hora de asignación del trabajador:
+    {{auditoriaServicio.fechaHoraAsignadoTrabajador ? auditoriaServicio.fechaHoraAsignadoTrabajador : 'Sin asignación.'}}
+  </p>
+  <p>Fecha y hora a ejecutar:
+    {{auditoriaServicio.fechaHoraRealizar ? auditoriaServicio.fechaHoraRealizar : 'No asignado.'}}</p>
+</div>

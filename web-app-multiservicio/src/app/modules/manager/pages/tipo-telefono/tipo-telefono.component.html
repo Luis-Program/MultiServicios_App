@@ -1,0 +1,8 @@
+<h1>Tipos Telefonos</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<div *ngFor="let tipoTelefono of tiposTelefonos">
+  <h3>Tipo Telefono</h3>
+  <p>Id: {{tipoTelefono.idTipoTelefono}}</p>
+  <p>Tipo: {{tipoTelefono.tipo}}</p>
+  <p>------------------------------------</p>
+</div>

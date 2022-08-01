@@ -1,0 +1,13 @@
+<h1>Repuestos</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<div *ngFor="let repuesto of repuestos">
+  <p>Id: {{repuesto.idRepuesto}}</p>
+  <p>Nombre: {{repuesto.nombre}}</p>
+  <p>Cantidad disponible: {{repuesto.cantidadDisponible}}</p>
+  <p>Limite inferior de notificación: {{repuesto.limiteInferior}}</p>
+  <h3>Tipo Repuesto</h3>
+  <p *ngIf="repuesto.Tipo_Repuesto; else without">Tipo: {{repuesto.Tipo_Repuesto.tipo}}</p>
+  <ng-template #without>
+    <p>Tipo: Sin categoria</p>
+  </ng-template>
+</div>

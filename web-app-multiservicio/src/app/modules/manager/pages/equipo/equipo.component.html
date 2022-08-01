@@ -1,0 +1,74 @@
+<h1>Equipos Manager</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<div *ngIf="equipoActivosInactivos[0] && equipoActivosInactivos[1]">
+  <h3>Gráfica de Equipos Activos Inactivos</h3>
+  <p>Inactivos {{equipoActivosInactivos[1].estado}} Cantidad: {{equipoActivosInactivos[1].cantidad}}</p>
+  <p>Activos {{equipoActivosInactivos[0].estado}} Cantidad: {{equipoActivosInactivos[0].cantidad}}</p>
+</div>
+
+<div *ngIf="clientesEquiposMinMax[0] && clientesEquiposMinMax[1]">
+  <h3>Gráfica de Clientes con mayor y menor catidad de equipos</h3>
+  <p>Mayor cantidad, cliente {{clientesEquiposMinMax[0].nombre}} {{clientesEquiposMinMax[0].apellidos}} Cantidad: {{clientesEquiposMinMax[0].cantidad}}</p>
+  <p>Menor cantidad, cliente {{clientesEquiposMinMax[1].nombre}} {{clientesEquiposMinMax[0].apellidos}} Cantidad: {{clientesEquiposMinMax[0].cantidad}}</p>
+</div>
+
+<div *ngFor="let equipo of equipos">
+  <h3>Equipo</h3>
+  <p>Id: {{equipo.idEquipo}}</p>
+  <p>Numero: {{equipo.nombre}}</p>
+  <p>Modelo: {{equipo.modelo}}</p>
+  <p>Estado: {{equipo.estado}}</p>
+  <p>Fecha de último servicio: {{equipo.fechaUltimoServicio}}</p>
+  <p>Plazo del servicio: {{equipo.periodoDeServicio}}</p>
+  <p>Servicio preventivo Activo: {{equipo.preventivoActivo}}</p>
+  <h4>Persona</h4>
+  <p>nombre: {{equipo.Persona.nombre}} {{equipo.Persona.apellidos}}</p>
+  <h4>Ubicación</h4>
+  <div *ngIf="equipo.Direccion; else nullDirection">
+    <p>Dirección: {{equipo.Direccion.direccion}}</p>
+    <p>{{equipo.Direccion.Municipio ? 'Municipio:  ' + equipo.Direccion.Municipio.nombre : 'No ingresado.'}}</p>
+    <p>
+      {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento ? 'Departamento: ' + equipo.Direccion.Municipio.Departamento.nombre : 'No ingresado.'}}
+    </p>
+    <p>
+      {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento && equipo.Direccion.Municipio.Departamento.Pais ? 'Pais: ' + equipo.Direccion.Municipio.Departamento.Pais.nombre : 'No ingresado.'}}
+    </p>
+  </div>
+  <ng-template #nullDirection>
+    <p>No ingresada.</p>
+  </ng-template>
+  <p>------------------------------------</p>
+</div>
+  <!-- Cuando selecione uno -->
+  <div *ngIf="equipo">
+    <h3>Selección de un solo equipo</h3>
+    <p>Id: {{equipo.idEquipo}}</p>
+    <p>Numero: {{equipo.nombre}}</p>
+    <p>Modelo: {{equipo.modelo}}</p>
+    <p>Estado: {{equipo.estado}}</p>
+    <p>Fecha de último servicio: {{equipo.fechaUltimoServicio}}</p>
+    <p>Plazo del servicio: {{equipo.periodoDeServicio}}</p>
+    <p>Servicio preventivo Activo: {{equipo.preventivoActivo}}</p>
+    <h4>Persona</h4>
+    <p>nombre: {{equipo.Persona.nombre}} {{equipo.Persona.apellidos}}</p>
+    <h4>Ubicación</h4>
+    <div *ngIf="equipo.Direccion; else nullDirection">
+      <p>Dirección: {{equipo.Direccion.direccion}}</p>
+      <p>{{equipo.Direccion.Municipio ? 'Municipio:  ' + equipo.Direccion.Municipio.nombre : 'No ingresado.'}}</p>
+      <p>
+        {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento ? 'Departamento: ' + equipo.Direccion.Municipio.Departamento.nombre : 'No ingresado.'}}
+      </p>
+      <p>
+        {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento && equipo.Direccion.Municipio.Departamento.Pais ? 'Pais: ' + equipo.Direccion.Municipio.Departamento.Pais.nombre : 'No ingresado.'}}
+      </p>
+    </div>
+    <ng-template #nullDirection>
+      <p>No ingresada.</p>
+    </ng-template>
+    <div *ngIf="unEquipoServicio">
+      <h3>Servicios</h3>
+      <p>Completados: {{unEquipoServicio.completada}}</p>
+      <p>Pendientes: {{unEquipoServicio.pendiente}}</p>
+    </div>
+  </div>
+  <button (click)="getOneEquipment(1)">Una Persona</button>

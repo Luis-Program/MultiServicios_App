@@ -1,0 +1,13 @@
+<h1>Paises</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<div *ngFor="let pais of paises">
+  <p>Id: {{pais.idPais}}</p>
+  <p>Nombre: {{pais.nombre}}</p>
+  <p>Código: {{pais.codigo}}</p>
+</div>
+<button (click)="getOneCountry(1)">Obtener</button>
+<div *ngIf="pais">
+  <p>Id: {{pais.idPais}}</p>
+  <p>Nombre: {{pais.nombre}}</p>
+  <p>Código: {{pais.codigo}}</p>
+</div>

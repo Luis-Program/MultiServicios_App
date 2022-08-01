@@ -1,0 +1,20 @@
+<h1>Municipios</h1>
+<h3 *ngIf="loading">Cargando</h3>
+<div *ngFor="let municipio of municipios">
+  <h3>Municipio</h3>
+  <p>Id: {{municipio.idMunicipio}}</p>
+  <p>Nombre: {{municipio.nombre}}</p>
+  <p>Código: {{municipio.codigo}}</p>
+  <h3>Departamento</h3>
+  <div *ngIf="municipio.Departamento; else nullDepartment">
+    <p>Nombre: {{municipio.Departamento.nombre}}</p>
+    <h3>Pais</h3>
+    <p>{{municipio.Departamento.Pais ? 'Nombre: '+ municipio.Departamento.Pais.nombre : ' no ingresado.'}}</p>
+  </div>
+  <ng-template #nullDepartment>
+    <p>No ingresado.</p>
+    <h3>Pais</h3>
+    <p>No ingresado.</p>
+  </ng-template>
+  <p>------------------------------------</p>
+</div>
