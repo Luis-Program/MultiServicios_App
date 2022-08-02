@@ -1,8 +1,0 @@
-{
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/d7d99823-fca7-4f43-b4c7-3e4f7b28aeec/microsoft.web/sites/subscriptions/d7d99823-fca7-4f43-b4c7-3e4f7b28aeec/resourceGroups/MultiServicios/providers/Microsoft.Web/sites/api-manager-multiservicios",
-    "appService.deploySubpath": "."
-}
