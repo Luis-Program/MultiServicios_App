@@ -19,6 +19,8 @@ export class NavbarComponent implements OnInit {
   protected loggedIn = false;
   protected serviceInfo = false;
 
+  public loaded!: boolean;
+
   constructor(
     private router: Router,
     private authB2C: AuthB2cService,
@@ -28,6 +30,8 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.checkLogin();
+
     this.msalBroadcastService.msalSubject$
       .pipe(
         filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
@@ -51,7 +55,8 @@ export class NavbarComponent implements OnInit {
   protected checkLogin() {
     const rol = localStorage.getItem('rol');
     if (rol) {
-      this.setRedirectByRol(rol);
+      this.loaded = true;
+      return this.setRedirectByRol(rol);
     }
   }
 
@@ -96,6 +101,7 @@ export class NavbarComponent implements OnInit {
           const tipopersona: TipoPersonaRelaciones | null = data.Tipo_Persona;
           if (tipopersona) {
             localStorage.setItem('rol', tipopersona.tipo);
+            this.checkLogin();
             this.serviceInfo = true;
           } else {
             this.serviceInfo = true;
