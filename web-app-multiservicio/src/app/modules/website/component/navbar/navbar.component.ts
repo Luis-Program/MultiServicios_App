@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   private readonly _destroyingClaims$ = new Subject<void>();
   protected loggedIn = false;
   protected serviceInfo = false;
+  protected loading = false;
 
   constructor(
     private router: Router,
@@ -90,6 +91,7 @@ export class NavbarComponent implements OnInit {
   private getClaims(claims: any) {
     let email = claims ? claims['emails'] : null;
     if (email) {
+      this.loading = true;
       this.personaService.getOneByEmail(email)
         .subscribe(data => {
           localStorage.setItem('idPersona', data.idPersona.toString());
@@ -101,6 +103,7 @@ export class NavbarComponent implements OnInit {
             this.serviceInfo = true;
             this.authB2C.logout();
           }
+          this.loading = false;
         });
     } else {
       localStorage.clear();
