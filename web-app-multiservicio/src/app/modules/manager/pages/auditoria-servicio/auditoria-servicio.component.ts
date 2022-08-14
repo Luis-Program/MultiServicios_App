@@ -19,7 +19,6 @@ export class AuditoriaServicioComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllServiceAudit();
-    // this.loadData();
   }
 
   private getAllServiceAudit(){
@@ -36,27 +35,5 @@ export class AuditoriaServicioComponent implements OnInit {
     if (this.auditoriaServicio) {
       // show content
     }
-  }
-
-  private loadData(){
-    this.auditoriaServicios.push({
-      idAuditoriaServicio: 1,
-      fechaHora: new Date("2022-02-01"),
-      idServicio: 1,
-      tipoServicio: 'Preventivo',
-      prioridad: 'Alta',
-      nombreEquipo: 'equipo1',
-      nombreCliente: 'cliente1',
-      dpiCliente: '164632',
-      fechaHoraCreado: new Date("2021-02-03"),
-      empresaCliente: 'Empresa1',
-      empresaClienteNit: '1321654651',
-      fechaHoraFinalizado: new Date("2021-01-01"),
-      estado: '',
-      nombreTrabajador: null,
-      dpiTrabajador: null,
-      fechaHoraAsignadoTrabajador: null,
-      fechaHoraRealizar: null
-    });
   }
 }

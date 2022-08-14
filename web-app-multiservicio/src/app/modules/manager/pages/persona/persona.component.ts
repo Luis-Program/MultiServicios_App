@@ -21,7 +21,9 @@ export class PersonaComponent implements OnInit {
   protected tipo = 'all';
   protected trabajadoresMinMaxServices: TrabajadoresMinMaxServicios[] = [];
   protected trabajadorServicios: ServiciosFinalizadosPendientes | null = null;
-  protected loading = false;
+  protected loading = false; // Carga principal
+  protected loadingGraphicWorker = false; // Carga de grafica cuando se traen los trabajdores con la cantidad de servicios que tienen
+  protected loadingGraphicOneWorker = false; // Carga de grafica cuando se selecciona un solo trabajador y muestra los servicios finalizados y pendientes
 
   constructor(
     private personaService: PersonaService,
@@ -30,7 +32,6 @@ export class PersonaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPersonsWithRelations();
-    // this.loadData();
   }
 
   private getAllPersonsWithRelations() {
@@ -57,21 +58,21 @@ export class PersonaComponent implements OnInit {
   }
 
   protected getWorkersMinMax() {
+    this.loadingGraphicWorker = true;
     this.personaService.getWorkersMinMaxServices()
       .subscribe(minMax => {
         this.trabajadoresMinMaxServices = minMax;
+        this.loadingGraphicWorker = false;
       });
   }
 
   protected changeTypePerson(tipo: string) {
     if (tipo === 'worker') {
-      // this.getAllWorkers(tipo);
-      this.loadWorker();
+      this.getAllWorkers(tipo);
       this.tipo = tipo;
     }
     if (tipo === 'client') {
-      // this.getAllClients(tipo);
-      this.loadClient();
+      this.getAllClients(tipo);
       this.tipo = tipo;
     }
     if (tipo === 'all') {
@@ -109,10 +110,12 @@ export class PersonaComponent implements OnInit {
         this.cliente = this.clientes.find(person => person.idPersona = idPersona) as Clientes;
           break;
         case 'Trabajador Operacional':
+          this.loadingGraphicOneWorker = true;
           this.trabajador = this.trabajadores.find(person => person.idPersona = idPersona) as Trabajadores;
           this.personaService.getOneWorkerServicesAmount(idPersona)
             .subscribe(amount => {
               this.trabajadorServicios = amount;
+              this.loadingGraphicOneWorker = false;
             })
           break;
           default:
@@ -160,222 +163,6 @@ export class PersonaComponent implements OnInit {
           // Success
         }
         this.loading = false;
-      });
-  }
-
-  private loadData() {
-    this.personas.push({
-      idPersona: 1,
-      nombre: 'Juan',
-      apellidos: 'Pedro',
-      correo: 'juanpedro@email.com',
-      dpi: '65464631',
-      Tipo_Persona: {
-        idTipoPersona: 1,
-        tipo: 'Cliente',
-        Empresa: {
-          idEmpresa: 1,
-          nombre: 'Empresa 1',
-          nit: '213132'
-        }
-      },
-    },
-      {
-        idPersona: 2,
-        nombre: 'Maria',
-        apellidos: 'Fernanda',
-        correo: 'mariafernanda@email.com',
-        dpi: '36487931',
-        Tipo_Persona: {
-          idTipoPersona: 2,
-          tipo: 'Trabajador Operacional',
-          Empresa: {
-            idEmpresa: 1,
-            nombre: 'Empresa 2',
-            nit: '9876513169'
-          }
-        },
-      },
-      {
-        idPersona: 3,
-        nombre: 'Pablo',
-        apellidos: 'Martinez',
-        correo: 'pablomartinez@email.com',
-        dpi: '798413',
-        Tipo_Persona: {
-          idTipoPersona: 3,
-          tipo: 'Gerente',
-          Empresa: {
-            idEmpresa: 4,
-            nombre: 'Empresa 4',
-            nit: '579831'
-          }
-        },
-      },
-      {
-        idPersona: 4,
-        nombre: 'Luis',
-        apellidos: 'Alberto',
-        correo: 'luisalberto@email.com',
-        dpi: '87965464',
-        Tipo_Persona: {
-          idTipoPersona: 1,
-          tipo: 'Cliente',
-          Empresa: {
-            idEmpresa: 1,
-            nombre: 'Empresa 1',
-            nit: '213132'
-          }
-        },
-      }
-    );
-
-    this.empresas.push({
-      idEmpresa: 1,
-      nombre: 'empresa 1',
-      nit: '6798431',
-      Tipo_Persona: [
-        {
-          idTipoPersona: 1,
-          tipo: 'Cliente',
-          idEmpresa: 1
-        },
-        {
-          idTipoPersona: 2,
-          tipo: 'Trabajador',
-          idEmpresa: 1
-        },
-        {
-          idTipoPersona: 3,
-          tipo: 'Gerente',
-          idEmpresa: 1
-        }
-      ]
-    },
-      {
-        idEmpresa: 2,
-        nombre: 'empresa d',
-        nit: '794313',
-        Tipo_Persona: [
-          {
-            idTipoPersona: 4,
-            tipo: 'Cliente',
-            idEmpresa: 2
-          }
-        ]
-      },
-      {
-        idEmpresa: 3,
-        nombre: 'empresa 3',
-        nit: '987983',
-        Tipo_Persona: [
-          {
-            idTipoPersona: 5,
-            tipo: 'Cliente',
-            idEmpresa: 3
-          }
-        ]
-      });
-  }
-
-  loadClient() {
-    this.clientes.push({
-      idPersona: 1,
-      cantidad: 12,
-      nombre: 'Juan',
-      apellidos: 'Pedro',
-      correo: 'juanpedro@email.com',
-      dpi: '5456132',
-      idTipoPersona: 1
-    },
-      {
-        idPersona: 2,
-        cantidad: 10,
-        nombre: 'Maria',
-        apellidos: 'Fernanda',
-        correo: 'mariafernanda@email.com',
-        dpi: '36487931',
-        idTipoPersona: 2
-      },
-      {
-        idPersona: 3,
-        cantidad: 4,
-        nombre: 'Pablo',
-        apellidos: 'Martinez',
-        correo: 'pablomartinez@email.com',
-        dpi: '798413',
-        idTipoPersona: 3
-      },
-      {
-        idPersona: 4,
-        cantidad: 1,
-        nombre: 'Luis',
-        apellidos: 'Alberto',
-        correo: 'luisalberto@email.com',
-        dpi: '031654',
-        idTipoPersona: 4
-      });
-  }
-
-  loadWorker() {
-    this.trabajadores.push({
-      idPersona: 1,
-      cantidad: 12,
-      nombre: 'Juan Trabajador',
-      apellidos: 'Pedro Trabajador',
-      correo: 'juanpedro@email.com',
-      dpi: '03136543',
-      idTipoPersona: 1
-    },
-      {
-        idPersona: 2,
-        cantidad: 10,
-        nombre: 'Maria Trabajador',
-        apellidos: 'Fernanda Trabajador',
-        correo: 'mariafernanda@email.com',
-        dpi: '111223',
-        idTipoPersona: 2
-      },
-      {
-        idPersona: 3,
-        cantidad: 4,
-        nombre: 'Pablo Trabajador',
-        apellidos: 'Martinez Trabajador',
-        correo: 'pablomartinez@email.com',
-        dpi: '654765132',
-        idTipoPersona: 3
-      },
-      {
-        idPersona: 4,
-        cantidad: 1,
-        nombre: 'Luis Trabajador',
-        apellidos: 'Alberto Trabajador',
-        correo: 'luisalberto@email.com',
-        dpi: '5449843',
-        idTipoPersona: 4
-      });
-
-    this.trabajadoresMinMaxServices.push({
-      cantidadService: 33,
-      persona: {
-        idPersona: 4,
-        nombre: 'Luis Trabajador',
-        apellidos: 'Alberto Trabajador',
-        correo: 'luisalberto@email.com',
-        dpi: '5449843',
-        idTipoPersona: 4
-      }
-    },
-      {
-        cantidadService: 10,
-        persona: {
-          idPersona: 1,
-          nombre: 'Juan Trabajador',
-          apellidos: 'Pedro Trabajador',
-          correo: 'juanpedro@email.com',
-          dpi: '03136543',
-          idTipoPersona: 1
-        }
       });
   }
 

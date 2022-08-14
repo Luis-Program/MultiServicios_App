@@ -23,7 +23,6 @@ export class DireccionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllAddressesWithRelations();
-    // this.loadData();
   }
 
   protected getAllMunicipalitiesToUpdateAddresses() {

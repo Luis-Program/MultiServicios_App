@@ -19,7 +19,6 @@ export class TipoRepuestoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllReplacementType();
-    // this.loadData();
   }
 
   private getAllReplacementType() {
@@ -75,29 +74,6 @@ export class TipoRepuestoComponent implements OnInit {
           // Success
         }
         this.loading = false;
-      });
-  }
-
-  private loadData() {
-    this.tipoRepuestos.push({
-      idTipoRepuesto: 1,
-      tipo: 'Tipo Repuesto 1'
-    },
-      {
-        idTipoRepuesto: 2,
-        tipo: 'Tipo Repuesto 2'
-      },
-      {
-        idTipoRepuesto: 2,
-        tipo: 'Tipo Repuesto 2'
-      },
-      {
-        idTipoRepuesto: 3,
-        tipo: 'Tipo Repuesto 3'
-      },
-      {
-        idTipoRepuesto: 4,
-        tipo: 'Tipo Repuesto 4'
       });
   }
 

@@ -12,7 +12,8 @@ export class EmpresaComponent implements OnInit {
   protected empresa: Empresa | null = null;
   protected empresas: Empresa[] = [];
   protected maxMinClient: MinMaxEmpresa[] = [];
-  protected loading = false;
+  protected loading = false; // Carga principal
+  protected loadingGraphic = false; // Carga del grafico
 
   constructor(
     private empresaService: EmpresaService
@@ -21,7 +22,6 @@ export class EmpresaComponent implements OnInit {
   ngOnInit(): void {
     this.getAllEnterprises();
     this.getMinMaxClient();
-    // this.loadData();
   }
 
   private getAllEnterprises() {
@@ -42,11 +42,11 @@ export class EmpresaComponent implements OnInit {
 
   private getMinMaxClient() {
     // Becomes the max first then min
-    this.loading = true;
+    this.loadingGraphic = true;
     this.empresaService.getMinMaxClients()
       .subscribe(data => {
         this.maxMinClient = data;
-        this.loading = false;
+        this.loadingGraphic = false;
       });
   }
 
@@ -88,39 +88,5 @@ export class EmpresaComponent implements OnInit {
         }
         this.loading = false;
       });
-  }
-
-  private loadData() {
-    this.empresas.push({
-      idEmpresa: 1,
-      nombre: 'Empresa1',
-      nit: '5464621'
-    },
-      {
-        idEmpresa: 2,
-        nombre: 'Empresa2',
-        nit: '8979-87'
-      },
-      {
-        idEmpresa: 3,
-        nombre: 'Empresa3',
-        nit: '985012-8'
-      },
-      {
-        idEmpresa: 4,
-        nombre: 'Empresa4',
-        nit: '895745-9'
-      }
-    );
-
-    this.maxMinClient.push({
-      empresa: 'Empresa 3',
-      cantidad: 32
-    },
-      {
-        empresa: 'Empresa 1',
-        cantidad: 12
-      }
-    );
   }
 }

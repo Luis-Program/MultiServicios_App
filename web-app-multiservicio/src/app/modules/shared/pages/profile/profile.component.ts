@@ -28,16 +28,6 @@ export class ProfileComponent implements OnInit {
     } else {
       this.router.navigate(['/home']);
     }
-    // this.loadData();
-  }
-
-  prueba(){
-    let persona: UpdatePersonaDTO = {
-      nombre: 'Juan Bernardo',
-      apellidos: 'Sanchez Sotjo',
-      dpi: '114587236-9'
-    }
-    this.updatePerson(persona)
   }
 
   private getOnePerson(idPersona: number | string) {
@@ -61,22 +51,4 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  private loadData() {
-    this.persona = {
-      idPersona: 3,
-      nombre: 'Pablo',
-      apellidos: 'Martinez',
-      correo: 'pablomartinez@email.com',
-      dpi: '798413',
-      Tipo_Persona: {
-        idTipoPersona: 3,
-        tipo: 'Gerente',
-        Empresa: {
-          idEmpresa: 4,
-          nombre: 'Empresa 4',
-          nit: '579831'
-        }
-      }
-    }
-  }
 }

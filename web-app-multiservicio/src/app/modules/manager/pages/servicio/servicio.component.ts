@@ -26,7 +26,10 @@ export class ServicioComponent implements OnInit {
   protected idServicio: number | null = null;
   protected accion: string | null = null;
   protected equipos: Equipo[] = [];
-  protected loading = false;
+  protected loading = false; // Carga principal
+  protected loadingGraphicAsig = false; // Carga grafico de cantidad de servicios asignados y no asignados
+  protected loadingGraphicCom = false; // Carga grafico de cantidad de servicios pendientes y finalizados
+  protected loadingGraphicType = false; // Carga de grafico por tipo de servicios
 
   constructor(
     private servicioService: ServicioService,
@@ -41,7 +44,6 @@ export class ServicioComponent implements OnInit {
     localStorage.removeItem('idNoti');
     localStorage.removeItem('servicio');
     this.getAllData();
-    // this.loadData();
     if (this.idServicio) {
       if (this.accion === 'update') {
         this.getOneService(this.idServicio);
@@ -74,7 +76,6 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllServicesCompleted()
       .subscribe(services => {
-        // console.log(services)
         this.serviciosCompletados = services;
       });
   }
@@ -83,22 +84,21 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllServicesNotCompleted()
       .subscribe(services => {
-        // console.log(services)
         this.serviciosCompletados = services;
       });
   }
 
   private getServiceByType() {
-    this.loading = true;
+    this.loadingGraphicType = true;
     this.servicioService.getServiceAmountTypeService()
       .subscribe(data => {
         this.servicioPorTipo = data;
-        this.loading = false;
+        this.loadingGraphicType = false;
       });
   }
 
   private getServiceAmount() {
-    this.loading = true;
+    this.loadingGraphicAsig = this.loadingGraphicCom = true;
     this.servicioService.getAmountServicesCompletedAsigned()
       .subscribe(data => {
         this.servicioCantidades = {
@@ -108,7 +108,7 @@ export class ServicioComponent implements OnInit {
           serviciosPendientes: data.cantidadServicios - data.serviciosCompletados,
           serviciosSinAsignar: data.cantidadServicios - data.serviciosAsignados
         }
-        this.loading = false;
+        this.loadingGraphicAsig = this.loadingGraphicCom = false;
       });
   }
 
@@ -169,12 +169,6 @@ export class ServicioComponent implements OnInit {
     this.servicioService.update(idServicio, dto)
       .subscribe(res => {
         if (res) {
-          // const serviceIndex = this.servicios.findIndex(
-          //   (res) => res.idServicio === idServicio);
-          // const serviceIndexNotCompleted = this.servicios.findIndex(
-          //   (res) => res.idServicio === idServicio);
-          // this.servicios[serviceIndex] = res;
-          // this.serviciosPendientes[serviceIndexNotCompleted] = res;
           this.getAllServicesWithRelations();
           this.getAllServicesWithRelationsNotCompleted();
           // Success
