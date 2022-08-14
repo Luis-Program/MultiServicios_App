@@ -39,7 +39,6 @@ export class RepuestoComponent implements OnInit {
           // Obtencion por notificacion
 
         }
-        // this.loadDataManager();
       } else if (this.rol === 'Trabajador Operacional') {
         // Only can read and update
         this.getAllReplacementWithRelations();
@@ -112,84 +111,4 @@ export class RepuestoComponent implements OnInit {
         this.loading = false;
       });
   }
-
-  private loadDataManager() {
-    this.repuestos.push({
-      idRepuesto: 1,
-      nombre: 'repuesto1',
-      cantidadDisponible: 50,
-      limiteInferior: 10,
-      Tipo_Repuesto: {
-        idTipoRepuesto: 1,
-        tipo: 'Tipo Repuesto 1'
-      }
-    },
-      {
-        idRepuesto: 2,
-        nombre: 'repuesto2',
-        cantidadDisponible: 75,
-        limiteInferior: 5,
-        Tipo_Repuesto: {
-          idTipoRepuesto: 4,
-          tipo: 'Tipo Repuesto 4'
-        }
-      },
-      {
-        idRepuesto: 8,
-        nombre: 'repuesto8',
-        cantidadDisponible: 88,
-        limiteInferior: 10,
-        Tipo_Repuesto: null
-      },
-      {
-        idRepuesto: 3,
-        nombre: 'repuesto3',
-        cantidadDisponible: 90,
-        limiteInferior: 50,
-        Tipo_Repuesto: {
-          idTipoRepuesto: 3,
-          tipo: 'Tipo Repuesto 3'
-        }
-      },
-      {
-        idRepuesto: 4,
-        nombre: 'repuesto4',
-        cantidadDisponible: 65,
-        limiteInferior: 25,
-        Tipo_Repuesto: {
-          idTipoRepuesto: 2,
-          tipo: 'Tipo Repuesto 2'
-        }
-      },
-      {
-        idRepuesto: 9,
-        nombre: 'repuesto9',
-        cantidadDisponible: 50,
-        limiteInferior: 15,
-        Tipo_Repuesto: null
-      }
-    );
-
-    this.tipoRepuestos.push({
-      idTipoRepuesto: 1,
-      tipo: 'Tipo Repuesto 1'
-    },
-      {
-        idTipoRepuesto: 2,
-        tipo: 'Tipo Repuesto 2'
-      },
-      {
-        idTipoRepuesto: 2,
-        tipo: 'Tipo Repuesto 2'
-      },
-      {
-        idTipoRepuesto: 3,
-        tipo: 'Tipo Repuesto 3'
-      },
-      {
-        idTipoRepuesto: 4,
-        tipo: 'Tipo Repuesto 4'
-      });
-  }
-
 }

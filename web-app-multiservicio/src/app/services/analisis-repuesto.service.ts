@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Analisis_Repuesto } from '../models/analisis_repuesto.model';
+import { Analisis_Repuesto, Graphics } from '../models/analisis_repuesto.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { catchError } from 'rxjs/operators';
@@ -25,8 +25,8 @@ export class AnalisisRepuestoService {
         }));
   }
 
-  public getOne(idAnalisisRepuesto: number | string) {
-    return this.http.get<Analisis_Repuesto>(`${this.apiUrl}/${idAnalisisRepuesto}`)
+  public getDataGraphics(nombreRepuesto: string) {
+    return this.http.get<Graphics[]>(`${this.apiUrl}/nombrerepuesto/${nombreRepuesto}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);

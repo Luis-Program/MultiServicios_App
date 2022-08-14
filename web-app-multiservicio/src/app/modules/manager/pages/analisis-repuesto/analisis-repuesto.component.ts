@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Analisis_Repuesto } from 'src/app/models/analisis_repuesto.model';
+import { Analisis_Repuesto, Graphics } from 'src/app/models/analisis_repuesto.model';
 import { AnalisisRepuestoService } from 'src/app/services/analisis-repuesto.service';
 
 @Component({
@@ -11,7 +11,9 @@ export class AnalisisRepuestoComponent implements OnInit {
 
   protected analisisRepuesto: Analisis_Repuesto | null = null;
   protected analisisRepuestos: Analisis_Repuesto[] = [];
-  protected loading = false;
+  protected dataGraphic: Graphics[] = [];
+  protected loading = false; // Carga principal
+  protected loadingGraphic = false; // Carga del grafico
 
   constructor(
     private analisisRepuestoService: AnalisisRepuestoService
@@ -19,7 +21,6 @@ export class AnalisisRepuestoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllReplacementAnalysis();
-    // this.loadData();
   }
 
   private getAllReplacementAnalysis(){
@@ -34,51 +35,12 @@ export class AnalisisRepuestoComponent implements OnInit {
   protected getOneReplacementAnalysis(idAnalisisRepuesto: number){
     this.analisisRepuesto = this.analisisRepuestos.find(replacementAnalysis => replacementAnalysis.idAnalisisRepuesto = idAnalisisRepuesto) as Analisis_Repuesto;
     if (this.analisisRepuesto) {
-      // show content
+      this.loadingGraphic = true;
+      this.analisisRepuestoService.getDataGraphics(this.analisisRepuesto.nombreRepuesto)
+      .subscribe(data => {
+        this.dataGraphic = data;
+        this.loadingGraphic = false;
+      })
     }
-  }
-
-  private loadData(){
-    this.analisisRepuestos.push({
-      idAnalisisRepuesto: 1,
-      nombreRepuesto: 'repuesto1',
-      nombreTipo: 'tipo1',
-      cantidadAntes: 10,
-      cantidadDespues: 8,
-      diferenciaCantidades: -2,
-      fechaHora: new Date("2022-01-10"),
-      tipoAccion: 'sustracción'
-    },
-    {
-      idAnalisisRepuesto: 2,
-      nombreRepuesto: 'repuesto2',
-      nombreTipo: 'tipo2',
-      cantidadAntes: 0,
-      cantidadDespues: 22,
-      diferenciaCantidades: 22,
-      fechaHora: new Date("2022-05-01"),
-      tipoAccion: 'adición'
-    },
-    {
-      idAnalisisRepuesto: 3,
-      nombreRepuesto: 'repuesto3',
-      nombreTipo: 'tipo3',
-      cantidadAntes: 4,
-      cantidadDespues: 1,
-      diferenciaCantidades: -3,
-      fechaHora: new Date("2021-08-22"),
-      tipoAccion: 'sustracción'
-    },
-    {
-      idAnalisisRepuesto: 4,
-      nombreRepuesto: 'repuesto4',
-      nombreTipo: 'tipo4',
-      cantidadAntes: 89,
-      cantidadDespues: 90,
-      diferenciaCantidades: 1,
-      fechaHora: new Date("2022-01-10"),
-      tipoAccion: 'adición'
-    });
-
   }
 }

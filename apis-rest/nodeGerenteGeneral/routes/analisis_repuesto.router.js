@@ -39,9 +39,9 @@ router.get('/:idAnalisisRepuesto',
 );
 
 router.get('/nombrerepuesto/:nombreRepuesto',
-  // passport.authenticate('oauth-bearer', {
-  //   session: false
-  // }),
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
   validatorHandler(getAnalisisRepuestoByName, 'params'),
   async (req, res, next) => {
     try {

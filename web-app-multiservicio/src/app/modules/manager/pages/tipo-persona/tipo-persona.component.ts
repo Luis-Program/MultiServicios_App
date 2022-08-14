@@ -24,7 +24,6 @@ export class TipoPersonaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTypesPersonsWithRelations();
-    // this.loadData();
   }
 
   private getAllTypesPersonsWithRelations() {
@@ -90,79 +89,6 @@ export class TipoPersonaComponent implements OnInit {
         }
         this.loading = false;
       });
-  }
-
-  private loadData() {
-    this.tiposPersonas.push(
-      {
-        idTipoPersona: 1,
-        tipo: 'Cliente',
-        Empresa: {
-          idEmpresa: 1,
-          nombre: 'Empresa1',
-          nit: '5464621'
-        }
-      },
-      {
-        idTipoPersona: 7,
-        tipo: 'Cliente2',
-        Empresa: null
-      },
-      {
-        idTipoPersona: 2,
-        tipo: 'Cliente',
-        Empresa: {
-          idEmpresa: 2,
-          nombre: 'Empresa2',
-          nit: '8979-87'
-        }
-      },
-      {
-        idTipoPersona: 3,
-        tipo: 'Trabajador',
-        Empresa: {
-          idEmpresa: 3,
-          nombre: 'Empresa3',
-          nit: '985012-8'
-        }
-      },
-      {
-        idTipoPersona: 4,
-        tipo: 'Gerente General',
-        Empresa: {
-          idEmpresa: 4,
-          nombre: 'Empresa4',
-          nit: '895745-9'
-        }
-      },
-      {
-        idTipoPersona: 9,
-        tipo: 'Gerente General3',
-        Empresa: null
-      },
-    );
-    this.empresas.push({
-      idEmpresa: 1,
-      nombre: 'Empresa1',
-      nit: '5464621'
-    },
-      {
-        idEmpresa: 2,
-        nombre: 'Empresa2',
-        nit: '8979-87'
-      },
-      {
-        idEmpresa: 3,
-        nombre: 'Empresa3',
-        nit: '985012-8'
-      },
-      {
-        idEmpresa: 4,
-        nombre: 'Empresa4',
-        nit: '895745-9'
-      }
-    );
-
   }
 
 }

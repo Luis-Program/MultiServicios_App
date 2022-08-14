@@ -23,10 +23,9 @@ export class DepartamentoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllDepartmentsWithRelations();
-    // this.loadData();
   }
 
-  private getAllCountriesToUpdateDepartment() {
+  protected getAllCountriesToUpdateDepartment() {
     this.loading = true;
     this.paisService.getAll()
     .subscribe(countries => {
@@ -89,71 +88,5 @@ export class DepartamentoComponent implements OnInit {
         }
         this.loading = false;
       });
-  }
-
-  private loadData() {
-    this.paises.push({
-      idPais: 1,
-      nombre: 'Guatemala',
-      codigo: 502
-    },
-      {
-        idPais: 2,
-        nombre: 'San Salvador',
-        codigo: 589
-      },
-      {
-        idPais: 3,
-        nombre: 'México',
-        codigo: 526
-      },
-      {
-        idPais: 4,
-        nombre: 'Bélice',
-        codigo: 589
-      });
-    this.departamentos.push({
-      idDepartamento: 1,
-      nombre: 'departamento1',
-      codigo: 123,
-      Pais: {
-        idPais: 1,
-        nombre: 'Guatemala',
-        codigo: 502
-      }
-    },
-      {
-        idDepartamento: 2,
-        nombre: 'departamento2',
-        codigo: 1234,
-        Pais: {
-          idPais: 2,
-          nombre: 'pais2',
-          codigo: 503
-        }
-      },
-      {
-        idDepartamento: 3,
-        nombre: 'departamento3',
-        codigo: 1233,
-        Pais: null
-      },
-      {
-        idDepartamento: 4,
-        nombre: 'departamento4',
-        codigo: 12345,
-        Pais: {
-          idPais: 4,
-          nombre: 'Guatemala4',
-          codigo: 505
-        }
-      },
-      {
-        idDepartamento: 5,
-        nombre: 'departamento5',
-        codigo: 98731,
-        Pais: null
-      },
-    );
   }
 }

@@ -19,7 +19,6 @@ export class PaisComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCountries();
-    // this.loadData();
   }
 
   private getAllCountries() {
@@ -77,28 +76,4 @@ export class PaisComponent implements OnInit {
         this.loading = false;
       });
   }
-
-  private loadData() {
-    this.paises.push({
-      idPais: 1,
-      nombre: 'Guatemala',
-      codigo: 502
-    },
-      {
-        idPais: 2,
-        nombre: 'San Salvador',
-        codigo: 589
-      },
-      {
-        idPais: 3,
-        nombre: 'México',
-        codigo: 526
-      },
-      {
-        idPais: 4,
-        nombre: 'Bélice',
-        codigo: 589
-      });
-  }
-
 }

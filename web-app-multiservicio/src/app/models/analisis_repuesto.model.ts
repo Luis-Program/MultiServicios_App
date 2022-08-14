@@ -8,3 +8,8 @@ export interface Analisis_Repuesto {
   fechaHora: Date,
   tipoAccion: string
 }
+
+export interface Graphics {
+  amount: number,
+  timedate: Date
+}

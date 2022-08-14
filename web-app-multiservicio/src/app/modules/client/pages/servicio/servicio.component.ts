@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EquipoCliente } from 'src/app/models/equipo.model';
-import { CreateServicioDTO, ServicioRelaciones, UpdateServicioDTO } from 'src/app/models/servicio.model';
+import { CreateServicioDTO, ServicioRelaciones } from 'src/app/models/servicio.model';
 import { TipoServicio } from 'src/app/models/tipo_servicio.model';
 import { EquipoService } from 'src/app/services/equipo.service';
 import { ServicioService } from 'src/app/services/servicio.service';
@@ -69,7 +69,6 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllByIdEquipo(idEquipo)
       .subscribe(services => {
-        // console.log(services)
         this.servicios = services;
         this.showServicesByEquipment = true;
         this.oneService = this.showEquipments = this.loading = false;
@@ -80,7 +79,6 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllByIdEquipoCompleted(idEquipo)
       .subscribe(services => {
-        // console.log(services)
         this.serviciosCompletados = services;
         this.showServicesByEquipment = true;
         this.oneService = this.showEquipments = this.loading = false;
@@ -91,7 +89,6 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllByIdEquipoNotCompleted(idEquipo)
       .subscribe(services => {
-        // console.log(services)
         this.serviciosCompletados = services;
         this.showServicesByEquipment = true;
         this.oneService = this.showEquipments = this.loading = false;

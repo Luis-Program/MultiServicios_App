@@ -17,10 +17,10 @@ export class EquipoComponent implements OnInit {
   protected equipos: EquipoCliente[] = [];
   private idPersona: string | null = null;
   private idEquipo: string | null = null;
-  protected loadingGraphic1 = false;
-  protected loadingGraphic2 = false;
-  protected loadingGraphic3 = false;
-  protected loadingMain = false;
+  protected loadingGraphic1 = false; // Carga de graficos servicios pendientes y finalizados
+  protected loadingGraphic2 = false; // Carga de graficos cantidad de servicios activos e inactivos
+  protected loadingGraphic3 = false; // Carga de graficos de los equipos con menor y mayor cantidad de servicios
+  protected loadingMain = false; // Carga principal
 
   constructor(
     private equipoService: EquipoService,
