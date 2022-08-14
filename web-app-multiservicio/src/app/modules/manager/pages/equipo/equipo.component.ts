@@ -21,7 +21,10 @@ export class EquipoComponent implements OnInit {
   protected clientesEquiposMinMax: Clientes[] = [];
   protected idEquipo: number | null = null;
   protected clientes: Persona[] = [];
-  protected loading = false;
+  protected loadingGraphicEquipmentsInacAct = false; // Carga grafica de equipos inactivo y activos
+  protected loadingGraphicOneEquipment = false;  // Carga grafica cuando se selecciona un equipo y mustra sus servicios
+  protected loadingGraphicClient = false; // Carga de grafica con menor y mayor cantidad de equipos
+  protected loading = false; // Carga principal
 
   constructor(
     private equipoService: EquipoService,
@@ -35,7 +38,6 @@ export class EquipoComponent implements OnInit {
     this.getAllEquipmentWithRelations();
     this.getEquipmentActiveInactive();
     this.getClientAmountMinMAx();
-    // this.loadDataManager();
     if (this.idEquipo) {
       this.getOneEquipment(this.idEquipo);
       // Obtencion del equipo por notificación
@@ -59,12 +61,12 @@ export class EquipoComponent implements OnInit {
    * Traer clientes con cantidad de equipos solo el máximo y minimo de equipos
    */
   private getClientAmountMinMAx() {
-    this.loading = true;
+    this.loadingGraphicClient = true;
     this.personaService.getClientsWithAmountEquipsMinMax()
       .subscribe(clients => {
         this.clientesEquiposMinMax = clients;
         this.getAllDireccions();
-        this.loading = false;
+        this.loadingGraphicClient = false;
       });
   }
 
@@ -102,16 +104,18 @@ export class EquipoComponent implements OnInit {
    * Obtención de cantidad de equipos inactivos y activos
    */
   private getEquipmentActiveInactive() {
+    this.loadingGraphicEquipmentsInacAct = false;
     this.equipoService.getEquipmentsActiveInactive()
       .subscribe(data => {
         this.equipoActivosInactivos = data;
+        this.loadingGraphicEquipmentsInacAct = true;
       });
   }
 
   protected getOneEquipment(idEquipo: number) {
     this.equipo = this.equipos.find(equipment => equipment.idEquipo = idEquipo) as EquipoRelacionesAnidadas;
     if (this.equipo) {
-      this.loading = true;
+      this.loadingGraphicOneEquipment = true;
       this.getOneEquipmentServices(idEquipo);
       // show content
     }
@@ -126,7 +130,7 @@ export class EquipoComponent implements OnInit {
     this.equipoService.getOneEquipmentsServices(idEquipo)
       .subscribe(data => {
         this.unEquipoServicio = data;
-        this.loading = false;
+        this.loadingGraphicOneEquipment = false;
       });
   }
 

@@ -1,4 +1,5 @@
 const boom = require('@hapi/boom');
+const QueryTypes = require('sequelize');
 const {
   models
 } = require('../libs/sequelize');
@@ -22,12 +23,9 @@ class Analisis_RepuestoService {
   }
 
   async findAllByName(nombreRepuesto) {
-    const response = await models.Analisis_Repuesto.findAll({
-      where: {
-        nombreRepuesto: nombreRepuesto
-      }
-    });
-    return response;
+    const response = await models.Analisis_Repuesto.sequelize.query(`SELECT cantidadDespues as amount, fechaHora as timedate FROM MultiServicios.Analisis_Repuesto WHERE nombreRepuesto = "${nombreRepuesto}"`,
+    { type : QueryTypes.SELECT });
+    return response[0];
   }
 }
 

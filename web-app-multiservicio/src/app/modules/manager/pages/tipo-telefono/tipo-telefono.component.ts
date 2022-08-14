@@ -18,7 +18,6 @@ export class TipoTelefonoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPhoneTypes();
-    // this.loadData();
   }
 
   private getAllPhoneTypes() {
@@ -75,31 +74,6 @@ export class TipoTelefonoComponent implements OnInit {
         }
         this.loading = false;
       });
-  }
-
-  loadData() {
-    this.tiposTelefonos.push(
-      {
-        idTipoTelefono: 1,
-        tipo: 'Tipo Telefono 1'
-      },
-      {
-        idTipoTelefono: 2,
-        tipo: 'Tipo Telefono 2'
-      },
-      {
-        idTipoTelefono: 3,
-        tipo: 'Tipo Telefono 3'
-      },
-      {
-        idTipoTelefono: 4,
-        tipo: 'Tipo Telefono 4'
-      }, {
-      idTipoTelefono: 5,
-      tipo: 'Tipo Telefono 5'
-    }
-    );
-
   }
 
 }
