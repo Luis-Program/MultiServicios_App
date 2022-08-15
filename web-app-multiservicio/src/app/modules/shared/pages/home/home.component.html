@@ -1,12 +1,14 @@
-<h1>Home Global</h1>
-<div [ngSwitch]="rol">
-<div *ngSwitchCase="'Gerente General'">
-  <h1>HOME Gerente General</h1>
-</div>
-<div *ngSwitchCase="'Trabajador Operacional'">
-  <h1>HOME Trabajador Operacional</h1>
-</div>
-<div *ngSwitchCase="'Cliente'">
-  <h1>HOME Cliente</h1>
-</div>
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-3 col-md-6" *ngFor="let permission of permissions">
+    <!-- Card -->
+    <div class="card">
+      <img class="card-img-top img-responsive" src="../assets/images/big/img1.jpg" alt="Card image cap">
+      <div class="card-body">
+        <h4 class="card-title">{{ permission.permissionName }}</h4>
+        <a (click)="navigate(permission.routerName)" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+    <!-- Card -->
+  </div>
 </div>

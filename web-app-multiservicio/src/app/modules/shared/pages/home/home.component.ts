@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
           },
           {
             permissionName: 'Auditoria Servicio',
-            routerName: 'auditoria-servicio',
+            routerName: '/gerente-general/auditoria-servicio',
             icon: 'mdi mdi-briefcase-check'
           },
           {
@@ -167,7 +167,7 @@ export class HomeComponent implements OnInit {
           },
           {
             permissionName: 'Servicio',
-            routerName: 'servicio',
+            routerName: '/servicio',
             icon: 'mdi mdi-server-network'
           },
           {
@@ -185,4 +185,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  navigate(permission: string) {
+    return this.router.navigate([`${permission}`]);
+  }
 }
