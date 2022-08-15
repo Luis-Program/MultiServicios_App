@@ -8,6 +8,7 @@ import { RepuestoComponent } from './pages/repuesto/repuesto.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { HeaderComponent } from './components/header/header.component';
     HomeComponent,
     NavSideBarComponent,
     RepuestoComponent,
-    HeaderComponent
+    HeaderComponent,
+    SidebarComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { HeaderComponent } from './components/header/header.component';
     HttpClientModule
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    SidebarComponent
   ]
 })
 export class SharedModule { }

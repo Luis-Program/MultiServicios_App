@@ -1,12 +1,19 @@
-<h1>Home Global</h1>
-<div [ngSwitch]="rol">
-<div *ngSwitchCase="'Gerente General'">
-  <h1>HOME Gerente General</h1>
-</div>
-<div *ngSwitchCase="'Trabajador Operacional'">
-  <h1>HOME Trabajador Operacional</h1>
-</div>
-<div *ngSwitchCase="'Cliente'">
-  <h1>HOME Cliente</h1>
-</div>
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let permission of permissions">
+    <!-- Card -->
+    <div class="card card-inverse">
+      <div class="card-header header">
+        <h4 class="m-b-0 text-white">
+          <i [class]="permission.icon"></i>
+          {{ permission.permissionName }}
+        </h4>
+      </div>
+      <div class="card-body">
+        <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur voluptas incidunt illo obcaecati tenetur.</p>
+        <a (click)="navigate(permission.routerName)" class="btn btn-success text-white">Ir al módulo</a>
+      </div>
+    </div>
+    <!-- Card -->
+  </div>
 </div>
