@@ -25,9 +25,7 @@ export class HomeComponent implements OnInit {
       return this.router.navigate(['/']);
     }
 
-    this.getPermissions(this.rol!);
-    console.log(this.permissions);
-    
+    this.getPermissions(this.rol!);    
   }
 
   getPermissions(rol: string): any {
@@ -46,28 +44,28 @@ export class HomeComponent implements OnInit {
             icon: 'mdi mdi-briefcase-check'
           },
           {
-            permissionName: 'Analisis Repuesto',
-            routerName: 'analisis-repuesto',
+            permissionName: 'Análisis Repuesto',
+            routerName: '/gerente-general/analisis-repuesto',
             icon: 'mdi mdi-check-all'
           },
           {
             permissionName: 'Empresa',
-            routerName: 'empresa',
+            routerName: '/gerente-general/empresa',
             icon: 'fa fa-building-o'
           },
           {
             permissionName: 'Dirección',
-            routerName: 'direccion',
+            routerName: '/gerente-general/direccion',
             icon: 'mdi mdi-directions-fork'
           },
           {
             permissionName: 'Municipio',
-            routerName: 'municipio',
+            routerName: '/gerente-general/municipio',
             icon: 'mdi mdi-city'
           },
           {
             permissionName: 'Departamento',
-            routerName: 'departamento',
+            routerName: '/gerente-general/departamento',
             icon: 'mdi mdi-directions'
           },
           {
@@ -76,50 +74,50 @@ export class HomeComponent implements OnInit {
             icon: 'mdi mdi-directions'
           },
           {
-            permissionName: 'Tipo Telefono',
-            routerName: 'tipo-telefono',
+            permissionName: 'Tipo Teléfono',
+            routerName: '/gerente-general/tipo-telefono',
             icon: 'mdi mdi-phone-classic'
           },
           {
-            permissionName: 'Telefono',
-            routerName: 'telefono',
+            permissionName: 'Teléfono',
+            routerName: '/gerente-general/telefono',
             icon: 'mdi mdi-phone'
           },
           {
             permissionName: 'Persona',
-            routerName: 'persona',
+            routerName: '/gerente-general/persona',
             icon: 'mdi mdi-account'
           },
           {
             permissionName: 'Tipo Persona',
-            routerName: 'tipo-persona',
+            routerName: '/gerente-general/tipo-persona',
             icon: 'mdi mdi-account-alert'
           },
           {
             permissionName: 'Tipo Repuesto',
-            routerName: 'tipo-repuesto',
-            icon: 'Tipo Repuesto'
+            routerName: '/gerente-general/tipo-repuesto',
+            icon: 'mdi mdi-gauge'
           },
           {
             permissionName: 'Repuesto',
-            routerName: 'repuesto',
+            routerName: '/gerente-general/repuesto',
             icon: 'mdi mdi-engine'
           },
           {
             permissionName: 'Equipo',
-            routerName: 'equipo',
+            routerName: '/gerente-general/equipo',
             icon: 'mdi mdi-server'
           },
           {
             permissionName: 'Servicio',
-            routerName: 'servicio',
+            routerName: '/gerente-general/servicio',
             icon: 'mdi mdi-server-network'
           },
-          {
-            permissionName: 'Perfil',
-            routerName: 'perfil',
-            icon: 'mdi mdi-account-circle'
-          }
+          // {
+          //   permissionName: 'Perfil',
+          //   routerName: '/gerente-general/perfil',
+          //   icon: 'mdi mdi-account-circle'
+          // }
         ]
         break;
       
@@ -145,11 +143,11 @@ export class HomeComponent implements OnInit {
             routerName: 'telefono',
             icon: 'mdi mdi-phone'
           },
-          {
-            permissionName: 'Perfil',
-            routerName: 'perfil',
-            icon: 'mdi mdi-account-circle'
-          }
+          // {
+          //   permissionName: 'Perfil',
+          //   routerName: 'perfil',
+          //   icon: 'mdi mdi-account-circle'
+          // }
         ]
         break;
 
@@ -175,11 +173,11 @@ export class HomeComponent implements OnInit {
             routerName: 'telefono',
             icon: 'mdi mdi-phone'
           },
-          {
-            permissionName: 'Perfil',
-            routerName: 'perfil',
-            icon: 'mdi mdi-account-circle'
-          }
+          // {
+          //   permissionName: 'Perfil',
+          //   routerName: 'perfil',
+          //   icon: 'mdi mdi-account-circle'
+          // }
         ]
         break;
     }

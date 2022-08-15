@@ -1,12 +1,16 @@
 <div class="row">
   <!-- column -->
-  <div class="col-lg-3 col-md-6" *ngFor="let permission of permissions">
+  <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let permission of permissions">
     <!-- Card -->
-    <div class="card">
-      <img class="card-img-top img-responsive" src="../assets/images/big/img1.jpg" alt="Card image cap">
+    <div class="card card-inverse">
+      <div class="card-header header">
+        <h4 class="m-b-0 text-white">
+          <i [class]="permission.icon"></i>
+          {{ permission.permissionName }}
+        </h4>
+      </div>
       <div class="card-body">
-        <h4 class="card-title">{{ permission.permissionName }}</h4>
-        <a (click)="navigate(permission.routerName)" class="btn btn-primary">Go somewhere</a>
+        <a (click)="navigate(permission.routerName)" class="btn btn-success text-white">Ir al módulo</a>
       </div>
     </div>
     <!-- Card -->
