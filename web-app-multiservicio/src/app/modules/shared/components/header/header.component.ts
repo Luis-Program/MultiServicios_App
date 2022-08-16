@@ -5,7 +5,7 @@ import { NotificacionService } from 'src/app/services/notificacion.service';
 import { PersonaRelaciones, UpdatePersonaDTO } from 'src/app/models/persona.model';
 import { PersonaService } from 'src/app/services/persona.service';
 import { Notificacion } from 'src/app/models/notificacion.model';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -77,7 +77,6 @@ export class HeaderComponent implements OnInit {
     this.notificacionService.getAll(idPersona)
       .subscribe(notifications => {
         this.notificaciones = notifications;
-        console.log(notifications);
         
         this.loading = false;
       });
@@ -215,5 +214,18 @@ export class HeaderComponent implements OnInit {
           this.notificaciones.splice(notificationIndex, 1);
         }
       });
+  }
+
+  showNotificationDetail(notification: Notificacion) {
+
+    this.setOneRead(notification.idNotificacion);
+
+    Swal.fire({
+      'title': "Notificación",
+      'text': notification.textoNotificacion,
+      'focusConfirm': true
+    })
+
+    return this.getNotificationsById(this.idPersona!)
   }
 }
