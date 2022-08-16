@@ -34,11 +34,6 @@ export class HomeComponent implements OnInit {
       case "Gerente General":
         return this.permissions = [
           {
-            permissionName: 'Home',
-            routerName: '/gerente-general/home',
-            icon: 'mdi mdi-home-variant'
-          },
-          {
             permissionName: 'Auditoria Servicio',
             routerName: '/gerente-general/auditoria-servicio',
             icon: 'mdi mdi-briefcase-check'
@@ -143,11 +138,6 @@ export class HomeComponent implements OnInit {
 
       case "Cliente":
         return this.permissions = [
-          {
-            permissionName: 'Home',
-            routerName: '/cliente/home',
-            icon: 'mdi mdi-home-variant'
-          },
           {
             permissionName: 'Equipo',
             routerName: '/cliente/equipo',
