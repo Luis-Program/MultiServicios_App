@@ -114,11 +114,6 @@ export class HomeComponent implements OnInit {
       case "Trabajador Operacional":
         return this.permissions = [
           {
-            permissionName: 'Home',
-            routerName: `/trabajador/home`,
-            icon: 'mdi mdi-home-variant'
-          },
-          {
             permissionName: 'Repuesto',
             routerName: `/trabajador/repuesto`,
             icon: 'mdi mdi-engine'
