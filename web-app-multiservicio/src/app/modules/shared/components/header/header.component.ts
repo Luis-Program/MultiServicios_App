@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthB2cService } from 'src/app/services/auth-b2c.service';
 import { NotificacionService } from 'src/app/services/notificacion.service';
@@ -18,6 +18,9 @@ export class HeaderComponent implements OnInit {
   protected idPersona: string | null = null;
   protected rol: string | null = null;
   protected loading = false;
+
+  public isToggle: EventEmitter<boolean> = new EventEmitter(true);
+  public toggleState: boolean = true;
 
   constructor(
     private router: Router,
@@ -227,5 +230,11 @@ export class HeaderComponent implements OnInit {
     })
 
     return this.getNotificationsById(this.idPersona!)
+  }
+
+  toggleNavbar() {
+    (this.toggleState) ? this.toggleState = false : this.toggleState = true;
+  
+    return this.isToggle.emit(this.toggleState);
   }
 }
