@@ -4,6 +4,8 @@ import { Notificacion } from 'src/app/models/notificacion.model';
 import { AuthB2cService } from 'src/app/services/auth-b2c.service';
 import { NotificacionService } from 'src/app/services/notificacion.service';
 
+declare function customInitFunctions(): any;
+
 @Component({
   selector: 'app-nav-side-bar',
   templateUrl: './nav-side-bar.component.html',
@@ -23,6 +25,7 @@ export class NavSideBarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    customInitFunctions();
     this.getRolAndId();
   }
 
