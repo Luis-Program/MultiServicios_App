@@ -127,32 +127,39 @@
                 <li class="nav-devider"></li>
 
                 <li>
-                    <a class="has-arrow waves-effect waves-dark" [routerLink]="['home']" aria-expanded="false">
+                    <a class="waves-effect waves-dark" [routerLink]="['home']" aria-expanded="false">
                         <i class="mdi mdi-home-variant"></i>
                         <span class="hide-menu">Home</span>
                     </a>
                 </li>
 
-                <li>
-                    <a class="has-arrow waves-effect waves-dark" [routerLink]="['repuesto']" aria-expanded="false">
+                <li> 
+                    <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
                         <i class="mdi mdi-engine"></i>
-                        <span class="hide-menu">Repuesto</span>
+                        <span class="hide-menu">Piezas</span>
                     </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a [routerLink]="['repuesto']">Repuesto</a></li>
+                    </ul>
                 </li>
 
                 <li>
-                    <a class="has-arrow waves-effect waves-dark" [routerLink]="['servicio']" aria-expanded="false">
+                    <a class="waves-effect waves-dark" [routerLink]="['servicio']" aria-expanded="false">
                         <i class="mdi mdi-server-network"></i>
                         <span class="hide-menu">Servicio</span>
                     </a>
                 </li>
 
-                <li>
-                    <a class="has-arrow waves-effect waves-dark" [routerLink]="['telefono']" aria-expanded="false">
-                        <i class="mdi mdi-phone"></i>
-                        <span class="hide-menu">Telefono</span>
+                <li> 
+                    <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
+                        <i class="mdi mdi-phone-classic"></i>
+                        <span class="hide-menu">Contacto</span>
                     </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a [routerLink]="['telefono']">Teléfono</a></li>
+                    </ul>
                 </li>
+
             </ul>
 
             <ul id="sidebarnav" *ngSwitchCase="'Cliente'">
@@ -167,31 +174,34 @@
                 <li class="nav-devider"></li>
 
                 <li>
-                    <a class="has-arrow waves-effect waves-dark" [routerLink]="['home']" aria-expanded="false">
+                    <a class="waves-effect waves-dark" [routerLink]="['home']" aria-expanded="false">
                         <i class="mdi mdi-home-variant"></i>
                         <span class="hide-menu">Home</span>
                     </a>
                 </li>
 
                 <li>
-                    <a class="has-arrow waves-effect waves-dark" [routerLink]="['equipo']" aria-expanded="false">
+                    <a class="waves-effect waves-dark" [routerLink]="['equipo']" aria-expanded="false">
                         <i class="mdi mdi-server"></i>
                         <span class="hide-menu">Equipo</span>
                     </a>
                 </li>
 
                 <li>
-                    <a class="has-arrow waves-effect waves-dark" [routerLink]="['servicio']" aria-expanded="false">
+                    <a class="waves-effect waves-dark" [routerLink]="['servicio']" aria-expanded="false">
                         <i class="mdi mdi-server-network"></i>
                         <span class="hide-menu">Servicio</span>
                     </a>
                 </li>
 
-                <li>
-                    <a class="has-arrow waves-effect waves-dark" [routerLink]="['telefono']" aria-expanded="false">
-                        <i class="mdi mdi-phone"></i>
-                        <span class="hide-menu">Telefono</span>
+                <li> 
+                    <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
+                        <i class="mdi mdi-phone-classic"></i>
+                        <span class="hide-menu">Contacto</span>
                     </a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a [routerLink]="['telefono']">Teléfono</a></li>
+                    </ul>
                 </li>
             </ul>
         </nav>
