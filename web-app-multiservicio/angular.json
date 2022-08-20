@@ -26,16 +26,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/plugins/jquery/jquery.min.js",
-              "src/assets/plugins/bootstrap/js/popper.min.js",
-              "src/assets/plugins/bootstrap/js/bootstrap.min.js",
-              "src/assets/js/perfect-scrollbar.jquery.min.js",
-              "src/assets/js/waves.js",
-              "src/assets/js/sidebarmenu.js",
-              "src/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js",
-              "src/assets/plugins/sparkline/jquery.sparkline.min.js",
-              "src/assets/js/custom.min.js",
-              "src/assets/plugins/styleswitcher/jQuery.style.switcher.js"
             ]
           },
           "configurations": {
