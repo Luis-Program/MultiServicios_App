@@ -1,22 +1,33 @@
+<!-- <div class="row page-titles">
+  <button class="btn btn-success">Logout</button>
+</div> -->
 <div class="row">
-  <!-- column -->
-  <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let permission of permissions">
-    <!-- Card -->
-    <div class="card card-outline-info">
-      <div class="card-header bg-dark">
-      </div>
-      <div class="card-body border">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
         <div class="row">
-          <div class="col-10">
-            <h3 class="card-title text-dark">{{ permission.permissionName }}</h3>
-            <a (click)="navigate(permission.routerName)" class="btn btn-inverse text-white">Ir al módulo</a>
-          </div>
-          <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
-            <i [class]="permission.icon" class="text-dark icon"></i>
+          <!-- column -->
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let permission of permissions">
+            <!-- Card -->
+            <div class="card card-outline-info">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ permission.permissionName }}</h3>
+                    <a (click)="navigate(permission.routerName)" class="btn btn-inverse text-white">Ir al módulo</a>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i [class]="permission.icon" class="text-dark icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card -->
           </div>
         </div>
       </div>
     </div>
-    <!-- Card -->
   </div>
 </div>
