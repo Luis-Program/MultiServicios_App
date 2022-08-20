@@ -30,10 +30,16 @@
             <!-- ============================================================== -->
             <ul class="navbar-nav mr-auto">
                 <!-- This is  -->
-                <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark"
-                        href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark"
-                        href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                <li class="nav-item"> 
+                    <a class="nav-link nav-toggler hidden-md-up" href="javascript:void(0)">
+                        <i class="ti-menu"></i>
+                    </a>
+                </li>
+                <li class="nav-item"> 
+                    <a class="nav-link sidebartoggler hidden-sm-down" href="javascript:void(0)">
+                        <i class="ti-menu"></i>
+                    </a>
+                </li>
                 <li class="nav-item hidden-sm-down"></li>
             </ul>
             <ul class="navbar-nav my-lg-0">
@@ -42,64 +48,38 @@
                 <!-- NOTIFICATIONS -->
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-email"></i>
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-bell-ring"></i>
                         <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
                     </a>
                     <div class="dropdown-menu mailbox dropdown-menu-right animated bounceInDown" aria-labelledby="2">
                         <ul>
                             <li>
-                                <div class="drop-title">You have 4 new messages</div>
+                                <div class="row">
+                                    <div class="drop-title col-8 ml-2">Notificaciones</div>
+                                    <!-- <div class="drop-title col-1" (click)="setAllRead()"><i class="mdi mdi-bell-off"></i></div>
+                                    <div class="drop-title col-1" (click)="deleteAll()"><i class="mdi mdi-close"></i></div> -->
+                                    <div class="drop-title col-1"><i class="mdi mdi-bell-off"></i></div>
+                                    <div class="drop-title col-1"><i class="mdi mdi-close"></i></div>
+                                </div>
                             </li>
                             <li>
                                 <div class="message-center">
                                     <!-- Message -->
-                                    <a href="#">
-                                        <div class="user-img"> <img src="../assets/images/users/1.jpg" alt="user"
-                                                class="img-circle"> <span
-                                                class="profile-status online pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span>
-                                            <span class="time">9:30 AM</span>
-                                        </div>
-                                    </a>
-                                    <!-- Message -->
-                                    <a href="#">
-                                        <div class="user-img"> <img src="../assets/images/users/2.jpg" alt="user"
-                                                class="img-circle"> <span class="profile-status busy pull-right"></span>
+                                    <a *ngFor="let n of notificaciones" (click)="showNotificationDetail(n)">
+                                        <div class="user-img"> 
+                                            <i class="mdi mdi-bell-ring ml-4"></i> 
+                                            <span *ngIf="n.visto" class="profile-status online pull-right"></span> 
                                         </div>
                                         <div class="mail-contnet">
-                                            <h5>Sonu Nigam</h5> <span class="mail-desc">I've sung a song! See you
-                                                at</span> <span class="time">9:10 AM</span>
-                                        </div>
-                                    </a>
-                                    <!-- Message -->
-                                    <a href="#">
-                                        <div class="user-img"> <img src="../assets/images/users/3.jpg" alt="user"
-                                                class="img-circle"> <span class="profile-status away pull-right"></span>
-                                        </div>
-                                        <div class="mail-contnet">
-                                            <h5>Arijit Sinh</h5> <span class="mail-desc">I am a singer!</span> <span
-                                                class="time">9:08 AM</span>
-                                        </div>
-                                    </a>
-                                    <!-- Message -->
-                                    <a href="#">
-                                        <div class="user-img"> <img src="../assets/images/users/4.jpg" alt="user"
-                                                class="img-circle"> <span
-                                                class="profile-status offline pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span>
-                                            <span class="time">9:02 AM</span>
+                                            <span class="mail-desc">{{ n.textoNotificacion }}</span>
+                                            <span class="time"><i class="mdi mdi-close" (click)="deleteOne(n.idNotificacion)"></i></span>
                                         </div>
                                     </a>
                                 </div>
                             </li>
-                            <li>
-                                <a class="nav-link text-center" href="javascript:void(0);"> <strong>See all
-                                        e-Mails</strong> <i class="fa fa-angle-right"></i> </a>
-                            </li>
                         </ul>
+
+                        
                     </div>
                 </li>
                 <!-- ============================================================== -->
@@ -110,29 +90,25 @@
                 <!-- Profile -->
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user"
-                            class="profile-pic" /></a>
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="mdi mdi-account-circle profile-pic"></i>
+                        </a>
                     <div class="dropdown-menu dropdown-menu-right animated flipInY">
                         <ul class="dropdown-user">
                             <li>
                                 <div class="dw-user-box">
-                                    <div class="u-img"><img src="../assets/images/users/1.jpg" alt="user"></div>
+                                    <div class="u-img"><img src="../assets/images/logos/logo-fondo-negro-letras-blancas.png" alt="user"></div>
                                     <div class="u-text">
-                                        <h4>Steave Jobs</h4>
-                                        <p class="text-muted">varun@gmail.com</p><a href="pages-profile.html"
-                                            class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+                                        <h4>{{ persona?.nombre }}</h4>
+                                        <h4>{{ persona?.apellidos }}</h4>
+                                        <p class="text-muted">{{ persona?.correo }}</p>
                                     </div>
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                            <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                            <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                            <li (click)="navigateToProfile()" ><a><i class="ti-user"></i> My Profile</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li (click)="logout()" ><a><i class="fa fa-power-off"></i> Logout</a></li>
                         </ul>
                     </div>
                 </li>

@@ -34,11 +34,6 @@ export class HomeComponent implements OnInit {
       case "Gerente General":
         return this.permissions = [
           {
-            permissionName: 'Home',
-            routerName: '/gerente-general/home',
-            icon: 'mdi mdi-home-variant'
-          },
-          {
             permissionName: 'Auditoria Servicio',
             routerName: '/gerente-general/auditoria-servicio',
             icon: 'mdi mdi-briefcase-check'
@@ -112,72 +107,47 @@ export class HomeComponent implements OnInit {
             permissionName: 'Servicio',
             routerName: '/gerente-general/servicio',
             icon: 'mdi mdi-server-network'
-          },
-          // {
-          //   permissionName: 'Perfil',
-          //   routerName: '/gerente-general/perfil',
-          //   icon: 'mdi mdi-account-circle'
-          // }
+          }
         ]
         break;
       
       case "Trabajador Operacional":
         return this.permissions = [
           {
-            permissionName: 'Home',
-            routerName: 'home',
-            icon: 'mdi mdi-home-variant'
-          },
-          {
             permissionName: 'Repuesto',
-            routerName: 'repuesto',
+            routerName: `/trabajador/repuesto`,
             icon: 'mdi mdi-engine'
           },
           {
             permissionName: 'Servicio',
-            routerName: 'servicio',
+            routerName: `/trabajador/servicio`,
             icon: 'mdi mdi-server-network'
           },
           {
             permissionName: 'Telefono',
-            routerName: 'telefono',
+            routerName: `/trabajador/telefono`,
             icon: 'mdi mdi-phone'
-          },
-          // {
-          //   permissionName: 'Perfil',
-          //   routerName: 'perfil',
-          //   icon: 'mdi mdi-account-circle'
-          // }
+          }
         ]
         break;
 
       case "Cliente":
         return this.permissions = [
           {
-            permissionName: 'Home',
-            routerName: 'home',
-            icon: 'mdi mdi-home-variant'
-          },
-          {
             permissionName: 'Equipo',
-            routerName: 'equipo',
+            routerName: '/cliente/equipo',
             icon: 'mdi mdi-server'
           },
           {
             permissionName: 'Servicio',
-            routerName: '/servicio',
+            routerName: '/cliente/servicio',
             icon: 'mdi mdi-server-network'
           },
           {
             permissionName: 'Telefono',
-            routerName: 'telefono',
+            routerName: '/cliente/telefono',
             icon: 'mdi mdi-phone'
-          },
-          // {
-          //   permissionName: 'Perfil',
-          //   routerName: 'perfil',
-          //   icon: 'mdi mdi-account-circle'
-          // }
+          }
         ]
         break;
     }
