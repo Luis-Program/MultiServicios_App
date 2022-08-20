@@ -369,7 +369,7 @@ Notify
   position: relative; }
 
 .right-side-toggle i {
-  -webkit-transition-property: -webkit-transform;
+  /* -webkit-transition-property: -webkit-transform;
   -webkit-transition-duration: 1s;
   -moz-transition-property: -moz-transform;
   -moz-transition-duration: 1s;
@@ -390,7 +390,7 @@ Notify
   animation-name: rotate;
   animation-duration: 2s;
   animation-iteration-count: infinite;
-  animation-timing-function: linear;
+  animation-timing-function: linear; */
   position: absolute;
   top: 18px;
   left: 18px; }
