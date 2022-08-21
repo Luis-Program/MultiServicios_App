@@ -60,8 +60,8 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" *ngIf="newCountry">Crear País</button>
-                <button type="button" class="btn btn-primary" *ngIf="!newCountry">Editar País</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newCountry" (click)="createCountryForm()">Crear País</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newCountry" (click)="createCountryForm()">Editar País</button>
               </div>
             </div>
           </div>

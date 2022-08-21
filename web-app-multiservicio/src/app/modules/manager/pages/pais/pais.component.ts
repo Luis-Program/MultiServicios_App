@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreatePaisDTO, Pais, UpdatePaisDTO } from 'src/app/models/pais.model';
 import { PaisService } from 'src/app/services/pais.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pais',
@@ -50,6 +51,10 @@ export class PaisComponent implements OnInit {
         if (country) {
           // Success
           this.paises.push(country);
+          Swal.fire({
+            title : 'Creado',
+            text  : 'País creado'
+          })
         }
         this.loading = false;
       });
@@ -63,7 +68,12 @@ export class PaisComponent implements OnInit {
           const countryIndex = this.paises.findIndex(
             (res) => res.idPais === idPais);
           this.paises[countryIndex] = res;
-          // Success
+          
+            Swal.fire({
+              title : "Actualizado",
+              text  : "País actualizado"
+            })
+
         }
         this.loading = false;
       });
@@ -95,9 +105,9 @@ export class PaisComponent implements OnInit {
   initForm() {
     this.newCountry = true;
     this.countryForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(20)]],
+      nombre: ['', [Validators.required, Validators.maxLength(20)]],
       codigo: ['', [Validators.required]],
-      idPais: []
+      // idPais: [1]
     })
   }
 
@@ -105,7 +115,13 @@ export class PaisComponent implements OnInit {
     this.countryForm.setValue({
       nombre: country.nombre,
       codigo: country.codigo,
-      idPais: country.idPais
+      // idPais: country.idPais
     })
+  }
+
+  createCountryForm() {
+    if (this.countryForm.invalid) return Object.values(this.countryForm.controls).forEach(c => c.markAsTouched());
+    
+    this.createCountry(this.countryForm.value);
   }
 }
