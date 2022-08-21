@@ -131,6 +131,8 @@ export class PaisComponent implements OnInit {
   createCountryForm() {
     if (this.countryForm.invalid) return Object.values(this.countryForm.controls).forEach(c => c.markAsTouched());
     
+    if (!this.countryForm.touched) return;
+
     const { idPais, ...rest } = this.countryForm.value;
 
     if (idPais) {
