@@ -3221,7 +3221,7 @@ input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
 
 .btn-circle.right-side-toggle {
   position: fixed;
-  bottom: 20px;
+  /* bottom: 20px; */
   right: 20px;
   padding: 25px;
   z-index: 10; }
