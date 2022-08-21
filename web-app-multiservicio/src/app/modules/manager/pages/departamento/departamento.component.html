@@ -1,4 +1,4 @@
-<h1>Departamentos</h1>
+<!-- <h1>Departamentos</h1>
 <h3 *ngIf="loading">Cargando</h3>
 <div *ngFor="let departamento of departamentos">
   <h3>Departamento</h3>
@@ -15,4 +15,48 @@
     <p>No ingresado</p>
   </ng-template>
   <p>------------------------------------</p>
+</div> -->
+
+<!-- ADD COUNTRY BUTTON -->
+<div class="row page-titles">
+  <div>
+    <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+      data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+      <i class="mdi mdi-plus"></i>
+    </button>
+  </div>
+</div>
+<!-- /ADD COUNTRY BUTTON -->
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- CARDS -->
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let departamento of departamentos">
+            <div class="card card-outline-info" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ departamento.nombre }}</h3>
+                    <p class="card-text">{{ departamento.codigo }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <!-- <i class="flag-icon flag-icon-gt icon" title="gt" id="gt"></i> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARDS -->
+
+      </div>
+    </div>
+  </div>
 </div>
