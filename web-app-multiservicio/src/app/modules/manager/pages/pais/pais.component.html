@@ -59,9 +59,9 @@
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newCountry" (click)="createCountryForm()">Crear País</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newCountry" (click)="createCountryForm()">Editar País</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="deleteCountryModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newCountry" (click)="createCountryForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newCountry" (click)="createCountryForm()">Editar</button>
               </div>
             </div>
           </div>
