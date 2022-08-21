@@ -107,7 +107,6 @@ export class PaisComponent implements OnInit {
     this.countryForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(20)]],
       codigo: ['', [Validators.required]],
-      // idPais: [1]
     })
   }
 
@@ -115,13 +114,20 @@ export class PaisComponent implements OnInit {
     this.countryForm.setValue({
       nombre: country.nombre,
       codigo: country.codigo,
-      // idPais: country.idPais
     })
+
+    this.countryForm.addControl('idPais', this.fb.control(country.idPais, []));
   }
 
   createCountryForm() {
     if (this.countryForm.invalid) return Object.values(this.countryForm.controls).forEach(c => c.markAsTouched());
     
-    this.createCountry(this.countryForm.value);
+    const { idPais, ...rest } = this.countryForm.value;
+
+    if (idPais) {
+      return this.updateCountry(idPais, rest);
+    }
+    
+    return this.createCountry(this.countryForm.value);
   }
 }
