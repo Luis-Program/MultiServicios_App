@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
           },
           {
             permissionName: 'País',
-            routerName: 'pais',
+            routerName: '/gerente-general/pais',
             icon: 'mdi mdi-directions'
           },
           {

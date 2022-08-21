@@ -3,6 +3,7 @@ import { CreateDepartamentoDTO, DepartamentoRelaciones, UpdateDepartamentoDTO } 
 import { Pais } from 'src/app/models/pais.model';
 import { DepartamentoService } from 'src/app/services/departamento.service';
 import { PaisService } from 'src/app/services/pais.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-departamento',
@@ -16,9 +17,14 @@ export class DepartamentoComponent implements OnInit {
   protected paises: Pais[] = [];
   protected loading = false;
 
+  public departmentForm !: FormGroup;
+  public newDepartment  !: boolean;
+  public idDepartment   !: number;
+
   constructor(
     private departamentoService: DepartamentoService,
-    private paisService: PaisService
+    private paisService: PaisService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -88,5 +94,15 @@ export class DepartamentoComponent implements OnInit {
         }
         this.loading = false;
       });
+  }
+
+  initForm() {
+    this.departmentForm = this.fb.group({
+
+    })
+  }
+
+  openModalByDepartment(department?: DepartamentoRelaciones) {
+    console.log(department);
   }
 }
