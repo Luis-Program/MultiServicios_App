@@ -20,7 +20,7 @@
 <!-- ADD COUNTRY BUTTON -->
 <div class="row page-titles">
   <div>
-    <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
       data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
       <i class="mdi mdi-plus"></i>
     </button>
@@ -47,7 +47,7 @@
                     <p class="card-text">{{ departamento.codigo }}</p>
                   </div>
                   <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
-                    <!-- <i class="flag-icon flag-icon-gt icon" title="gt" id="gt"></i> -->
+                    <i class="mdi mdi-flag"></i>
                   </div>
                 </div>
               </div>
@@ -55,6 +55,38 @@
           </div>
         </div>
         <!-- /CARDS -->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Departamento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="departmentForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre:</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Código:</label>
+                    <input type="number" class="form-control" id="recipient-name1" formControlName="codigo">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Pais:</label>
+                    <input type="number" class="form-control" id="recipient-name1" formControlName="idPais">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="createDepartmentForm()">Crear</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>

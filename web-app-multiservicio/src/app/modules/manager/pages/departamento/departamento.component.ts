@@ -3,7 +3,7 @@ import { CreateDepartamentoDTO, DepartamentoRelaciones, UpdateDepartamentoDTO } 
 import { Pais } from 'src/app/models/pais.model';
 import { DepartamentoService } from 'src/app/services/departamento.service';
 import { PaisService } from 'src/app/services/pais.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-departamento',
@@ -29,6 +29,7 @@ export class DepartamentoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllDepartmentsWithRelations();
+    this.initForm();
   }
 
   protected getAllCountriesToUpdateDepartment() {
@@ -96,13 +97,40 @@ export class DepartamentoComponent implements OnInit {
       });
   }
 
+  /**
+   * INIT DEPARTMENT FORM
+   */
   initForm() {
     this.departmentForm = this.fb.group({
-
+      nombre: ['', [Validators.required, Validators.maxLength(50)]],
+      codigo: ['', [Validators.required]],
+      idPais: ['', [Validators.required]]
     })
   }
 
+  setDepartmentForm() {
+
+  }
+
+  /**
+   * 
+   * @param department - <DepartamentoRelaciones> Department to update/delete
+   */
   openModalByDepartment(department?: DepartamentoRelaciones) {
-    console.log(department);
+    this.initForm();
+
+    if (department) {
+      this.newDepartment = false;
+      return console.log(department);
+    }
+  }
+
+  createDepartmentForm() {
+
+    if (this.departmentForm.invalid) return Object.values(this.departmentForm.controls).forEach(c => c.markAsTouched());
+
+    if (!this.departmentForm.touched) return;
+
+    console.log(this.departmentForm.value);
   }
 }
