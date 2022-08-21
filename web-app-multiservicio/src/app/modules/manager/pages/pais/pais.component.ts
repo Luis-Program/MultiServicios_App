@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreatePaisDTO, Pais, UpdatePaisDTO } from 'src/app/models/pais.model';
 import { PaisService } from 'src/app/services/pais.service';
 
@@ -13,12 +14,17 @@ export class PaisComponent implements OnInit {
   protected paises: Pais[] = [];
   protected loading = false;
 
+  public countryForm!: FormGroup;
+  public newCountry!: Boolean;
+
   constructor(
-    private paisService: PaisService
+    private paisService: PaisService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.getAllCountries();
+    this.initForm();
   }
 
   private getAllCountries() {
@@ -75,5 +81,31 @@ export class PaisComponent implements OnInit {
         }
         this.loading = false;
       });
+  }
+
+  openModalByCountry(country?: Pais) {
+    this.initForm();
+    
+    if (country) {
+      this.newCountry = false;
+      this.setCountry(country);
+    }
+  }
+
+  initForm() {
+    this.newCountry = true;
+    this.countryForm = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(20)]],
+      codigo: ['', [Validators.required]],
+      idPais: []
+    })
+  }
+
+  setCountry(country: Pais) {
+    this.countryForm.setValue({
+      nombre: country.nombre,
+      codigo: country.codigo,
+      idPais: country.idPais
+    })
   }
 }

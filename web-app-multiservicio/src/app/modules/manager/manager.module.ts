@@ -17,6 +17,7 @@ import { TipoPersonaComponent } from './pages/tipo-persona/tipo-persona.componen
 import { EquipoComponent } from './pages/equipo/equipo.component';
 import { ServicioComponent } from './pages/servicio/servicio.component';
 import { TelefonoComponent } from './pages/telefono/telefono.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -39,7 +40,9 @@ import { TelefonoComponent } from './pages/telefono/telefono.component';
   imports: [
     CommonModule,
     ManagerRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ManagerModule { }
