@@ -140,6 +140,11 @@ export class DepartamentoComponent implements OnInit {
 
     this.departmentForm.addControl('idDepartamento', this.fb.control(department.idDepartamento, []));
     this.idDepartment = department.idDepartamento;
+
+    if (pais >= 1) {
+      this.departmentForm.addControl('codeCountry', this.fb.control(department.Pais?.codigo))
+    }
+
   }
 
   /**

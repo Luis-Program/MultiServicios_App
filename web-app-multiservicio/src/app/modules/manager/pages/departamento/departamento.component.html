@@ -82,7 +82,13 @@
                     <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small>
                   </div>
 
-                  <br>
+                  <div *ngIf="idCountryValue >= 1">
+                    <hr>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Código del país*</label>
+                      <input type="text" class="form-control" id="recipient-name1" formControlName="codeCountry" readonly>
+                    </div>
+                  </div>
 
                 </form>
               </div>
