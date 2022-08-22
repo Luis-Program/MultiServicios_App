@@ -211,7 +211,7 @@ export class DepartamentoComponent implements OnInit {
       if (!countryControl && country) {
         this.departmentForm.addControl('codeCountry', this.fb.control(country.Pais?.codigo, []))
       } else if (countryControl && !country) {
-        this.departmentForm.get('codeCountry')?.setValue('No existe el código del país')
+        this.departmentForm.get('codeCountry')?.setValue('')
       } else if (countryControl && country) {
         this.departmentForm.get('codeCountry')?.setValue(country.Pais?.codigo);
       }
