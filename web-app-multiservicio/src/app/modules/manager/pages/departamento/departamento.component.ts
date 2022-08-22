@@ -99,6 +99,11 @@ export class DepartamentoComponent implements OnInit {
             (res) => res.idDepartamento === idDepartamento);
           this.departamentos.splice(departmentIndex, 1);
           // Success
+          Swal.fire({
+            icon  : 'success',
+            title : 'Eliminado',
+            text  : 'Departamento eliminado'
+          })
         }
         this.loading = false;
       });
@@ -115,8 +120,15 @@ export class DepartamentoComponent implements OnInit {
     })
   }
 
-  setDepartmentForm() {
+  setDepartmentForm(department: DepartamentoRelaciones) {
+    this.departmentForm.setValue({
+      nombre: department.nombre,
+      codigo: department.codigo,
+      idPais: department.Pais?.idPais
+    })
 
+    this.departmentForm.addControl('idDepartamento', this.fb.control(department.idDepartamento, []));
+    this.idDepartment = department.idDepartamento;
   }
 
   /**
@@ -128,7 +140,7 @@ export class DepartamentoComponent implements OnInit {
     
     if (department) {
       this.newDepartment = false;
-      return console.log(department);
+      return this.setDepartmentForm(department);
     }
   }
 
@@ -138,5 +150,21 @@ export class DepartamentoComponent implements OnInit {
     if (!this.departmentForm.touched) return;
 
     this.createDepartment(this.departmentForm.value);
+  }
+
+  deleteDepartmentModal() {
+    Swal.fire({
+      title : '¡Atención!',
+      text  : '¿Está seguro de eliminar el departamento?',
+      icon  : 'warning',
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then((res: any) => {
+
+      if (res.isConfirmed) {
+        this.deleteDepartment(this.idDepartment);
+      }
+      
+    })
   }
 }
