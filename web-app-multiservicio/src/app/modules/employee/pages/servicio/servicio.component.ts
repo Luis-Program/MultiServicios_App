@@ -16,6 +16,7 @@ export class ServicioComponent implements OnInit {
   protected serviciosCompletados: ServicioTrabajador[] = [];
   protected idServicio: string | null = null;
   protected idPersona: string | null = null;
+  protected filter = "";
   protected loading = false;
 
   constructor(

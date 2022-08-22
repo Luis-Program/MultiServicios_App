@@ -19,7 +19,6 @@ import { ServicioComponent } from './pages/servicio/servicio.component';
 import { TelefonoComponent } from './pages/telefono/telefono.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterNameCodePipe } from './pipes/filter-name-code.pipe';
-import { FilterEquipmentPipe } from '../shared/pipes/filter-equipment.pipe';
 import { FilterBusinessPipe } from './pipes/filter-business.pipe';
 import { FilterPersonPipe } from './pipes/filter-person.pipe';
 import { FilterTypePersonPipe } from './pipes/filter-type-person.pipe';
@@ -43,11 +42,10 @@ import { FilterTypePhoneReplacementPipe } from './pipes/filter-type-phone-replac
     ServicioComponent,
     TelefonoComponent,
     FilterNameCodePipe,
-    FilterEquipmentPipe,
     FilterBusinessPipe,
     FilterPersonPipe,
     FilterTypePersonPipe,
-    FilterTypePhoneReplacementPipe
+    FilterTypePhoneReplacementPipe,
   ],
   imports: [
     CommonModule,

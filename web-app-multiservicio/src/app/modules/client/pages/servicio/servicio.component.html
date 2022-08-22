@@ -1,8 +1,12 @@
 <h1>Servicios Cliente</h1>
 <h3 *ngIf="loading">Cargando</h3>
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Search" [(ngModel)]="filter">
+</div>
 <h2>Selecciona un equipo para ver sus servicios</h2>
 <div *ngIf="showEquipments">
-<div *ngFor="let equipo of equipos; let i = index">
+<div *ngFor="let equipo of equipos | filterService:filter; let i = index">
   <p>equipo</p>
   <p>idEquipo: {{equipo.idEquipo}}</p>
   <p>numero: {{i+1}}</p>

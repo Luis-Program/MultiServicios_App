@@ -21,6 +21,7 @@ export class EquipoComponent implements OnInit {
   protected loadingGraphic2 = false; // Carga de graficos cantidad de servicios activos e inactivos
   protected loadingGraphic3 = false; // Carga de graficos de los equipos con menor y mayor cantidad de servicios
   protected loadingMain = false; // Carga principal
+  protected filter = "";
 
   constructor(
     private equipoService: EquipoService,

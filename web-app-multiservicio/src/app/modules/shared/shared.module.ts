@@ -11,6 +11,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FilterReplacementPipe } from './pipes/filter-replacement.pipe';
 import { FormsModule } from '@angular/forms';
+import { FilterServicePipe } from './pipes/filter-service.pipe';
+import { FilterEquipmentPipe } from './pipes/filter-equipment.pipe';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     SidebarComponent,
     FilterReplacementPipe,
+    FilterServicePipe,
+    FilterEquipmentPipe
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,10 @@ import { FormsModule } from '@angular/forms';
   ],
   exports: [
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    FilterServicePipe,
+    FilterEquipmentPipe,
+    FormsModule
   ]
 })
 export class SharedModule { }

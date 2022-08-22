@@ -14,19 +14,20 @@ import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 })
 export class ServicioComponent implements OnInit {
 
-  protected servicio: ServicioRelaciones | null = null;
-  protected servicios: ServicioRelaciones[] = [];
   protected serviciosPendientes: ServicioRelaciones[] = [];
   protected serviciosCompletados: ServicioRelaciones[] = [];
+  protected servicio: ServicioRelaciones | null = null;
+  protected servicios: ServicioRelaciones[] = [];
   protected tiposServicios: TipoServicio[] = [];
   protected idServicio: string | null = null;
   protected idPersona: string | null = null;
   protected showServicesByEquipment = false;
   protected idEquipo: string | null = null;
   protected equipos: EquipoCliente[] = [];
-  protected oneService = false;
   protected showEquipments = false;
+  protected oneService = false;
   protected loading = false;
+  protected filter = "";
 
   constructor(
     private servicioService: ServicioService,
