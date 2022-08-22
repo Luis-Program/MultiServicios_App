@@ -26,6 +26,10 @@
     </button>
   </div>
 </div>
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Search" [(ngModel)]="filter">
+</div>
 <!-- /ADD COUNTRY BUTTON -->
 
 <div class="row">
@@ -35,7 +39,7 @@
 
         <!-- CARDS -->
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let departamento of departamentos">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let departamento of departamentos | filterNameCode:filter">
             <div class="card card-outline-info" (click)="openModalByDepartment(departamento)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
               <div class="card-header bg-dark">

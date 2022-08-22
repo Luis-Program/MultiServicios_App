@@ -12,7 +12,12 @@
   <p>Menor cantidad, cliente {{clientesEquiposMinMax[1].nombre}} {{clientesEquiposMinMax[0].apellidos}} Cantidad: {{clientesEquiposMinMax[0].cantidad}}</p>
 </div>
 
-<div *ngFor="let equipo of equipos">
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Search" [(ngModel)]="filter">
+</div>
+
+<div *ngFor="let equipo of equipos | filterEquipment:filter">
   <h3>Equipo</h3>
   <p>Id: {{equipo.idEquipo}}</p>
   <p>Numero: {{equipo.nombre}}</p>

@@ -1,6 +1,10 @@
 <h1>Municipios</h1>
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Search" [(ngModel)]="filter">
+</div>
 <h3 *ngIf="loading">Cargando</h3>
-<div *ngFor="let municipio of municipios">
+<div *ngFor="let municipio of municipios | filterNameCode:filter">
   <h3>Municipio</h3>
   <p>Id: {{municipio.idMunicipio}}</p>
   <p>Nombre: {{municipio.nombre}}</p>

@@ -19,7 +19,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     NavSideBarComponent,
     RepuestoComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     CommonModule,

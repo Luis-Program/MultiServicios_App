@@ -25,6 +25,7 @@ export class EquipoComponent implements OnInit {
   protected loadingGraphicOneEquipment = false;  // Carga grafica cuando se selecciona un equipo y mustra sus servicios
   protected loadingGraphicClient = false; // Carga de grafica con menor y mayor cantidad de equipos
   protected loading = false; // Carga principal
+  protected filter = "";
 
   constructor(
     private equipoService: EquipoService,

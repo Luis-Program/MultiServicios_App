@@ -15,6 +15,7 @@ export class MunicipioComponent implements OnInit {
   protected municipios: MunicipioRelacionesAnidadas[] = [];
   protected departamentos: Departamento[] = [];
   protected loading = false;
+  protected filter = "";
 
   constructor(
     private municipioService: MunicipioService,

@@ -17,6 +17,7 @@ export class DepartamentoComponent implements OnInit {
   protected departamentos: DepartamentoRelaciones[] = [];
   protected paises: Pais[] = [];
   protected loading = false;
+  protected filter = "";
 
   public departmentForm !: FormGroup;
   public newDepartment  !: boolean;
@@ -132,12 +133,12 @@ export class DepartamentoComponent implements OnInit {
   }
 
   /**
-   * 
+   *
    * @param department - <DepartamentoRelaciones> Department to update/delete
    */
   openModalByDepartment(department?: DepartamentoRelaciones) {
     this.initForm();
-    
+
     if (department) {
       this.newDepartment = false;
       return this.setDepartmentForm(department);
@@ -164,7 +165,7 @@ export class DepartamentoComponent implements OnInit {
       if (res.isConfirmed) {
         this.deleteDepartment(this.idDepartment);
       }
-      
+
     })
   }
 }
