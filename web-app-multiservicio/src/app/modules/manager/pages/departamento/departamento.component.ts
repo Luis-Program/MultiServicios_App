@@ -4,6 +4,7 @@ import { Pais } from 'src/app/models/pais.model';
 import { DepartamentoService } from 'src/app/services/departamento.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-departamento',
@@ -29,6 +30,7 @@ export class DepartamentoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllDepartmentsWithRelations();
+    this.getAllCountriesToUpdateDepartment();
     this.initForm();
   }
 
@@ -63,6 +65,11 @@ export class DepartamentoComponent implements OnInit {
       .subscribe(department => {
         if (department) {
           // Success
+          Swal.fire({
+            icon  : 'success',
+            title : 'Creado',
+            text  : 'Departamento creado'
+          })
           this.departamentos.push(department);
         }
         this.loading = false;
@@ -118,7 +125,7 @@ export class DepartamentoComponent implements OnInit {
    */
   openModalByDepartment(department?: DepartamentoRelaciones) {
     this.initForm();
-
+    
     if (department) {
       this.newDepartment = false;
       return console.log(department);
@@ -126,11 +133,10 @@ export class DepartamentoComponent implements OnInit {
   }
 
   createDepartmentForm() {
-
     if (this.departmentForm.invalid) return Object.values(this.departmentForm.controls).forEach(c => c.markAsTouched());
 
     if (!this.departmentForm.touched) return;
 
-    console.log(this.departmentForm.value);
+    this.createDepartment(this.departmentForm.value);
   }
 }
