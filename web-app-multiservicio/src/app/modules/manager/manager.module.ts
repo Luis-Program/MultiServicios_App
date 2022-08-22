@@ -22,6 +22,8 @@ import { FilterNameCodePipe } from './pipes/filter-name-code.pipe';
 import { FilterEquipmentPipe } from '../shared/pipes/filter-equipment.pipe';
 import { FilterBusinessPipe } from './pipes/filter-business.pipe';
 import { FilterPersonPipe } from './pipes/filter-person.pipe';
+import { FilterTypePersonPipe } from './pipes/filter-type-person.pipe';
+import { FilterTypePhoneReplacementPipe } from './pipes/filter-type-phone-replacement.pipe';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { FilterPersonPipe } from './pipes/filter-person.pipe';
     FilterNameCodePipe,
     FilterEquipmentPipe,
     FilterBusinessPipe,
-    FilterPersonPipe
+    FilterPersonPipe,
+    FilterTypePersonPipe,
+    FilterTypePhoneReplacementPipe
   ],
   imports: [
     CommonModule,

@@ -12,6 +12,8 @@ export class TipoTelefonoComponent implements OnInit {
   protected tipoTelefono: TipoTelefono | null = null;
   protected tiposTelefonos: TipoTelefono[] = [];
   protected loading = false;
+  protected filter = "";
+  
   constructor(
     private tipotelefonoService: TipoTelefonoService
   ) { }

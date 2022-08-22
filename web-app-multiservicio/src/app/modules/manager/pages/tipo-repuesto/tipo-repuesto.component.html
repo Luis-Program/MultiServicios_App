@@ -1,6 +1,10 @@
 <h1>Tipos de repuestos</h1>
 <h3 *ngIf="loading">Cargando</h3>
-<div *ngFor="let tipoRepuesto of tipoRepuestos">
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Search" [(ngModel)]="filter">
+</div>
+<div *ngFor="let tipoRepuesto of tipoRepuestos | filterTypePhoneReplacement:filter">
   <p>Id: {{tipoRepuesto.idTipoRepuesto}}</p>
   <p>Categoria: {{tipoRepuesto.tipo}}</p>
 </div>
