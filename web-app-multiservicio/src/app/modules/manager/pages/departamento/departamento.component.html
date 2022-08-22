@@ -80,11 +80,19 @@
                       <option *ngFor="let pais of paises" [value]="pais.idPais">{{ pais.nombre }}</option>
                     </select>
                   </div>
+
+                  <br>
+
+                  <!-- <div *ngIf="!newDepartment">
+                    <small class="card-body"></small>
+                  </div> -->
+
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="deleteDepartmentModal()">Eliminar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="createDepartmentForm()">Crear</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newDepartment" (click)="deleteDepartmentModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newDepartment" (click)="createDepartmentForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newDepartment" (click)="createDepartmentForm()">Editar</button>
               </div>
             </div>
           </div>

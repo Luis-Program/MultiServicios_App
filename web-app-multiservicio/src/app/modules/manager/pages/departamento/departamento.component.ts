@@ -85,6 +85,11 @@ export class DepartamentoComponent implements OnInit {
             (res) => res.idDepartamento === idDepartamento);
           this.departamentos[departmentIndex] = res;
           // Success
+          Swal.fire({
+            icon  : 'success',
+            title : 'Actualizado',
+            text  : 'Departamento actualizado'
+          })
         }
         this.loading = false;
       });
@@ -113,6 +118,7 @@ export class DepartamentoComponent implements OnInit {
    * INIT DEPARTMENT FORM
    */
   initForm() {
+    this.newDepartment = true;
     this.departmentForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       codigo: ['', [Validators.required]],
