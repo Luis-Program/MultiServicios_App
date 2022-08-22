@@ -153,6 +153,7 @@ export class DepartamentoComponent implements OnInit {
    */
   openModalByDepartment(department?: DepartamentoRelaciones) {
     this.initForm();
+    this.listenCountry();
     
     if (department) {
       this.newDepartment = false;
@@ -196,5 +197,30 @@ export class DepartamentoComponent implements OnInit {
 
   get idCountryValue() {
     return this.departmentForm.get('idPais')?.value;
+  }
+
+  listenCountry() {
+    this.departmentForm.get('idPais')?.valueChanges.subscribe(res => {
+
+      const country = this.departamentos.find(department => department.Pais?.idPais == res) as DepartamentoRelaciones;
+
+      // SI NO EXISTE EL PAIS NO SE COLOCA
+      if (!country) {
+        return this.departmentForm.addControl('codeCountry', this.fb.control(0))
+      }
+
+      // SI NO EXISTE EL CONTROL
+      const countryControl = this.f.get('codeCountry');
+
+      if (!countryControl) {
+        this.departmentForm.addControl('codeCountry', this.fb.control(0))
+      }
+
+      this.departmentForm.patchValue({
+        codeCountry: country.Pais?.codigo
+      })
+    
+      this.departmentForm.updateValueAndValidity();
+    })
   }
 }
