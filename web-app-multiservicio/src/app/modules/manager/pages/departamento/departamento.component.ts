@@ -92,6 +92,8 @@ export class DepartamentoComponent implements OnInit {
           })
         }
         this.loading = false;
+        this.getAllDepartmentsWithRelations();
+        this.getAllCountriesToUpdateDepartment();
       });
   }
 
@@ -164,15 +166,15 @@ export class DepartamentoComponent implements OnInit {
   createDepartmentForm() {
     if (this.departmentForm.invalid) return Object.values(this.departmentForm.controls).forEach(c => c.markAsTouched());
 
-    // if (!this.departmentForm.touched) return;
+    if (!this.departmentForm.touched) return;
 
-    const { idDepartamento, ...rest } = this.departmentForm.value;
+    const { idDepartamento, codeCountry, ...rest } = this.departmentForm.value;
 
     if (idDepartamento) {
-      return console.log(this.departmentForm.value);
+      return this.updateDepartment(idDepartamento, rest);
     }
 
-    this.createDepartment(this.departmentForm.value);
+    this.createDepartment(rest);
   }
 
   deleteDepartmentModal() {
