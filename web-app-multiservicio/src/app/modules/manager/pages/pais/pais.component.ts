@@ -157,4 +157,21 @@ export class PaisComponent implements OnInit {
       
     })
   }
+
+  /* FORM VALIDATIONS */
+  get f() {
+    return this.countryForm;
+  }
+
+  get invalidName() {
+    return this.countryForm.get('nombre')?.touched && this.countryForm.get('nombre')?.invalid;
+  }
+
+  get nameControl() {
+    return this.countryForm.get('nombre');
+  }
+
+  get codeControl() {
+    return this.countryForm.get('codigo');
+  }
 }

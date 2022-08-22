@@ -1,4 +1,4 @@
-<h1>Departamentos</h1>
+<!-- <h1>Departamentos</h1>
 <h3 *ngIf="loading">Cargando</h3>
 <div *ngFor="let departamento of departamentos">
   <h3>Departamento</h3>
@@ -15,4 +15,93 @@
     <p>No ingresado</p>
   </ng-template>
   <p>------------------------------------</p>
+</div> -->
+
+<!-- ADD COUNTRY BUTTON -->
+<div class="row page-titles">
+  <div>
+    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+      data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByDepartment()">
+      <i class="mdi mdi-plus"></i>
+    </button>
+  </div>
+</div>
+<!-- /ADD COUNTRY BUTTON -->
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- CARDS -->
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let departamento of departamentos">
+            <div class="card card-outline-info" (click)="openModalByDepartment(departamento)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ departamento.nombre }}</h3>
+                    <p class="card-text">{{ departamento.codigo }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-flag"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARDS -->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Departamento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="departmentForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre*</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Código*</label>
+                    <input type="number" class="form-control" id="recipient-name1" formControlName="codigo">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Pais*</label>
+                    <select class="form-control custom-select" formControlName="idPais">
+                      <option *ngFor="let pais of paises" [value]="pais.idPais">{{ pais.nombre }}</option>
+                    </select>
+                    <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small>
+                  </div>
+
+                  <div *ngIf="idCountryValue >= 1">
+                    <hr>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Código del país*</label>
+                      <input type="text" class="form-control" id="recipient-name1" formControlName="codeCountry" readonly>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newDepartment" (click)="deleteDepartmentModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newDepartment" (click)="createDepartmentForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newDepartment" (click)="createDepartmentForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>
