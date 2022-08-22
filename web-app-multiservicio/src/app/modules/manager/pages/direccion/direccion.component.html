@@ -1,6 +1,10 @@
 <h1>Direcciones</h1>
 <h3 *ngIf="loading">Cargando</h3>
-<div *ngFor="let direccion of direcciones">
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Search" [(ngModel)]="filter">
+</div>
+<div *ngFor="let direccion of direcciones | filterDireccion:filter">
   <h3>Direccion</h3>
   <p>Id: {{direccion.idDireccion}}</p>
   <p>Direccion: {{direccion.direccion}}</p>

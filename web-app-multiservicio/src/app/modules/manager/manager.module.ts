@@ -23,6 +23,7 @@ import { FilterBusinessPipe } from './pipes/filter-business.pipe';
 import { FilterPersonPipe } from './pipes/filter-person.pipe';
 import { FilterTypePersonPipe } from './pipes/filter-type-person.pipe';
 import { FilterTypePhoneReplacementPipe } from './pipes/filter-type-phone-replacement.pipe';
+import { FilterDireccionPipe } from './pipes/filter-direccion.pipe';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { FilterTypePhoneReplacementPipe } from './pipes/filter-type-phone-replac
     FilterPersonPipe,
     FilterTypePersonPipe,
     FilterTypePhoneReplacementPipe,
+    FilterDireccionPipe,
   ],
   imports: [
     CommonModule,

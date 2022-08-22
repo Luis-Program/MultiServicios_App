@@ -15,6 +15,7 @@ export class DireccionComponent implements OnInit {
   protected direcciones: DireccionRelacionesAnidadas[] = [];
   protected municipios: Municipio[] = [];
   protected loading = false;
+  protected filter = "";
 
   constructor(
     private direccionService: DireccionService,
