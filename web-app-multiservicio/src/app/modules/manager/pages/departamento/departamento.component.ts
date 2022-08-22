@@ -204,23 +204,16 @@ export class DepartamentoComponent implements OnInit {
 
       const country = this.departamentos.find(department => department.Pais?.idPais == res) as DepartamentoRelaciones;
 
-      // SI NO EXISTE EL PAIS NO SE COLOCA
-      if (!country) {
-        return this.departmentForm.addControl('codeCountry', this.fb.control(0))
-      }
-
-      // SI NO EXISTE EL CONTROL
       const countryControl = this.f.get('codeCountry');
 
-      if (!countryControl) {
-        this.departmentForm.addControl('codeCountry', this.fb.control(0))
+      if (!countryControl && country) {
+        this.departmentForm.addControl('codeCountry', this.fb.control(country.Pais?.codigo, []))
+      } else if (countryControl && !country) {
+        this.departmentForm.get('codeCountry')?.setValue('No existe el código del país')
+      } else if (countryControl && country) {
+        this.departmentForm.get('codeCountry')?.setValue(country.Pais?.codigo);
       }
 
-      this.departmentForm.patchValue({
-        codeCountry: country.Pais?.codigo
-      })
-    
-      this.departmentForm.updateValueAndValidity();
     })
   }
 }
