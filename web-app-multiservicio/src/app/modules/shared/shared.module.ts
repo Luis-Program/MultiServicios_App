@@ -13,6 +13,7 @@ import { FilterReplacementPipe } from './pipes/filter-replacement.pipe';
 import { FormsModule } from '@angular/forms';
 import { FilterServicePipe } from './pipes/filter-service.pipe';
 import { FilterEquipmentPipe } from './pipes/filter-equipment.pipe';
+import { FilterPhonePipe } from './pipes/filter-phone.pipe';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { FilterEquipmentPipe } from './pipes/filter-equipment.pipe';
     SidebarComponent,
     FilterReplacementPipe,
     FilterServicePipe,
-    FilterEquipmentPipe
+    FilterEquipmentPipe,
+    FilterPhonePipe
   ],
   imports: [
     CommonModule,
