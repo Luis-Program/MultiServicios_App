@@ -127,10 +127,15 @@ export class DepartamentoComponent implements OnInit {
   }
 
   setDepartmentForm(department: DepartamentoRelaciones) {
+
+    let pais = null;
+
+    (department.Pais?.idPais) ? pais = department.Pais.idPais : pais = 0;
+
     this.departmentForm.setValue({
       nombre: department.nombre,
       codigo: department.codigo,
-      idPais: department.Pais?.idPais
+      idPais: pais
     })
 
     this.departmentForm.addControl('idDepartamento', this.fb.control(department.idDepartamento, []));
@@ -153,7 +158,13 @@ export class DepartamentoComponent implements OnInit {
   createDepartmentForm() {
     if (this.departmentForm.invalid) return Object.values(this.departmentForm.controls).forEach(c => c.markAsTouched());
 
-    if (!this.departmentForm.touched) return;
+    // if (!this.departmentForm.touched) return;
+
+    const { idDepartamento, ...rest } = this.departmentForm.value;
+
+    if (idDepartamento) {
+      return console.log(this.departmentForm.value);
+    }
 
     this.createDepartment(this.departmentForm.value);
   }
@@ -172,5 +183,13 @@ export class DepartamentoComponent implements OnInit {
       }
       
     })
+  }
+
+  get f() {
+    return this.departmentForm;
+  }
+
+  get idCountryValue() {
+    return this.departmentForm.get('idPais')?.value;
   }
 }

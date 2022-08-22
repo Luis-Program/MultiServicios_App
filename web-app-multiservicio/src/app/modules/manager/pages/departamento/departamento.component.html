@@ -79,13 +79,10 @@
                     <select class="form-control custom-select" formControlName="idPais">
                       <option *ngFor="let pais of paises" [value]="pais.idPais">{{ pais.nombre }}</option>
                     </select>
+                    <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small>
                   </div>
 
                   <br>
-
-                  <!-- <div *ngIf="!newDepartment">
-                    <small class="card-body"></small>
-                  </div> -->
 
                 </form>
               </div>
