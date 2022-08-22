@@ -14,7 +14,7 @@
   <p>Cantidad: {{maxMinClient[1].cantidad}}</p>
   <p>------------------------------------</p>
 </div>
-<div *ngFor="let empresa of empresas | filterNameModel:filter">
+<div *ngFor="let empresa of empresas | filterBusiness:filter">
   <h3>Empresa</h3>
   <p>Id: {{empresa.idEmpresa}}</p>
   <p>Nombre: {{empresa.nombre}}</p>

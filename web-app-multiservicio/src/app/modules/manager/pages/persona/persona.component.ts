@@ -19,6 +19,7 @@ export class PersonaComponent implements OnInit {
   protected clientes: Clientes[] = [];
   protected empresas: EmpresaRelaciones[] = [];
   protected tipo = 'all';
+  protected filter = "";
   protected trabajadoresMinMaxServices: TrabajadoresMinMaxServicios[] = [];
   protected trabajadorServicios: ServiciosFinalizadosPendientes | null = null;
   protected loading = false; // Carga principal

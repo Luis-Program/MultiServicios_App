@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterNameCodePipe } from './pipes/filter-name-code.pipe';
 import { FilterEquipmentPipe } from '../shared/pipes/filter-equipment.pipe';
 import { FilterBusinessPipe } from './pipes/filter-business.pipe';
+import { FilterPersonPipe } from './pipes/filter-person.pipe';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { FilterBusinessPipe } from './pipes/filter-business.pipe';
     TelefonoComponent,
     FilterNameCodePipe,
     FilterEquipmentPipe,
-    FilterBusinessPipe
+    FilterBusinessPipe,
+    FilterPersonPipe
   ],
   imports: [
     CommonModule,
