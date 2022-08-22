@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FilterReplacementPipe } from './pipes/filter-replacement.pipe';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -20,11 +22,13 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     RepuestoComponent,
     HeaderComponent,
     SidebarComponent,
+    FilterReplacementPipe,
   ],
   imports: [
     CommonModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent,
