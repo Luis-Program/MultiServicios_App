@@ -29,9 +29,9 @@ export class DepartamentoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initForm();
     this.getAllDepartmentsWithRelations();
     this.getAllCountriesToUpdateDepartment();
-    this.initForm();
   }
 
   protected getAllCountriesToUpdateDepartment() {
