@@ -11,13 +11,15 @@ export class FilterReplacementPipe implements PipeTransform {
     for (const object of value) {
       if (rol && rol === "Gerente General") {
         if (object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
+          || object.Tipo_Repuesto.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1
           || String(object.cantidadDisponible).indexOf(arg) > -1
           || String(object.limiteInferior).indexOf(arg) > -1) {
           resultFilter.push(object);
         }
       } else {
         if (object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
-          || String(object.cantidadDisponible).indexOf(arg) > -1) {
+          || String(object.cantidadDisponible).indexOf(arg) > -1
+          || object.Tipo_Repuesto.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
           resultFilter.push(object);
         }
       }
