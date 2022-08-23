@@ -5,7 +5,6 @@ import { DepartamentoService } from 'src/app/services/departamento.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
@@ -18,6 +17,7 @@ export class DepartamentoComponent implements OnInit {
   protected departamento: DepartamentoRelaciones | null = null;
   protected departamentos: DepartamentoRelaciones[] = [];
   protected paises: Pais[] = [];
+  protected pais: Pais | null = null;
   protected loading = false;
   protected filter = "";
 
@@ -25,9 +25,7 @@ export class DepartamentoComponent implements OnInit {
   public newDepartment  !: boolean;
   public idDepartment   !: number;
 
-  dropdownList: any[] = [];
-  selectedItems = [];
-  dropdownSettings = {};
+  protected dropdownSettings: IDropdownSettings = {};
 
   constructor(
     private departamentoService: DepartamentoService,
@@ -40,12 +38,13 @@ export class DepartamentoComponent implements OnInit {
     this.getAllCountriesToUpdateDepartment();
     this.getAllDepartmentsWithRelations();
 
-    this.dropdownSettings = {
-      singleSelection: true,
-      idField: 'item_id',
-      textField: 'item_text',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
+    this.dropdownSettings  = {
+      idField: 'idPais',
+      textField: 'nombre',
+      allowSearchFilter: true,
+      limitSelection: 1,
+      clearSearchFilter: true,
+      noDataAvailablePlaceholderText: 'Sin datos'
     };
   }
 
@@ -54,11 +53,6 @@ export class DepartamentoComponent implements OnInit {
     this.paisService.getAll()
     .subscribe(countries => {
       this.paises = countries;
-      this.dropdownList = this.mapData(countries)
-      
-      console.log(this.dropdownList);
-      
-
       this.loading = false;
       });
   }
@@ -176,7 +170,7 @@ export class DepartamentoComponent implements OnInit {
   openModalByDepartment(department?: DepartamentoRelaciones) {
     this.initForm();
     this.listenCountry();
-  
+
     if (department) {
       this.newDepartment = false;
       return this.setDepartmentForm(department);
@@ -239,16 +233,7 @@ export class DepartamentoComponent implements OnInit {
     })
   }
 
-  mapData(paises: Pais[]): any[] {
-    return paises.map(p => {
-      return {
-        item_id: p.nombre,
-        item_text: p.nombre
-      }
-    })
-  }
-
-  onItemSelect(item: any) {
-    console.log(item);
+  protected onItemSelect(item: any) {
+    console.log("idPais: "+item.idPais);
   }
 }

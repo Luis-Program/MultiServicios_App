@@ -20,8 +20,8 @@
 <!-- ADD COUNTRY BUTTON -->
 <div class="row page-titles">
   <div>
-    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-      data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByDepartment()">
+    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal"
+      data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByDepartment()">
       <i class="mdi mdi-plus"></i>
     </button>
   </div>
@@ -66,7 +66,8 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel1">Departamento</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
                 <form [formGroup]="departmentForm">
@@ -86,11 +87,10 @@
                     <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small> -->
 
                     <ng-multiselect-dropdown
-                      [placeholder]="'País *'"
-                      [settings]="dropdownSettings"
-                      [data]="dropdownList"
-                      (onSelect)="onItemSelect($event)"
-                    >
+                    [settings]="dropdownSettings"
+                    [data]="paises"
+                    [placeholder]="'Seleccionar'"
+                    (onSelect)="onItemSelect($event)">
                     </ng-multiselect-dropdown>
 
                   </div>
@@ -99,16 +99,20 @@
                     <hr>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Código del país*</label>
-                      <input type="text" class="form-control" id="recipient-name1" formControlName="codeCountry" readonly>
+                      <input type="text" class="form-control" id="recipient-name1" formControlName="codeCountry"
+                        readonly>
                     </div>
                   </div>
 
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newDepartment" (click)="deleteDepartmentModal()">Eliminar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newDepartment" (click)="createDepartmentForm()">Crear</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newDepartment" (click)="createDepartmentForm()">Editar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newDepartment"
+                  (click)="deleteDepartmentModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newDepartment"
+                  (click)="createDepartmentForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newDepartment"
+                  (click)="createDepartmentForm()">Editar</button>
               </div>
             </div>
           </div>
