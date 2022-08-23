@@ -8,7 +8,7 @@ import { ServicioComponent } from './pages/servicio/servicio.component';
 
 @NgModule({
   declarations: [
-    ServicioComponent
+    ServicioComponent,
   ],
   imports: [
     CommonModule,

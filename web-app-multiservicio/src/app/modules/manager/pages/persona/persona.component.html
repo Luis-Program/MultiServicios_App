@@ -3,9 +3,13 @@
 <button (click)="changeTypePerson('client')" *ngIf="tipo != 'client'">Clientes</button>
 <button (click)="changeTypePerson('worker')" *ngIf="tipo != 'worker'">Trabajadores</button>
 <h3 *ngIf="loading">Cargando</h3>
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Search" [(ngModel)]="filter">
+</div>
 <div [ngSwitch]="tipo">
   <div *ngSwitchCase="'all'">
-    <div *ngFor="let persona of personas">
+    <div *ngFor="let persona of personas | filterPerson:filter">
       <h3>Persona</h3>
       <p>Id: {{persona.idPersona}}</p>
       <p>Nombre: {{persona.nombre}}</p>
@@ -22,7 +26,7 @@
     </div>
   </div>
   <div *ngSwitchCase="'client'">
-    <div *ngFor="let cliente of clientes">
+    <div *ngFor="let cliente of clientes | filterPerson:filter">
       <h3>Cliente</h3>
       <p>Id: {{cliente.idPersona}}</p>
       <p>Nombre: {{cliente.nombre}}</p>
@@ -49,7 +53,7 @@
       </p>
       <p>Cantidad: {{trabajadoresMinMaxServices[1].cantidadService}}</p>
     </div>
-    <div *ngFor="let trabajador of trabajadores">
+    <div *ngFor="let trabajador of trabajadores | filterPerson:filter">
       <h3>Trabajador</h3>
       <p>Id: {{trabajador.idPersona}}</p>
       <p>Nombre: {{trabajador.nombre}}</p>

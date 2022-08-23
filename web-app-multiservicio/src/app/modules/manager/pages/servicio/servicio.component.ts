@@ -26,6 +26,7 @@ export class ServicioComponent implements OnInit {
   protected idServicio: number | null = null;
   protected accion: string | null = null;
   protected equipos: Equipo[] = [];
+  protected filter = "";
   protected loading = false; // Carga principal
   protected loadingGraphicAsig = false; // Carga grafico de cantidad de servicios asignados y no asignados
   protected loadingGraphicCom = false; // Carga grafico de cantidad de servicios pendientes y finalizados

@@ -14,6 +14,7 @@ export class PaisComponent implements OnInit {
   protected pais: Pais | null = null;
   protected paises: Pais[] = [];
   protected loading = false;
+  protected filter = "";
 
   public countryForm!: FormGroup;
   public newCountry!: Boolean;
@@ -70,7 +71,7 @@ export class PaisComponent implements OnInit {
           const countryIndex = this.paises.findIndex(
             (res) => res.idPais === idPais);
           this.paises[countryIndex] = res;
-          
+
             Swal.fire({
               title : "Actualizado",
               text  : "País actualizado",
@@ -103,7 +104,7 @@ export class PaisComponent implements OnInit {
 
   openModalByCountry(country?: Pais) {
     this.initForm();
-    
+
     if (country) {
       this.newCountry = false;
       this.setCountry(country);
@@ -130,7 +131,7 @@ export class PaisComponent implements OnInit {
 
   createCountryForm() {
     if (this.countryForm.invalid) return Object.values(this.countryForm.controls).forEach(c => c.markAsTouched());
-    
+
     if (!this.countryForm.touched) return;
 
     const { idPais, ...rest } = this.countryForm.value;
@@ -138,7 +139,7 @@ export class PaisComponent implements OnInit {
     if (idPais) {
       return this.updateCountry(idPais, rest);
     }
-    
+
     return this.createCountry(this.countryForm.value);
   }
 
@@ -154,7 +155,7 @@ export class PaisComponent implements OnInit {
       if (res.isConfirmed) {
         this.deleteCountry(this.idCountry);
       }
-      
+
     })
   }
 

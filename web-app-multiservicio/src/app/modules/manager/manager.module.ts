@@ -18,6 +18,12 @@ import { EquipoComponent } from './pages/equipo/equipo.component';
 import { ServicioComponent } from './pages/servicio/servicio.component';
 import { TelefonoComponent } from './pages/telefono/telefono.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterNameCodePipe } from './pipes/filter-name-code.pipe';
+import { FilterBusinessPipe } from './pipes/filter-business.pipe';
+import { FilterPersonPipe } from './pipes/filter-person.pipe';
+import { FilterTypePersonPipe } from './pipes/filter-type-person.pipe';
+import { FilterTypePhoneReplacementPipe } from './pipes/filter-type-phone-replacement.pipe';
+import { FilterDireccionPipe } from './pipes/filter-direccion.pipe';
 
 
 @NgModule({
@@ -35,7 +41,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TipoPersonaComponent,
     EquipoComponent,
     ServicioComponent,
-    TelefonoComponent
+    TelefonoComponent,
+    FilterNameCodePipe,
+    FilterBusinessPipe,
+    FilterPersonPipe,
+    FilterTypePersonPipe,
+    FilterTypePhoneReplacementPipe,
+    FilterDireccionPipe,
   ],
   imports: [
     CommonModule,
