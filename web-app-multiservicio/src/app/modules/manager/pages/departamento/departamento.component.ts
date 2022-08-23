@@ -6,6 +6,8 @@ import { PaisService } from 'src/app/services/pais.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+
 @Component({
   selector: 'app-departamento',
   templateUrl: './departamento.component.html',

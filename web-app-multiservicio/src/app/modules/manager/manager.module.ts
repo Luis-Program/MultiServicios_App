@@ -25,6 +25,7 @@ import { FilterTypePersonPipe } from './pipes/filter-type-person.pipe';
 import { FilterTypePhoneReplacementPipe } from './pipes/filter-type-phone-replacement.pipe';
 import { FilterDireccionPipe } from './pipes/filter-direccion.pipe';
 
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { FilterDireccionPipe } from './pipes/filter-direccion.pipe';
     ManagerRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot()
   ]
 })
 export class ManagerModule { }
