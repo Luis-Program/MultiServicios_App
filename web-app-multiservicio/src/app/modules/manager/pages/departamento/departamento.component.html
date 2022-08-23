@@ -84,6 +84,15 @@
                       <option *ngFor="let pais of paises" [value]="pais.idPais">{{ pais.nombre }}</option>
                     </select>
                     <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small> -->
+
+                    <ng-multiselect-dropdown
+                      [placeholder]="'País *'"
+                      [settings]="dropdownSettings"
+                      [data]="dropdownList"
+                      (onSelect)="onItemSelect($event)"
+                    >
+                    </ng-multiselect-dropdown>
+
                   </div>
 
                   <div *ngIf="idCountryValue >= 1">

@@ -25,16 +25,28 @@ export class DepartamentoComponent implements OnInit {
   public newDepartment  !: boolean;
   public idDepartment   !: number;
 
+  dropdownList: any[] = [];
+  selectedItems = [];
+  dropdownSettings = {};
+
   constructor(
     private departamentoService: DepartamentoService,
     private paisService: PaisService,
     private fb: FormBuilder
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.initForm();
-    this.getAllDepartmentsWithRelations();
     this.getAllCountriesToUpdateDepartment();
+    this.getAllDepartmentsWithRelations();
+
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField: 'item_id',
+      textField: 'item_text',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
 
   protected getAllCountriesToUpdateDepartment() {
@@ -42,7 +54,12 @@ export class DepartamentoComponent implements OnInit {
     this.paisService.getAll()
     .subscribe(countries => {
       this.paises = countries;
-        this.loading = false;
+      this.dropdownList = this.mapData(countries)
+      
+      console.log(this.dropdownList);
+      
+
+      this.loading = false;
       });
   }
 
@@ -220,5 +237,18 @@ export class DepartamentoComponent implements OnInit {
       }
 
     })
+  }
+
+  mapData(paises: Pais[]): any[] {
+    return paises.map(p => {
+      return {
+        item_id: p.nombre,
+        item_text: p.nombre
+      }
+    })
+  }
+
+  onItemSelect(item: any) {
+    console.log(item);
   }
 }
