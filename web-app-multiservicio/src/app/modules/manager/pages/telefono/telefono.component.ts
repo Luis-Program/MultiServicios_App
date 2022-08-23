@@ -18,7 +18,8 @@ export class TelefonoComponent implements OnInit {
   protected tiposTelefonos: TipoTelefono[] = [];
   protected personas: Persona[] = [];
   protected loading = false;
-  
+  protected filter = "";
+
   constructor(
     private telefonoService: TelefonoService,
     private personaService: PersonaService,

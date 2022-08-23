@@ -9,7 +9,7 @@ export class FilterDireccionPipe implements PipeTransform {
     const resultFilter = [];
     for (const object of value) {
       if (object.direccion.toLowerCase().indexOf(arg.toLowerCase()) > -1
-        || object.Municipio.nombre.indexOf(arg) > -1) {
+        || object.Municipio.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
         resultFilter.push(object);
       }
     }

@@ -26,6 +26,8 @@ import { FilterTypePhoneReplacementPipe } from './pipes/filter-type-phone-replac
 import { FilterDireccionPipe } from './pipes/filter-direccion.pipe';
 
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { FilterAuditPipe } from './pipes/filter-audit.pipe';
+import { FilterAnalysisPipe } from './pipes/filter-analysis.pipe';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
     FilterTypePersonPipe,
     FilterTypePhoneReplacementPipe,
     FilterDireccionPipe,
+    FilterAuditPipe,
+    FilterAnalysisPipe,
   ],
   imports: [
     CommonModule,

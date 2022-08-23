@@ -12,8 +12,9 @@ export class AnalisisRepuestoComponent implements OnInit {
   protected analisisRepuesto: Analisis_Repuesto | null = null;
   protected analisisRepuestos: Analisis_Repuesto[] = [];
   protected dataGraphic: Graphics[] = [];
-  protected loading = false; // Carga principal
   protected loadingGraphic = false; // Carga del grafico
+  protected loading = false; // Carga principal
+  protected filter = "";
 
   constructor(
     private analisisRepuestoService: AnalisisRepuestoService

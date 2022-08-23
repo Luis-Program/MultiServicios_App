@@ -1,7 +1,12 @@
 <h1>Analisis en repuestos</h1>
 <h3 *ngIf="loading">Cargando</h3>
 
-<div *ngFor="let analisisRepuesto of analisisRepuestos">
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+</div>
+
+<div *ngFor="let analisisRepuesto of analisisRepuestos | filterAnalysis:filter">
   <p>Id: {{analisisRepuesto.idAnalisisRepuesto}}</p>
   <p>Nombre de repuesto: {{analisisRepuesto.nombreRepuesto}}</p>
   <p>Tipo de repuesto: {{analisisRepuesto.nombreTipo}}</p>

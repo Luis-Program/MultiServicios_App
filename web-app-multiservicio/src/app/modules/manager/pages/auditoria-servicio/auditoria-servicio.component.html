@@ -1,7 +1,12 @@
 <h1>Auditoria Servicios</h1>
 <h3 *ngIf="loading">Cargando</h3>
 
-<div *ngFor="let auditoriaServicio of auditoriaServicios">
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+</div>
+
+<div *ngFor="let auditoriaServicio of auditoriaServicios | filterAudit:filter">
   <p>Id: {{auditoriaServicio.idAuditoriaServicio}}</p>
   <p>Fecha y Hora: {{auditoriaServicio.fechaHora}}</p>
   <p>Id servicio: {{auditoriaServicio.idServicio}}</p>

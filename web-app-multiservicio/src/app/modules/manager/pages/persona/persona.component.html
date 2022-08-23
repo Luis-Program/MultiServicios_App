@@ -5,7 +5,7 @@
 <h3 *ngIf="loading">Cargando</h3>
 <!-- INPUT SEARCH -->
 <div>
-  <input type="text" class="form-control" name="filterName" placeholder="Search" [(ngModel)]="filter">
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
 </div>
 <div [ngSwitch]="tipo">
   <div *ngSwitchCase="'all'">

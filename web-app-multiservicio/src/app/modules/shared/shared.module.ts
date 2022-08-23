@@ -41,6 +41,7 @@ import { FilterPhonePipe } from './pipes/filter-phone.pipe';
     SidebarComponent,
     FilterServicePipe,
     FilterEquipmentPipe,
+    FilterPhonePipe,
     FormsModule
   ]
 })

@@ -1,6 +1,10 @@
 <h1>Telefonos</h1>
 <h3 *ngIf="loading">Cargando</h3>
-<div *ngFor="let telefono of telefonos">
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+</div>
+<div *ngFor="let telefono of telefonos | filterPhone:filter">
   <h3>Telefono</h3>
   <p>Id: {{telefono.idTelefono}}</p>
   <p>Numero: {{telefono.numero}}</p>
