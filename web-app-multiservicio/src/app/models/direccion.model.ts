@@ -6,6 +6,11 @@ export interface Direccion {
   direccion: string,
   idMunicipio: number | null
 }
+export interface DireccionDropDown{
+  idDireccion: number,
+  direccion: string,
+}
+
 // route: /relaciones && /:idDireccion
 export interface DireccionRelaciones extends Omit<Direccion, 'idMunicipio'> {
   Municipio: Municipio | null

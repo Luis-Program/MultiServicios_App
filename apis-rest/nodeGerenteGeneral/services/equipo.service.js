@@ -36,6 +36,13 @@ class EquipoService {
     return equipos;
   }
 
+  async findAllDropDown() {
+    const equipos = await models.Equipo.sequelize.query(`SELECT idEquipo, CONCAT(nombre," ",modelo) AS nombre FROM MultiServicios.Equipo`, {
+      type: QueryTypes.SELECT
+    });
+    return equipos[0];
+  }
+
   async findOneCompletedPendent(idEquipo) {
     const servicesCompleted = await models.Equipo.sequelize.query(`SELECT COUNT(*) AS 'cantidadCompletada' FROM MultiServicios.Equipo e
     INNER JOIN MultiServicios.Servicio s ON e.idEquipo = s.idEquipo WHERE ISNULL (s.fechaFinalizado) AND e.idEquipo = ${idEquipo}

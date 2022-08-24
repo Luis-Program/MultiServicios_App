@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { retry, catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { Clientes, CreatePersonaDTO, Persona, PersonaRelaciones, ServiciosFinalizadosPendientes, Trabajadores, TrabajadoresMinMaxServicios, UpdatePersonaDTO } from '../models/persona.model';
+import { Clientes, CreatePersonaDTO, Persona, PersonaDropdown, PersonaRelaciones, ServiciosFinalizadosPendientes, Trabajadores, TrabajadoresDropDown, TrabajadoresMinMaxServicios, UpdatePersonaDTO } from '../models/persona.model';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -61,6 +61,15 @@ export class PersonaService {
         }));
   }
 
+  public getAllDropDown(){
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas/dropdown`;
+    return this.http.get<PersonaDropdown[]>(this.apiUrl)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
   public getAllWorkersWithServices() {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
     return this.http.get<Trabajadores[]>(this.apiUrl + '/trabajadores')
@@ -69,6 +78,16 @@ export class PersonaService {
           return manageError(error, this.router);
         }));
   }
+
+  public getAllWorkersWithServicesDropDown() {
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
+    return this.http.get<TrabajadoresDropDown[]>(this.apiUrl + '/workersdropdown')
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
 
   public getWorkersMinMaxServices(){
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
@@ -90,7 +109,7 @@ export class PersonaService {
 
   public getAllCients() {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
-    return this.http.get<Persona[]>(this.apiUrl + '/clientes')
+    return this.http.get<PersonaDropdown[]>(this.apiUrl + '/clientes')
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);

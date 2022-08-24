@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { CreateDireccionDTO, Direccion, DireccionRelacionesAnidadas, UpdateDireccionDTO } from '../models/direccion.model';
+import { CreateDireccionDTO, Direccion, DireccionDropDown, DireccionRelacionesAnidadas, UpdateDireccionDTO } from '../models/direccion.model';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -28,6 +28,14 @@ export class DireccionService {
 
   public getAllWithRelations() {
     return this.http.get<DireccionRelacionesAnidadas[]>(`${this.apiUrl}/relaciones`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
+  public getAllDropDown() {
+    return this.http.get<DireccionDropDown[]>(`${this.apiUrl}/dropdown`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);

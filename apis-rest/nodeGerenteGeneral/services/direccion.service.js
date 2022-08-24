@@ -1,5 +1,8 @@
 const boom = require('@hapi/boom');
 const {
+  QueryTypes
+} = require('sequelize');
+const {
   models
 } = require('../libs/sequelize');
 
@@ -28,6 +31,15 @@ class DireccionService {
           include: ['Pais']
         }]
       }]
+    });
+    return direcciones;
+  }
+
+  async findDropDown() {
+    const direcciones = await models.Persona.sequelize.query(`SELECT d.idDireccion, CONCAT(m.nombre,": ",d.direccion) as direccion FROM MultiServicios.Direccion d
+    INNER JOIN MultiServicios.Municipio m
+    ON d.idMunicipio = m.idMunicipio`, {
+      type: QueryTypes.SELECT
     });
     return direcciones;
   }

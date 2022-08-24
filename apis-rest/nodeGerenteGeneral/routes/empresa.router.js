@@ -17,7 +17,7 @@ router.get('/',
   }),
   async (req, res, next) => {
     try {
-      const empresa = await service.find(req.query);
+      const empresa = await service.find();
       res.json(empresa);
     } catch (error) {
       next(error);

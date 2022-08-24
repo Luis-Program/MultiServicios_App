@@ -24,6 +24,19 @@ router.get('/',
     }
   });
 
+  router.get('/dropdown',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const equipos = await service.findAllDropDown();
+      res.json(equipos);
+    } catch (error) {
+      next(error);
+    }
+  });
+
 router.get('/relaciones',
   passport.authenticate('oauth-bearer', {
     session: false

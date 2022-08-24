@@ -1,5 +1,8 @@
 const boom = require('@hapi/boom');
 const {
+  QueryTypes
+} = require('sequelize');
+const {
   models
 } = require('../libs/sequelize');
 
@@ -22,6 +25,15 @@ class Tipo_PersonaService {
   async find() {
     const tipos_personas = await models.Tipo_Persona.findAll({
       include: ['Empresa'],
+    });
+    return tipos_personas;
+  }
+
+  async findAllDropdown() {
+    const tipos_personas = await models.Persona.sequelize.query(`SELECT idTipoPersona, CONCAT(t.tipo,": ",e.nombre) AS tipo FROM MultiServicios.Tipo_Persona t
+    INNER JOIN MultiServicios.Empresa e
+    ON t.idEmpresa = e.idEmpresa`, {
+      type: QueryTypes.SELECT
     });
     return tipos_personas;
   }

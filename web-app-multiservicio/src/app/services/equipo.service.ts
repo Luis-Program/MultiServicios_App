@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { CreateEquipoDTO, Equipo, EquipoActivoInactivo, EquipoCliente, EquipoClienteServicios, EquipoMaxMinCliente, EquipoRelaciones, EquipoRelacionesAnidadas, UnEquipoServicios, UpdateEquipoDTO } from '../models/equipo.model';
+import { CreateEquipoDTO, Equipo, EquipoActivoInactivo, EquipoCliente, EquipoClienteServicios, EquipoDropDown, EquipoMaxMinCliente, EquipoRelaciones, EquipoRelacionesAnidadas, UnEquipoServicios, UpdateEquipoDTO } from '../models/equipo.model';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -31,6 +31,15 @@ export class EquipoService {
   public getAll() {
     this.getAPI();
     return this.http.get<Equipo[]>(this.apiUrl)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
+  public getAllDropDown() {
+    this.getAPI();
+    return this.http.get<EquipoDropDown[]>(`${this.apiUrl}/dropdown`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);
