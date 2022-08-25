@@ -39,9 +39,7 @@ export class MunicipioComponent implements OnInit {
     this.loading = true;
     this.departamentoService.getAll()
       .subscribe(departments => {
-        this.departamentos = departments;
-        console.log(this.departamentos);
-        
+        this.departamentos = departments;        
         this.loading = false;
       });
   }
@@ -134,7 +132,7 @@ export class MunicipioComponent implements OnInit {
       codigo: municipio.codigo,
       idDepartamento: departamento
     })
-
+    this.Form.addControl('pais', this.fb.control(municipio.Departamento?.Pais?.nombre, []))
     this.idItem = municipio.idMunicipio;
   }
 
@@ -150,7 +148,7 @@ export class MunicipioComponent implements OnInit {
   createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
-    const { idDepartamento, ...rest } = this.Form.value;
+    // const { idDepartamento, ...rest } = this.Form.value;
 
     // if (idDepartamento) {
     //   return console.log(this.Form.value);
@@ -173,5 +171,17 @@ export class MunicipioComponent implements OnInit {
       }
 
     })
+  }
+
+  get f() {
+    return this.Form
+  }
+
+  get idMunicipio() {
+    return this.Form.get('idDepartamento')?.value;
+  }
+
+  get nameCountry() {
+    return this.Form.get('pais')?.value;
   }
 }

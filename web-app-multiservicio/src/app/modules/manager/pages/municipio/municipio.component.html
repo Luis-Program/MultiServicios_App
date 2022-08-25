@@ -93,8 +93,19 @@
                     <select class="form-control custom-select" formControlName="idDepartamento">
                       <option *ngFor="let departamento of departamentos" [value]="departamento.idPais">{{ departamento.nombre }}</option>
                     </select>
-                    <!-- <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small> -->
+                    <small *ngIf="!idMunicipio" class="form-control-feedback">No ingresado *</small>
                   </div>
+
+                  <div *ngIf="idMunicipio >= 1">
+                    <hr>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Nombre del país*</label>
+                      <input type="text" class="form-control" id="recipient-name1" formControlName="pais"
+                        readonly>
+                    </div>
+                  </div>
+
+
                 </form>
               </div>
 
