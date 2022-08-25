@@ -103,6 +103,12 @@ export class MunicipioComponent implements OnInit {
             (municipality) => municipality.idMunicipio === idMunicipio);
           this.municipios.splice(municipalityIndex, 1);
           // Success
+          Swal.fire({
+            icon  : 'success',
+            title : 'Eliminado',
+            text  : 'Municipio eliminado'
+          })
+          this.getAllMunicipalitiesWithRelations();
         }
         this.loading = false;
       });
@@ -117,12 +123,27 @@ export class MunicipioComponent implements OnInit {
     })
   }
 
+  setForm(municipio: MunicipioRelacionesAnidadas) {
+
+    let departamento = null;
+
+    (municipio.Departamento?.idDepartamento) ? departamento = municipio.Departamento.idDepartamento : departamento = 0;
+
+    this.Form.setValue({
+      nombre: municipio.nombre,
+      codigo: municipio.codigo,
+      idDepartamento: departamento
+    })
+
+    this.idItem = municipio.idMunicipio;
+  }
+
   openModal(municipio?: MunicipioRelacionesAnidadas) {
     this.initForm();
 
     if (municipio) {
       this.newItem = false;
-      return console.log(municipio);
+      return this.setForm(municipio);
     }
   }
 
@@ -136,5 +157,21 @@ export class MunicipioComponent implements OnInit {
     // }
 
     this.createMunicipality(this.Form.value);
+  }
+
+  deleteItem() {
+    Swal.fire({
+      title : '¡Atención!',
+      text  : '¿Está seguro de eliminar el municipio?',
+      icon  : 'warning',
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then((res: any) => {
+
+      if (res.isConfirmed) {
+        this.deleteMunicipality(this.idItem);
+      }
+
+    })
   }
 }
