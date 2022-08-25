@@ -96,7 +96,7 @@
                     <small *ngIf="!idMunicipio" class="form-control-feedback">No ingresado *</small>
                   </div>
 
-                  <div *ngIf="idMunicipio >= 1">
+                  <div *ngIf="idMunicipio >= 1 && !newItem">
                     <hr>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Nombre del país*</label>

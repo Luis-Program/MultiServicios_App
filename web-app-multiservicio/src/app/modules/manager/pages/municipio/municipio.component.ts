@@ -87,6 +87,12 @@ export class MunicipioComponent implements OnInit {
             (res) => res.idMunicipio === idMunicipio);
           this.municipios[municipalityIndex] = res;
           // Success
+          Swal.fire({
+            icon  : 'success',
+            title : 'Actualizado',
+            text  : 'Municipio actualizado'
+          })
+          this.getAllMunicipalitiesWithRelations();
         }
         this.loading = false;
       });
@@ -115,6 +121,7 @@ export class MunicipioComponent implements OnInit {
   initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
+      idMunicipio: [''],
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       codigo: ['', [Validators.required]],
       idDepartamento: ['', [Validators.required]]
@@ -128,6 +135,7 @@ export class MunicipioComponent implements OnInit {
     (municipio.Departamento?.idDepartamento) ? departamento = municipio.Departamento.idDepartamento : departamento = 0;
 
     this.Form.setValue({
+      idMunicipio: municipio.idMunicipio,
       nombre: municipio.nombre,
       codigo: municipio.codigo,
       idDepartamento: departamento
@@ -148,13 +156,13 @@ export class MunicipioComponent implements OnInit {
   createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
-    // const { idDepartamento, ...rest } = this.Form.value;
+    const { idMunicipio, pais, ...rest } = this.Form.value;
 
-    // if (idDepartamento) {
-    //   return console.log(this.Form.value);
-    // }
+    if (idMunicipio) {
+      return this.updateMunicipality(idMunicipio, rest);
+    }
 
-    this.createMunicipality(this.Form.value);
+    this.createMunicipality(rest);
   }
 
   deleteItem() {
