@@ -113,14 +113,25 @@ export class DireccionComponent implements OnInit {
   initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
+      idDireccion : [''],
       direccion   : ['', [Validators.required, Validators.maxLength(250)]],
-      idMunicipio : ['', Validators.required]
+      idMunicipio : ['', Validators.required],
     })
   }
 
-  setForm(municipio: DireccionRelacionesAnidadas) {
+  setForm(direccion: DireccionRelacionesAnidadas) {
 
-    this.idItem = municipio.idDireccion;
+    let idMuncipio = null;
+    
+    (direccion.Municipio?.idMunicipio) ? idMuncipio = direccion.Municipio.idMunicipio : idMuncipio = 0;
+
+    this.Form.setValue({
+      idDireccion: direccion.idDireccion,
+      direccion: direccion.direccion,
+      idMunicipio: idMuncipio
+    })
+
+    this.idItem = direccion.idDireccion;
   }
 
   openModal(direccion?: DireccionRelacionesAnidadas) {
@@ -154,4 +165,7 @@ export class DireccionComponent implements OnInit {
     })
   }
 
+  get f() {
+    return this.Form;
+  }
 }
