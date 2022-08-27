@@ -40,8 +40,6 @@ export class DireccionComponent implements OnInit {
     this.direccionService.getAllWithRelations()
       .subscribe(addresses => {
         this.direcciones = addresses;
-        console.log(this.direcciones);
-        
         this.loading = false;
       });
   }
