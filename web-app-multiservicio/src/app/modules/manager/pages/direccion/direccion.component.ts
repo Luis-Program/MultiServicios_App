@@ -40,8 +40,6 @@ export class DireccionComponent implements OnInit {
     this.municipioService.getAll()
       .subscribe(municipalities => {
         this.municipios = municipalities;
-        console.log(this.municipios);
-        
         this.loading = false;
       });
   }

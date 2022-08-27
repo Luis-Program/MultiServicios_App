@@ -17,6 +17,7 @@ export class NavSideBarComponent implements OnInit {
   private idPersona: string | null = null;
   protected rol: string | null = null;
   protected loading = false;
+  protected amountNotifications = 0;
 
   constructor(
     private router: Router,
@@ -44,6 +45,11 @@ export class NavSideBarComponent implements OnInit {
     this.notificacionService.getAll(idPersona)
       .subscribe(notifications => {
         this.notificaciones = notifications;
+        for (const noti of this.notificaciones) {
+          if (!noti.visto) {
+            this.amountNotifications += 1;
+          }
+        }
         this.loading = false;
       });
   }
@@ -142,6 +148,7 @@ export class NavSideBarComponent implements OnInit {
         .subscribe(done => {
           if (done) {
             this.notificaciones = done;
+            this.amountNotifications = 0;
           }
         });
     }
@@ -155,6 +162,7 @@ export class NavSideBarComponent implements OnInit {
             const notificationIndex = this.notificaciones.findIndex(
               (res) => res.idNotificacion === idNotificacion);
             this.notificaciones[notificationIndex] = notification;
+            this.amountNotifications--;
           }
         });
     }
@@ -166,6 +174,7 @@ export class NavSideBarComponent implements OnInit {
         .subscribe(done => {
           if (done) {
             this.notificaciones = [];
+            this.amountNotifications = 0;
           }
         });
     }
@@ -177,7 +186,11 @@ export class NavSideBarComponent implements OnInit {
         if (resp) {
           const notificationIndex = this.notificaciones.findIndex(
             (res) => res.idNotificacion === idNotificacion);
+            if (!this.notificaciones[notificationIndex].visto) {
+              this.amountNotifications--;
+            }
           this.notificaciones.splice(notificationIndex, 1);
+
         }
       });
   }
