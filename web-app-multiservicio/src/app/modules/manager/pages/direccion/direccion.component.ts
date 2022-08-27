@@ -86,6 +86,12 @@ export class DireccionComponent implements OnInit {
             (res) => res.idDireccion === idDireccion);
           this.direcciones[addressIndex] = res;
           // Success
+          Swal.fire({
+            icon  : 'success',
+            title : 'Actualizado',
+            text  : 'Dirección actualizada'
+          })
+          this.getAllAddressesWithRelations();
         }
         this.loading = false;
       });
@@ -153,7 +159,13 @@ export class DireccionComponent implements OnInit {
   createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());    
 
-    this.createAddress(this.Form.value)
+    const { idDireccion, departamento, pais, ...rest } = this.Form.value;
+
+    if (idDireccion) {
+      return this.updateAddress(idDireccion, rest);
+    }
+
+    this.createAddress(rest);
   }
 
   deleteItem() {
