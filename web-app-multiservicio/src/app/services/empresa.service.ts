@@ -25,14 +25,6 @@ export class EmpresaService {
         }));
   }
 
-  public getAllWithRelations() {
-    return this.http.get<EmpresaRelaciones[]>(this.apiUrl)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          return manageError(error, this.router);
-        }));
-  }
-
   public getOne(idEmpresa: number | string) {
     return this.http.get<Empresa>(`${this.apiUrl}/${idEmpresa}`)
       .pipe(

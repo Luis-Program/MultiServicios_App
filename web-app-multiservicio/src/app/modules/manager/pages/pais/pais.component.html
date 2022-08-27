@@ -7,15 +7,22 @@
   </div>
 </div>
 <!-- /ADD COUNTRY BUTTON -->
-
 <div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <div class="row">
 
+        <!-- INPUT SEARCH -->
+        <div class="row">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+
+        <div class="row mt-3">
           <!-- CARD -->
-          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let pais of paises">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let pais of paises | filterNameCode:filter">
             <div class="card card-outline-info" (click)="openModalByCountry(pais)" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
               <div class="card-header bg-dark">
               </div>

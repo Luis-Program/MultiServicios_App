@@ -10,6 +10,12 @@ export interface Persona {
   dpi: string,
   idTipoPersona: number | null
 }
+
+export interface PersonaDropdown {
+  idPersona:number,
+  nombre: string
+}
+
 // route: /correo/:correo && / API Trabajador
 export interface PersonaRelaciones extends Omit<Persona, 'idTipoPersona'> {
   Tipo_Persona: TipoPersonaRelaciones | null
@@ -23,6 +29,11 @@ export interface PersonaUna extends Omit<Persona, 'idTipoPersona'> {
 
 export interface Trabajadores extends Persona {
   cantidad: number
+}
+
+export interface TrabajadoresDropDown {
+  idPersona: number,
+  nombre: string
 }
 
 export interface TrabajadoresMinMaxServicios {

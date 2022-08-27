@@ -42,6 +42,19 @@ router.get('/relaciones',
     }
   });
 
+router.get('/dropdown',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const tipos_personas = await service.findAllDropdown();
+      res.json(tipos_personas);
+    } catch (error) {
+      next(error);
+    }
+  });
+
 router.get('/:idTipoPersona',
   passport.authenticate('oauth-bearer', {
     session: false

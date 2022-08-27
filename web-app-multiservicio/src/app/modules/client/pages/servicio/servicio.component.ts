@@ -14,19 +14,21 @@ import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 })
 export class ServicioComponent implements OnInit {
 
-  protected servicio: ServicioRelaciones | null = null;
-  protected servicios: ServicioRelaciones[] = [];
   protected serviciosPendientes: ServicioRelaciones[] = [];
   protected serviciosCompletados: ServicioRelaciones[] = [];
+  protected servicio: ServicioRelaciones | null = null;
+  protected servicios: ServicioRelaciones[] = [];
   protected tiposServicios: TipoServicio[] = [];
   protected idServicio: string | null = null;
   protected idPersona: string | null = null;
   protected showServicesByEquipment = false;
   protected idEquipo: string | null = null;
+  protected equipo: EquipoCliente | null = null;
   protected equipos: EquipoCliente[] = [];
-  protected oneService = false;
   protected showEquipments = false;
+  protected oneService = false;
   protected loading = false;
+  protected filter = "";
 
   constructor(
     private servicioService: ServicioService,
@@ -57,6 +59,7 @@ export class ServicioComponent implements OnInit {
 
   protected getAllEquipment(idPersona: string) {
     this.loading = true;
+    this.equipo = null;
     this.equipoService.getAllByIdPersona(idPersona)
       .subscribe(equipments => {
         this.equipos = equipments;
@@ -65,8 +68,9 @@ export class ServicioComponent implements OnInit {
       });
   }
 
-  protected getAllServicesWithRelations(idEquipo: string | number) {
+  protected getAllServicesWithRelations(idEquipo: string) {
     this.loading = true;
+    this.equipo = this.equipos.find(equipo => equipo.idEquipo = Number(idEquipo)) as EquipoCliente;
     this.servicioService.getAllByIdEquipo(idEquipo)
       .subscribe(services => {
         this.servicios = services;

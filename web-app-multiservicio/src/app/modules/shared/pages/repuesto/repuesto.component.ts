@@ -17,6 +17,7 @@ export class RepuestoComponent implements OnInit {
   protected rol: string | null = null;
   protected idRepuesto: number | null = null;
   protected loading = false;
+  protected filter = "";
 
   constructor(
     private tipoRepuestoService: TipoRepuestoService,

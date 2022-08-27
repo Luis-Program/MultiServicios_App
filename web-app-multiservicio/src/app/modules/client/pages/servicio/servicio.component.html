@@ -2,7 +2,11 @@
 <h3 *ngIf="loading">Cargando</h3>
 <h2>Selecciona un equipo para ver sus servicios</h2>
 <div *ngIf="showEquipments">
-<div *ngFor="let equipo of equipos; let i = index">
+  <!-- INPUT SEARCH EQUIPMENT -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+</div>
+<div *ngFor="let equipo of equipos | filterEquipment:filter; let i = index">
   <p>equipo</p>
   <p>idEquipo: {{equipo.idEquipo}}</p>
   <p>numero: {{i+1}}</p>
@@ -16,8 +20,13 @@
 </div>
 
 <div *ngIf="showServicesByEquipment">
+    <!-- INPUT SEARCH SERVICES-->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+</div>
+  <button (click)="this.idPersona ? getAllEquipment(this.idPersona) : ''">Ver todos los equipos</button>
   <h3>Servicio por equipo</h3>
-  <div *ngFor="let service of servicios">
+  <div *ngFor="let service of servicios | filterService:filter">
     <p>Id: {{service.idServicio}}</p>
     <div *ngIf="service.fechaHoraRealizar; else noDate">
       <p>Fecha y hora a realizar: {{service.fechaHoraRealizar}}</p>

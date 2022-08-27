@@ -1,27 +1,8 @@
-<!-- <h1>Departamentos</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div *ngFor="let departamento of departamentos">
-  <h3>Departamento</h3>
-  <p>Id: {{departamento.idDepartamento}}</p>
-  <p>Nombre: {{departamento.nombre}}</p>
-  <p>Código: {{departamento.codigo}}</p>
-  <h3>Pais</h3>
-  <div *ngIf="departamento.Pais; else nullCountry">
-    <p>idPais: {{departamento.Pais.idPais}}</p>
-    <p>Nombre: {{departamento.Pais.nombre}}</p>
-    <p>Código: {{departamento.Pais.codigo}}</p>
-  </div>
-  <ng-template #nullCountry>
-    <p>No ingresado</p>
-  </ng-template>
-  <p>------------------------------------</p>
-</div> -->
-
 <!-- ADD COUNTRY BUTTON -->
 <div class="row page-titles">
   <div>
-    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-      data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByDepartment()">
+    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal"
+      data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByDepartment()">
       <i class="mdi mdi-plus"></i>
     </button>
   </div>
@@ -33,9 +14,17 @@
     <div class="card">
       <div class="card-body">
 
-        <!-- CARDS -->
+        <!-- INPUT SEARCH -->
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let departamento of departamentos">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+
+        <!-- CARDS -->
+        <div class="row mt-3">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let departamento of departamentos | filterNameCode:filter">
             <div class="card card-outline-info" (click)="openModalByDepartment(departamento)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
               <div class="card-header bg-dark">
@@ -62,7 +51,8 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel1">Departamento</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
                 <form [formGroup]="departmentForm">
@@ -80,22 +70,34 @@
                       <option *ngFor="let pais of paises" [value]="pais.idPais">{{ pais.nombre }}</option>
                     </select>
                     <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small>
+
+                    <!-- <ng-multiselect-dropdown
+                    [settings]="dropdownSettings"
+                    [data]="paises"
+                    [placeholder]="'Seleccionar'"
+                    (onSelect)="onItemSelect($event)">
+                    </ng-multiselect-dropdown> -->
+
                   </div>
 
                   <div *ngIf="idCountryValue >= 1">
                     <hr>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Código del país*</label>
-                      <input type="text" class="form-control" id="recipient-name1" formControlName="codeCountry" readonly>
+                      <input type="text" class="form-control" id="recipient-name1" formControlName="codeCountry"
+                        readonly>
                     </div>
                   </div>
 
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newDepartment" (click)="deleteDepartmentModal()">Eliminar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newDepartment" (click)="createDepartmentForm()">Crear</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newDepartment" (click)="createDepartmentForm()">Editar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newDepartment"
+                  (click)="deleteDepartmentModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newDepartment"
+                  (click)="createDepartmentForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newDepartment"
+                  (click)="createDepartmentForm()">Editar</button>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DireccionRelacionesAnidadas } from 'src/app/models/direccion.model';
+import { DireccionDropDown } from 'src/app/models/direccion.model';
 import { EquipoRelacionesAnidadas, EquipoActivoInactivo, UnEquipoServicios, CreateEquipoDTO, UpdateEquipoDTO } from 'src/app/models/equipo.model';
-import { Clientes, Persona } from 'src/app/models/persona.model';
+import { Clientes, PersonaDropdown } from 'src/app/models/persona.model';
 import { DireccionService } from 'src/app/services/direccion.service';
 import { EquipoService } from 'src/app/services/equipo.service';
 import { PersonaService } from 'src/app/services/persona.service';
@@ -15,16 +15,17 @@ export class EquipoComponent implements OnInit {
 
   protected equipoActivosInactivos: EquipoActivoInactivo[] = [];
   protected unEquipoServicio: UnEquipoServicios | null = null;
-  protected direcciones: DireccionRelacionesAnidadas[] = [];
+  protected direcciones: DireccionDropDown[] = [];
   protected equipo: EquipoRelacionesAnidadas | null = null;
   protected equipos: EquipoRelacionesAnidadas[] = [];
   protected clientesEquiposMinMax: Clientes[] = [];
   protected idEquipo: number | null = null;
-  protected clientes: Persona[] = [];
+  protected clientes: PersonaDropdown[] = [];
   protected loadingGraphicEquipmentsInacAct = false; // Carga grafica de equipos inactivo y activos
   protected loadingGraphicOneEquipment = false;  // Carga grafica cuando se selecciona un equipo y mustra sus servicios
   protected loadingGraphicClient = false; // Carga de grafica con menor y mayor cantidad de equipos
   protected loading = false; // Carga principal
+  protected filter = "";
 
   constructor(
     private equipoService: EquipoService,
@@ -41,7 +42,6 @@ export class EquipoComponent implements OnInit {
     if (this.idEquipo) {
       this.getOneEquipment(this.idEquipo);
       // Obtencion del equipo por notificación
-
     }
   }
 
@@ -73,7 +73,7 @@ export class EquipoComponent implements OnInit {
   /**
    * Trae toda la información para editar y crear
    */
-  protected getDataForCreateDelete(){
+  protected getDataForCreateUpdate(){
     this.getAllClients();
   }
 
@@ -94,7 +94,7 @@ export class EquipoComponent implements OnInit {
    * Direcciones
    */
   private getAllDireccions() {
-    this.direccionService.getAllWithRelations()
+    this.direccionService.getAllDropDown()
       .subscribe(directions => {
         this.direcciones = directions;
       });

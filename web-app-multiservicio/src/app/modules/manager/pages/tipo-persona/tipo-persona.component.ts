@@ -15,6 +15,7 @@ export class TipoPersonaComponent implements OnInit {
   protected tiposPersonas: TipoPersonaRelaciones[] = [];
   protected listaTiposPersonas = ['Gerente General','Trabajador Operacional','Cliente'];
   protected empresas: Empresa[] = [];
+  protected filter = "";
   protected loading = false;
 
   constructor(

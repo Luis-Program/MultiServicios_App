@@ -14,9 +14,10 @@ export class TelefonoComponent implements OnInit {
   protected telefonos: TelefonoRelacionTipoTelefono[] = [];
   protected telefono: TelefonoRelacionTipoTelefono | null = null;
   protected tiposTelefonos: TipoTelefono[] = [];
-  protected loading = false;
-  protected rol: string | null = null;
   private idPersona: string | null = null;
+  protected rol: string | null = null;
+  protected loading = false;
+  protected filter = "";
 
   constructor(
     private telefonoService: TelefonoService,

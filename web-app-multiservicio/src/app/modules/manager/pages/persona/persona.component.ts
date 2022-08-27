@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { EmpresaRelaciones } from 'src/app/models/empresa.model';
 import { Clientes, CreatePersonaDTO, PersonaRelaciones, ServiciosFinalizadosPendientes, Trabajadores, TrabajadoresMinMaxServicios, UpdatePersonaDTO } from 'src/app/models/persona.model';
-import { EmpresaService } from 'src/app/services/empresa.service';
+import { TipoPersonaDropDown } from 'src/app/models/tipo_persona.model';
 import { PersonaService } from 'src/app/services/persona.service';
+import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 
 @Component({
   selector: 'app-persona',
@@ -17,8 +17,9 @@ export class PersonaComponent implements OnInit {
   protected trabajadores: Trabajadores[] = [];
   protected cliente: Clientes | null = null;
   protected clientes: Clientes[] = [];
-  protected empresas: EmpresaRelaciones[] = [];
+  protected tiposPersonas: TipoPersonaDropDown[] = [];
   protected tipo = 'all';
+  protected filter = "";
   protected trabajadoresMinMaxServices: TrabajadoresMinMaxServicios[] = [];
   protected trabajadorServicios: ServiciosFinalizadosPendientes | null = null;
   protected loading = false; // Carga principal
@@ -27,7 +28,7 @@ export class PersonaComponent implements OnInit {
 
   constructor(
     private personaService: PersonaService,
-    private empresaService: EmpresaService
+    private tipoPersonaService: TipoPersonaService
   ) { }
 
   ngOnInit(): void {
@@ -93,11 +94,11 @@ export class PersonaComponent implements OnInit {
       });
   }
 
-  protected getAllEnterprisesWithRelations() {
+  protected getAllTypePersons() {
     this.loading = true;
-    this.empresaService.getAllWithRelations()
-      .subscribe(enterprise => {
-        this.empresas = enterprise;
+    this.tipoPersonaService.getAllDropDown()
+      .subscribe(typesPerson => {
+        this.tiposPersonas = typesPerson;
         this.loading = false;
       });
   }

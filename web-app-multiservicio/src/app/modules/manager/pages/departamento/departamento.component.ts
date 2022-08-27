@@ -5,6 +5,7 @@ import { DepartamentoService } from 'src/app/services/departamento.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-departamento',
@@ -16,11 +17,15 @@ export class DepartamentoComponent implements OnInit {
   protected departamento: DepartamentoRelaciones | null = null;
   protected departamentos: DepartamentoRelaciones[] = [];
   protected paises: Pais[] = [];
+  protected pais: Pais | null = null;
   protected loading = false;
+  protected filter = "";
 
   public departmentForm !: FormGroup;
   public newDepartment  !: boolean;
   public idDepartment   !: number;
+
+  protected dropdownSettings: IDropdownSettings = {};
 
   constructor(
     private departamentoService: DepartamentoService,
@@ -28,10 +33,19 @@ export class DepartamentoComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.initForm();
-    this.getAllDepartmentsWithRelations();
     this.getAllCountriesToUpdateDepartment();
+    this.getAllDepartmentsWithRelations();
+
+    this.dropdownSettings  = {
+      idField: 'idPais',
+      textField: 'nombre',
+      allowSearchFilter: true,
+      limitSelection: 1,
+      clearSearchFilter: true,
+      noDataAvailablePlaceholderText: 'Sin datos'
+    };
   }
 
   protected getAllCountriesToUpdateDepartment() {
@@ -39,7 +53,7 @@ export class DepartamentoComponent implements OnInit {
     this.paisService.getAll()
     .subscribe(countries => {
       this.paises = countries;
-        this.loading = false;
+      this.loading = false;
       });
   }
 
@@ -150,13 +164,13 @@ export class DepartamentoComponent implements OnInit {
   }
 
   /**
-   * 
+   *
    * @param department - <DepartamentoRelaciones> Department to update/delete
    */
   openModalByDepartment(department?: DepartamentoRelaciones) {
     this.initForm();
     this.listenCountry();
-    
+
     if (department) {
       this.newDepartment = false;
       return this.setDepartmentForm(department);
@@ -189,7 +203,7 @@ export class DepartamentoComponent implements OnInit {
       if (res.isConfirmed) {
         this.deleteDepartment(this.idDepartment);
       }
-      
+
     })
   }
 
@@ -217,5 +231,9 @@ export class DepartamentoComponent implements OnInit {
       }
 
     })
+  }
+
+  protected onItemSelect(item: any) {
+    console.log("idPais: "+item.idPais);
   }
 }

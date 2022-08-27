@@ -11,6 +11,7 @@ export class TipoRepuestoComponent implements OnInit {
 
   protected tipoRepuesto: TipoRepuesto | null = null;
   protected tipoRepuestos: TipoRepuesto[] = [];
+  protected filter = "";
   protected loading = false;
 
   constructor(

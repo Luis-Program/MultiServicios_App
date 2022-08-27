@@ -1,5 +1,9 @@
 <h1>Equipos Cliente</h1>
 <h3 *ngIf="loadingMain">Cargando</h3>
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+</div>
 <h3 *ngIf="loadingGraphic1">Cargando gráfica 1 </h3>
 <div *ngIf="cantidadServiciosFinPen">
   <h3>Gráfica de servicios finalizados y pendientes</h3>
@@ -40,7 +44,7 @@
   <p>Id Persona: {{equiposMaxMin.equipmentMin.idPersona}}</p>
   <h5>Cantidad: {{equiposMaxMin.equipmentMin.cantidad}}</h5>
 </div>
-<div *ngFor="let equipo of equipos;let indice=index">
+<div *ngFor="let equipo of equipos | filterEquipment:filter; let indice=index">
   <h3>Equipo</h3>
   <p>Indice: {{++indice}}</p>
   <p>Id: {{equipo.idEquipo}}</p>

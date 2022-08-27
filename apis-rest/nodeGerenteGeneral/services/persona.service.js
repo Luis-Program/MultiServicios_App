@@ -79,8 +79,24 @@ class PersonaService {
     return trabajadores;
   }
 
+  async findAllWorkersDropDown() {
+    const trabajadores = await models.Persona.sequelize.query(`SELECT p.idPersona, CONCAT(p.nombre," ",p.apellidos,". Trabajos: ",COUNT(s.idTrabajador)) as nombre FROM (MultiServicios.Persona p
+      INNER JOIN MultiServicios.Tipo_Persona t ON p.idTipoPersona = t.idTipoPersona) LEFT JOIN MultiServicios.Servicio s ON p.idPersona = s.idTrabajador
+      WHERE t.tipo = 'Trabajador Operacional' GROUP BY p.idPersona`, {
+      type: QueryTypes.SELECT
+    });
+    return trabajadores;
+  }
+
+  async findAllPersonDropdown() {
+    const clientes = await models.Persona.sequelize.query(`SELECT idPersona, CONCAT(nombre," ",apellidos) AS 	nombre FROM MultiServicios.Persona`, {
+      type: QueryTypes.SELECT
+    });
+    return clientes;
+  }
+
   async findAllClients() {
-    const clientes = await models.Persona.sequelize.query(`SELECT p.* FROM MultiServicios.Persona p
+    const clientes = await models.Persona.sequelize.query(`SELECT p.idPersona, CONCAT(p.nombre," ",p.apellidos) AS 	nombre FROM MultiServicios.Persona p
     INNER JOIN MultiServicios.Tipo_Persona t ON p.idTipoPersona = t.idTipoPersona
     WHERE t.tipo = 'Cliente'`, {
       type: QueryTypes.SELECT
@@ -91,7 +107,7 @@ class PersonaService {
   async findAllWorkersWithServicesCount() {
     const trabajadores = await models.Persona.sequelize.query(`SELECT p.*, COUNT(s.idTrabajador) AS 'cantidad' FROM (MultiServicios.Persona p
       INNER JOIN MultiServicios.Tipo_Persona t ON p.idTipoPersona = t.idTipoPersona) LEFT JOIN MultiServicios.Servicio s ON p.idPersona = s.idTrabajador
-      WHERE t.tipo = 'Trabajador de Operaciones' GROUP BY p.idPersona`, {
+      WHERE t.tipo = 'Trabajador Operacional' GROUP BY p.idPersona`, {
       type: QueryTypes.SELECT
     });
     return trabajadores;

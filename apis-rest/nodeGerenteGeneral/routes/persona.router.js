@@ -31,19 +31,37 @@ router.get('/correo/:correo',
   }
 );
 
-// router.get('/trabajadores',
-//   passport.authenticate('oauth-bearer', {
-//     session: false
-//   }),
-//   async (req, res, next) => {
-//     try {
-//       const trabajadores = await service.findAllWorkers();
-//       res.json(trabajadores);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+router.get('/workersdropdown',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const trabajadores = await service.findAllWorkersDropDown();
+      res.json(trabajadores);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
+/***
+ * Obtiene todos las personas para el dropdown telefono
+ */
+router.get('/dropdown',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const personas = await service.findAllPersonDropdown();
+      res.json(personas);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 /***
  * Obtiene los trabajadores con la cantidad de servicios

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Persona } from 'src/app/models/persona.model';
+import { PersonaDropdown } from 'src/app/models/persona.model';
 import { CreateTelefonoDTO, TelefonoRelaciones, UpdateTelefonoDTO } from 'src/app/models/telefono.model';
 import { TipoTelefono } from 'src/app/models/tipo_telefono.model';
 import { PersonaService } from 'src/app/services/persona.service';
@@ -16,9 +16,10 @@ export class TelefonoComponent implements OnInit {
   protected telefonos: TelefonoRelaciones[] = [];
   protected telefono: TelefonoRelaciones | null = null;
   protected tiposTelefonos: TipoTelefono[] = [];
-  protected personas: Persona[] = [];
+  protected personas: PersonaDropdown[] = [];
   protected loading = false;
-  
+  protected filter = "";
+
   constructor(
     private telefonoService: TelefonoService,
     private personaService: PersonaService,
@@ -40,7 +41,7 @@ export class TelefonoComponent implements OnInit {
 
   protected getAllPersonsAndPhonesTypes() {
     this.loading = true;
-    this.personaService.getAll()
+    this.personaService.getAllDropDown()
       .subscribe(persons => {
         this.personas = persons;
       });

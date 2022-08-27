@@ -1,5 +1,9 @@
 <h1>Servicios</h1>
 <h3 *ngIf="loading">Cargando</h3>
+<!-- INPUT SEARCH -->
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+</div>
 <div *ngIf="servicioCantidades">
   <h1>Gráficas</h1>
   <h1>Asignados, completados, etc</h1>
@@ -19,7 +23,7 @@
   <p>Cantidad: {{servicioPorTipo.correctivo}}</p>
 </div>
 <br>
-<div *ngFor="let service of servicios">
+<div *ngFor="let service of servicios | filterService:filter ">
   <h3>Servicio</h3>
   <p>Id: {{service.idServicio}}</p>
   <div *ngIf="service.fechaHoraRealizar; else noDate">

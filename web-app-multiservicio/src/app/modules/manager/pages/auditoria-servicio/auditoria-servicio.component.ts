@@ -12,6 +12,7 @@ export class AuditoriaServicioComponent implements OnInit {
   protected auditoriaServicio: Auditoria_servicio | null = null;
   protected auditoriaServicios: Auditoria_servicio[] = [];
   protected loading = false;
+  protected filter = "";
 
   constructor(
     private auditoriaServicioService: AuditoriaServicioService

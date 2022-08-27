@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Equipo } from 'src/app/models/equipo.model';
-import { Trabajadores } from 'src/app/models/persona.model';
+import { EquipoDropDown } from 'src/app/models/equipo.model';
+import { Trabajadores, TrabajadoresDropDown } from 'src/app/models/persona.model';
 import { CreateServicioDTO, ServicioRelaciones, ServiciosCantidadCompAsigSinAsignar, ServiciosCantidadPorTipoServicio, UpdateServicioDTO } from 'src/app/models/servicio.model';
 import { TipoServicio } from 'src/app/models/tipo_servicio.model';
 import { EquipoService } from 'src/app/services/equipo.service';
@@ -22,10 +22,11 @@ export class ServicioComponent implements OnInit {
   protected servicioCantidades: ServiciosCantidadCompAsigSinAsignar | null = null;
   protected servicioPorTipo: ServiciosCantidadPorTipoServicio | null = null;
   protected tiposServicios: TipoServicio[] = [];
-  protected trabajadores: Trabajadores[] = [];
+  protected trabajadores: TrabajadoresDropDown[] = [];
   protected idServicio: number | null = null;
   protected accion: string | null = null;
-  protected equipos: Equipo[] = [];
+  protected equipos: EquipoDropDown[] = [];
+  protected filter = "";
   protected loading = false; // Carga principal
   protected loadingGraphicAsig = false; // Carga grafico de cantidad de servicios asignados y no asignados
   protected loadingGraphicCom = false; // Carga grafico de cantidad de servicios pendientes y finalizados
@@ -127,14 +128,14 @@ export class ServicioComponent implements OnInit {
   }
 
   private getAllEquipment() {
-    this.equipoService.getAll()
+    this.equipoService.getAllDropDown()
       .subscribe(equipments => {
         this.equipos = equipments;
       });
   }
 
   protected getAllWorkers() {
-    this.personaService.getAllWorkersWithServices()
+    this.personaService.getAllWorkersWithServicesDropDown()
       .subscribe(workers => {
         this.trabajadores = workers;
         this.loading = true;

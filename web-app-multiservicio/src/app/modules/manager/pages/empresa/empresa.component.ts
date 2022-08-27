@@ -14,6 +14,7 @@ export class EmpresaComponent implements OnInit {
   protected maxMinClient: MinMaxEmpresa[] = [];
   protected loading = false; // Carga principal
   protected loadingGraphic = false; // Carga del grafico
+  protected filter = "";
 
   constructor(
     private empresaService: EmpresaService
