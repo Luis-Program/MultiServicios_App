@@ -67,6 +67,11 @@ export class DireccionComponent implements OnInit {
         if (address) {
           // Success
           this.direcciones.push(address);
+          Swal.fire({
+            icon  : 'success',
+            title : 'Creado',
+            text  : 'Dirección creada'
+          })
         }
         this.loading = false;
       });
@@ -108,7 +113,7 @@ export class DireccionComponent implements OnInit {
   initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
-      Direccion   : ['', [Validators.required, Validators.maxLength(250)]],
+      direccion   : ['', [Validators.required, Validators.maxLength(250)]],
       idMunicipio : ['', Validators.required]
     })
   }
@@ -128,10 +133,7 @@ export class DireccionComponent implements OnInit {
   }
 
   createItem() {
-    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
-
-    console.log(this.Form.value);
-    
+    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());    
 
     this.createAddress(this.Form.value)
   }
