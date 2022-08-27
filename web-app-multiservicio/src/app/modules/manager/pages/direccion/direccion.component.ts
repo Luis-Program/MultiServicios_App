@@ -121,9 +121,14 @@ export class DireccionComponent implements OnInit {
 
   setForm(direccion: DireccionRelacionesAnidadas) {
 
-    let idMuncipio = null;
-    
+    let idMuncipio = null;    
     (direccion.Municipio?.idMunicipio) ? idMuncipio = direccion.Municipio.idMunicipio : idMuncipio = 0;
+
+    let nombreDepartamento = '';
+    (direccion.Municipio?.Departamento?.nombre) ? nombreDepartamento = direccion.Municipio?.Departamento?.nombre : nombreDepartamento = 'No ingresado'
+
+    let nombrePais = '';
+    (direccion.Municipio?.Departamento?.Pais?.nombre) ? nombrePais = direccion.Municipio?.Departamento?.Pais?.nombre : nombrePais = 'No ingresado'
 
     this.Form.setValue({
       idDireccion: direccion.idDireccion,
@@ -131,6 +136,8 @@ export class DireccionComponent implements OnInit {
       idMunicipio: idMuncipio
     })
 
+    this.Form.addControl('departamento', this.fb.control(nombreDepartamento));
+    this.Form.addControl('pais', this.fb.control(nombrePais));
     this.idItem = direccion.idDireccion;
   }
 
@@ -167,5 +174,9 @@ export class DireccionComponent implements OnInit {
 
   get f() {
     return this.Form;
+  }
+
+  get idMunicipio() {
+    return this.Form.get('idMunicipio')?.value;
   }
 }
