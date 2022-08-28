@@ -3,6 +3,8 @@ import { Empresa } from 'src/app/models/empresa.model';
 import { CreateTipoPersonaDTO, TipoPersonaRelaciones, UpdateTipoPersonaDTO } from 'src/app/models/tipo_persona.model';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tipo-persona',
@@ -17,13 +19,20 @@ export class TipoPersonaComponent implements OnInit {
   protected filter = "";
   protected loading = false;
 
+  public Form     !: FormGroup;
+  public newItem  !: boolean;
+  public idItem   !: number;
+
   constructor(
     private tipoPersonaService: TipoPersonaService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.getAllTypesPersonsWithRelations();
+    this.getAllEnterprises();
+    this.initForm();
   }
 
   private getAllTypesPersonsWithRelations() {
@@ -42,6 +51,8 @@ export class TipoPersonaComponent implements OnInit {
     this.empresaService.getAll()
       .subscribe(enterpises => {
         this.empresas = enterpises;
+        console.log(this.empresas);
+        
         this.loading = false;
       });
   }
@@ -53,6 +64,11 @@ export class TipoPersonaComponent implements OnInit {
         if (typePerson) {
           this.clearInput();
           this.tiposPersonas.push(typePerson);
+          Swal.fire({
+            icon  : 'success',
+            title : 'Creado',
+            text  : 'Rol creado'  
+          })
         }
         this.loading = false;
       });
@@ -92,5 +108,31 @@ export class TipoPersonaComponent implements OnInit {
 
   showCompanyName(name: string): string {
     return (name) ? name : 'No ingresado';
+  }
+
+  initForm() {
+    this.newItem = true;
+    this.Form = this.fb.group({
+      idTipo    : [''],
+      tipo      : ['', Validators.required],
+      idEmpresa : ['', Validators.required]
+    })
+  }
+
+  openModal(rol?: TipoPersonaRelaciones) {
+    this.initForm();
+
+    if (rol) {
+      this.newItem = false;
+      return console.log(rol);
+    }
+  }
+
+  createItem() {
+    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
+
+    const { idTipo, ...rest } = this.Form.value;
+
+    this.createTypePerson(rest);
   }
 }
