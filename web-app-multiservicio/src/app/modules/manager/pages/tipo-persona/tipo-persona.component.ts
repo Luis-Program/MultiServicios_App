@@ -63,7 +63,7 @@ export class TipoPersonaComponent implements OnInit {
           Swal.fire({
             icon  : 'success',
             title : 'Creado',
-            text  : 'Rol creado'  
+            text  : 'Rol creado'
           })
         }
         this.loading = false;
@@ -136,7 +136,7 @@ export class TipoPersonaComponent implements OnInit {
       idTipo    : rol.idTipoPersona,
       tipo      : rol.tipo,
       idEmpresa : idEmpresa
-    })    
+    })
 
     this.idItem = rol.idTipoPersona;
   }
@@ -170,7 +170,7 @@ export class TipoPersonaComponent implements OnInit {
       showConfirmButton : true,
       showCancelButton  : true
     }).then((res: any) => {
-      
+
       if (res.isConfirmed) {
         this.deleteTypePerson(this.idItem);
       }

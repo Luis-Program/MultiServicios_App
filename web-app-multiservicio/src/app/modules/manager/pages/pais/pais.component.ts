@@ -71,13 +71,12 @@ export class PaisComponent implements OnInit {
           const countryIndex = this.paises.findIndex(
             (res) => res.idPais === idPais);
           this.paises[countryIndex] = res;
-          this.clearInput();
           Swal.fire({
             title: "Actualizado",
             text: "País actualizado",
             icon: 'success'
           })
-
+          this.clearInput();
         }
         this.loading = false;
       });
