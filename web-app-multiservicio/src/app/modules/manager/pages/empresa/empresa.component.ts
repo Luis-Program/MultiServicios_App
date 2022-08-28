@@ -55,6 +55,8 @@ export class EmpresaComponent implements OnInit {
     this.empresaService.getMinMaxClients()
       .subscribe(data => {
         this.maxMinClient = data;
+        console.log(this.maxMinClient);
+        
         this.loadingGraphic = false;
       });
   }
@@ -172,5 +174,39 @@ export class EmpresaComponent implements OnInit {
       }
 
     })
+  }
+
+  single: any[] = [
+    {
+      "name": "Germany",
+      "value": 8940000
+    },
+    {
+      "name": "USA",
+      "value": 5000000
+    },
+    {
+      "name": "France",
+      "value": 7200000
+    }
+  ];
+  multi !: any[];
+
+  view: [number, number] = [700, 400];
+
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = true;
+  showLegend = false;
+  showXAxisLabel = true;
+  xAxisLabel = 'Country';
+  showYAxisLabel = true;
+  yAxisLabel = 'Population';
+
+  colorScheme = 'vivid'
+
+  onSelect(event: any) {
+    console.log(event);
   }
 }
