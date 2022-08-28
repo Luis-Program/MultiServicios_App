@@ -38,7 +38,7 @@ export class RepuestoService {
         }));
   }
 
-  public getOne(idRepuesto: number | string) {
+  public getOne(idRepuesto: number) {
     this.getAPI();
     return this.http.get<RepuestoRelaciones>(`${this.apiUrl}/${idRepuesto}`)
       .pipe(

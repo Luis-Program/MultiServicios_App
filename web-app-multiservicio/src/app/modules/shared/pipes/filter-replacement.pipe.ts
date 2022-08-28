@@ -5,9 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterReplacementPipe implements PipeTransform {
 
-  transform(value: any, arg: any) {
+  transform(value: any, arg: string) {
     const rol = localStorage.getItem("rol");
     const resultFilter = [];
+    arg = arg.trim();
     for (const object of value) {
       if (rol && rol === "Gerente General") {
         if (object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1

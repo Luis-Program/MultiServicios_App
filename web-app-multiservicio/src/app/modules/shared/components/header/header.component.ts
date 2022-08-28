@@ -80,7 +80,7 @@ export class HeaderComponent implements OnInit {
     this.notificacionService.getAll(idPersona)
       .subscribe(notifications => {
         this.notificaciones = notifications;
-        
+
         this.loading = false;
       });
   }
@@ -120,7 +120,6 @@ export class HeaderComponent implements OnInit {
         case 4:
           localStorage.setItem('idNoti', String(notification.notificacionId));
           this.router.navigate(['gerente-general/servicio']);
-          localStorage.setItem('servicio', 'update');
           break;
         // Activación de Equipo
         case 6:
@@ -234,7 +233,7 @@ export class HeaderComponent implements OnInit {
 
   toggleNavbar() {
     (this.toggleState) ? this.toggleState = false : this.toggleState = true;
-  
+
     return this.isToggle.emit(this.toggleState);
   }
 }
