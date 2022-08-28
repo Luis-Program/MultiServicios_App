@@ -31,6 +31,7 @@ export class EmpresaComponent implements OnInit {
   public yAxisLabel     : string  = 'Estadísticas de empresas';
   public colorScheme    : string  = 'vivid';
   public legendTitle    : string  = 'Empresas';
+  public single         !: any[];
 
   constructor(
     private empresaService: EmpresaService,
@@ -63,8 +64,13 @@ export class EmpresaComponent implements OnInit {
     // Becomes the max first then min
     this.loadingGraphic = true;
     this.empresaService.getMinMaxClients()
-      .subscribe(data => {
-        this.maxMinClient = data;
+      .subscribe((data: MinMaxEmpresa[]) => {
+        this.single = data.map(c => {
+          return {
+            name  : c.empresa,
+            value : c.cantidad
+          }
+        })
         console.log(this.maxMinClient);
         
         this.loadingGraphic = false;
@@ -185,15 +191,4 @@ export class EmpresaComponent implements OnInit {
 
     })
   }
-
-  single: any[] = [
-    {
-      "name": "Germany",
-      "value": 8940000
-    },
-    {
-      "name": "USA",
-      "value": 5000000
-    }
-  ];
 }
