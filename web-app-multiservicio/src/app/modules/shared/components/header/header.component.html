@@ -65,7 +65,7 @@
                             <li>
                                 <div class="message-center">
                                     <!-- Message -->
-                                    <a *ngFor="let n of notificaciones" (click)="showNotificationDetail(n)">
+                                    <a *ngFor="let n of notificaciones" (click)="goByNotification(n)">
                                         <div class="user-img"> 
                                             <i class="mdi mdi-bell-ring ml-4"></i> 
                                             <span *ngIf="n.visto" class="profile-status online pull-right"></span> 
