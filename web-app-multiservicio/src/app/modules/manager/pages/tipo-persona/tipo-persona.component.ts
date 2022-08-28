@@ -79,6 +79,12 @@ export class TipoPersonaComponent implements OnInit {
             (res) => res.idTipoPersona === idTipoPersona);
           this.tiposPersonas[typePersonIndex] = res;
           this.clearInput();
+          Swal.fire({
+            icon  : 'success',
+            title : 'Actualizado',
+            text  : 'Rol actualizado'
+          })
+          // this.getAllTypesPersonsWithRelations();
         }
         this.loading = false;
       });
@@ -149,6 +155,10 @@ export class TipoPersonaComponent implements OnInit {
 
     const { idTipo, ...rest } = this.Form.value;
 
+    if (idTipo) {
+      return this.updateTypePerson(idTipo, rest);
+    }
+
     this.createTypePerson(rest);
   }
 
@@ -166,5 +176,9 @@ export class TipoPersonaComponent implements OnInit {
       }
 
     })
+  }
+
+  get idEmpresaValue() {
+    return this.Form.get('idEmpresa')?.value;
   }
 }
