@@ -86,13 +86,12 @@ export class TipoTelefonoComponent implements OnInit {
             title: 'Eliminado',
             text: 'Tipo Teléfono eliminado',
             icon: 'success'
-          })
+          });
           this.clearInput();
         }
         this.loading = false;
       });
   }
-
 
   protected openModalByTypePhone(typePhone?: TipoTelefono) {
     this.initForm();

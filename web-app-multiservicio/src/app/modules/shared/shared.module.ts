@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FilterReplacementPipe } from './pipes/filter-replacement.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterServicePipe } from './pipes/filter-service.pipe';
 import { FilterEquipmentPipe } from './pipes/filter-equipment.pipe';
 import { FilterPhonePipe } from './pipes/filter-phone.pipe';
@@ -34,6 +34,7 @@ import { FilterPhonePipe } from './pipes/filter-phone.pipe';
     CommonModule,
     RouterModule,
     HttpClientModule,
+    ReactiveFormsModule,
     FormsModule
   ],
   exports: [
