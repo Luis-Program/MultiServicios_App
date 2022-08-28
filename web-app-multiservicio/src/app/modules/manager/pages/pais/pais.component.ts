@@ -51,12 +51,12 @@ export class PaisComponent implements OnInit {
     this.paisService.create(pais)
       .subscribe(country => {
         if (country) {
-          // Success
+          this.clearInput();
           this.paises.push(country);
           Swal.fire({
-            title : 'Creado',
-            text  : 'País creado',
-            icon  : 'success'
+            title: 'Creado',
+            text: 'País creado',
+            icon: 'success'
           })
         }
         this.loading = false;
@@ -71,12 +71,12 @@ export class PaisComponent implements OnInit {
           const countryIndex = this.paises.findIndex(
             (res) => res.idPais === idPais);
           this.paises[countryIndex] = res;
-
-            Swal.fire({
-              title : "Actualizado",
-              text  : "País actualizado",
-              icon  : 'success'
-            })
+          this.clearInput();
+          Swal.fire({
+            title: "Actualizado",
+            text: "País actualizado",
+            icon: 'success'
+          })
 
         }
         this.loading = false;
@@ -91,11 +91,11 @@ export class PaisComponent implements OnInit {
           const countryIndex = this.paises.findIndex(
             (res) => res.idPais === idPais);
           this.paises.splice(countryIndex, 1);
-          // Success
+          this.clearInput();
           Swal.fire({
-            title : 'Eliminado',
-            text  : 'País eliminado',
-            icon  : 'success'
+            title: 'Eliminado',
+            text: 'País eliminado',
+            icon: 'success'
           })
         }
         this.loading = false;
@@ -145,9 +145,9 @@ export class PaisComponent implements OnInit {
 
   deleteCountryModal() {
     Swal.fire({
-      title : '¡Atención!',
-      text  : '¿Está seguro de eliminar el país?',
-      icon  : 'warning',
+      title: '¡Atención!',
+      text: '¿Está seguro de eliminar el país?',
+      icon: 'warning',
       showConfirmButton: true,
       showCancelButton: true
     }).then((res: any) => {
@@ -175,4 +175,9 @@ export class PaisComponent implements OnInit {
   get codeControl() {
     return this.countryForm.get('codigo');
   }
+
+  private clearInput() {
+    this.filter = "";
+  }
+
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EquipoDropDown } from 'src/app/models/equipo.model';
-import { Trabajadores, TrabajadoresDropDown } from 'src/app/models/persona.model';
+import { TrabajadoresDropDown } from 'src/app/models/persona.model';
 import { CreateServicioDTO, ServicioRelaciones, ServiciosCantidadCompAsigSinAsignar, ServiciosCantidadPorTipoServicio, UpdateServicioDTO } from 'src/app/models/servicio.model';
 import { TipoServicio } from 'src/app/models/tipo_servicio.model';
 import { EquipoService } from 'src/app/services/equipo.service';
@@ -15,22 +15,20 @@ import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 })
 export class ServicioComponent implements OnInit {
 
-  protected servicio: ServicioRelaciones | null = null;
-  protected servicios: ServicioRelaciones[] = [];
-  protected serviciosPendientes: ServicioRelaciones[] = [];
-  protected serviciosCompletados: ServicioRelaciones[] = [];
   protected servicioCantidades: ServiciosCantidadCompAsigSinAsignar | null = null;
   protected servicioPorTipo: ServiciosCantidadPorTipoServicio | null = null;
-  protected tiposServicios: TipoServicio[] = [];
+  protected serviciosCompletados: ServicioRelaciones[] = [];
+  protected serviciosPendientes: ServicioRelaciones[] = [];
   protected trabajadores: TrabajadoresDropDown[] = [];
+  protected servicios: ServicioRelaciones[] = [];
+  protected tiposServicios: TipoServicio[] = [];
   protected idServicio: number | null = null;
-  protected accion: string | null = null;
   protected equipos: EquipoDropDown[] = [];
-  protected filter = "";
-  protected loading = false; // Carga principal
   protected loadingGraphicAsig = false; // Carga grafico de cantidad de servicios asignados y no asignados
-  protected loadingGraphicCom = false; // Carga grafico de cantidad de servicios pendientes y finalizados
   protected loadingGraphicType = false; // Carga de grafico por tipo de servicios
+  protected loadingGraphicCom = false; // Carga grafico de cantidad de servicios pendientes y finalizados
+  protected loading = false; // Carga principal
+  protected filter = "";
 
   constructor(
     private servicioService: ServicioService,
@@ -40,19 +38,12 @@ export class ServicioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.idServicio = Number(localStorage.getItem('idNoti'));
-    this.accion = localStorage.getItem('servicio');
+    const id = localStorage.getItem('idNoti');
+    this.idServicio = Number(id);
     localStorage.removeItem('idNoti');
-    localStorage.removeItem('servicio');
     this.getAllData();
     if (this.idServicio) {
-      if (this.accion === 'update') {
-        this.getOneService(this.idServicio);
-        // Obtencion por notificacion editar el servicio
-      } else {
-        this.getOneService(this.idServicio);
-        // Obtencion por notificacion ver el servicio
-      }
+      this.getOneService(this.idServicio);
     }
   }
 
@@ -143,10 +134,10 @@ export class ServicioComponent implements OnInit {
   }
 
   protected getOneService(idServicio: number) {
-    this.servicio = this.servicios.find(service => service.idServicio = idServicio) as ServicioRelaciones;
-    if (this.servicio) {
-      // show content
-    }
+    this.servicioService.getOne(idServicio)
+      .subscribe(service => {
+        this.filter = String(service.fechaCreado).replace("T", " ").substring(0,18);
+      });
   }
 
   protected createService(dto: CreateServicioDTO) {
@@ -155,11 +146,9 @@ export class ServicioComponent implements OnInit {
     this.servicioService.create(dto)
       .subscribe(service => {
         if (service) {
-          // Success
           this.servicios.push(service);
           this.serviciosPendientes.push(service);
-          // this.getAllServicesWithRelations();
-          // this.getAllServicesWithRelationsNotCompleted();
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -172,7 +161,7 @@ export class ServicioComponent implements OnInit {
         if (res) {
           this.getAllServicesWithRelations();
           this.getAllServicesWithRelationsNotCompleted();
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -186,9 +175,13 @@ export class ServicioComponent implements OnInit {
           const serviceIndex = this.servicios.findIndex(
             (res) => res.idServicio === idServicio);
           this.servicios.splice(serviceIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput(){
+    this.filter = "";
   }
 }

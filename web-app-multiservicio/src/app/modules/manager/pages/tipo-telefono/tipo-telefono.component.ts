@@ -9,11 +9,10 @@ import { TipoTelefonoService } from 'src/app/services/tipo-telefono.service';
 })
 export class TipoTelefonoComponent implements OnInit {
 
-  protected tipoTelefono: TipoTelefono | null = null;
   protected tiposTelefonos: TipoTelefono[] = [];
   protected loading = false;
   protected filter = "";
-  
+
   constructor(
     private tipotelefonoService: TipoTelefonoService
   ) { }
@@ -31,19 +30,12 @@ export class TipoTelefonoComponent implements OnInit {
       });
   }
 
-  protected getOnePhoneTypes(idTipoTelefono: number) {
-    this.tipoTelefono = this.tiposTelefonos.find(phoneType => phoneType.idTipoTelefono = idTipoTelefono) as TipoTelefono;
-    if (this.tipoTelefono) {
-      // show content
-    }
-  }
-
   protected createPhoneTypes(dto: CreateTipoTelefonoDTO) {
     this.loading = true;
     this.tipotelefonoService.create(dto)
       .subscribe(phoneType => {
         if (phoneType) {
-          // Success
+          this.clearInput();
           this.tiposTelefonos.push(phoneType);
         }
         this.loading = false;
@@ -58,7 +50,7 @@ export class TipoTelefonoComponent implements OnInit {
           const phoneTypeIndex = this.tiposTelefonos.findIndex(
             (res) => res.idTipoTelefono === idTipoTelefono);
           this.tiposTelefonos[phoneTypeIndex] = phoneType;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -72,10 +64,14 @@ export class TipoTelefonoComponent implements OnInit {
           const phoneTypeIndex = this.tiposTelefonos.findIndex(
             (phoneType) => phoneType.idTipoTelefono === idTipoTelefono);
           this.tiposTelefonos.splice(phoneTypeIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput() {
+    this.filter = "";
   }
 
 }

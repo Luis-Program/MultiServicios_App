@@ -12,7 +12,6 @@ import { TipoTelefonoService } from 'src/app/services/tipo-telefono.service';
 export class TelefonoComponent implements OnInit {
 
   protected telefonos: TelefonoRelacionTipoTelefono[] = [];
-  protected telefono: TelefonoRelacionTipoTelefono | null = null;
   protected tiposTelefonos: TipoTelefono[] = [];
   private idPersona: string | null = null;
   protected rol: string | null = null;
@@ -55,19 +54,12 @@ export class TelefonoComponent implements OnInit {
       });
   }
 
-  protected getOnePhone(idTelefono: number) {
-    this.telefono = this.telefonos.find(phone => phone.idTelefono = idTelefono) as TelefonoRelacionTipoTelefono;
-    if (this.telefono) {
-      // show content
-    }
-  }
-
   protected createPhone(dto: CreateTelefonoDTO) {
     this.loading = true;
     this.telefonoService.createClientEmployee(dto)
       .subscribe(phone => {
         if (phone) {
-          // Success
+          this.clearInput();
           this.telefonos.push(phone);
         }
         this.loading = false;
@@ -82,7 +74,7 @@ export class TelefonoComponent implements OnInit {
           const phoneIndex = this.telefonos.findIndex(
             (res) => res.idTelefono === idTelefono);
           this.telefonos[phoneIndex] = phone;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -96,9 +88,13 @@ export class TelefonoComponent implements OnInit {
           const phoneIndex = this.telefonos.findIndex(
             (typePerson) => typePerson.idTelefono === idTelefono);
           this.telefonos.splice(phoneIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput(){
+    this.filter = "";
   }
 }
