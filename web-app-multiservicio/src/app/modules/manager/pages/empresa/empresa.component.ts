@@ -71,7 +71,6 @@ export class EmpresaComponent implements OnInit {
             value : c.cantidad
           }
         })
-        console.log(this.maxMinClient);
         
         this.loadingGraphic = false;
       });
