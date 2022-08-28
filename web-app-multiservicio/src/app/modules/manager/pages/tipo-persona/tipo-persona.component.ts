@@ -40,8 +40,6 @@ export class TipoPersonaComponent implements OnInit {
     this.tipoPersonaService.getAllWithRelations()
       .subscribe(typesPersons => {
         this.tiposPersonas = typesPersons;
-        console.log(this.tiposPersonas);
-        
         this.loading = false;
       });
   }
@@ -51,8 +49,6 @@ export class TipoPersonaComponent implements OnInit {
     this.empresaService.getAll()
       .subscribe(enterpises => {
         this.empresas = enterpises;
-        console.log(this.empresas);
-        
         this.loading = false;
       });
   }
@@ -97,6 +93,11 @@ export class TipoPersonaComponent implements OnInit {
             (typePerson) => typePerson.idTipoPersona === idTipoPersona);
           this.tiposPersonas.splice(typePersonIndex, 1);
           this.clearInput();
+          Swal.fire({
+            icon  : 'success',
+            title : 'Eliminado',
+            text  : 'Rol eliminado'
+          })
         }
         this.loading = false;
       });
@@ -119,12 +120,27 @@ export class TipoPersonaComponent implements OnInit {
     })
   }
 
+  setForm(rol: TipoPersonaRelaciones) {
+
+    let idEmpresa = null;
+
+    (rol.Empresa?.idEmpresa) ? idEmpresa = rol.Empresa?.idEmpresa : idEmpresa = 0;
+
+    this.Form.setValue({
+      idTipo    : rol.idTipoPersona,
+      tipo      : rol.tipo,
+      idEmpresa : idEmpresa
+    })    
+
+    this.idItem = rol.idTipoPersona;
+  }
+
   openModal(rol?: TipoPersonaRelaciones) {
     this.initForm();
 
     if (rol) {
       this.newItem = false;
-      return console.log(rol);
+      return this.setForm(rol);
     }
   }
 
@@ -134,5 +150,21 @@ export class TipoPersonaComponent implements OnInit {
     const { idTipo, ...rest } = this.Form.value;
 
     this.createTypePerson(rest);
+  }
+
+  deleteItem() {
+    Swal.fire({
+      title : '¡Atención!',
+      text  : '¿Está seguro de eliminar el rol?',
+      icon  : 'warning',
+      showConfirmButton : true,
+      showCancelButton  : true
+    }).then((res: any) => {
+      
+      if (res.isConfirmed) {
+        this.deleteTypePerson(this.idItem);
+      }
+
+    })
   }
 }
