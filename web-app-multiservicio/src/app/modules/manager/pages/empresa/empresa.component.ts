@@ -30,6 +30,7 @@ export class EmpresaComponent implements OnInit {
     this.empresaService.getAll()
       .subscribe(enterpises => {
         this.empresas = enterpises;
+        console.log(this.empresas);
         this.loading = false;
       });
   }
