@@ -1,11 +1,84 @@
-<h1>Tipos de repuestos</h1>
+<!-- <h1>Tipos de repuestos</h1>
 <h3 *ngIf="loading">Cargando</h3>
-<!-- INPUT SEARCH -->
 <div>
   <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
 </div>
 <div *ngFor="let tipoRepuesto of tipoRepuestos | filterTypePhoneReplacement:filter">
   <p>Id: {{tipoRepuesto.idTipoRepuesto}}</p>
   <p>Categoria: {{tipoRepuesto.tipo}}</p>
+</div> -->
+
+<!-- ADD TYPE REPLACEMENT BUTTON -->
+<div class="row page-titles">
+  <div>
+    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByTypeReplacement()">
+      <i class="mdi mdi-plus"></i>
+    </button>
+  </div>
+</div>
+<!-- /ADD TYPE PERSON BUTTON -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- INPUT SEARCH -->
+        <div class="row">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+
+        <div class="row mt-3">
+          <!-- CARD -->
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let tipoRepuesto of tipoRepuestos | filterTypePhoneReplacement:filter">
+            <div class="card card-outline-info" (click)="openModalByTypeReplacement(tipoRepuesto)" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ tipoRepuesto.tipo }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /CARD -->
+
+        </div>
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Tipo Repuesto</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="typeReplacementForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tipo:</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="tipo">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newTypeReplacement" (click)="deleteTypeReplacementModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newTypeReplacement" (click)="createTypeReplacementForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newTypeReplacement" (click)="createTypeReplacementForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- /MODAL -->
+
+      </div>
+    </div>
+  </div>
 </div>
 
