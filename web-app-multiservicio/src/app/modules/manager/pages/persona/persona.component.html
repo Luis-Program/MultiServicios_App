@@ -1,78 +1,74 @@
-<h1>Personas</h1>
-<button (click)="changeTypePerson('all')" *ngIf="tipo != 'all'">Todo Tipo</button>
-<button (click)="changeTypePerson('client')" *ngIf="tipo != 'client'">Clientes</button>
-<button (click)="changeTypePerson('worker')" *ngIf="tipo != 'worker'">Trabajadores</button>
-<h3 *ngIf="loading">Cargando</h3>
-<!-- INPUT SEARCH -->
-<div>
-  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-</div>
-<div [ngSwitch]="tipo">
-  <div *ngSwitchCase="'all'">
-    <div *ngFor="let persona of personas | filterPerson:filter">
-      <h3>Persona</h3>
-      <p>Id: {{persona.idPersona}}</p>
-      <p>Nombre: {{persona.nombre}}</p>
-      <p>Apellido: {{persona.apellidos}}</p>
-      <p>Correo: {{persona.correo}}</p>
-      <p>Dpi: {{persona.dpi}}</p>
-      <h4>Tipo Persona</h4>
-      <p>Rol: {{persona.Tipo_Persona ? persona.Tipo_Persona.tipo : 'No ingresada.'}}</p>
-      <h4>Empresa</h4>
-      <p>Nombre:
-        {{persona.Tipo_Persona && persona.Tipo_Persona.Empresa ? persona.Tipo_Persona.Empresa.nombre : 'No ingresada.'}}
-      </p>
-      <p>-----------------------------------------</p>
-    </div>
-  </div>
-  <div *ngSwitchCase="'client'">
-    <div *ngFor="let cliente of clientes | filterPerson:filter">
-      <h3>Cliente</h3>
-      <p>Id: {{cliente.idPersona}}</p>
-      <p>Nombre: {{cliente.nombre}}</p>
-      <p>Apellido: {{cliente.apellidos}}</p>
-      <p>Correo: {{cliente.correo}}</p>
-      <p>Dpi: {{cliente.dpi}}</p>
-      <h4>Tipo Persona</h4>
-      <p>Rol: Cliente</p>
-      <h4>Equipos</h4>
-      <p>Cantidad de Equipos: {{cliente.cantidad}}</p>
-      <p>-----------------------------------------</p>
-    </div>
-  </div>
-  <div *ngSwitchCase="'worker'">
-    <!-- Cuando se selecciona ver solo trabajadores -->
-    <div *ngIf="trabajadoresMinMaxServices[0] && trabajadoresMinMaxServices[1]">
-      <h3>Trabajadores con mayor y menor cantidad de servicios </h3>
-      <p>Mayor cantidad de servicios realizados por: {{trabajadoresMinMaxServices[0].persona.nombre}}
-        {{trabajadoresMinMaxServices[0].persona.apellidos}}
-      </p>
-      <p>Cantidad: {{trabajadoresMinMaxServices[0].cantidadService}}</p>
-      <p>Menor cantidad de servicios realizados por: {{trabajadoresMinMaxServices[1].persona.nombre}}
-        {{trabajadoresMinMaxServices[1].persona.apellidos}}
-      </p>
-      <p>Cantidad: {{trabajadoresMinMaxServices[1].cantidadService}}</p>
-    </div>
-    <div *ngFor="let trabajador of trabajadores | filterPerson:filter">
-      <h3>Trabajador</h3>
-      <p>Id: {{trabajador.idPersona}}</p>
-      <p>Nombre: {{trabajador.nombre}}</p>
-      <p>Apellido: {{trabajador.apellidos}}</p>
-      <p>Correo: {{trabajador.correo}}</p>
-      <p>Dpi: {{trabajador.dpi}}</p>
-      <h4>Tipo Persona</h4>
-      <p>Rol: Trabajador Operacional</p>
-      <h4>Servicios</h4>
-      <p>Cantidad: {{trabajador.cantidad}}</p>
-      <p>-----------------------------------------</p>
-    </div>
-  </div>
-</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
 
-<!-- Trabajador -->
-<!-- Cuando se selección un trabajador en personas -->
-<div *ngIf="trabajadorServicios">
-  <h3>Servicios de Trabajador</h3>
-  <p>Servicios Finalizados: {{trabajadorServicios.finalizados}}</p>
-  <p>Servicios Pendientes: {{trabajadorServicios.pendientes}}</p>
+
+        <div class="row mt-5">
+          <!-- ADD COUNTRY BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD COUNTRY BUTTON -->
+
+          <!-- INPUT SEARCH -->
+          <div class="col-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+
+        <!-- CARDS -->
+        <div class="row mt-5">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of personas | filterPerson:filter">
+            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
+                    <p class="card-text">{{ persona.dpi }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-account"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARDS -->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Persona</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+
+              <div class="modal-body">
+
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+      </div>
+    </div>
+  </div>
 </div>
