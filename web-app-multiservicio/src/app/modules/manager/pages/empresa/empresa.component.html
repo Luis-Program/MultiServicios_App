@@ -1,5 +1,4 @@
-<h1>Empresas</h1>
-<!-- INPUT SEARCH -->
+<!-- <h1>Empresas</h1>
 <div>
   <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
 </div>
@@ -20,4 +19,109 @@
   <p>Nombre: {{empresa.nombre}}</p>
   <p>Nit: {{empresa.nit}}</p>
   <p>------------------------------------</p>
+</div> -->
+
+<!-- ADD COUNTRY BUTTON -->
+<div class="row page-titles">
+  <div>
+    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+      <i class="mdi mdi-plus"></i>
+    </button>
+  </div>
+</div>
+<!-- /ADD COUNTRY BUTTON -->
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+      
+        <!-- INPUT SEARCH -->
+        <div class="row">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="chart-container">
+              <ngx-charts-bar-horizontal
+                [scheme]="colorScheme"
+                [results]="single"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showYAxisLabel]="showYAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                [legendTitle]="legendTitle">
+              </ngx-charts-bar-horizontal>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- CARD -->
+        <div class="row mt-5">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let empresa of empresas | filterNameCode:filter">
+            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(empresa)">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ empresa.nombre }}</h3>
+                    <p class="card-text">{{ empresa.nit }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="fa fa-building-o"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARD -->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Empresa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+
+              <div class="modal-body">
+                <form [formGroup]="Form">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre*</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">NIT*</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nit">
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newItem"
+                  (click)="deleteItem()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newItem"
+                  (click)="createItem()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newItem"
+                  (click)="createItem()">Editar</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+      </div>
+    </div>
+  </div>
 </div>

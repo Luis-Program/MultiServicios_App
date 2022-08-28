@@ -28,6 +28,7 @@ import { FilterDireccionPipe } from './pipes/filter-direccion.pipe';
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { FilterAuditPipe } from './pipes/filter-audit.pipe';
 import { FilterAnalysisPipe } from './pipes/filter-analysis.pipe';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { FilterAnalysisPipe } from './pipes/filter-analysis.pipe';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    NgxChartsModule
   ]
 })
 export class ManagerModule { }

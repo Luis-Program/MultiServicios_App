@@ -53,7 +53,7 @@
 
         <!-- CARDS -->
         <div class="row mt-3">
-          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let direccion of direcciones">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let direccion of direcciones | filterDireccion:filter">
             <div class="card card-outline-info" Data-toggle="modal"data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(direccion)">
               <div class="card-header bg-dark">
               </div>
