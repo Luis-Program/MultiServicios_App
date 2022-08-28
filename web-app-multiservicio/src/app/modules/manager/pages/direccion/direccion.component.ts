@@ -57,8 +57,8 @@ export class DireccionComponent implements OnInit {
     this.direccionService.create(dto)
       .subscribe(address => {
         if (address) {
-          // Success
           this.direcciones.push(address);
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Creado',
@@ -77,7 +77,7 @@ export class DireccionComponent implements OnInit {
           const addressIndex = this.direcciones.findIndex(
             (res) => res.idDireccion === idDireccion);
           this.direcciones[addressIndex] = res;
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Actualizado',
@@ -97,7 +97,7 @@ export class DireccionComponent implements OnInit {
           const addressIndex = this.direcciones.findIndex(
             (address) => address.idDireccion === idDireccion);
           this.direcciones.splice(addressIndex, 1);
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Eliminado',
@@ -182,5 +182,9 @@ export class DireccionComponent implements OnInit {
 
   get idMunicipio() {
     return this.Form.get('idMunicipio')?.value;
+  }
+
+  private clearInput() {
+    this.filter = "";
   }
 }

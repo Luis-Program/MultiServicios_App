@@ -39,7 +39,7 @@ export class MunicipioComponent implements OnInit {
     this.loading = true;
     this.departamentoService.getAll()
       .subscribe(departments => {
-        this.departamentos = departments;        
+        this.departamentos = departments;
         this.loading = false;
       });
   }
@@ -65,7 +65,7 @@ export class MunicipioComponent implements OnInit {
     this.municipioService.create(municipio)
       .subscribe(municipality => {
         if (municipality) {
-          // Success
+          this.clearInput();
           this.municipios.push(municipality);
           Swal.fire({
             icon  : 'success',
@@ -86,7 +86,7 @@ export class MunicipioComponent implements OnInit {
           const municipalityIndex = this.municipios.findIndex(
             (res) => res.idMunicipio === idMunicipio);
           this.municipios[municipalityIndex] = res;
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Actualizado',
@@ -106,7 +106,7 @@ export class MunicipioComponent implements OnInit {
           const municipalityIndex = this.municipios.findIndex(
             (municipality) => municipality.idMunicipio === idMunicipio);
           this.municipios.splice(municipalityIndex, 1);
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Eliminado',
@@ -191,5 +191,9 @@ export class MunicipioComponent implements OnInit {
 
   get nameCountry() {
     return this.Form.get('pais')?.value;
+  }
+
+  private clearInput(){
+    this.filter = "";
   }
 }

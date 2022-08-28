@@ -132,7 +132,7 @@ export class PersonaComponent implements OnInit {
     this.personaService.create(dto)
       .subscribe(person => {
         if (person) {
-          // Success
+          this.clearInput();
           this.personas.push(person);
         }
         this.loading = false;
@@ -147,7 +147,7 @@ export class PersonaComponent implements OnInit {
           const personIndex = this.personas.findIndex(
             (res) => res.idPersona === idPersona);
           this.personas[personIndex] = res;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -161,10 +161,13 @@ export class PersonaComponent implements OnInit {
           const personIndex = this.personas.findIndex(
             (person) => person.idPersona === idPersona);
           this.personas.splice(personIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
   }
 
+  private clearInput() {
+    this.filter = "";
+  }
 }

@@ -30,4 +30,9 @@ export class AuditoriaServicioComponent implements OnInit {
     });
   }
 
+  private clearInput() {
+    this.filter = "";
+  }
+
+
 }

@@ -138,7 +138,7 @@ export class EquipoComponent implements OnInit {
     this.equipoService.create(dto)
       .subscribe(equipment => {
         if (equipment) {
-          // Success
+          this.clearInput();
           this.equipos.push(equipment);
         }
         this.loading = false;

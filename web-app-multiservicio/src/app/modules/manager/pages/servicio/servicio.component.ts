@@ -146,11 +146,9 @@ export class ServicioComponent implements OnInit {
     this.servicioService.create(dto)
       .subscribe(service => {
         if (service) {
-          // Success
           this.servicios.push(service);
           this.serviciosPendientes.push(service);
-          // this.getAllServicesWithRelations();
-          // this.getAllServicesWithRelationsNotCompleted();
+          this.clearInput();
         }
         this.loading = false;
       });

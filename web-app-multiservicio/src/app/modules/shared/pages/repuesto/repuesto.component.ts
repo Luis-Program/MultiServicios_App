@@ -76,6 +76,7 @@ export class RepuestoComponent implements OnInit {
       .subscribe(replacement => {
         if (replacement) {
           this.repuestos.push(replacement);
+          this.clearInput();
         }
         this.loading = false;
       });

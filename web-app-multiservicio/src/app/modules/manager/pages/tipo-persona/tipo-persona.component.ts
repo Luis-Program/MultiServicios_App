@@ -49,7 +49,7 @@ export class TipoPersonaComponent implements OnInit {
     this.tipoPersonaService.create(dto)
       .subscribe(typePerson => {
         if (typePerson) {
-          // Success
+          this.clearInput();
           this.tiposPersonas.push(typePerson);
         }
         this.loading = false;
@@ -64,7 +64,7 @@ export class TipoPersonaComponent implements OnInit {
           const typePersonIndex = this.tiposPersonas.findIndex(
             (res) => res.idTipoPersona === idTipoPersona);
           this.tiposPersonas[typePersonIndex] = res;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -78,10 +78,14 @@ export class TipoPersonaComponent implements OnInit {
           const typePersonIndex = this.tiposPersonas.findIndex(
             (typePerson) => typePerson.idTipoPersona === idTipoPersona);
           this.tiposPersonas.splice(typePersonIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput() {
+    this.filter = "";
   }
 
 }

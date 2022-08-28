@@ -35,8 +35,8 @@ export class TipoRepuestoComponent implements OnInit {
     this.tipoRepuestoService.create(pais)
       .subscribe(replacementType => {
         if (replacementType) {
-          // Success
           this.tipoRepuestos.push(replacementType);
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -50,7 +50,7 @@ export class TipoRepuestoComponent implements OnInit {
           const replacementTypeIndex = this.tipoRepuestos.findIndex(
             (res) => res.idTipoRepuesto === idTipoRepuesto);
           this.tipoRepuestos[replacementTypeIndex] = res;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -64,10 +64,14 @@ export class TipoRepuestoComponent implements OnInit {
           const replacementTypeIndex = this.tipoRepuestos.findIndex(
             (res) => res.idTipoRepuesto === idTipoRepuesto);
           this.tipoRepuestos.splice(replacementTypeIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
   }
 
+  private clearInput() {
+    this.filter = "";
+  }
+  
 }

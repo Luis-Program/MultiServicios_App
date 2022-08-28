@@ -32,4 +32,7 @@ export class AnalisisRepuestoComponent implements OnInit {
     });
   }
 
+  private clearInput() {
+    this.filter = "";
+  }
 }

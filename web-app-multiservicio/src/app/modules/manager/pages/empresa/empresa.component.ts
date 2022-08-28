@@ -22,14 +22,14 @@ export class EmpresaComponent implements OnInit {
   public idItem   !: number;
 
   // CHARTS
-  public showXAxis      : boolean = true;
-  public showYAxis      : boolean = true;
-  public gradient       : boolean = true;
-  public showLegend     : boolean = true;
-  public showYAxisLabel : boolean = true;
-  public yAxisLabel     : string  = 'Estadísticas de empresas';
-  public colorScheme    : string  = 'vivid';
-  public legendTitle    : string  = 'Empresas';
+  public showXAxis: boolean = true;
+  public showYAxis: boolean = true;
+  public gradient: boolean = true;
+  public showLegend: boolean = true;
+  public showYAxisLabel: boolean = true;
+  public yAxisLabel: string = 'Estadísticas de empresas';
+  public colorScheme: string = 'vivid';
+  public legendTitle: string = 'Empresas';
   public single         !: any[];
 
   constructor(
@@ -59,11 +59,10 @@ export class EmpresaComponent implements OnInit {
       .subscribe((data: MinMaxEmpresa[]) => {
         this.single = data.map(c => {
           return {
-            name  : c.empresa,
-            value : c.cantidad
+            name: c.empresa,
+            value: c.cantidad
           }
         })
-        
         this.loadingGraphic = false;
       });
   }
@@ -73,12 +72,12 @@ export class EmpresaComponent implements OnInit {
     this.empresaService.create(dto)
       .subscribe(enterprise => {
         if (enterprise) {
-          // Success
+          this.clearInput();
           this.empresas.push(enterprise);
           Swal.fire({
-            icon  : 'success',
-            title : 'Creado',
-            text  : 'Empresa creada'
+            icon: 'success',
+            title: 'Creado',
+            text: 'Empresa creada'
           })
           this.getAllEnterprises();
         }
@@ -94,11 +93,11 @@ export class EmpresaComponent implements OnInit {
           const enterpriseIndex = this.empresas.findIndex(
             (res) => res.idEmpresa === idEmpresa);
           this.empresas[enterpriseIndex] = res;
-          // Success
+          this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Actualizado',
-            text  : 'Empresa actualizada'
+            icon: 'success',
+            title: 'Actualizado',
+            text: 'Empresa actualizada'
           })
           this.getAllEnterprises();
         }
@@ -114,11 +113,11 @@ export class EmpresaComponent implements OnInit {
           const enterpriseIndex = this.empresas.findIndex(
             (enterprise) => enterprise.idEmpresa === idEmpresa);
           this.empresas.splice(enterpriseIndex, 1);
-          // Success
+          this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Eliminado',
-            text  : 'Empresa eliminada'
+            icon: 'success',
+            title: 'Eliminado',
+            text: 'Empresa eliminada'
           })
           this.getAllEnterprises();
         }
@@ -129,18 +128,18 @@ export class EmpresaComponent implements OnInit {
   initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
-      idEmpresa : [''],
-      nombre    : ['', [Validators.required, Validators.maxLength(45)]],
-      nit       : ['', [Validators.required, Validators.maxLength(20)]] 
+      idEmpresa: [''],
+      nombre: ['', [Validators.required, Validators.maxLength(45)]],
+      nit: ['', [Validators.required, Validators.maxLength(20)]]
     })
   }
 
   setForm(empresa: Empresa) {
-    
+
     this.Form.setValue({
-      idEmpresa : empresa.idEmpresa,
-      nombre    : empresa.nombre,
-      nit       : empresa.nit
+      idEmpresa: empresa.idEmpresa,
+      nombre: empresa.nombre,
+      nit: empresa.nit
     })
 
     this.idItem = empresa.idEmpresa;
@@ -169,9 +168,9 @@ export class EmpresaComponent implements OnInit {
 
   deleteItem() {
     Swal.fire({
-      title : '¡Atención!',
-      text  : '¿Está seguro de eliminar el municipio?',
-      icon  : 'warning',
+      title: '¡Atención!',
+      text: '¿Está seguro de eliminar el municipio?',
+      icon: 'warning',
       showConfirmButton: true,
       showCancelButton: true
     }).then((res: any) => {
@@ -182,4 +181,9 @@ export class EmpresaComponent implements OnInit {
 
     })
   }
+
+  private clearInput() {
+    this.filter = "";
+  }
+
 }

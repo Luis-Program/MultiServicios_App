@@ -59,7 +59,7 @@ export class TelefonoComponent implements OnInit {
     this.telefonoService.createClientEmployee(dto)
       .subscribe(phone => {
         if (phone) {
-          // Success
+          this.clearInput();
           this.telefonos.push(phone);
         }
         this.loading = false;
@@ -74,7 +74,7 @@ export class TelefonoComponent implements OnInit {
           const phoneIndex = this.telefonos.findIndex(
             (res) => res.idTelefono === idTelefono);
           this.telefonos[phoneIndex] = phone;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -88,9 +88,13 @@ export class TelefonoComponent implements OnInit {
           const phoneIndex = this.telefonos.findIndex(
             (typePerson) => typePerson.idTelefono === idTelefono);
           this.telefonos.splice(phoneIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput(){
+    this.filter = "";
   }
 }
