@@ -22,14 +22,14 @@ export class EmpresaComponent implements OnInit {
   public idItem   !: number;
 
   // CHARTS
-  public showXAxis: boolean = true;
-  public showYAxis: boolean = true;
-  public gradient: boolean = true;
-  public showLegend: boolean = true;
-  public showYAxisLabel: boolean = true;
-  public yAxisLabel: string = 'Estadísticas de empresas';
-  public colorScheme: string = 'vivid';
-  public legendTitle: string = 'Empresas';
+  public showXAxis      : boolean = true;
+  public showYAxis      : boolean = true;
+  public gradient       : boolean = true;
+  public showLegend     : boolean = true;
+  public showXAxisLabel : boolean = true;
+  public xAxisLabel     : string  = 'Servicios';
+  public colorScheme    : string  = 'vivid';
+  public legendTitle    : string  = 'Empresas';
   public single         !: any[];
 
   constructor(

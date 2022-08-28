@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Empresa } from 'src/app/models/empresa.model';
 import { CreateTipoPersonaDTO, TipoPersonaRelaciones, UpdateTipoPersonaDTO } from 'src/app/models/tipo_persona.model';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tipo-persona',
@@ -18,13 +19,20 @@ export class TipoPersonaComponent implements OnInit {
   protected filter = "";
   protected loading = false;
 
+  public Form     !: FormGroup;
+  public newItem  !: boolean;
+  public idItem   !: number;
+
   constructor(
     private tipoPersonaService: TipoPersonaService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.getAllTypesPersonsWithRelations();
+    this.getAllEnterprises();
+    this.initForm();
   }
 
   private getAllTypesPersonsWithRelations() {
@@ -52,6 +60,11 @@ export class TipoPersonaComponent implements OnInit {
         if (typePerson) {
           this.clearInput();
           this.tiposPersonas.push(typePerson);
+          Swal.fire({
+            icon  : 'success',
+            title : 'Creado',
+            text  : 'Rol creado'
+          })
         }
         this.loading = false;
       });
@@ -66,6 +79,12 @@ export class TipoPersonaComponent implements OnInit {
             (res) => res.idTipoPersona === idTipoPersona);
           this.tiposPersonas[typePersonIndex] = res;
           this.clearInput();
+          Swal.fire({
+            icon  : 'success',
+            title : 'Actualizado',
+            text  : 'Rol actualizado'
+          })
+          // this.getAllTypesPersonsWithRelations();
         }
         this.loading = false;
       });
@@ -80,6 +99,11 @@ export class TipoPersonaComponent implements OnInit {
             (typePerson) => typePerson.idTipoPersona === idTipoPersona);
           this.tiposPersonas.splice(typePersonIndex, 1);
           this.clearInput();
+          Swal.fire({
+            icon  : 'success',
+            title : 'Eliminado',
+            text  : 'Rol eliminado'
+          })
         }
         this.loading = false;
       });
@@ -89,4 +113,72 @@ export class TipoPersonaComponent implements OnInit {
     this.filter = "";
   }
 
+  showCompanyName(name: string): string {
+    return (name) ? name : 'No ingresado';
+  }
+
+  initForm() {
+    this.newItem = true;
+    this.Form = this.fb.group({
+      idTipo    : [''],
+      tipo      : ['', Validators.required],
+      idEmpresa : ['', Validators.required]
+    })
+  }
+
+  setForm(rol: TipoPersonaRelaciones) {
+
+    let idEmpresa = null;
+
+    (rol.Empresa?.idEmpresa) ? idEmpresa = rol.Empresa?.idEmpresa : idEmpresa = 0;
+
+    this.Form.setValue({
+      idTipo    : rol.idTipoPersona,
+      tipo      : rol.tipo,
+      idEmpresa : idEmpresa
+    })
+
+    this.idItem = rol.idTipoPersona;
+  }
+
+  openModal(rol?: TipoPersonaRelaciones) {
+    this.initForm();
+
+    if (rol) {
+      this.newItem = false;
+      return this.setForm(rol);
+    }
+  }
+
+  createItem() {
+    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
+
+    const { idTipo, ...rest } = this.Form.value;
+
+    if (idTipo) {
+      return this.updateTypePerson(idTipo, rest);
+    }
+
+    this.createTypePerson(rest);
+  }
+
+  deleteItem() {
+    Swal.fire({
+      title : '¡Atención!',
+      text  : '¿Está seguro de eliminar el rol?',
+      icon  : 'warning',
+      showConfirmButton : true,
+      showCancelButton  : true
+    }).then((res: any) => {
+
+      if (res.isConfirmed) {
+        this.deleteTypePerson(this.idItem);
+      }
+
+    })
+  }
+
+  get idEmpresaValue() {
+    return this.Form.get('idEmpresa')?.value;
+  }
 }
