@@ -9,7 +9,6 @@ import { AnalisisRepuestoService } from 'src/app/services/analisis-repuesto.serv
 })
 export class AnalisisRepuestoComponent implements OnInit {
 
-  protected analisisRepuesto: Analisis_Repuesto | null = null;
   protected analisisRepuestos: Analisis_Repuesto[] = [];
   protected dataGraphic: Graphics[] = [];
   protected loadingGraphic = false; // Carga del grafico
@@ -33,15 +32,4 @@ export class AnalisisRepuestoComponent implements OnInit {
     });
   }
 
-  protected getOneReplacementAnalysis(idAnalisisRepuesto: number){
-    this.analisisRepuesto = this.analisisRepuestos.find(replacementAnalysis => replacementAnalysis.idAnalisisRepuesto = idAnalisisRepuesto) as Analisis_Repuesto;
-    if (this.analisisRepuesto) {
-      this.loadingGraphic = true;
-      this.analisisRepuestoService.getDataGraphics(this.analisisRepuesto.nombreRepuesto)
-      .subscribe(data => {
-        this.dataGraphic = data;
-        this.loadingGraphic = false;
-      })
-    }
-  }
 }

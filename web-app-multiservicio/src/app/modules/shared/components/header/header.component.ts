@@ -66,10 +66,10 @@ export class HeaderComponent implements OnInit {
   }
 
   navigateToProfile(): any {
-    switch(this.rol) {
-      case "Gerente General"        : return this.router.navigate(['/gerente-general/perfil']);
-      case "Trabajador Operacional" : return this.router.navigate(['/trabajador/perfil']);
-      case "Cliente"                : return this.router.navigate(['/cliente/perfil']);
+    switch (this.rol) {
+      case "Gerente General": return this.router.navigate(['/gerente-general/perfil']);
+      case "Trabajador Operacional": return this.router.navigate(['/trabajador/perfil']);
+      case "Cliente": return this.router.navigate(['/cliente/perfil']);
     }
   }
 
@@ -87,15 +87,18 @@ export class HeaderComponent implements OnInit {
 
   protected goByNotification(notification: Notificacion) {
     if (this.idPersona && this.rol) {
+      if (!notification.visto) {
+        this.setOneRead(notification.idNotificacion);
+      }
       switch (this.rol) {
         case 'Gerente General':
           this.goByNotificationManager(notification);
           break;
-          case 'Cliente':
-            this.goByNotificationClient(notification);
-            break;
-          case 'Trabajador Operacional':
-            this.goByNotificationWorker(notification);
+        case 'Cliente':
+          this.goByNotificationClient(notification);
+          break;
+        case 'Trabajador Operacional':
+          this.goByNotificationWorker(notification);
           break;
         default:
           break;
@@ -122,7 +125,7 @@ export class HeaderComponent implements OnInit {
           this.router.navigate(['gerente-general/servicio']);
           break;
         // Activación de Equipo
-        case 6:
+        case 5:
           localStorage.setItem('idNoti', String(notification.notificacionId));
           this.router.navigate(['gerente-general/equipo']);
           break;
@@ -145,20 +148,8 @@ export class HeaderComponent implements OnInit {
   private goByNotificationClient(notification: Notificacion) {
     if (notification.Tipo_Notificacion) {
       if (notification.idTipoNotificacion) {
-        switch (notification.idTipoNotificacion) {
-          // Servicio Finalizado
-          case 7:
-            localStorage.setItem('idNoti', String(notification.notificacionId));
-            this.router.navigate(['cliente/servicio']);
-            break;
-          // Trabajador Asignado a su servicio
-          case 8:
-            localStorage.setItem('idNoti', String(notification.notificacionId));
-            this.router.navigate(['cliente/servicio']);
-            break;
-          default:
-            break;
-        }
+        localStorage.setItem('idNoti', String(notification.notificacionId));
+        this.router.navigate(['cliente/servicio']);
       }
     }
   }

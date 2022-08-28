@@ -9,7 +9,6 @@ import { AuditoriaServicioService } from 'src/app/services/auditoria-servicio.se
 })
 export class AuditoriaServicioComponent implements OnInit {
 
-  protected auditoriaServicio: Auditoria_servicio | null = null;
   protected auditoriaServicios: Auditoria_servicio[] = [];
   protected loading = false;
   protected filter = "";
@@ -31,10 +30,4 @@ export class AuditoriaServicioComponent implements OnInit {
     });
   }
 
-  protected getOneServiceAudit(idAuditoriaServicio: number){
-    this.auditoriaServicio = this.auditoriaServicios.find(serviceAudit => serviceAudit.idAuditoriaServicio = idAuditoriaServicio) as Auditoria_servicio;
-    if (this.auditoriaServicio) {
-      // show content
-    }
-  }
 }

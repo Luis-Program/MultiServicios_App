@@ -9,7 +9,6 @@ import { TipoRepuestoService } from 'src/app/services/tipo-repuesto.service';
 })
 export class TipoRepuestoComponent implements OnInit {
 
-  protected tipoRepuesto: TipoRepuesto | null = null;
   protected tipoRepuestos: TipoRepuesto[] = [];
   protected filter = "";
   protected loading = false;
@@ -29,13 +28,6 @@ export class TipoRepuestoComponent implements OnInit {
         this.tipoRepuestos = replacementTypes;
         this.loading = false;
       });
-  }
-
-  protected getOneReplacementType(idTipoRepuesto: number) {
-    this.tipoRepuesto = this.tipoRepuestos.find(replacementType => replacementType.idTipoRepuesto = idTipoRepuesto) as TipoRepuesto;
-    if (this.tipoRepuesto) {
-      // show content
-    }
   }
 
   protected createReplacementType(pais: CreateTipoRepuestoDTO) {

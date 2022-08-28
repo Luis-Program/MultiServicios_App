@@ -9,7 +9,6 @@ import { EmpresaService } from 'src/app/services/empresa.service';
 })
 export class EmpresaComponent implements OnInit {
 
-  protected empresa: Empresa | null = null;
   protected empresas: Empresa[] = [];
   protected maxMinClient: MinMaxEmpresa[] = [];
   protected loading = false; // Carga principal
@@ -32,13 +31,6 @@ export class EmpresaComponent implements OnInit {
         this.empresas = enterpises;
         this.loading = false;
       });
-  }
-
-  protected getOneEnterprise(idEmpresa: number) {
-    this.empresa = this.empresas.find(enterprise => enterprise.idEmpresa = idEmpresa) as Empresa;
-    if (this.empresa) {
-      // show content
-    }
   }
 
   private getMinMaxClient() {

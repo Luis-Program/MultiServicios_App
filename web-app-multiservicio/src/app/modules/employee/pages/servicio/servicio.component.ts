@@ -10,32 +10,28 @@ import { ServicioService } from 'src/app/services/servicio.service';
 export class ServicioComponent implements OnInit {
 
   protected cantidadServicios: ServiciosFinalizadosPendientesTrabajador | null = null;
-  protected servicio: ServicioTrabajador | null = null;
-  protected servicios: ServicioTrabajador[] = [];
   protected serviciosPendientes: ServicioTrabajador[] = [];
   protected serviciosCompletados: ServicioTrabajador[] = [];
-  protected idServicio: string | null = null;
+  protected servicios: ServicioTrabajador[] = [];
+  protected idServicio: number | null = null;
   protected idPersona: string | null = null;
-  protected filter = "";
   protected loading = false;
+  protected filter = "";
 
   constructor(
     private servicioService: ServicioService
   ) { }
 
   ngOnInit(): void {
-    this.idServicio = localStorage.getItem('idNoti');
+    const id = localStorage.getItem('idNoti');
+    this.idServicio = Number(id);
     localStorage.removeItem('idNoti');
     this.idPersona = localStorage.getItem('idPersona');
     if (this.idPersona) {
+      this.getAllServicesWithRelations(this.idPersona);
+      this.getAmountServices(this.idPersona);
       if (this.idServicio) {
-        // Show service
-
-        this.getOneService(Number(this.idServicio));
-        this.getAmountServices(this.idPersona);
-      } else {
-        this.getAllServicesWithRelations(this.idPersona);
-        this.getAmountServices(this.idPersona);
+        this.getOneService(this.idServicio);
       }
     }
   }
@@ -53,7 +49,6 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllServicesCompletedByIdWorker(idPersona)
       .subscribe(services => {
-        // console.log(services)
         this.serviciosCompletados = services;
       });
   }
@@ -62,7 +57,6 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllServicesNotCompletedByIdWorker(idPersona)
       .subscribe(services => {
-        // console.log(services)
         this.serviciosCompletados = services;
       });
   }
@@ -77,10 +71,10 @@ export class ServicioComponent implements OnInit {
   }
 
   protected getOneService(idServicio: number) {
-    this.servicio = this.servicios.find(service => service.idServicio = idServicio) as ServicioTrabajador;
-    if (this.servicio) {
-      // show content
-    }
+    this.servicioService.getOne(idServicio)
+      .subscribe(service => {
+        this.filter = String(service.fechaCreado).replace("T", " ").substring(0,18);
+      });
   }
 
   protected updateService(idServicio: number, dto: UpdateServicioDTO) {
@@ -94,10 +88,14 @@ export class ServicioComponent implements OnInit {
             (res) => res.idServicio === idServicio);
           this.servicios[serviceIndex] = res;
           this.serviciosPendientes[serviceIndexNotCompleted] = res;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput() {
+    this.filter = "";
   }
 
 }

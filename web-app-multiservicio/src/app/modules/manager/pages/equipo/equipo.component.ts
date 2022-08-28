@@ -115,7 +115,7 @@ export class EquipoComponent implements OnInit {
     this.equipoService.getOne(idEquipo)
     .subscribe(equimpent => {
       if (equimpent.nombre && equimpent.modelo) {
-        this.filter = equimpent.nombre + " " + equimpent.modelo;
+        this.filter = equimpent.nombre;
       }
     })
   }

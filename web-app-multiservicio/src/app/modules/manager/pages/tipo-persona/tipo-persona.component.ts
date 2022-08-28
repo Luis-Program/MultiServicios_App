@@ -11,7 +11,6 @@ import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 })
 export class TipoPersonaComponent implements OnInit {
 
-  protected tipoPersona: TipoPersonaRelaciones | null = null;
   protected tiposPersonas: TipoPersonaRelaciones[] = [];
   protected listaTiposPersonas = ['Gerente General','Trabajador Operacional','Cliente'];
   protected empresas: Empresa[] = [];
@@ -43,13 +42,6 @@ export class TipoPersonaComponent implements OnInit {
         this.empresas = enterpises;
         this.loading = false;
       });
-  }
-
-  protected getOneTypePerson(idTipoPersona: number) {
-    this.tipoPersona = this.tiposPersonas.find(typePerson => typePerson.idTipoPersona = idTipoPersona) as TipoPersonaRelaciones;
-    if (this.tipoPersona) {
-      // show content
-    }
   }
 
   protected createTypePerson(dto: CreateTipoPersonaDTO) {

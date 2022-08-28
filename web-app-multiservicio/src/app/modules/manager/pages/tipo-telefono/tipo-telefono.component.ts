@@ -9,11 +9,10 @@ import { TipoTelefonoService } from 'src/app/services/tipo-telefono.service';
 })
 export class TipoTelefonoComponent implements OnInit {
 
-  protected tipoTelefono: TipoTelefono | null = null;
   protected tiposTelefonos: TipoTelefono[] = [];
   protected loading = false;
   protected filter = "";
-  
+
   constructor(
     private tipotelefonoService: TipoTelefonoService
   ) { }
@@ -29,13 +28,6 @@ export class TipoTelefonoComponent implements OnInit {
         this.tiposTelefonos = phonesTypes;
         this.loading = false;
       });
-  }
-
-  protected getOnePhoneTypes(idTipoTelefono: number) {
-    this.tipoTelefono = this.tiposTelefonos.find(phoneType => phoneType.idTipoTelefono = idTipoTelefono) as TipoTelefono;
-    if (this.tipoTelefono) {
-      // show content
-    }
   }
 
   protected createPhoneTypes(dto: CreateTipoTelefonoDTO) {
