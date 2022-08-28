@@ -31,6 +31,8 @@ export class TipoPersonaComponent implements OnInit {
     this.tipoPersonaService.getAllWithRelations()
       .subscribe(typesPersons => {
         this.tiposPersonas = typesPersons;
+        console.log(this.tiposPersonas);
+        
         this.loading = false;
       });
   }
@@ -88,4 +90,7 @@ export class TipoPersonaComponent implements OnInit {
     this.filter = "";
   }
 
+  showCompanyName(name: string): string {
+    return (name) ? name : 'No ingresado';
+  }
 }
