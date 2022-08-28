@@ -12,8 +12,8 @@ import Swal from 'sweetalert2';
 export class TipoRepuestoComponent implements OnInit {
 
   protected tipoRepuestos: TipoRepuesto[] = [];
-  protected filter = "";
   protected loading = false;
+  protected filter = "";
 
   protected typeReplacementForm!: FormGroup;
   protected newTypeReplacement!: Boolean;
@@ -25,8 +25,8 @@ export class TipoRepuestoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAllReplacementType();
     this.initForm();
+    this.getAllReplacementType();
   }
 
   private getAllReplacementType() {
@@ -86,13 +86,12 @@ export class TipoRepuestoComponent implements OnInit {
             title: 'Eliminado',
             text: 'Rol eliminado',
             icon: 'success'
-          })
+          });
           this.clearInput();
         }
         this.loading = false;
       });
   }
-
 
   protected openModalByTypeReplacement(typeReplacement?: TipoRepuesto) {
     this.initForm();
@@ -146,6 +145,7 @@ export class TipoRepuestoComponent implements OnInit {
       }
     });
   }
+
   private clearInput() {
     this.filter = "";
   }
