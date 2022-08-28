@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { EquipoCliente } from 'src/app/models/equipo.model';
 import { CreateServicioDTO, ServicioRelaciones } from 'src/app/models/servicio.model';
 import { TipoServicio } from 'src/app/models/tipo_servicio.model';
@@ -16,14 +15,13 @@ export class ServicioComponent implements OnInit {
 
   protected serviciosPendientes: ServicioRelaciones[] = [];
   protected serviciosCompletados: ServicioRelaciones[] = [];
-  protected servicio: ServicioRelaciones | null = null;
   protected servicios: ServicioRelaciones[] = [];
   protected tiposServicios: TipoServicio[] = [];
-  protected idServicio: string | null = null;
-  protected idPersona: string | null = null;
-  protected showServicesByEquipment = false;
-  protected idEquipo: string | null = null;
   protected equipo: EquipoCliente | null = null;
+  protected idServicio: number | null = null;
+  protected showServicesByEquipment = false;
+  protected idPersona: string | null = null;
+  protected idEquipo: string | null = null;
   protected equipos: EquipoCliente[] = [];
   protected showEquipments = false;
   protected oneService = false;
@@ -34,25 +32,17 @@ export class ServicioComponent implements OnInit {
     private servicioService: ServicioService,
     private tipoServicioService: TipoServicioService,
     private equipoService: EquipoService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.idEquipo = localStorage.getItem('idEquipo');
-    localStorage.removeItem('idEquipo');
     this.idPersona = localStorage.getItem('idPersona');
-    this.idServicio = localStorage.getItem('idNoti');
+    const id = localStorage.getItem('idNoti');
+    this.idServicio = Number(id);
     localStorage.removeItem('idNoti');
     if (this.idPersona) {
-      if (this.idEquipo) {
-        this.getAllServicesWithRelations(this.idEquipo);
-        this.getAllServicesWithRelationsCompleted(this.idEquipo);
-        this.getAllServicesWithRelationsNotCompleted(this.idEquipo);
-      } else if (this.idServicio) {
-        // Show service
-        this.getOneService(Number(this.idServicio));
-      } else {
-        this.getAllEquipment(this.idPersona);
+      this.getAllEquipment(this.idPersona);
+      if (this.idServicio) {
+        this.getOneService(this.idServicio);
       }
     }
   }
@@ -68,7 +58,7 @@ export class ServicioComponent implements OnInit {
       });
   }
 
-  protected getAllServicesWithRelations(idEquipo: string) {
+  protected getAllServicesWithRelations(idEquipo: string | number) {
     this.loading = true;
     this.equipo = this.equipos.find(equipo => equipo.idEquipo = Number(idEquipo)) as EquipoCliente;
     this.servicioService.getAllByIdEquipo(idEquipo)
@@ -107,12 +97,11 @@ export class ServicioComponent implements OnInit {
   }
 
   protected getOneService(idServicio: number) {
-    this.servicio = this.servicios.find(service => service.idServicio = idServicio) as ServicioRelaciones;
-    if (this.servicio) {
-      this.oneService = true;
-      this.showEquipments, this.showServicesByEquipment = false;
-      // show content
-    }
+    this.servicioService.getOne(idServicio)
+      .subscribe(service => {
+        this.getAllServicesWithRelations(service.Equipo.idEquipo);
+        this.filter = String(service.fechaCreado).replace("T", " ").substring(0,18);
+      });
   }
 
   protected createService(dto: CreateServicioDTO) {
@@ -121,9 +110,9 @@ export class ServicioComponent implements OnInit {
     this.servicioService.create(dto)
       .subscribe(service => {
         if (service) {
-          // Success
           this.servicios.push(service);
           this.serviciosPendientes.push(service);
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -138,16 +127,14 @@ export class ServicioComponent implements OnInit {
           const serviceIndex = this.servicios.findIndex(
             (res) => res.idServicio === idServicio);
           this.servicios.splice(serviceIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
   }
 
-  protected goToEquipment(idEquipo: string) {
-    if (idEquipo) {
-      this.router.navigate(['cliente/equipo']);
-    }
+  private clearInput(){
+    this.filter = "";
   }
 
 }

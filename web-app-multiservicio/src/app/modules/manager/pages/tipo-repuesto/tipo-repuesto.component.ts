@@ -9,7 +9,6 @@ import { TipoRepuestoService } from 'src/app/services/tipo-repuesto.service';
 })
 export class TipoRepuestoComponent implements OnInit {
 
-  protected tipoRepuesto: TipoRepuesto | null = null;
   protected tipoRepuestos: TipoRepuesto[] = [];
   protected filter = "";
   protected loading = false;
@@ -31,20 +30,13 @@ export class TipoRepuestoComponent implements OnInit {
       });
   }
 
-  protected getOneReplacementType(idTipoRepuesto: number) {
-    this.tipoRepuesto = this.tipoRepuestos.find(replacementType => replacementType.idTipoRepuesto = idTipoRepuesto) as TipoRepuesto;
-    if (this.tipoRepuesto) {
-      // show content
-    }
-  }
-
   protected createReplacementType(pais: CreateTipoRepuestoDTO) {
     this.loading = true;
     this.tipoRepuestoService.create(pais)
       .subscribe(replacementType => {
         if (replacementType) {
-          // Success
           this.tipoRepuestos.push(replacementType);
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -58,7 +50,7 @@ export class TipoRepuestoComponent implements OnInit {
           const replacementTypeIndex = this.tipoRepuestos.findIndex(
             (res) => res.idTipoRepuesto === idTipoRepuesto);
           this.tipoRepuestos[replacementTypeIndex] = res;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -72,10 +64,14 @@ export class TipoRepuestoComponent implements OnInit {
           const replacementTypeIndex = this.tipoRepuestos.findIndex(
             (res) => res.idTipoRepuesto === idTipoRepuesto);
           this.tipoRepuestos.splice(replacementTypeIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
   }
 
+  private clearInput() {
+    this.filter = "";
+  }
+  
 }

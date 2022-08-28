@@ -11,7 +11,6 @@ import { TipoRepuestoService } from 'src/app/services/tipo-repuesto.service';
 })
 export class RepuestoComponent implements OnInit {
 
-  protected repuesto: RepuestoRelaciones | null = null;
   protected repuestos: RepuestoRelaciones[] = [];
   protected tipoRepuestos: TipoRepuesto[] = [];
   protected rol: string | null = null;
@@ -26,7 +25,8 @@ export class RepuestoComponent implements OnInit {
 
   ngOnInit(): void {
     this.rol = localStorage.getItem('rol');
-    this.idRepuesto = Number(localStorage.getItem('idNoti'));
+    const id = localStorage.getItem('idNoti')
+    this.idRepuesto = Number(id);
     localStorage.removeItem('idNoti');
     this.loadDataByRol();
   }
@@ -37,8 +37,6 @@ export class RepuestoComponent implements OnInit {
         this.getAllReplacementWithRelations();
         if (this.idRepuesto) {
           this.getOneReplacement(this.idRepuesto);
-          // Obtencion por notificacion
-
         }
       } else if (this.rol === 'Trabajador Operacional') {
         // Only can read and update
@@ -57,10 +55,10 @@ export class RepuestoComponent implements OnInit {
   }
 
   protected getOneReplacement(idRepuesto: number) {
-    this.repuesto = this.repuestos.find(replacement => replacement.idRepuesto = idRepuesto) as RepuestoRelaciones;
-    if (this.repuesto) {
-      // show content
-    }
+    this.repuestoService.getOne(idRepuesto)
+    .subscribe(replacement => {
+      this.filter = replacement.nombre;
+    });
   }
 
   protected getAllReplacementType() {
@@ -77,8 +75,8 @@ export class RepuestoComponent implements OnInit {
     this.repuestoService.create(repuesto)
       .subscribe(replacement => {
         if (replacement) {
-          // Success
           this.repuestos.push(replacement);
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -93,7 +91,7 @@ export class RepuestoComponent implements OnInit {
           const replacementIndex = this.repuestos.findIndex(
             (res) => res.idRepuesto === idRepuesto);
           this.repuestos[replacementIndex] = res;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -107,9 +105,13 @@ export class RepuestoComponent implements OnInit {
           const replacementIndex = this.repuestos.findIndex(
             (res) => res.idRepuesto === idRepuesto);
           this.repuestos.splice(replacementIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput(){
+    this.filter = "";
   }
 }

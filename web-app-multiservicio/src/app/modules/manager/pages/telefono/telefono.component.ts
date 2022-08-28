@@ -14,7 +14,6 @@ import { TipoTelefonoService } from 'src/app/services/tipo-telefono.service';
 export class TelefonoComponent implements OnInit {
 
   protected telefonos: TelefonoRelaciones[] = [];
-  protected telefono: TelefonoRelaciones | null = null;
   protected tiposTelefonos: TipoTelefono[] = [];
   protected personas: PersonaDropdown[] = [];
   protected loading = false;
@@ -52,19 +51,12 @@ export class TelefonoComponent implements OnInit {
       });
   }
 
-  protected getOnePhone(idTelefono: number) {
-    this.telefono = this.telefonos.find(phone => phone.idTelefono = idTelefono) as TelefonoRelaciones;
-    if (this.telefono) {
-      // show content
-    }
-  }
-
   protected createPhone(dto: CreateTelefonoDTO) {
     this.loading = true;
     this.telefonoService.createManager(dto)
       .subscribe(phone => {
         if (phone) {
-          // Success
+          this.clearInput();
           this.telefonos.push(phone);
         }
         this.loading = false;
@@ -79,7 +71,7 @@ export class TelefonoComponent implements OnInit {
           const phoneIndex = this.telefonos.findIndex(
             (res) => res.idTelefono === idTelefono);
           this.telefonos[phoneIndex] = phone;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -90,13 +82,17 @@ export class TelefonoComponent implements OnInit {
     this.telefonoService.delete(idTelefono)
       .subscribe(res => {
         if (res) {
-            const phoneIndex = this.telefonos.findIndex(
-              (typePerson) => typePerson.idTelefono === idTelefono);
-            this.telefonos.splice(phoneIndex, 1);
-            // Success
+          const phoneIndex = this.telefonos.findIndex(
+            (typePerson) => typePerson.idTelefono === idTelefono);
+          this.telefonos.splice(phoneIndex, 1);
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput() {
+    this.filter = "";
   }
 
 }

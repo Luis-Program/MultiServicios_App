@@ -7,7 +7,7 @@ import { AuthB2cService } from './services/auth-b2c.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'web-app-multiservicio';
+  title = 'MultiServicios S.A.';
   constructor(
     private authB2C: AuthB2cService,
   ){}

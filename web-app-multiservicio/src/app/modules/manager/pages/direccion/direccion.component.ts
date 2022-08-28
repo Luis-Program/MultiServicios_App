@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
 })
 export class DireccionComponent implements OnInit {
 
-  protected direccion: DireccionRelacionesAnidadas | null = null;
   protected direcciones: DireccionRelacionesAnidadas[] = [];
   protected municipios: Municipio[] = [];
   protected loading = false;
@@ -48,16 +47,9 @@ export class DireccionComponent implements OnInit {
     this.loading = true;
     this.direccionService.getAllWithRelations()
       .subscribe(addresses => {
-        this.direcciones = addresses;        
+        this.direcciones = addresses;
         this.loading = false;
       });
-  }
-
-  protected getOneAddress(idDireccion: number) {
-    this.direccion = this.direcciones.find(address => address.idDireccion = idDireccion) as DireccionRelacionesAnidadas;
-    if (this.direccion) {
-      // show content
-    }
   }
 
   protected createAddress(dto: CreateDireccionDTO) {
@@ -65,8 +57,8 @@ export class DireccionComponent implements OnInit {
     this.direccionService.create(dto)
       .subscribe(address => {
         if (address) {
-          // Success
           this.direcciones.push(address);
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Creado',
@@ -85,7 +77,7 @@ export class DireccionComponent implements OnInit {
           const addressIndex = this.direcciones.findIndex(
             (res) => res.idDireccion === idDireccion);
           this.direcciones[addressIndex] = res;
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Actualizado',
@@ -105,7 +97,7 @@ export class DireccionComponent implements OnInit {
           const addressIndex = this.direcciones.findIndex(
             (address) => address.idDireccion === idDireccion);
           this.direcciones.splice(addressIndex, 1);
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Eliminado',
@@ -127,7 +119,7 @@ export class DireccionComponent implements OnInit {
 
   setForm(direccion: DireccionRelacionesAnidadas) {
 
-    let idMuncipio = null;    
+    let idMuncipio = null;
     (direccion.Municipio?.idMunicipio) ? idMuncipio = direccion.Municipio.idMunicipio : idMuncipio = 0;
 
     let nombreDepartamento = '';
@@ -157,7 +149,7 @@ export class DireccionComponent implements OnInit {
   }
 
   createItem() {
-    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());    
+    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
     const { idDireccion, departamento, pais, ...rest } = this.Form.value;
 
@@ -190,5 +182,9 @@ export class DireccionComponent implements OnInit {
 
   get idMunicipio() {
     return this.Form.get('idMunicipio')?.value;
+  }
+
+  private clearInput() {
+    this.filter = "";
   }
 }

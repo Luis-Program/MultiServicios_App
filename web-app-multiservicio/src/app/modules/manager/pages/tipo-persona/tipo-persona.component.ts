@@ -11,7 +11,6 @@ import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 })
 export class TipoPersonaComponent implements OnInit {
 
-  protected tipoPersona: TipoPersonaRelaciones | null = null;
   protected tiposPersonas: TipoPersonaRelaciones[] = [];
   protected listaTiposPersonas = ['Gerente General','Trabajador Operacional','Cliente'];
   protected empresas: Empresa[] = [];
@@ -45,19 +44,12 @@ export class TipoPersonaComponent implements OnInit {
       });
   }
 
-  protected getOneTypePerson(idTipoPersona: number) {
-    this.tipoPersona = this.tiposPersonas.find(typePerson => typePerson.idTipoPersona = idTipoPersona) as TipoPersonaRelaciones;
-    if (this.tipoPersona) {
-      // show content
-    }
-  }
-
   protected createTypePerson(dto: CreateTipoPersonaDTO) {
     this.loading = true;
     this.tipoPersonaService.create(dto)
       .subscribe(typePerson => {
         if (typePerson) {
-          // Success
+          this.clearInput();
           this.tiposPersonas.push(typePerson);
         }
         this.loading = false;
@@ -72,7 +64,7 @@ export class TipoPersonaComponent implements OnInit {
           const typePersonIndex = this.tiposPersonas.findIndex(
             (res) => res.idTipoPersona === idTipoPersona);
           this.tiposPersonas[typePersonIndex] = res;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -86,10 +78,14 @@ export class TipoPersonaComponent implements OnInit {
           const typePersonIndex = this.tiposPersonas.findIndex(
             (typePerson) => typePerson.idTipoPersona === idTipoPersona);
           this.tiposPersonas.splice(typePersonIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput() {
+    this.filter = "";
   }
 
 }

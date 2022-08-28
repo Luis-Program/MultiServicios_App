@@ -16,7 +16,6 @@ export class EquipoComponent implements OnInit {
   protected equipo: EquipoCliente | null = null;
   protected equipos: EquipoCliente[] = [];
   private idPersona: string | null = null;
-  private idEquipo: string | null = null;
   protected loadingGraphic1 = false; // Carga de graficos servicios pendientes y finalizados
   protected loadingGraphic2 = false; // Carga de graficos cantidad de servicios activos e inactivos
   protected loadingGraphic3 = false; // Carga de graficos de los equipos con menor y mayor cantidad de servicios
@@ -25,22 +24,15 @@ export class EquipoComponent implements OnInit {
 
   constructor(
     private equipoService: EquipoService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.idPersona = localStorage.getItem('idPersona');
-    this.idEquipo = localStorage.getItem('idEquipo');
-    localStorage.removeItem('idEquipo');
     if (this.idPersona) {
       this.getAllEquipment(this.idPersona);
       this.getServiceAmount(this.idPersona);
       this.getEquipmentActiveInactive(this.idPersona);
       this.getEquipmentMinMax(this.idPersona);
-      if (this.idEquipo) {
-        this.getOneEquipment(Number(this.idEquipo));
-        // Show one
-      }
     }
   }
 
@@ -80,14 +72,6 @@ export class EquipoComponent implements OnInit {
       });
   }
 
-  protected getOneEquipment(idEquipo: number) {
-    this.equipo = this.equipos.find(equipment => equipment.idEquipo = idEquipo) as EquipoCliente;
-    if (this.equipo) {
-      this.loadingMain = true;
-      // show content
-    }
-  }
-
   protected updateEquipmentManager(idEquipo: number, dto: UpdateEquipoDTO) {
     this.loadingMain = true;
     this.equipoService.updateClient(idEquipo, dto)
@@ -96,15 +80,13 @@ export class EquipoComponent implements OnInit {
           const equipmentIndex = this.equipos.findIndex(
             (res) => res.idEquipo === idEquipo);
           this.equipos[equipmentIndex] = res;
-          // Success
+          this.clearInput();
         }
         this.loadingMain = false;
       });
   }
 
-  protected goToServicesByIdEquipo(idEquipo: number){
-    localStorage.setItem("idEquipo", String(idEquipo));
-    this.router.navigate(['cliente/servicio'])
+  private clearInput(){
+    this.filter = "";
   }
-
 }

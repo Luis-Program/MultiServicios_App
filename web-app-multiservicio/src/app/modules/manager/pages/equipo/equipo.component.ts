@@ -16,7 +16,6 @@ export class EquipoComponent implements OnInit {
   protected equipoActivosInactivos: EquipoActivoInactivo[] = [];
   protected unEquipoServicio: UnEquipoServicios | null = null;
   protected direcciones: DireccionDropDown[] = [];
-  protected equipo: EquipoRelacionesAnidadas | null = null;
   protected equipos: EquipoRelacionesAnidadas[] = [];
   protected clientesEquiposMinMax: Clientes[] = [];
   protected idEquipo: number | null = null;
@@ -34,14 +33,14 @@ export class EquipoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.idEquipo = Number(localStorage.getItem('idNoti'));
+    const id = localStorage.getItem('idNoti');
+    this.idEquipo = Number(id);
     localStorage.removeItem('idNoti');
     this.getAllEquipmentWithRelations();
     this.getEquipmentActiveInactive();
     this.getClientAmountMinMAx();
     if (this.idEquipo) {
       this.getOneEquipment(this.idEquipo);
-      // Obtencion del equipo por notificación
     }
   }
 
@@ -113,12 +112,12 @@ export class EquipoComponent implements OnInit {
   }
 
   protected getOneEquipment(idEquipo: number) {
-    this.equipo = this.equipos.find(equipment => equipment.idEquipo = idEquipo) as EquipoRelacionesAnidadas;
-    if (this.equipo) {
-      this.loadingGraphicOneEquipment = true;
-      this.getOneEquipmentServices(idEquipo);
-      // show content
-    }
+    this.equipoService.getOne(idEquipo)
+    .subscribe(equimpent => {
+      if (equimpent.nombre && equimpent.modelo) {
+        this.filter = equimpent.nombre;
+      }
+    })
   }
 
   /**
@@ -139,7 +138,7 @@ export class EquipoComponent implements OnInit {
     this.equipoService.create(dto)
       .subscribe(equipment => {
         if (equipment) {
-          // Success
+          this.clearInput();
           this.equipos.push(equipment);
         }
         this.loading = false;
@@ -154,7 +153,7 @@ export class EquipoComponent implements OnInit {
           const equipmentIndex = this.equipos.findIndex(
             (res) => res.idEquipo === idEquipo);
           this.equipos[equipmentIndex] = res;
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
@@ -168,9 +167,13 @@ export class EquipoComponent implements OnInit {
           const equipmentIndex = this.equipos.findIndex(
             (equipment) => equipment.idEquipo === idEquipo);
           this.equipos.splice(equipmentIndex, 1);
-          // Success
+          this.clearInput();
         }
         this.loading = false;
       });
+  }
+
+  private clearInput(){
+    this.filter = "";
   }
 }

@@ -1,13 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'filterPhone'
+  name: 'filterPhone',
+  pure: false
 })
 export class FilterPhonePipe implements PipeTransform {
 
-  transform(value: any, arg: any) {
+  transform(value: any, arg: string) {
     const rol = localStorage.getItem("rol");
     const resultFilter = [];
+    arg = arg.trim();
     for (const object of value) {
       if (rol && rol === "Gerente General") {
         if (String(object.numero).indexOf(arg) > -1

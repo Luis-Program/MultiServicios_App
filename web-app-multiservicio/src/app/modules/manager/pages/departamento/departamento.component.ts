@@ -14,7 +14,6 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 })
 export class DepartamentoComponent implements OnInit {
 
-  protected departamento: DepartamentoRelaciones | null = null;
   protected departamentos: DepartamentoRelaciones[] = [];
   protected paises: Pais[] = [];
   protected pais: Pais | null = null;
@@ -66,19 +65,12 @@ export class DepartamentoComponent implements OnInit {
       });
   }
 
-  protected getOneDepartment(idDepartamento: number) {
-    this.departamento = this.departamentos.find(department => department.idDepartamento = idDepartamento) as DepartamentoRelaciones;
-    if (this.departamento) {
-      // show content
-    }
-  }
-
   protected createDepartment(department: CreateDepartamentoDTO) {
     this.loading = true;
     this.departamentoService.create(department)
       .subscribe(department => {
         if (department) {
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Creado',
@@ -98,7 +90,7 @@ export class DepartamentoComponent implements OnInit {
           const departmentIndex = this.departamentos.findIndex(
             (res) => res.idDepartamento === idDepartamento);
           this.departamentos[departmentIndex] = res;
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Actualizado',
@@ -119,7 +111,7 @@ export class DepartamentoComponent implements OnInit {
           const departmentIndex = this.departamentos.findIndex(
             (res) => res.idDepartamento === idDepartamento);
           this.departamentos.splice(departmentIndex, 1);
-          // Success
+          this.clearInput();
           Swal.fire({
             icon  : 'success',
             title : 'Eliminado',
@@ -236,4 +228,9 @@ export class DepartamentoComponent implements OnInit {
   protected onItemSelect(item: any) {
     console.log("idPais: "+item.idPais);
   }
-}
+
+  private clearInput() {
+    this.filter = "";
+  }
+
+  }
