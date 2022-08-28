@@ -26,8 +26,8 @@ export class EmpresaComponent implements OnInit {
   public showYAxis      : boolean = true;
   public gradient       : boolean = true;
   public showLegend     : boolean = true;
-  public showYAxisLabel : boolean = true;
-  public yAxisLabel     : string  = 'Estadísticas de empresas';
+  public showXAxisLabel : boolean = true;
+  public xAxisLabel     : string  = 'Servicios';
   public colorScheme    : string  = 'vivid';
   public legendTitle    : string  = 'Empresas';
   public single         !: any[];
