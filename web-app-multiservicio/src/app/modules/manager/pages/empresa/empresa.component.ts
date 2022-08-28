@@ -38,7 +38,6 @@ export class EmpresaComponent implements OnInit {
     this.empresaService.getAll()
       .subscribe(enterpises => {
         this.empresas = enterpises;
-        console.log(this.empresas);
         this.loading = false;
       });
   }
@@ -153,7 +152,7 @@ export class EmpresaComponent implements OnInit {
     const { idEmpresa, ...rest } = this.Form.value;
 
     if (idEmpresa) {
-      return console.log(rest);
+      return this.updateEnterprise(idEmpresa, rest);
     }
 
     this.createEnterprise(rest)
