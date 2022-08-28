@@ -22,6 +22,16 @@ export class EmpresaComponent implements OnInit {
   public newItem  !: boolean;
   public idItem   !: number;
 
+  // CHARTS
+  public showXAxis      : boolean = true;
+  public showYAxis      : boolean = true;
+  public gradient       : boolean = true;
+  public showLegend     : boolean = true;
+  public showYAxisLabel : boolean = true;
+  public yAxisLabel     : string  = 'Estadísticas de empresas';
+  public colorScheme    : string  = 'vivid';
+  public legendTitle    : string  = 'Empresas';
+
   constructor(
     private empresaService: EmpresaService,
     private fb: FormBuilder
@@ -184,29 +194,6 @@ export class EmpresaComponent implements OnInit {
     {
       "name": "USA",
       "value": 5000000
-    },
-    {
-      "name": "France",
-      "value": 7200000
     }
   ];
-  multi !: any[];
-
-  view: [number, number] = [700, 400];
-
-  // options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = true;
-  showLegend = false;
-  showXAxisLabel = true;
-  xAxisLabel = 'Country';
-  showYAxisLabel = true;
-  yAxisLabel = 'Population';
-
-  colorScheme = 'vivid'
-
-  onSelect(event: any) {
-    console.log(event);
-  }
 }

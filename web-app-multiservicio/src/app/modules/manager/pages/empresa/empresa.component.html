@@ -46,25 +46,26 @@
 
         <div class="row mt-3">
           <div class="col-12">
-            <ngx-charts-bar-vertical
-              [view]="view"
-              [scheme]="colorScheme"
-              [results]="single"
-              [gradient]="gradient"
-              [xAxis]="showXAxis"
-              [yAxis]="showYAxis"
-              [legend]="showLegend"
-              [showXAxisLabel]="showXAxisLabel"
-              [showYAxisLabel]="showYAxisLabel"
-              [xAxisLabel]="xAxisLabel"
-              [yAxisLabel]="yAxisLabel"
-              (select)="onSelect($event)">
-            </ngx-charts-bar-vertical>
+            <div class="chart-container">
+              <ngx-charts-bar-horizontal
+                [scheme]="colorScheme"
+                [results]="single"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showYAxisLabel]="showYAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                [legendTitle]="legendTitle">
+              </ngx-charts-bar-horizontal>
+            </div>
           </div>
         </div>
 
+        <hr>
+
         <!-- CARD -->
-        <div class="row mt-3">
+        <div class="row mt-4">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let empresa of empresas | filterNameCode:filter">
             <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(empresa)">
               <div class="card-header bg-dark">
