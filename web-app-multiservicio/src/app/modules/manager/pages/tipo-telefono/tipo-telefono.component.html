@@ -1,12 +1,74 @@
-<h1>Tipos Telefonos</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<!-- INPUT SEARCH -->
-<div>
-  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+<!-- ADD TYPE PHONE BUTTON -->
+<div class="row page-titles">
+  <div>
+    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByTypePhone()">
+      <i class="mdi mdi-plus"></i>
+    </button>
+  </div>
 </div>
-<div *ngFor="let tipoTelefono of tiposTelefonos | filterTypePhoneReplacement:filter">
-  <h3>Tipo Telefono</h3>
-  <p>Id: {{tipoTelefono.idTipoTelefono}}</p>
-  <p>Tipo: {{tipoTelefono.tipo}}</p>
-  <p>------------------------------------</p>
+<!-- /ADD TYPE PERSON BUTTON -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <!-- INPUT SEARCH -->
+        <div class="row">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+
+        <div class="row mt-3">
+          <!-- CARD -->
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let tipoTelefono of tiposTelefonos | filterTypePhoneReplacement:filter">
+            <div class="card card-outline-info" (click)="openModalByTypePhone(tipoTelefono)" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ tipoTelefono.tipo }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /CARD -->
+
+        </div>
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Tipo Teléfono</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="typePhoneForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tipo:</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="tipo">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newTypePhone" (click)="deleteTypePhoneModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newTypePhone" (click)="createTypePhoneForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newTypePhone" (click)="createTypePhoneForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- /MODAL -->
+
+      </div>
+    </div>
+  </div>
 </div>
+
