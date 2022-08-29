@@ -97,6 +97,23 @@ router.get('/clientes',
   }
 );
 
+/***
+ * Obtiene todos los clientes con la cantidad de equipos
+ */
+router.get('/clientesequipos',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const clientes = await service.findAllClientsEquipments();
+      res.json(clientes);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 /**
  * Trae los clientes con mayor y menor cantidad de equipos
  */

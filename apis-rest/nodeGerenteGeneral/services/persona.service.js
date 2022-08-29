@@ -104,6 +104,16 @@ class PersonaService {
     return clientes;
   }
 
+  async findAllClientsEquipments() {
+    const clientes = await models.Persona.sequelize.query(`SELECT p.*, COUNT(e.idEquipo) AS 'cantidad' FROM (MultiServicios.Persona p
+      INNER JOIN MultiServicios.Tipo_Persona t ON p.idTipoPersona = t.idTipoPersona) 
+      INNER JOIN MultiServicios.Equipo e ON p.idPersona = e.idPersona
+      WHERE t.tipo = 'Cliente' GROUP BY p.idPersona`, {
+      type: QueryTypes.SELECT
+    });
+    return clientes;
+  }
+
   async findAllWorkersWithServicesCount() {
     const trabajadores = await models.Persona.sequelize.query(`SELECT p.*, COUNT(s.idTrabajador) AS 'cantidad' FROM (MultiServicios.Persona p
       INNER JOIN MultiServicios.Tipo_Persona t ON p.idTipoPersona = t.idTipoPersona) LEFT JOIN MultiServicios.Servicio s ON p.idPersona = s.idTrabajador

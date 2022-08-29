@@ -116,6 +116,15 @@ export class PersonaService {
         }));
   }
 
+  public getAllCientsEquipments() {
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
+    return this.http.get<Clientes[]>(this.apiUrl + '/clientesequipos')
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
   public getOne(idPersona: number | string) {
     this.getAPI();
     return this.http.get<PersonaRelaciones>(`${this.apiUrl}/${idPersona}`)

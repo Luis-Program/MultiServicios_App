@@ -56,14 +56,14 @@ export class PersonaComponent implements OnInit {
   /**
    * Trabajadores, [Persona, + cantidad: serviciosAsignados]
    */
-  protected getAllWorkers(tipo: string) {
+  protected getAllWorkers() {
     this.loading = true;
     this.personaService.getAllWorkersWithServices()
       .subscribe(persons => {
         this.trabajadores = persons;
         this.getWorkersMinMax();
         this.loading = false;
-        this.tipo = tipo;
+        this.tipo = "worker";
       });
   }
 
@@ -78,11 +78,11 @@ export class PersonaComponent implements OnInit {
 
   protected changeTypePerson(tipo: string) {
     if (tipo === 'worker') {
-      this.getAllWorkers(tipo);
+      this.getAllWorkers();
       this.tipo = tipo;
     }
     if (tipo === 'client') {
-      this.getAllClients(tipo);
+      this.getAllClients();
       this.tipo = tipo;
     }
     if (tipo === 'all') {
@@ -93,13 +93,13 @@ export class PersonaComponent implements OnInit {
   /**
    * Clientes, [Persona, + cantidad: equipos]
    */
-  protected getAllClients(tipo: string) {
+  protected getAllClients() {
     this.loading = true;
-    this.personaService.getClientsWithAmountEquipsMinMax()
+    this.personaService.getAllCientsEquipments()
       .subscribe(persons => {
         this.clientes = persons;
         this.loading = false;
-        this.tipo = tipo;
+        this.tipo = "client";
       });
   }
 
@@ -113,7 +113,9 @@ export class PersonaComponent implements OnInit {
   }
 
   protected getOnePerson(idPersona: number) {
-    let alter: PersonaRelaciones = this.personas.find(person => person.idPersona = idPersona) as PersonaRelaciones;
+    const personIndex = this.personas.findIndex(
+      (res) => res.idPersona === idPersona);
+    let alter = this.personas[personIndex];
     if (alter && alter.Tipo_Persona) {
       switch (alter.Tipo_Persona.tipo) {
         case 'Cliente':
@@ -125,6 +127,7 @@ export class PersonaComponent implements OnInit {
           this.personaService.getOneWorkerServicesAmount(idPersona)
             .subscribe(amount => {
               this.trabajadorServicios = amount;
+              console.log(amount);
               this.loadingGraphicOneWorker = false;
             })
           break;
