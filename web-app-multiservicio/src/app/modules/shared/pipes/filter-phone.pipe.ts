@@ -13,6 +13,8 @@ export class FilterPhonePipe implements PipeTransform {
     for (const object of value) {
       if (rol && rol === "Gerente General") {
         if (String(object.numero).indexOf(arg) > -1
+        || object.Persona.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
+        || object.Persona.apellidos.toLowerCase().indexOf(arg.toLowerCase()) > -1
         || object.Tipo_Telefono.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1
         || object.Tipo_Telefono.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
           resultFilter.push(object);
