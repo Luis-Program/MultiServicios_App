@@ -16,7 +16,7 @@
   </ng-template>
 </div> -->
 
-<!-- ADD TYPE PHONE BUTTON -->
+<!-- ADD REPUESTO BUTTON -->
 <div class="row page-titles" *ngIf="bolRol">
   <div>
     <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal"
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<!-- /ADD TYPE PERSON BUTTON -->
+<!-- /ADD REPUESTO BUTTON -->
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -49,11 +49,11 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-10">
+                  <div class="col-12">
                     <h3 class="card-title text-dark">{{ repuesto.nombre }}</h3>
                     <p class="card-title text-dark">{{ repuesto.Tipo_Repuesto.tipo }}</p>
-                    <p class="card-text">Cantidad: {{ repuesto.cantidadDisponible }}</p>
-                    <p class="card-text" *ngIf="bolRol">Límite: {{ repuesto.limiteInferior }}</p>
+                    <p class="card-text bold" >Cantidad: {{ repuesto.cantidadDisponible }}</p>
+                    <p class="card-text bold" *ngIf="bolRol">Límite: {{ repuesto.limiteInferior }}</p>
                   </div>
                 </div>
               </div>
@@ -95,7 +95,7 @@
                       <label for="recipient-name" class="control-label">Nombre:</label>
                       <input type="text" class="form-control" id="recipient-name1" formControlName="nombre" readonly>
                       <label for="recipient-name" class="control-label">Cantidad:</label>
-                      <input type="number" min="0" class="form-control" id="recipient-name1"
+                      <input type="number" min="0" [max]="maxValueInput" class="form-control" id="recipient-name1"
                         formControlName="cantidadDisponible">
                     </ng-template>
                   </div>

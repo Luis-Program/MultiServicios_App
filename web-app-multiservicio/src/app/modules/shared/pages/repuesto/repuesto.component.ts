@@ -10,13 +10,14 @@ import Swal from 'sweetalert2';
   selector: 'app-repuesto',
   templateUrl: './repuesto.component.html',
   styleUrls: ['./repuesto.component.css']
-})  
+})
 export class RepuestoComponent implements OnInit {
 
   protected repuestos: RepuestoRelaciones[] = [];
   protected tipoRepuestos: TipoRepuesto[] = [];
   protected idRepuesto: number | null = null;
   protected rol: string | null = null;
+  protected maxValueInput! :number;
   protected loading = false;
   protected bolRol = false;  // False => Worker : True => Manager
   protected filter = "";
@@ -138,6 +139,7 @@ export class RepuestoComponent implements OnInit {
     this.initForm();
     if (replacement) {
       this.newReplacement = false;
+      this.maxValueInput = replacement.cantidadDisponible;
       this.setReplacement(replacement);
     }
   }
@@ -169,7 +171,6 @@ export class RepuestoComponent implements OnInit {
     if (this.replacementForm.invalid) return Object.values(this.replacementForm.controls).forEach(c => c.markAsTouched());
     if (!this.replacementForm.touched) return;
     const { idRepuesto, ...rest } = this.replacementForm.value;
-    console.log(idRepuesto+ " Data: ", rest)
     if (idRepuesto) {
       return this.updateReplacement(idRepuesto, rest);
     }

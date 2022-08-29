@@ -50,7 +50,8 @@ class Tipo_PersonaService {
 
   async update(idTipoPersona, changes) {
     const tipo_persona = await this.findOne(idTipoPersona);
-    const response = await tipo_persona.update(changes);
+    const update = await tipo_persona.update(changes);
+    const response = await this.findOne(update.idTipoPersona);
     return response;
   }
 

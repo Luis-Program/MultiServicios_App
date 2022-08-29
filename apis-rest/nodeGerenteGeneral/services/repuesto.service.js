@@ -32,7 +32,8 @@ class RepuestoService {
 
   async update(idRepuesto, changes) {
     const repuesto = await this.findOne(idRepuesto);
-    const response = await repuesto.update(changes);
+    const updateRepuesto = await repuesto.update(changes);
+    const response = await this.findOne(updateRepuesto.idRepuesto);
     return response;
   }
 
