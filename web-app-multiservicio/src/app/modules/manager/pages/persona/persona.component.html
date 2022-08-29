@@ -8,7 +8,7 @@
           <!-- ADD COUNTRY BUTTON -->
           <div class="col-1">
             <div class="row">
-              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
                 <i class="mdi mdi-plus"></i>
               </button>
             </div>
@@ -25,7 +25,7 @@
         <!-- CARDS -->
         <div class="row mt-5">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of personas | filterPerson:filter">
-            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(persona)">
               <div class="card-header bg-dark">
               </div>
               <div class="card-body border">
@@ -55,13 +55,37 @@
               </div>
 
               <div class="modal-body">
-
+                <form [formGroup]="Form">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre*</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Apellidos*</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="apellidos">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Correo*</label>
+                    <input type="email" class="form-control" id="recipient-name1" formControlName="correo">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">DPI*</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="dpi">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Tipo persona*</label>
+                    <select class="form-control custom-select" formControlName="idTipoPersona">
+                      <option *ngFor="let tiposPersona of tiposPersonas" [value]="tiposPersona.idTipoPersona">{{ tiposPersona.tipo }}</option>
+                    </select>
+                    <!-- <small *ngIf="idEmpresaValue <= 0" class="form-control-feedback">No ingresado *</small> -->
+                  </div>
+                </form>
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Eliminar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Crear</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Editar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newItem" (click)="deleteItem()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newItem"  (click)="createItem()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newItem" (click)="createItem()">Editar</button>
               </div>
 
             </div>

@@ -3,6 +3,8 @@ import { Clientes, CreatePersonaDTO, PersonaRelaciones, ServiciosFinalizadosPend
 import { TipoPersonaDropDown } from 'src/app/models/tipo_persona.model';
 import { PersonaService } from 'src/app/services/persona.service';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-persona',
@@ -26,13 +28,20 @@ export class PersonaComponent implements OnInit {
   protected loadingGraphicWorker = false; // Carga de grafica cuando se traen los trabajdores con la cantidad de servicios que tienen
   protected loadingGraphicOneWorker = false; // Carga de grafica cuando se selecciona un solo trabajador y muestra los servicios finalizados y pendientes
 
+  public Form     !: FormGroup;
+  public newItem  !: boolean;
+  public idItem   !: number;
+
   constructor(
     private personaService: PersonaService,
-    private tipoPersonaService: TipoPersonaService
+    private tipoPersonaService: TipoPersonaService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.getAllPersonsWithRelations();
+    this.getAllTypePersons();
+    this.initForm();
   }
 
   private getAllPersonsWithRelations() {
@@ -134,6 +143,11 @@ export class PersonaComponent implements OnInit {
         if (person) {
           this.clearInput();
           this.personas.push(person);
+          Swal.fire({
+            icon  : 'success',
+            title : 'Creado',
+            text  : 'Usuario creado'
+          })
         }
         this.loading = false;
       });
@@ -148,6 +162,11 @@ export class PersonaComponent implements OnInit {
             (res) => res.idPersona === idPersona);
           this.personas[personIndex] = res;
           this.clearInput();
+          Swal.fire({
+            icon  : 'success',
+            title : 'Actualizado',
+            text  : 'Usuario actualizado'
+          })
         }
         this.loading = false;
       });
@@ -162,6 +181,11 @@ export class PersonaComponent implements OnInit {
             (person) => person.idPersona === idPersona);
           this.personas.splice(personIndex, 1);
           this.clearInput();
+          Swal.fire({
+            icon  : 'success',
+            title : 'Eliminado',
+            text  : 'Usuario eliminado'
+          })
         }
         this.loading = false;
       });
@@ -169,5 +193,67 @@ export class PersonaComponent implements OnInit {
 
   private clearInput() {
     this.filter = "";
+  }
+
+  initForm() {
+    this.newItem = true;
+    this.Form = this.fb.group({
+      idPersona     : [''],
+      nombre        : ['', [Validators.required, Validators.maxLength(30)]],
+      apellidos     : ['', [Validators.required, Validators.maxLength(30)]],
+      correo        : ['', [Validators.required, Validators.email]],
+      dpi           : ['', [Validators.required, Validators.maxLength(20)]],
+      idTipoPersona : ['', Validators.required]
+    })
+  }
+
+  setForm(persona: PersonaRelaciones) {
+    this.Form.setValue({
+      idPersona     : persona.idPersona,
+      nombre        : persona.nombre,
+      apellidos     : persona.apellidos,
+      correo        : persona.correo,
+      dpi           : persona.dpi,
+      idTipoPersona : persona.Tipo_Persona?.idTipoPersona
+    })
+
+    this.idItem = persona.idPersona;
+  }
+
+  openModal(persona?: PersonaRelaciones) {
+    this.initForm();
+
+    if (persona) {
+      this.newItem = false;
+      return this.setForm(persona);
+    }
+  }
+
+  createItem() {
+    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
+
+    const { idPersona, ...rest } = this.Form.value;
+
+    if (idPersona) {
+      return this.updatePerson(idPersona, rest);
+    }
+
+    this.createPerson(rest);
+  }
+
+  deleteItem() {
+    Swal.fire({
+      title : '¡Atención!',
+      text  : '¿Está seguro de eliminar el rol?',
+      icon  : 'warning',
+      showConfirmButton : true,
+      showCancelButton  : true
+    }).then((res: any) => {
+
+      if (res.isConfirmed) {
+        this.deletePerson(this.idItem);
+      }
+
+    })
   }
 }
