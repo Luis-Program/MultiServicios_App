@@ -86,9 +86,7 @@ export class TelefonoComponent implements OnInit {
         if (phone) {
           const phoneIndex = this.telefonos.findIndex(
             (res) => res.idTelefono === idTelefono);
-            console.log("Tipo antiguo: "+this.telefonos[phoneIndex].Tipo_Telefono?.tipo);
           this.telefonos[phoneIndex] = phone;
-          console.log("Tipo nuevo: "+this.telefonos[phoneIndex].Tipo_Telefono?.tipo);
           Swal.fire({
             title: "Actualizado",
             text: "Teléfono actualizado",
@@ -131,7 +129,7 @@ export class TelefonoComponent implements OnInit {
     this.newPhone = true;
     this.phoneForm = this.formBuilder.group({
       numero: ['', [Validators.required, Validators.maxLength(8)]],
-      idPersona: ['', [Validators.required]],
+      idPersona: [this.idPersona],
       idTipoTelefono: ['', [Validators.required]]
     });
   }
@@ -152,7 +150,6 @@ export class TelefonoComponent implements OnInit {
     if (this.phoneForm.invalid) return Object.values(this.phoneForm.controls).forEach(c => c.markAsTouched());
     if (!this.phoneForm.touched) return;
     const { idTelefono, ...rest } = this.phoneForm.value;
-      console.log(idTelefono+ " "+ rest)
     if (idTelefono) {
       return this.updatePhone(idTelefono, rest);
     }

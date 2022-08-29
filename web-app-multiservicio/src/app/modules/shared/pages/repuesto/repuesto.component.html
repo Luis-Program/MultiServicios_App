@@ -95,7 +95,7 @@
                       <label for="recipient-name" class="control-label">Nombre:</label>
                       <input type="text" class="form-control" id="recipient-name1" formControlName="nombre" readonly>
                       <label for="recipient-name" class="control-label">Cantidad:</label>
-                      <input type="number" min="0" class="form-control" id="recipient-name1"
+                      <input type="number" min="0" [max]="maxValueInput" class="form-control" id="recipient-name1"
                         formControlName="cantidadDisponible">
                     </ng-template>
                   </div>
