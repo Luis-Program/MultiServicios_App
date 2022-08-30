@@ -34,7 +34,7 @@
                   <td>{{ auditoriaServicio.nombreCliente }}</td>
                   <td>{{ auditoriaServicio.prioridad }}</td>
                   <td>{{ auditoriaServicio.tipoServicio }}</td>
-                  <td (click)="openModal(auditoriaServicio)"><i class="mdi mdi-chevron-right"></i></td>
+                  <td data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(auditoriaServicio)"><i class="mdi mdi-chevron-right"></i></td>
                 </tr>
               </tbody>
             </table>
@@ -42,6 +42,96 @@
         </div>
         <!-- /TABLE -->
 
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Auditoria</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+
+              <div class="modal-body">
+                <form [formGroup]="Form">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">DPI Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="dpiCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">DPI Trabajador*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="dpiTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Empresa Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="empresaCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">NIT Empresa Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="empresaClienteNit">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Estado*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="estado">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha Hora*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHora">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha Trabajador*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHoraAsignadoTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha de creción*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHoraCreado">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha de finalización*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHoraFinalizado">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha realizado*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHoraRealizar">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Audotoria servicio*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="idAuditoriaServicio">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Servicio*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="idServicio">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre del cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="nombreCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre del equipo*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="nombreEquipo">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre del trabajador*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="nombreTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Prioridad*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="prioridad">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tipo de servicio*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="tipoServicio">
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
       </div>
     </div>
   </div>
