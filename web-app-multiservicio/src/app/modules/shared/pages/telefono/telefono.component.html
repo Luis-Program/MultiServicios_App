@@ -1,4 +1,4 @@
-<!-- 
+<!--
 <h1>Telefonos</h1>
 <h3 *ngIf="loading">Cargando</h3>
 <div>
@@ -14,32 +14,32 @@
   <p>------------------------------------</p>
 </div> -->
 
-<!-- ADD PHONE BUTTON -->
-<div class="row page-titles">
-  <div>
-    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal"
-      data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByPhone()">
-      <i class="mdi mdi-plus"></i>
-    </button>
-  </div>
-</div>
-
-<!-- /ADD PHONE BUTTON -->
 <div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
 
-        <!-- INPUT SEARCH -->
-        <div class="row">
-          <div class="col-12">
+        <div class="row mt-5">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByPhone()">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+
+          <!-- INPUT SEARCH -->
+          <div class="col-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
+          <!-- /INPUT SEARCH -->
         </div>
-        <!-- /INPUT SEARCH -->
 
-        <div class="row mt-3">
-          <!-- CARD -->
+        <!-- CARD -->
+        <div class="row mt-5">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let telefono of telefonos | filterPhone:filter">
             <div class="card card-outline-info" (click)="openModalByPhone(telefono)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
@@ -49,7 +49,7 @@
                 <div class="row">
                   <div class="col-12">
                     <h3 class="card-title text-dark">
-                      {{ telefono.Tipo_Telefono ? telefono.Tipo_Telefono.tipo : 'No ingresado.' }}</h3>                    
+                      {{ telefono.Tipo_Telefono ? telefono.Tipo_Telefono.tipo : 'No ingresado.' }}</h3>
                     <p class="card-title">{{ telefono.numero }}</p>
                   </div>
                 </div>
@@ -73,13 +73,14 @@
                 <form [formGroup]="phoneForm">
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Número:</label>
-                    <input type="number" class="form-control" min="10000000" max="99999999" id="recipient-name1" formControlName="numero">
+                    <input type="number" class="form-control" min="10000000" max="99999999" id="recipient-name1"
+                      formControlName="numero">
                     <label for="recipient-name" class="control-label">Tipo Teléfono:</label>
                     <select class="form-control custom-select" formControlName="idTipoTelefono">
                       <option *ngFor="let tipoTelefono of tiposTelefonos" [value]="tipoTelefono.idTipoTelefono">
                         {{ tipoTelefono.tipo }}</option>
                     </select>
-                    <small *ngIf="idTipoTelefono <= 0" class="form-control-feedback">No ingresado *</small>                
+                    <small *ngIf="idTipoTelefono <= 0" class="form-control-feedback">No ingresado *</small>
                   </div>
                 </form>
               </div>

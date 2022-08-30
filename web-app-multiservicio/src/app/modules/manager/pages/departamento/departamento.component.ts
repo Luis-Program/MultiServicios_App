@@ -15,8 +15,9 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 export class DepartamentoComponent implements OnInit {
 
   protected departamentos: DepartamentoRelaciones[] = [];
-  protected paises: Pais[] = [];
   protected pais: Pais | null = null;
+  protected codeCountry! : number | null;
+  protected paises: Pais[] = [];
   protected loading = false;
   protected filter = "";
 
@@ -165,6 +166,7 @@ export class DepartamentoComponent implements OnInit {
 
     if (department) {
       this.newDepartment = false;
+      this.codeCountry = (department.Pais) ? department.Pais.codigo : null;
       return this.setDepartmentForm(department);
     }
   }

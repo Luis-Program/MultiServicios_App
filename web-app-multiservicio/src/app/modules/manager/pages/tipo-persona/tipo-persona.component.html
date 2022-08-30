@@ -1,30 +1,32 @@
-<!-- ADD TYPE PERSON BUTTON -->
-<div class="row page-titles">
-  <div>
-    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
-      <i class="mdi mdi-plus"></i>
-    </button>
-  </div>
-</div>
-<!-- /ADD COUNTRY BUTTON -->
-
 <div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
 
-        <!-- INPUT SEARCH -->
-        <div class="row">
-          <div class="col-12">
+        <div class="row mt-5">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+
+          <!-- INPUT SEARCH -->
+          <div class="col-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
+          <!-- /INPUT SEARCH -->
         </div>
-        <!-- /INPUT SEARCH -->
 
-        <!-- CARDS -->
-        <div class="row mt-3">
+        <!-- CARD -->
+        <div class="row mt-5">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let tipoPersona of tiposPersonas | filterTypePerson:filter">
-            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(tipoPersona)">
+            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+              (click)="openModal(tipoPersona)">
               <div class="card-header bg-dark">
               </div>
               <div class="card-body border">
@@ -73,9 +75,12 @@
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" *ngIf="!newItem" data-dismiss="modal" (click)="deleteItem()">Eliminar</button>
-                <button type="button" class="btn btn-primary" *ngIf="newItem" data-dismiss="modal"  (click)="createItem()">Crear</button>
-                <button type="button" class="btn btn-primary" *ngIf="!newItem" data-dismiss="modal" (click)="createItem()">Editar</button>
+                <button type="button" class="btn btn-default" *ngIf="!newItem" data-dismiss="modal"
+                  (click)="deleteItem()">Eliminar</button>
+                <button type="button" class="btn btn-primary" *ngIf="newItem" data-dismiss="modal"
+                  (click)="createItem()">Crear</button>
+                <button type="button" class="btn btn-primary" *ngIf="!newItem" data-dismiss="modal"
+                  (click)="createItem()">Editar</button>
               </div>
 
             </div>

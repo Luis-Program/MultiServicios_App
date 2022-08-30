@@ -1,13 +1,3 @@
-<!-- ADD COUNTRY BUTTON -->
-<div class="row page-titles">
-  <div>
-    <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
-      <i class="mdi mdi-plus"></i>
-    </button>
-  </div>
-</div>
-<!-- /ADD COUNTRY BUTTON -->
-
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -16,16 +6,9 @@
         <div class="row">
           <div class="col-12">
             <div class="chart-container">
-              <ngx-charts-bar-horizontal
-                [scheme]="colorScheme"
-                [results]="single"
-                [gradient]="gradient"
-                [xAxis]="showXAxis"
-                [yAxis]="showYAxis"
-                [legend]="showLegend"
-                [showXAxisLabel]="showXAxisLabel"
-                [xAxisLabel]="xAxisLabel"
-                [legendTitle]="legendTitle">
+              <ngx-charts-bar-horizontal [scheme]="colorScheme" [results]="single" [gradient]="gradient"
+                [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                [xAxisLabel]="xAxisLabel" [legendTitle]="legendTitle">
               </ngx-charts-bar-horizontal>
             </div>
           </div>
@@ -33,18 +16,30 @@
 
         <hr>
 
-        <!-- INPUT SEARCH -->
         <div class="row mt-5">
-          <div class="col-12">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+
+          <!-- INPUT SEARCH -->
+          <div class="col-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
+          <!-- /INPUT SEARCH -->
         </div>
-        <!-- /INPUT SEARCH -->
 
         <!-- CARD -->
         <div class="row mt-5">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let empresa of empresas | filterNameCode:filter">
-            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(empresa)">
+            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+              (click)="openModal(empresa)">
               <div class="card-header bg-dark">
               </div>
               <div class="card-body border">
@@ -69,7 +64,8 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel1">Empresa</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
               </div>
 
               <div class="modal-body">
