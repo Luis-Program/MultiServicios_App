@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PersonaRelaciones, UpdatePersonaDTO } from 'src/app/models/persona.model';
+import { PersonaRelacionesLogin, UpdatePersonaDTO } from 'src/app/models/persona.model';
 import { PersonaService } from 'src/app/services/persona.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { PersonaService } from 'src/app/services/persona.service';
 })
 export class ProfileComponent implements OnInit {
 
-  protected persona: PersonaRelaciones | null = null;
+  protected persona: PersonaRelacionesLogin | null = null;
   protected idPersona: string | null = null;
   protected rol: string | null = null;
   protected loading = false;

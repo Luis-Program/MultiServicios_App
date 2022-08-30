@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthB2cService } from 'src/app/services/auth-b2c.service';
 import { NotificacionService } from 'src/app/services/notificacion.service';
-import { PersonaRelaciones, UpdatePersonaDTO } from 'src/app/models/persona.model';
+import { PersonaRelacionesLogin, UpdatePersonaDTO } from 'src/app/models/persona.model';
 import { PersonaService } from 'src/app/services/persona.service';
 import { Notificacion } from 'src/app/models/notificacion.model';
 import Swal from 'sweetalert2';
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 export class HeaderComponent implements OnInit {
 
   protected notificaciones: Notificacion[] = [];
-  protected persona: PersonaRelaciones | null = null;
+  protected persona: PersonaRelacionesLogin | null = null;
   protected idPersona: string | null = null;
   protected rol: string | null = null;
   protected loading = false;

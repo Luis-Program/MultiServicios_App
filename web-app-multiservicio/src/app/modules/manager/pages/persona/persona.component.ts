@@ -13,26 +13,28 @@ import Swal from 'sweetalert2';
 })
 export class PersonaComponent implements OnInit {
 
-  protected persona: PersonaRelaciones | null = null;
-  protected personas: PersonaRelaciones[] = [];
-  protected trabajador: Trabajadores | null = null;
-  protected trabajadores: Trabajadores[] = [];
-  protected cliente: Clientes | null = null;
-  protected clientes: Clientes[] = [];
+  protected trabajadorServicios: ServiciosFinalizadosPendientes | null = null;
+  protected trabajadoresMinMaxServices: TrabajadoresMinMaxServicios[] = [];
   protected tiposPersonas: TipoPersonaDropDown[] = [];
+  protected persona: PersonaRelaciones | null = null;
+  protected trabajador: Trabajadores | null = null;
+  protected personas: PersonaRelaciones[] = [];
+  protected trabajadores: Trabajadores[] = [];
+  protected loadingGraphicOneWorker = false; // Carga de grafica cuando se selecciona un solo trabajador y muestra los servicios finalizados y pendientes
+  protected cliente: Clientes | null = null;
+  protected loadingGraphicWorker = false; // Carga de grafica cuando se traen los trabajdores con la cantidad de servicios que tienen
+  protected clientes: Clientes[] = [];
+  protected worker = false;
+  protected amountPerson!: number;
+  protected loading = false; // Carga principal
   protected tipo = 'all';
   protected filter = "";
-  protected trabajadoresMinMaxServices: TrabajadoresMinMaxServicios[] = [];
-  protected trabajadorServicios: ServiciosFinalizadosPendientes | null = null;
-  protected loading = false; // Carga principal
-  protected loadingGraphicWorker = false; // Carga de grafica cuando se traen los trabajdores con la cantidad de servicios que tienen
-  protected loadingGraphicOneWorker = false; // Carga de grafica cuando se selecciona un solo trabajador y muestra los servicios finalizados y pendientes
 
   // CHART OPERADOR
-  public gradient       : boolean = true;
-  public showLabels     : boolean = true;
-  public isDoughnut     : boolean = false;
-  public colorScheme    : string = 'vivid';
+  public gradient: boolean = true;
+  public showLabels: boolean = true;
+  public isDoughnut: boolean = false;
+  public colorScheme: string = 'vivid';
   public chartData      !: any[];
   public showoperatorChart !: boolean;
 
@@ -41,16 +43,16 @@ export class PersonaComponent implements OnInit {
   public idItem   !: number;
 
   // GRAFICA DE BARRAS CHART
-  public showXAxis      : boolean = true;
-  public showYAxis      : boolean = true;
-  public showXAxisLabel : boolean = true;
-  public xAxisLabel     : string  = 'Servicios asignados';
-  public showYAxisLabel : boolean = true;
-  public yAxisLabel     : string  = 'Trabajadores';
+  public showXAxis: boolean = true;
+  public showYAxis: boolean = true;
+  public showXAxisLabel: boolean = true;
+  public showYAxisLabel: boolean = true;
   public workersChart   !: any[];
   public showworkersChart !: boolean;
-  public showLegend     : boolean = true;
-  public legendTitle    : string = 'Trabajadores'
+  public showLegend: boolean = true;
+  public xAxisLabel!: string;
+  public yAxisLabel!: string;
+  public legendTitle!: string;
 
   constructor(
     private personaService: PersonaService,
@@ -61,7 +63,7 @@ export class PersonaComponent implements OnInit {
   ngOnInit(): void {
     this.getAllPersonsWithRelations();
     this.getAllTypePersons();
-    this.getWorkersMinMax();
+    this.getAllClients();
     this.getAllWorkers();
     this.initForm();
   }
@@ -83,9 +85,7 @@ export class PersonaComponent implements OnInit {
     this.personaService.getAllWorkersWithServices()
       .subscribe(persons => {
         this.trabajadores = persons;
-        this.getWorkersMinMax();
         this.loading = false;
-        this.tipo = "worker";
       });
   }
 
@@ -93,36 +93,74 @@ export class PersonaComponent implements OnInit {
     this.loadingGraphicWorker = true;
     this.personaService.getWorkersMinMaxServices()
       .subscribe(minMax => {
-        this.trabajadoresMinMaxServices = minMax;
-        
         this.workersChart = [
           {
-            name : `${minMax[0].persona.nombre} ${minMax[0].persona.apellidos}`,
-            value: minMax[0].cantidadService
+            name: `${minMax[0].nombre} ${minMax[0].apellidos}`,
+            value: minMax[0].cantidad
           },
           {
-            name : `${minMax[1].persona.nombre} ${minMax[1].persona.apellidos}`,
-            value: minMax[1].cantidadService
+            name: `${minMax[1].nombre} ${minMax[1].apellidos}`,
+            value: minMax[1].cantidad
           }
         ];
-
         this.showworkersChart = true;
-        
+        this.loadingGraphicWorker = false;
+      });
+  }
+
+  protected getClientsMinMax() {
+    this.loadingGraphicWorker = true;
+    this.personaService.getClientsWithAmountEquipsMinMax()
+      .subscribe(minMax => {
+        this.workersChart = [
+          {
+            name: `${minMax[0].nombre} ${minMax[0].apellidos}`,
+            value: minMax[0].cantidad
+          },
+          {
+            name: `${minMax[1].nombre} ${minMax[1].apellidos}`,
+            value: minMax[1].cantidad
+          }
+        ];
+        this.showworkersChart = true;
         this.loadingGraphicWorker = false;
       });
   }
 
   protected changeTypePerson(tipo: string) {
     if (tipo === 'worker') {
-      this.getAllWorkers();
+      this.xAxisLabel = "Servicios asignados"
+      this.yAxisLabel = 'Trabajadores';
+      this.legendTitle = 'Trabajadores'
+      this.getWorkersMinMax();
+      this.tipo = tipo;
+    }else  if (tipo === 'client') {
+      this.xAxisLabel = 'Cantidad de equipos';
+      this.yAxisLabel = 'Clientes';
+      this.legendTitle = 'Clientes'
+      this.getClientsMinMax();
+      this.tipo = tipo;
+    }else {
       this.tipo = tipo;
     }
-    if (tipo === 'client') {
-      this.getAllClients();
-      this.tipo = tipo;
+  }
+
+  protected get type() {
+    switch (this.tipo) {
+      case 'worker':
+        return 'Trabajador';
+      case 'client':
+        return 'Cliente';
+      default:
+        return 'Persona'
     }
-    if (tipo === 'all') {
-      this.tipo = tipo;
+  }
+
+  protected get amount() {
+    if (this.tipo === 'worker') {
+      return "Cantidad de servicios: "
+    } else {
+      return "Cantidad de equipos: "
     }
   }
 
@@ -135,7 +173,6 @@ export class PersonaComponent implements OnInit {
       .subscribe(persons => {
         this.clientes = persons;
         this.loading = false;
-        this.tipo = "client";
       });
   }
 
@@ -149,39 +186,26 @@ export class PersonaComponent implements OnInit {
   }
 
   protected getOnePerson(idPersona: number) {
-    const personIndex = this.personas.findIndex(
-      (res) => res.idPersona === idPersona);
-    let alter = this.personas[personIndex];
-    if (alter && alter.Tipo_Persona) {
-      switch (alter.Tipo_Persona.tipo) {
-        case 'Cliente':
-        this.cliente = this.clientes.find(person => person.idPersona = idPersona) as Clientes;
-          break;
-        case 'Trabajador Operacional':
-          this.loadingGraphicOneWorker = true;
-          this.trabajador = this.trabajadores.find(person => person.idPersona = idPersona) as Trabajadores;
-          this.personaService.getOneWorkerServicesAmount(idPersona)
-            .subscribe(amount => {
-              this.chartData = [
-                {
-                  name  : 'Finalizados',
-                  value : amount.finalizados
-                },
-                {
-                  name  : 'Pendientes',
-                  value : amount.pendientes
-                }
-              ]
-              this.showoperatorChart = true;
-              this.loadingGraphicOneWorker = false;
-            })
-          break;
-          default:
-          this.persona = this.personas.find(person => person.idPersona = idPersona) as PersonaRelaciones;
-          break;
-      }
-      // show content
-    }
+    this.loadingGraphicOneWorker = true;
+    this.personaService.getOneWorkerServicesAmount(idPersona)
+      .subscribe(amount => {
+        if (amount.finalizados || amount.pendientes) {
+          this.chartData = [
+            {
+              name: 'Finalizados',
+              value: amount.finalizados
+            },
+            {
+              name: 'Pendientes',
+              value: amount.pendientes
+            }
+          ]
+          this.showoperatorChart = true;
+        } else {
+          this.showoperatorChart = false;
+        }
+        this.loadingGraphicOneWorker = false;
+      });
   }
 
   protected createPerson(dto: CreatePersonaDTO) {
@@ -189,12 +213,17 @@ export class PersonaComponent implements OnInit {
     this.personaService.create(dto)
       .subscribe(person => {
         if (person) {
-          this.clearInput();
+          if (this.tipo === "client" && person.tipo === "Cliente") {
+            this.clientes.push(person);
+          } else if (this.tipo === "worker" && person.tipo === "Trabajador Operacional") {
+            this.trabajadores.push(person);
+          }
           this.personas.push(person);
+          this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Creado',
-            text  : 'Usuario creado'
+            icon: 'success',
+            title: 'Creado',
+            text: 'Usuario creado'
           })
         }
         this.loading = false;
@@ -203,17 +232,19 @@ export class PersonaComponent implements OnInit {
 
   protected updatePerson(idPersona: number, dto: UpdatePersonaDTO) {
     this.loading = true;
-    this.personaService.update(idPersona, dto)
+    this.personaService.updateManager(idPersona, dto)
       .subscribe(res => {
         if (res) {
+          this.getAllWorkers();
+          this.getAllClients();
           const personIndex = this.personas.findIndex(
-            (res) => res.idPersona === idPersona);
+            (rest) => rest.idPersona === idPersona);
           this.personas[personIndex] = res;
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Actualizado',
-            text  : 'Usuario actualizado'
+            icon: 'success',
+            title: 'Actualizado',
+            text: 'Usuario actualizado'
           })
         }
         this.loading = false;
@@ -227,12 +258,14 @@ export class PersonaComponent implements OnInit {
         if (res) {
           const personIndex = this.personas.findIndex(
             (person) => person.idPersona === idPersona);
+          this.getAllWorkers();
+          this.getAllClients();
           this.personas.splice(personIndex, 1);
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Eliminado',
-            text  : 'Usuario eliminado'
+            icon: 'success',
+            title: 'Eliminado',
+            text: 'Usuario eliminado'
           })
         }
         this.loading = false;
@@ -246,34 +279,39 @@ export class PersonaComponent implements OnInit {
   initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
-      idPersona     : [''],
-      nombre        : ['', [Validators.required, Validators.maxLength(30)]],
-      apellidos     : ['', [Validators.required, Validators.maxLength(30)]],
-      correo        : ['', [Validators.required, Validators.email]],
-      dpi           : ['', [Validators.required, Validators.maxLength(20)]],
-      idTipoPersona : ['', Validators.required]
+      idPersona: [''],
+      nombre: ['', [Validators.required, Validators.maxLength(30)]],
+      apellidos: ['', [Validators.required, Validators.maxLength(30)]],
+      correo: ['', [Validators.required, Validators.email]],
+      dpi: ['', [Validators.required, Validators.maxLength(20)]],
+      idTipoPersona: ['', Validators.required]
     })
   }
 
-  setForm(persona: PersonaRelaciones) {
+  setForm(persona: PersonaRelaciones | Clientes | Trabajadores) {
     this.Form.setValue({
-      idPersona     : persona.idPersona,
-      nombre        : persona.nombre,
-      apellidos     : persona.apellidos,
-      correo        : persona.correo,
-      dpi           : persona.dpi,
-      idTipoPersona : persona.Tipo_Persona?.idTipoPersona
+      idPersona: persona.idPersona,
+      nombre: persona.nombre,
+      apellidos: persona.apellidos,
+      correo: persona.correo,
+      dpi: persona.dpi,
+      idTipoPersona: persona.idTipoPersona
     })
-
-    this.getOnePerson(persona.idPersona);
     this.idItem = persona.idPersona;
+    if (persona.tipo === "Trabajador Operacional") {
+      this.getOnePerson(persona.idPersona);
+    }
   }
 
-  openModal(persona?: PersonaRelaciones) {
+  openModal(persona?: PersonaRelaciones | Clientes | Trabajadores) {
     this.initForm();
 
     if (persona) {
       this.newItem = false;
+      if (this.tipo != 'all') {
+        this.amountPerson = (this.tipo != 'all') ? persona.cantidad : 0;
+      }
+      (persona.tipo === "Trabajador Operacional") ? this.worker = true : this.worker = false;
       return this.setForm(persona);
     }
   }
@@ -282,21 +320,19 @@ export class PersonaComponent implements OnInit {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
     const { idPersona, ...rest } = this.Form.value;
-
     if (idPersona) {
       return this.updatePerson(idPersona, rest);
     }
-
     this.createPerson(rest);
   }
 
   deleteItem() {
     Swal.fire({
-      title : '¡Atención!',
-      text  : '¿Está seguro de eliminar el rol?',
-      icon  : 'warning',
-      showConfirmButton : true,
-      showCancelButton  : true
+      title: '¡Atención!',
+      text: '¿Está seguro de eliminar el rol?',
+      icon: 'warning',
+      showConfirmButton: true,
+      showCancelButton: true
     }).then((res: any) => {
 
       if (res.isConfirmed) {

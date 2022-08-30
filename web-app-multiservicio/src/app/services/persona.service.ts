@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { retry, catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { Clientes, CreatePersonaDTO, Persona, PersonaDropdown, PersonaRelaciones, ServiciosFinalizadosPendientes, Trabajadores, TrabajadoresDropDown, TrabajadoresMinMaxServicios, UpdatePersonaDTO } from '../models/persona.model';
+import { Clientes, CreatePersonaDTO, Persona, PersonaDropdown, PersonaRelaciones, PersonaRelacionesLogin, ServiciosFinalizadosPendientes, Trabajadores, TrabajadoresDropDown, TrabajadoresMinMaxServicios, UpdatePersonaDTO } from '../models/persona.model';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -35,7 +35,7 @@ export class PersonaService {
     // this.apiUrl = `${environment.API_URL_EMPLOYEE}/api/v1/personas`;
     // this.apiUrl = `${environment.API_URL_CLIENT}/api/v1/personas`;
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
-    return this.http.get<PersonaRelaciones>(`${this.apiUrl}/correo/${email}`)
+    return this.http.get<PersonaRelacionesLogin>(`${this.apiUrl}/correo/${email}`)
       .pipe(
         retry(3),
         catchError((error: HttpErrorResponse) => {
@@ -100,7 +100,7 @@ export class PersonaService {
 
   public getClientsWithAmountEquipsMinMax() {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
-    return this.http.get<Clientes[]>(this.apiUrl + '/personasminmaxequipos')
+    return this.http.get<TrabajadoresMinMaxServicios[]>(this.apiUrl + '/personasminmaxequipos')
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);
@@ -127,7 +127,7 @@ export class PersonaService {
 
   public getOne(idPersona: number | string) {
     this.getAPI();
-    return this.http.get<PersonaRelaciones>(`${this.apiUrl}/${idPersona}`)
+    return this.http.get<PersonaRelacionesLogin>(`${this.apiUrl}/${idPersona}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);
@@ -152,9 +152,18 @@ export class PersonaService {
         }));
   }
 
+  public updateManager(idPersona: number | string, dto: UpdatePersonaDTO) {
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
+    return this.http.patch<PersonaRelaciones>(`${this.apiUrl}/update/${idPersona}`, dto)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
   public update(idPersona: number | string, dto: UpdatePersonaDTO) {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
-    return this.http.patch<PersonaRelaciones>(`${this.apiUrl}/${idPersona}`, dto)
+    return this.http.patch<PersonaRelacionesLogin>(`${this.apiUrl}/${idPersona}`, dto)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);

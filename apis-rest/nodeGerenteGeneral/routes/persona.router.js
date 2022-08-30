@@ -248,6 +248,26 @@ router.patch('/:idPersona',
   }
 );
 
+router.patch('/update/:idPersona',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  validatorHandler(getPersonaSchema, 'params'),
+  validatorHandler(updatePersonaSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const {
+        idPersona
+      } = req.params;
+      const body = req.body;
+      const persona = await service.updateManger(idPersona, body);
+      res.json(persona);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.delete('/:idPersona',
   passport.authenticate('oauth-bearer', {
     session: false
