@@ -28,9 +28,29 @@ export class PersonaComponent implements OnInit {
   protected loadingGraphicWorker = false; // Carga de grafica cuando se traen los trabajdores con la cantidad de servicios que tienen
   protected loadingGraphicOneWorker = false; // Carga de grafica cuando se selecciona un solo trabajador y muestra los servicios finalizados y pendientes
 
+  // CHART OPERADOR
+  public gradient       : boolean = true;
+  public showLabels     : boolean = true;
+  public isDoughnut     : boolean = false;
+  public colorScheme    : string = 'vivid';
+  public chartData      !: any[];
+  public showoperatorChart !: boolean;
+
   public Form     !: FormGroup;
   public newItem  !: boolean;
   public idItem   !: number;
+
+  // GRAFICA DE BARRAS CHART
+  public showXAxis      : boolean = true;
+  public showYAxis      : boolean = true;
+  public showXAxisLabel : boolean = true;
+  public xAxisLabel     : string  = 'Servicios asignados';
+  public showYAxisLabel : boolean = true;
+  public yAxisLabel     : string  = 'Trabajadores';
+  public workersChart   !: any[];
+  public showworkersChart !: boolean;
+  public showLegend     : boolean = true;
+  public legendTitle    : string = 'Trabajadores'
 
   constructor(
     private personaService: PersonaService,
@@ -41,6 +61,8 @@ export class PersonaComponent implements OnInit {
   ngOnInit(): void {
     this.getAllPersonsWithRelations();
     this.getAllTypePersons();
+    this.getWorkersMinMax();
+    this.getAllWorkers();
     this.initForm();
   }
 
@@ -72,6 +94,20 @@ export class PersonaComponent implements OnInit {
     this.personaService.getWorkersMinMaxServices()
       .subscribe(minMax => {
         this.trabajadoresMinMaxServices = minMax;
+        
+        this.workersChart = [
+          {
+            name : `${minMax[0].persona.nombre} ${minMax[0].persona.apellidos}`,
+            value: minMax[0].cantidadService
+          },
+          {
+            name : `${minMax[1].persona.nombre} ${minMax[1].persona.apellidos}`,
+            value: minMax[1].cantidadService
+          }
+        ];
+
+        this.showworkersChart = true;
+        
         this.loadingGraphicWorker = false;
       });
   }
@@ -126,8 +162,17 @@ export class PersonaComponent implements OnInit {
           this.trabajador = this.trabajadores.find(person => person.idPersona = idPersona) as Trabajadores;
           this.personaService.getOneWorkerServicesAmount(idPersona)
             .subscribe(amount => {
-              this.trabajadorServicios = amount;
-              console.log(amount);
+              this.chartData = [
+                {
+                  name  : 'Finalizados',
+                  value : amount.finalizados
+                },
+                {
+                  name  : 'Pendientes',
+                  value : amount.pendientes
+                }
+              ]
+              this.showoperatorChart = true;
               this.loadingGraphicOneWorker = false;
             })
           break;
@@ -220,6 +265,7 @@ export class PersonaComponent implements OnInit {
       idTipoPersona : persona.Tipo_Persona?.idTipoPersona
     })
 
+    this.getOnePerson(persona.idPersona);
     this.idItem = persona.idPersona;
   }
 
