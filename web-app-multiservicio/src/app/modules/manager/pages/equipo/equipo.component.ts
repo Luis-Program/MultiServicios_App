@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DireccionDropDown } from 'src/app/models/direccion.model';
 import { EquipoRelacionesAnidadas, EquipoActivoInactivo, UnEquipoServicios, CreateEquipoDTO, UpdateEquipoDTO } from 'src/app/models/equipo.model';
-import { Clientes, PersonaDropdown } from 'src/app/models/persona.model';
+import { PersonaDropdown, TrabajadoresMinMaxServicios } from 'src/app/models/persona.model';
 import { DireccionService } from 'src/app/services/direccion.service';
 import { EquipoService } from 'src/app/services/equipo.service';
 import { PersonaService } from 'src/app/services/persona.service';
@@ -17,7 +17,7 @@ export class EquipoComponent implements OnInit {
   protected unEquipoServicio: UnEquipoServicios | null = null;
   protected direcciones: DireccionDropDown[] = [];
   protected equipos: EquipoRelacionesAnidadas[] = [];
-  protected clientesEquiposMinMax: Clientes[] = [];
+  protected clientesEquiposMinMax: TrabajadoresMinMaxServicios[] = [];
   protected idEquipo: number | null = null;
   protected clientes: PersonaDropdown[] = [];
   protected loadingGraphicEquipmentsInacAct = false; // Carga grafica de equipos inactivo y activos
