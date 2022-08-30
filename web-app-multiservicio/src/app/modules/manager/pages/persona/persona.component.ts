@@ -28,6 +28,14 @@ export class PersonaComponent implements OnInit {
   protected loadingGraphicWorker = false; // Carga de grafica cuando se traen los trabajdores con la cantidad de servicios que tienen
   protected loadingGraphicOneWorker = false; // Carga de grafica cuando se selecciona un solo trabajador y muestra los servicios finalizados y pendientes
 
+  // CHART OPERADOR
+  public gradient       : boolean = true;
+  public showLabels     : boolean = true;
+  public isDoughnut     : boolean = false;
+  public colorScheme    : string = 'vivid';
+  public chartData      !: any[];
+  public showoperatorChart !: boolean;
+
   public Form     !: FormGroup;
   public newItem  !: boolean;
   public idItem   !: number;
@@ -126,8 +134,17 @@ export class PersonaComponent implements OnInit {
           this.trabajador = this.trabajadores.find(person => person.idPersona = idPersona) as Trabajadores;
           this.personaService.getOneWorkerServicesAmount(idPersona)
             .subscribe(amount => {
-              this.trabajadorServicios = amount;
-              console.log(amount);
+              this.chartData = [
+                {
+                  name  : 'Finalizados',
+                  value : amount.finalizados
+                },
+                {
+                  name  : 'Pendientes',
+                  value : amount.pendientes
+                }
+              ]
+              this.showoperatorChart = true;
               this.loadingGraphicOneWorker = false;
             })
           break;
@@ -220,6 +237,7 @@ export class PersonaComponent implements OnInit {
       idTipoPersona : persona.Tipo_Persona?.idTipoPersona
     })
 
+    this.getOnePerson(persona.idPersona);
     this.idItem = persona.idPersona;
   }
 
