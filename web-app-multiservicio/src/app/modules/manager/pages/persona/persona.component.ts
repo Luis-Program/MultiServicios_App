@@ -62,6 +62,7 @@ export class PersonaComponent implements OnInit {
     this.getAllPersonsWithRelations();
     this.getAllTypePersons();
     this.getWorkersMinMax();
+    this.getAllWorkers();
     this.initForm();
   }
 

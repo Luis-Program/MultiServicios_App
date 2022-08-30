@@ -3,6 +3,7 @@
     <div class="card">
       <div class="card-body">
 
+        <!-- MAIN CHART -->
         <div class="row" *ngIf="showworkersChart">
           <div class="col-12">
             <div class="main-chart-container">
@@ -23,6 +24,7 @@
             </div>
           </div>
         </div>
+        <!-- /MAIN CHART -->
 
         <!-- INICIO BOTON -->
         <div class="row mt-5">
@@ -36,8 +38,13 @@
           </div>
           <!-- /ADD COUNTRY BUTTON -->
 
+          <div class="col-1">
+            <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('client')" *ngIf="tipo != 'client'">Clientes</button>
+            <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('worker')" *ngIf="tipo != 'worker'">Trabajadores</button>
+          </div>
+
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-10">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
