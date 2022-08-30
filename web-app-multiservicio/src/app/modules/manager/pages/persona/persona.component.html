@@ -3,6 +3,27 @@
     <div class="card">
       <div class="card-body">
 
+        <div class="row" *ngIf="showworkersChart">
+          <div class="col-12">
+            <div class="main-chart-container">
+              <ngx-charts-bar-horizontal
+                [scheme]="colorScheme"
+                [legend]="showLegend"
+                [results]="workersChart"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                [legendTitle]="legendTitle"
+                >
+              </ngx-charts-bar-horizontal>
+            </div>
+          </div>
+        </div>
+
         <!-- INICIO BOTON -->
         <div class="row mt-5">
           <!-- ADD COUNTRY BUTTON -->

@@ -40,6 +40,18 @@ export class PersonaComponent implements OnInit {
   public newItem  !: boolean;
   public idItem   !: number;
 
+  // GRAFICA DE BARRAS CHART
+  public showXAxis      : boolean = true;
+  public showYAxis      : boolean = true;
+  public showXAxisLabel : boolean = true;
+  public xAxisLabel     : string  = 'Servicios asignados';
+  public showYAxisLabel : boolean = true;
+  public yAxisLabel     : string  = 'Trabajadores';
+  public workersChart   !: any[];
+  public showworkersChart !: boolean;
+  public showLegend     : boolean = true;
+  public legendTitle    : string = 'Trabajadores'
+
   constructor(
     private personaService: PersonaService,
     private tipoPersonaService: TipoPersonaService,
@@ -49,6 +61,7 @@ export class PersonaComponent implements OnInit {
   ngOnInit(): void {
     this.getAllPersonsWithRelations();
     this.getAllTypePersons();
+    this.getWorkersMinMax();
     this.initForm();
   }
 
@@ -80,6 +93,20 @@ export class PersonaComponent implements OnInit {
     this.personaService.getWorkersMinMaxServices()
       .subscribe(minMax => {
         this.trabajadoresMinMaxServices = minMax;
+        
+        this.workersChart = [
+          {
+            name : `${minMax[0].persona.nombre} ${minMax[0].persona.apellidos}`,
+            value: minMax[0].cantidadService
+          },
+          {
+            name : `${minMax[1].persona.nombre} ${minMax[1].persona.apellidos}`,
+            value: minMax[1].cantidadService
+          }
+        ];
+
+        this.showworkersChart = true;
+        
         this.loadingGraphicWorker = false;
       });
   }
