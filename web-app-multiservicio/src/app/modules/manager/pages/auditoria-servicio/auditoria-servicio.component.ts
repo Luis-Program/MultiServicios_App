@@ -25,7 +25,7 @@ export class AuditoriaServicioComponent implements OnInit {
     this.loading = true;
     this.auditoriaServicioService.getAll()
     .subscribe(servicesAudit => {
-      this.auditoriaServicios = servicesAudit;
+      this.auditoriaServicios = servicesAudit;      
       this.loading = false;
     });
   }
@@ -34,5 +34,7 @@ export class AuditoriaServicioComponent implements OnInit {
     this.filter = "";
   }
 
-
+  openModal(auditoria: Auditoria_servicio) {
+    console.log(auditoria);
+  }
 }
