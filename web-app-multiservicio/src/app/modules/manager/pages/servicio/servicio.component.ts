@@ -40,12 +40,14 @@ export class ServicioComponent implements OnInit {
   protected idService!: number;
 
   public chartService!: any[];
+  public chartTypeService!: any[];
   public gradient     : boolean = true;
   public showLabels   : boolean = true;
   public isDoughnut   : boolean = false;
   public showLegend   : boolean = true;
   public colorScheme  : string  = 'nightLights';
   public legendTitle  : string  = 'Servicios';
+  public legendType   : string  = 'Tipos de servicios'
 
   constructor(
     private servicioService: ServicioService,
@@ -116,8 +118,19 @@ export class ServicioComponent implements OnInit {
   private getServiceByType() {
     this.loadingGraphicType = true;
     this.servicioService.getServiceAmountTypeService()
-      .subscribe(data => {
+      .subscribe((data: ServiciosCantidadPorTipoServicio) => {
         this.servicioPorTipo = data;
+
+        this.chartTypeService = [
+          {
+            name  : 'Preventivo',
+            value : data.preventivo 
+          },
+          {
+            name  : 'Correctivo',
+            value : data.correctivo 
+          }
+        ]        
         this.loadingGraphicType = false;
       });
   }
@@ -155,11 +168,7 @@ export class ServicioComponent implements OnInit {
             name  : 'Servicios sin asignar',
             value : data.cantidadServicios - data.serviciosAsignados
           }
-        ]
-
-        console.log(this.chartService);
-        
-        
+        ]        
         this.loadingGraphicAsig = this.loadingGraphicCom = false;
       });
   }

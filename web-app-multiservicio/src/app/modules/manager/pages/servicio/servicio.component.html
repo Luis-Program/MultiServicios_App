@@ -18,6 +18,20 @@
               </ngx-charts-pie-chart>
             </div>
           </div>
+          <div class="col-6">
+            <div class="chart-container">
+              <ngx-charts-pie-chart
+              [scheme]="colorScheme"
+              [results]="chartTypeService"
+              [legend]="showLegend"
+              [gradient]="gradient"
+              [labels]="showLabels"
+              [doughnut]="isDoughnut"
+              [legendTitle]="legendType"
+              >
+            </ngx-charts-pie-chart>
+            </div>
+          </div>
         </div>
 
         <div class="row mt-5">
