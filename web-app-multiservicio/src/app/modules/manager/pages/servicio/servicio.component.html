@@ -1,108 +1,38 @@
-<!-- <h1>Servicios</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div>
-  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-</div>
-<div *ngIf="servicioCantidades">
-  <h1>Gráficas</h1>
-  <h1>Asignados, completados, etc</h1>
-  <p>Total de servicios: {{servicioCantidades.cantidadServicios}}</p>
-  <p>Cantidad de servicios asignados: {{servicioCantidades.serviciosAsignados}}</p>
-  <p>Cantidad de servicios no asignados: {{servicioCantidades.serviciosSinAsignar}}</p>
-  <p>Cantidad de servicios finalizados: {{servicioCantidades.serviciosCompletados}}</p>
-  <p>Cantidad de servicios pendientes: {{servicioCantidades.serviciosPendientes}}</p>
-</div>
-<br>
-<div *ngIf="servicioPorTipo">
-  <h1>Gráficas</h1>
-  <h1>Cantidad de Servicios por tipo</h1>
-  <h4>Preventivo</h4>
-  <p>Cantidad: {{servicioPorTipo.preventivo}}</p>
-  <h4>Correctivo</h4>
-  <p>Cantidad: {{servicioPorTipo.correctivo}}</p>
-</div>
-<br>
-<div *ngFor="let service of servicios | filterService:filter ">
-  <h3>Servicio</h3>
-  <p>Id: {{service.idServicio}}</p>
-  <div *ngIf="service.fechaHoraRealizar; else noDate">
-    <p>Fecha y hora a realizar: {{service.fechaHoraRealizar}}</p>
-  </div>
-  <ng-template #noDate>
-    <p>Fecha y hora a realizar: Sin fecha</p>
-  </ng-template>
-  <p>Fecha Creado: {{service.fechaCreado}}</p>
-  <div *ngIf="service.fechaFinalizado; else noDateFinished">
-    <p>Fecha Finalizado: {{service.fechaFinalizado}}</p>
-  </div>
-  <ng-template #noDateFinished>
-    <p>Fecha Finalizado: Sin fecha</p>
-  </ng-template>
-  <p>Estado: {{service.estado}}</p>
-  <p>Prioridad: {{service.prioridad}}</p>
-  <div *ngIf="service.fechaHoraAsignadoTrabajador; else noDateAsigned">
-    <p>Fecha hora asignado trabajador: {{service.fechaHoraAsignadoTrabajador}}</p>
-  </div>
-  <ng-template #noDateAsigned>
-    <p>Fecha hora asignado trabajador: Sin fecha</p>
-  </ng-template>
-
-  <h3>Tipo de servicio</h3>
-  <p>Tipo: {{service.Tipo_Servicio ? service.Tipo_Servicio.tipoServicio : 'sin tipo servicio.'}}</p>
-
-  <h3>Equipo</h3>
-  <div *ngIf="service.Equipo; else noEquipment">
-    <p>Id: {{service.Equipo.idEquipo}}</p>
-    <p>Numero: {{service.Equipo.nombre}}</p>
-    <p>Modelo: {{service.Equipo.modelo}}</p>
-    <p>Estado: {{service.Equipo.estado}}</p>
-    <p>Fecha de último servicio: {{service.Equipo.fechaUltimoServicio}}</p>
-    <p>Plazo del servicio: {{service.Equipo.periodoDeServicio}}</p>
-    <p>Servicio preventivo Activo: {{service.Equipo.preventivoActivo}}</p>
-    <h4>Cliente</h4>
-    <p>nombre: {{service.Equipo.Persona.nombre}} {{service.Equipo.Persona.apellidos}}</p>
-    <h4>Ubicación</h4>
-    <div *ngIf="service.Equipo.Direccion; else nullDirection">
-      <p>Dirección: {{service.Equipo.Direccion.direccion}}</p>
-      <p>Municipio: {{service.Equipo.Direccion.Municipio ? service.Equipo.Direccion.Municipio.nombre : 'No ingresado.'}}
-      </p>
-      <p>Departamento:
-        {{service.Equipo.Direccion.Municipio && service.Equipo.Direccion.Municipio.Departamento ? service.Equipo.Direccion.Municipio.Departamento.nombre : 'No ingresado.'}}
-      </p>
-      <p>Pais:
-        {{service.Equipo.Direccion.Municipio && service.Equipo.Direccion.Municipio.Departamento && service.Equipo.Direccion.Municipio.Departamento.Pais ? service.Equipo.Direccion.Municipio.Departamento.Pais.nombre : 'No ingresado.'}}
-      </p>
-    </div>
-    <ng-template #nullDirection>
-      <p>Dirección: No ingresado.</p>
-      <p>Municipio: No ingresado.</p>
-      <h3>Departamento: No ingresado.</h3>
-      <p>Pais: No ingresado.</p>
-    </ng-template>
-  </div>
-  <ng-template #noEquipment>
-    <p>Sin equipo</p>
-  </ng-template>
-
-  <h3>Trabajador</h3>
-  <div *ngIf="service.Trabajador; else noWorker">
-    <p>Id: {{service.Trabajador.idPersona}}</p>
-    <p>Nombre: {{service.Trabajador.nombre}}</p>
-    <p>Apellido: {{service.Trabajador.apellidos}}</p>
-    <p>Correo: {{service.Trabajador.correo}}</p>
-    <p>Dpi: {{service.Trabajador.dpi}}</p>
-  </div>
-  <ng-template #noWorker>
-    <p>No asignado</p>
-  </ng-template>
-
-  <p>------------------------------------</p>
-</div> -->
-
 <div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
+
+        <div class="row">
+          <div class="col-6">
+            <div class="chart-container">
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="chartService"
+                [legend]="showLegend"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                [legendTitle]="legendTitle"
+                >
+              </ngx-charts-pie-chart>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="chart-container">
+              <ngx-charts-pie-chart
+              [scheme]="colorScheme"
+              [results]="chartTypeService"
+              [legend]="showLegend"
+              [gradient]="gradient"
+              [labels]="showLabels"
+              [doughnut]="isDoughnut"
+              [legendTitle]="legendType"
+              >
+            </ngx-charts-pie-chart>
+            </div>
+          </div>
+        </div>
 
         <div class="row mt-5">
           <!-- ADD BUTTON -->
@@ -116,19 +46,18 @@
           </div>
           <!-- /ADD BUTTON -->
 
+          <div class="col-1">
+            <button class="btn btn-outline-primary" (click)="switchView()"
+              *ngIf="viewCompletedService">Pendientes</button>
+            <button class="btn btn-outline-primary mr-3" (click)="switchView()"
+              *ngIf="!viewCompletedService">Completados</button>
+          </div>
+
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-10">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
-
-          <br>
-          <div class="col-1">
-            <button class="btn btn-outline-primary btn-large" (click)="switchView()"
-              *ngIf="viewCompletedService">Pendientes</button>
-            <button class="btn btn-outline-primary btn-large" (click)="switchView()"
-              *ngIf="!viewCompletedService">Completados</button>
-          </div>
 
         </div>
 
@@ -217,14 +146,13 @@
                   <div *ngIf="!newService">
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Fecha y hora de ejecución</label>
-                      <input type="date" class="form-control" id="recipient-name1" formControlName="fechaHoraRealizar">
+                      <input type="datetime" class="form-control" id="recipient-name1" formControlName="fechaHoraRealizar" readonly>
                     </div>
                     <label for="message-text" class="control-label">Trabajador*</label>
                     <select class="form-control custom-select" formControlName="idTrabajador">
                       <option *ngFor="let trabajador of trabajadores" [value]="trabajador.idPersona">
                         {{ trabajador.nombre }}</option>
                     </select>
-                    <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
                   </div>
 
                 </form>
