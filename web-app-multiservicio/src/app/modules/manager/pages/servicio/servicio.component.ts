@@ -24,7 +24,7 @@ export class ServicioComponent implements OnInit {
   protected serviciosCompletados: ServicioRelaciones[] = [];
   protected serviciosPendientes: ServicioRelaciones[] = [];
   protected trabajadores: TrabajadoresDropDown[] = [];
-  // protected servicios: ServicioRelaciones[] = [];
+  protected prioridad = ['Alta', 'Media', 'Baja'];
   protected tiposServicios: TipoServicio[] = [];
   protected idServicio: number | null = null;
   protected equipos: EquipoDropDown[] = [];
@@ -41,13 +41,13 @@ export class ServicioComponent implements OnInit {
 
   public chartService!: any[];
   public chartTypeService!: any[];
-  public gradient     : boolean = true;
-  public showLabels   : boolean = true;
-  public isDoughnut   : boolean = false;
-  public showLegend   : boolean = true;
-  public colorScheme  : string  = 'nightLights';
-  public legendTitle  : string  = 'Servicios';
-  public legendType   : string  = 'Tipos de servicios'
+  public gradient: boolean = true;
+  public showLabels: boolean = true;
+  public isDoughnut: boolean = false;
+  public showLegend: boolean = true;
+  public colorScheme: string = 'nightLights';
+  public legendTitle: string = 'Servicios';
+  public legendType: string = 'Tipos de servicios'
 
   constructor(
     private servicioService: ServicioService,
@@ -89,7 +89,7 @@ export class ServicioComponent implements OnInit {
   //     });
   // }
 
-  protected switchView(){
+  protected switchView() {
     if (this.viewCompletedService) {
       this.viewCompletedService = false;
       this.getAllServicesWithRelationsNotCompleted();
@@ -123,14 +123,14 @@ export class ServicioComponent implements OnInit {
 
         this.chartTypeService = [
           {
-            name  : 'Preventivo',
-            value : data.preventivo 
+            name: 'Preventivo',
+            value: data.preventivo
           },
           {
-            name  : 'Correctivo',
-            value : data.correctivo 
+            name: 'Correctivo',
+            value: data.correctivo
           }
-        ]        
+        ]
         this.loadingGraphicType = false;
       });
   }
@@ -149,26 +149,26 @@ export class ServicioComponent implements OnInit {
 
         this.chartService = [
           {
-            name  : 'Servicios completados',
-            value : data.serviciosCompletados
+            name: 'Servicios completados',
+            value: data.serviciosCompletados
           },
           {
-            name  : 'Cantidad de servicios',
-            value : data.cantidadServicios
+            name: 'Cantidad de servicios',
+            value: data.cantidadServicios
           },
           {
-            name  : 'Servicios asignados',
-            value : data.serviciosAsignados
+            name: 'Servicios asignados',
+            value: data.serviciosAsignados
           },
           {
-            name  : 'Servicios pendientes',
-            value : data.cantidadServicios - data.serviciosCompletados
+            name: 'Servicios pendientes',
+            value: data.cantidadServicios - data.serviciosCompletados
           },
           {
-            name  : 'Servicios sin asignar',
-            value : data.cantidadServicios - data.serviciosAsignados
+            name: 'Servicios sin asignar',
+            value: data.cantidadServicios - data.serviciosAsignados
           }
-        ]        
+        ]
         this.loadingGraphicAsig = this.loadingGraphicCom = false;
       });
   }
@@ -205,7 +205,7 @@ export class ServicioComponent implements OnInit {
   protected getOneService(idServicio: number) {
     this.servicioService.getOne(idServicio)
       .subscribe(service => {
-        this.filter = String(service.fechaCreado).replace("T", " ").substring(0,18);
+        this.filter = String(service.fechaCreado).replace("T", " ").substring(0, 18);
       });
   }
 
@@ -239,11 +239,11 @@ export class ServicioComponent implements OnInit {
           if (this.viewCompletedService) {
             const serviceIndex = this.serviciosCompletados.findIndex(
               (r) => r.idServicio === idServicio);
-              this.serviciosCompletados[serviceIndex] = res;
+            this.serviciosCompletados[serviceIndex] = res;
           } else {
             const serviceIndex = this.serviciosPendientes.findIndex(
               (r) => r.idServicio === idServicio);
-              this.serviciosPendientes[serviceIndex] = res;
+            this.serviciosPendientes[serviceIndex] = res;
           }
           Swal.fire({
             title: "Actualizado",
@@ -264,11 +264,11 @@ export class ServicioComponent implements OnInit {
           if (this.viewCompletedService) {
             const serviceIndex = this.serviciosCompletados.findIndex(
               (r) => r.idServicio === idServicio);
-              this.serviciosCompletados.splice(serviceIndex, 1);
+            this.serviciosCompletados.splice(serviceIndex, 1);
           } else {
             const serviceIndex = this.serviciosPendientes.findIndex(
               (r) => r.idServicio === idServicio);
-              this.serviciosPendientes.splice(serviceIndex, 1);
+            this.serviciosPendientes.splice(serviceIndex, 1);
           }
           Swal.fire({
             title: 'Eliminado',
@@ -282,44 +282,43 @@ export class ServicioComponent implements OnInit {
   }
 
   protected openModalByService(service?: ServicioRelaciones) {
-    if (service?.estado != "Servicio finalizado.") {
-      this.initForm();
-      if (service) {
+    this.initForm();
+    if (service) {
         this.newService = false;
-        return this.setPhone(service);
+        return this.setService(service);
       }
-    } else {
-      Swal.fire({
-        title: "Denegado",
-        text: "No puede modificar el servicio",
-        icon: 'warning'
-      });
-    }
+  }
 
+  protected throwAlert(){
+    Swal.fire({
+      title: "Denegado",
+      text: "No puede modificar el servicio",
+      icon: 'warning'
+    });
   }
 
   private initForm() {
     this.newService = true;
     this.serviceForm = this.formBuilder.group({
-      prioridad     : [''],
+      prioridad: [''],
       idTipoServicio: ['', [Validators.required]],
-      idEquipo      : ['', [Validators.required]],
+      idEquipo: ['', [Validators.required]],
     });
   }
 
-  private setPhone(service: ServicioRelaciones) {
+  private setService(service: ServicioRelaciones) {
     let idEquipo, idTipoServicio, idTrabajador = null;
     idEquipo = (service.Equipo.idEquipo) ? service.Equipo.idEquipo : 0;
     idTipoServicio = (service.Tipo_Servicio?.idTipoServicio) ? service.Tipo_Servicio.idTipoServicio : 0;
     idTrabajador = (service.Trabajador?.idPersona) ? service.Trabajador.idPersona : 0;
 
     this.serviceForm.setValue({
-      prioridad     : service.prioridad,
-      idTipoServicio: idTipoServicio,
-      idEquipo      : idEquipo,
+      prioridad: service.prioridad,
+      idTipoServicio: (idTipoServicio > 2) ? 1 : idTipoServicio,
+      idEquipo: idEquipo,
     });
-    
-    this.serviceForm.addControl('fechaHoraRealizar', this.formBuilder.control(formatDate(service.fechaHoraRealizar!, 'dd-MM-yyyy HH:mm:ss', 'en'), []))
+
+    this.serviceForm.addControl('fechaHoraRealizar', this.formBuilder.control(formatDate(service.fechaHoraRealizar!, 'yyyy-MM-ddTHH:mm:ss', 'en'), []))
     this.serviceForm.addControl('idTrabajador', this.formBuilder.control(idTrabajador, []))
 
     this.serviceForm.updateValueAndValidity();
@@ -331,21 +330,25 @@ export class ServicioComponent implements OnInit {
     if (!this.serviceForm.touched) return;
     const { idService, ...rest } = this.serviceForm.value;
     if (idService) {
-      return this.updateService(idService, rest);
+      if (!this.viewCompletedService) {
+        return this.updateService(idService, rest);
+      } else {
+        this.throwAlert();
+      }
     }
     return this.createService(rest);
   }
 
   protected deleteServiceModal() {
-    let servicio : ServicioRelaciones;
+    let servicio: ServicioRelaciones;
     if (this.viewCompletedService) {
       const serviceIndex = this.serviciosCompletados.findIndex(
         (r) => r.idServicio === this.idServicio);
-        servicio = this.serviciosCompletados[serviceIndex];
+      servicio = this.serviciosCompletados[serviceIndex];
     } else {
       const serviceIndex = this.serviciosPendientes.findIndex(
         (r) => r.idServicio === this.idServicio);
-        servicio = this.serviciosPendientes[serviceIndex];
+      servicio = this.serviciosPendientes[serviceIndex];
     }
     if (servicio.estado != "En ejecución.") {
       Swal.fire({
@@ -359,7 +362,7 @@ export class ServicioComponent implements OnInit {
           this.deleteService(this.idService);
         }
       });
-    }else{
+    } else {
       Swal.fire({
         title: "Denegado",
         text: "No puede eliminar el servicio",

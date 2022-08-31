@@ -40,6 +40,7 @@ import { FilterPhonePipe } from './pipes/filter-phone.pipe';
   exports: [
     HeaderComponent,
     SidebarComponent,
+    ReactiveFormsModule,
     FilterServicePipe,
     FilterEquipmentPipe,
     FilterPhonePipe,

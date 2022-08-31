@@ -6,30 +6,16 @@
         <div class="row">
           <div class="col-6">
             <div class="chart-container">
-              <ngx-charts-pie-chart
-                [scheme]="colorScheme"
-                [results]="chartService"
-                [legend]="showLegend"
-                [gradient]="gradient"
-                [labels]="showLabels"
-                [doughnut]="isDoughnut"
-                [legendTitle]="legendTitle"
-                >
+              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartService" [legend]="showLegend"
+                [gradient]="gradient" [labels]="showLabels" [doughnut]="isDoughnut" [legendTitle]="legendTitle">
               </ngx-charts-pie-chart>
             </div>
           </div>
           <div class="col-6">
             <div class="chart-container">
-              <ngx-charts-pie-chart
-              [scheme]="colorScheme"
-              [results]="chartTypeService"
-              [legend]="showLegend"
-              [gradient]="gradient"
-              [labels]="showLabels"
-              [doughnut]="isDoughnut"
-              [legendTitle]="legendType"
-              >
-            </ngx-charts-pie-chart>
+              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartTypeService" [legend]="showLegend"
+                [gradient]="gradient" [labels]="showLabels" [doughnut]="isDoughnut" [legendTitle]="legendType">
+              </ngx-charts-pie-chart>
             </div>
           </div>
         </div>
@@ -45,20 +31,19 @@
             </div>
           </div>
           <!-- /ADD BUTTON -->
-
+          <!-- INPUT SEARCH -->
+          <div class="col-10">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-5">
           <div class="col-1">
             <button class="btn btn-outline-primary" (click)="switchView()"
               *ngIf="viewCompletedService">Pendientes</button>
             <button class="btn btn-outline-primary mr-3" (click)="switchView()"
               *ngIf="!viewCompletedService">Completados</button>
           </div>
-
-          <!-- INPUT SEARCH -->
-          <div class="col-10">
-            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-          </div>
-          <!-- /INPUT SEARCH -->
-
         </div>
 
         <!-- CARD UNCOMPLETED-->
@@ -73,12 +58,15 @@
                   <div class="col-12">
                     <h3 class="card-title text-dark">
                       {{ servicio.Tipo_Servicio.tipo }}</h3>
-                    <p class="card-title">{{ servicio.Trabajador ? servicio.Trabajador.nombre + " " +servicio.Trabajador.apellidos : 'No ingresado' }}</p>
+                    <p class="card-title">
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " +servicio.Trabajador.apellidos : 'No ingresado' }}
+                    </p>
                     <p class="card-title">{{ servicio.prioridad }}</p>
                     <p class="card-title">Fase: {{ servicio.estado }}</p>
-                    <p class="card-title">Creado: {{ servicio.fechaCreado }}</p>
-                    <p class="card-title">Ejecutar: {{ servicio.fechaHoraRealizar ? servicio.fechaHoraRealizar : "No ingresada" }}</p>
-                    </div>
+                    <p class="card-title">Creado: {{ servicio.fechaCreado | date}}</p>
+                    <p class="card-title">Ejecutar:
+                      {{ servicio.fechaHoraRealizar ? servicio.fechaHoraRealizar : "No ingresada" }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -100,16 +88,16 @@
                       {{ servicio.Tipo_Servicio.tipo }}</h3>
                     <p class="card-title">{{ servicio.Trabajador.nombre + " " +servicio.Trabajador.apellidos}}</p>
                     <p class="card-title">{{ servicio.prioridad }}</p>
-                    <p class="card-title">Creado: {{ servicio.fechaCreado }}</p>
-                    <p class="card-title">Ejecutar: {{ servicio.fechaHoraRealizar }}</p>
-                    <p class="card-title">Finalizado: {{ servicio.fechaFinalizado }}</p>
+                    <p class="card-title">Creado: {{ servicio.fechaCreado| date }}</p>
+                    <p class="card-title">Ejecutar: {{ servicio.fechaHoraRealizar | date:'medium' }}</p>
+                    <p class="card-title">Finalizado: {{ servicio.fechaFinalizado | date:'medium'}}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      <!-- /CARD COMPLETED-->
+        <!-- /CARD COMPLETED-->
 
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
@@ -123,8 +111,12 @@
               <div class="modal-body">
                 <form [formGroup]="serviceForm">
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Prioridad:</label>
-                    <input type="text" class="form-control" id="recipient-name1" formControlName="prioridad">
+                    <label for="recipient-name" class="control-label">Prioridad</label>
+                    <select class="form-control custom-select" formControlName="prioridad">
+                      <option *ngFor="let alter of prioridad" [value]="alter">
+                        {{ alter }}</option>
+                    </select>
+                    <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Tipo Servicio*</label>
@@ -146,7 +138,8 @@
                   <div *ngIf="!newService">
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Fecha y hora de ejecución</label>
-                      <input type="datetime" class="form-control" id="recipient-name1" formControlName="fechaHoraRealizar" readonly>
+                      <input type="datetime" class="form-control" id="recipient-name1"
+                        formControlName="fechaHoraRealizar" readonly>
                     </div>
                     <label for="message-text" class="control-label">Trabajador*</label>
                     <select class="form-control custom-select" formControlName="idTrabajador">
@@ -162,7 +155,7 @@
                   (click)="deleteServiceModal()">Eliminar</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newService"
                   (click)="createServiceForm()">Crear</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newService"
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newService && !viewCompletedService"
                   (click)="createServiceForm()">Editar</button>
               </div>
             </div>

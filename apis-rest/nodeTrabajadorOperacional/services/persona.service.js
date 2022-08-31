@@ -39,10 +39,11 @@ class PersonaService {
 
   async update(idPersona, changes) {
     const persona = await this.findOne(idPersona);
-    const response = await persona.update(changes);
+    const updated = await persona.update(changes);
+    const response = await this.findOne(updated.idPersona);
     return response;
   }
-  
+
 }
 
 module.exports = PersonaService;

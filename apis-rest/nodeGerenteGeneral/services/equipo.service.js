@@ -90,7 +90,8 @@ class EquipoService {
 
   async update(idEquipo, changes) {
     const equipo = await this.findOne(idEquipo);
-    const response = await equipo.update(changes);
+    const updated = await equipo.update(changes);
+    const response = await this.findOne(updated.idEquipo);
     return response;
   }
 
