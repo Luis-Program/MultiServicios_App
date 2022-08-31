@@ -31,11 +31,14 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-10">
                     <h3 class="card-title text-dark">
                       {{ telefono.Persona.nombre + " " + telefono.Persona.apellidos }}</h3>
                     <p class="card-title">{{ telefono.Tipo_Telefono ? telefono.Tipo_Telefono.tipo : 'No ingresado' }}</p>
                     <p class="card-title">{{ telefono.numero }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-phone"></i>
                   </div>
                 </div>
               </div>

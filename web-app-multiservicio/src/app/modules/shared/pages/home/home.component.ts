@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
       return this.router.navigate(['/']);
     }
 
-    this.getPermissions(this.rol!);    
+    this.getPermissions(this.rol!);
   }
 
   getPermissions(rol: string): any {
@@ -36,37 +36,37 @@ export class HomeComponent implements OnInit {
           {
             permissionName: 'Auditoria Servicio',
             routerName: '/gerente-general/auditoria-servicio',
-            icon: 'mdi mdi-briefcase-check'
+            icon: 'mdi mdi-file-find'
           },
           {
             permissionName: 'Análisis Repuesto',
             routerName: '/gerente-general/analisis-repuesto',
-            icon: 'mdi mdi-check-all'
+            icon: 'mdi mdi-chart-areaspline'
           },
           {
             permissionName: 'Empresa',
             routerName: '/gerente-general/empresa',
-            icon: 'fa fa-building-o'
+            icon: 'mdi mdi-factory'
           },
           {
             permissionName: 'Dirección',
             routerName: '/gerente-general/direccion',
-            icon: 'mdi mdi-directions-fork'
+            icon: 'mdi mdi-map-marker'
           },
           {
             permissionName: 'Municipio',
             routerName: '/gerente-general/municipio',
-            icon: 'mdi mdi-city'
+            icon: 'mdi mdi-bank'
           },
           {
             permissionName: 'Departamento',
             routerName: '/gerente-general/departamento',
-            icon: 'mdi mdi-directions'
+            icon: 'mdi mdi-domain'
           },
           {
             permissionName: 'País',
             routerName: '/gerente-general/pais',
-            icon: 'mdi mdi-directions'
+            icon: 'mdi mdi-flag'
           },
           {
             permissionName: 'Tipo Teléfono',
@@ -84,14 +84,14 @@ export class HomeComponent implements OnInit {
             icon: 'mdi mdi-account'
           },
           {
-            permissionName: 'Tipo Persona',
+            permissionName: 'Rol',
             routerName: '/gerente-general/tipo-persona',
-            icon: 'mdi mdi-account-alert'
+            icon: 'mdi mdi-account-multiple'
           },
           {
             permissionName: 'Tipo Repuesto',
             routerName: '/gerente-general/tipo-repuesto',
-            icon: 'mdi mdi-gauge'
+            icon: 'mdi mdi-tag-multiple'
           },
           {
             permissionName: 'Repuesto',
@@ -101,16 +101,16 @@ export class HomeComponent implements OnInit {
           {
             permissionName: 'Equipo',
             routerName: '/gerente-general/equipo',
-            icon: 'mdi mdi-server'
+            icon: 'mdi mdi-stove'
           },
           {
             permissionName: 'Servicio',
             routerName: '/gerente-general/servicio',
-            icon: 'mdi mdi-server-network'
+            icon: 'mdi mdi-wrench'
           }
         ]
         break;
-      
+
       case "Trabajador Operacional":
         return this.permissions = [
           {
@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit {
           {
             permissionName: 'Servicio',
             routerName: `/trabajador/servicio`,
-            icon: 'mdi mdi-server-network'
+            icon: 'mdi mdi-wrench'
           },
           {
             permissionName: 'Telefono',
@@ -136,12 +136,12 @@ export class HomeComponent implements OnInit {
           {
             permissionName: 'Equipo',
             routerName: '/cliente/equipo',
-            icon: 'mdi mdi-server'
+            icon: 'mdi mdi-stove'
           },
           {
             permissionName: 'Servicio',
             routerName: '/cliente/servicio',
-            icon: 'mdi mdi-server-network'
+            icon: 'mdi mdi-wrench'
           },
           {
             permissionName: 'Telefono',

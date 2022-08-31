@@ -49,11 +49,14 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-10">
                     <h3 class="card-title text-dark">{{ repuesto.nombre }}</h3>
                     <p class="card-title text-dark">{{ repuesto.Tipo_Repuesto.tipo }}</p>
                     <p class="card-text bold">Cantidad: {{ repuesto.cantidadDisponible }}</p>
                     <p class="card-text bold" *ngIf="bolRol">Límite: {{ repuesto.limiteInferior }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-engine"></i>
                   </div>
                 </div>
               </div>
