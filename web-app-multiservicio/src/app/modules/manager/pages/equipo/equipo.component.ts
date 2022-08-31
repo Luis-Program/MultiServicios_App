@@ -26,6 +26,22 @@ export class EquipoComponent implements OnInit {
   protected loading = false; // Carga principal
   protected filter = "";
 
+  // CHARTS
+  public activesCharts  !: any[];
+  public minMaxChart    !: any[];
+  public gradient       : boolean = true;
+  public showLabels     : boolean = true;
+  public isDoughnut     : boolean = false;
+  public colorScheme    : string = 'vivid';
+
+  // BAR CHART
+  public showXAxis      = true;
+  public showYAxis      = true;
+  public showXAxisLabel = true;
+  public xAxisLabel     = 'Cliente';
+  public showYAxisLabel = true;
+  public yAxisLabel     = 'Equipos';
+
   constructor(
     private equipoService: EquipoService,
     private personaService: PersonaService,
@@ -62,8 +78,19 @@ export class EquipoComponent implements OnInit {
   private getClientAmountMinMAx() {
     this.loadingGraphicClient = true;
     this.personaService.getClientsWithAmountEquipsMinMax()
-      .subscribe(clients => {
+      .subscribe((clients: TrabajadoresMinMaxServicios[]) => {
         this.clientesEquiposMinMax = clients;
+
+        this.minMaxChart = clients.map(m => {
+          return {
+            name  : `${m.nombre} ${m.apellidos}`,
+            value : m.cantidad
+          }
+        })
+
+        console.log(this.minMaxChart);
+        
+
         this.getAllDireccions();
         this.loadingGraphicClient = false;
       });
@@ -107,6 +134,10 @@ export class EquipoComponent implements OnInit {
     this.equipoService.getEquipmentsActiveInactive()
       .subscribe(data => {
         this.equipoActivosInactivos = data;
+
+        // console.log(data);
+        
+
         this.loadingGraphicEquipmentsInacAct = true;
       });
   }
