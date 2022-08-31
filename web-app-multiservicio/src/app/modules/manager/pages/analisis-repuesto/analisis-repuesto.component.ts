@@ -33,6 +33,16 @@ export class AnalisisRepuestoComponent implements OnInit {
     });
   }
 
+  protected getDataGraphic(nombreRepuesto: string){
+    this.loading = true;
+    this.analisisRepuestoService.getDataGraphics(nombreRepuesto)
+    .subscribe(data => {
+      this.dataGraphic = data;
+      this.clearInput();
+      this.loading = false;
+    });
+  }
+
   private clearInput() {
     this.filter = "";
   }
