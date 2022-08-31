@@ -3,6 +3,23 @@
     <div class="card">
       <div class="card-body">
 
+        <div class="row">
+          <div class="col-6">
+            <div class="chart-container">
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="chartService"
+                [legend]="showLegend"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                [legendTitle]="legendTitle"
+                >
+              </ngx-charts-pie-chart>
+            </div>
+          </div>
+        </div>
+
         <div class="row mt-5">
           <!-- ADD BUTTON -->
           <div class="col-1">

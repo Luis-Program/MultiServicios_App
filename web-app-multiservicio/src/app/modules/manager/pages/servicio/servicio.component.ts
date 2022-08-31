@@ -39,6 +39,14 @@ export class ServicioComponent implements OnInit {
   protected newService!: Boolean;
   protected idService!: number;
 
+  public chartService!: any[];
+  public gradient     : boolean = true;
+  public showLabels   : boolean = true;
+  public isDoughnut   : boolean = false;
+  public showLegend   : boolean = true;
+  public colorScheme  : string  = 'nightLights';
+  public legendTitle  : string  = 'Servicios';
+
   constructor(
     private servicioService: ServicioService,
     private tipoServicioService: TipoServicioService,
@@ -125,6 +133,33 @@ export class ServicioComponent implements OnInit {
           serviciosPendientes: data.cantidadServicios - data.serviciosCompletados,
           serviciosSinAsignar: data.cantidadServicios - data.serviciosAsignados
         }
+
+        this.chartService = [
+          {
+            name  : 'Servicios completados',
+            value : data.serviciosCompletados
+          },
+          {
+            name  : 'Cantidad de servicios',
+            value : data.cantidadServicios
+          },
+          {
+            name  : 'Servicios asignados',
+            value : data.serviciosAsignados
+          },
+          {
+            name  : 'Servicios pendientes',
+            value : data.cantidadServicios - data.serviciosCompletados
+          },
+          {
+            name  : 'Servicios sin asignar',
+            value : data.cantidadServicios - data.serviciosAsignados
+          }
+        ]
+
+        console.log(this.chartService);
+        
+        
         this.loadingGraphicAsig = this.loadingGraphicCom = false;
       });
   }
