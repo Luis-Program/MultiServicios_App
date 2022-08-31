@@ -28,6 +28,7 @@ export class AnalisisRepuestoComponent implements OnInit {
     this.analisisRepuestoService.getAll()
     .subscribe(replacementsAnalysis => {
       this.analisisRepuestos = replacementsAnalysis;
+      console.log(this.analisisRepuestos);
       this.loading = false;
     });
   }
