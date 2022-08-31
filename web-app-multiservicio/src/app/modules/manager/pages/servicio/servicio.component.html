@@ -121,8 +121,17 @@
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
+
+          <br>
+          <div class="col-1">
+            <button class="btn btn-outline-primary btn-large" (click)="switchView()"
+              *ngIf="viewCompletedService">Pendientes</button>
+            <button class="btn btn-outline-primary btn-large" (click)="switchView()"
+              *ngIf="!viewCompletedService">Completados</button>
+          </div>
+
         </div>
-        <!-- ; else completed -->
+
         <!-- CARD UNCOMPLETED-->
         <div class="row mt-5" *ngIf="!viewCompletedService">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosPendientes | filterService:filter">
@@ -149,8 +158,7 @@
         <!-- /CARD UNCOMPLETED-->
 
         <!-- CARD COMPLETED-->
-        <!-- <ng-template #completed>
-        <div class="row mt-5">
+        <div class="row mt-5" *ngIf="viewCompletedService">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosCompletados | filterService:filter">
             <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
@@ -172,7 +180,6 @@
             </div>
           </div>
         </div>
-      </ng-template> -->
       <!-- /CARD COMPLETED-->
 
         <!-- MODAL -->

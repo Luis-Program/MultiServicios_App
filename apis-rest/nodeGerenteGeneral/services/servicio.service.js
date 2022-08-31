@@ -56,9 +56,7 @@ class ServicioService {
         }]
       }],
       where: {
-        fechaFinalizado: {
-          [Op.ne]: null
-        }
+        estado: 'Servicio finalizado.'
       }
     });
     return servicios;

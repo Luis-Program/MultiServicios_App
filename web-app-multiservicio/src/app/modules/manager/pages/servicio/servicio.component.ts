@@ -61,6 +61,7 @@ export class ServicioComponent implements OnInit {
     this.getServiceByType();
     this.getAllEquipment();
     this.getAllServiceTypes();
+    // this.getAllServicesWithRelationsCompleted();
     // this.getAllServicesWithRelations();
     this.getAllWorkers();
     this.getAllServicesWithRelationsNotCompleted();
@@ -78,10 +79,10 @@ export class ServicioComponent implements OnInit {
   protected switchView(){
     if (this.viewCompletedService) {
       this.viewCompletedService = false;
-      this.getAllServicesWithRelationsCompleted();
+      this.getAllServicesWithRelationsNotCompleted();
     } else {
       this.viewCompletedService = true;
-      this.getAllServicesWithRelationsNotCompleted();
+      this.getAllServicesWithRelationsCompleted();
     }
   }
 
@@ -97,8 +98,7 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllServicesNotCompleted()
       .subscribe(services => {
-        console.log(services)
-        this.serviciosCompletados = services;
+        this.serviciosPendientes = services;
       });
   }
 
@@ -235,11 +235,20 @@ export class ServicioComponent implements OnInit {
   }
 
   protected openModalByService(service?: ServicioRelaciones) {
-    this.initForm();
-    if (service) {
-      this.newService = false;
-      this.setPhone(service);
+    if (service?.estado != "Servicio finalizado.") {
+      this.initForm();
+      if (service) {
+        this.newService = false;
+        return this.setPhone(service);
+      }
+    } else {
+      Swal.fire({
+        title: "Denegado",
+        text: "No puede modificar el servicio",
+        icon: 'warning'
+      });
     }
+
   }
 
   private initForm() {
@@ -266,14 +275,9 @@ export class ServicioComponent implements OnInit {
       prioridad: service.prioridad,
       idTipoServicio: idTipoServicio,
       idEquipo: idEquipo,
-      // fechaHoraAsignadoTrabajador: service.fechaHoraAsignadoTrabajador,
-      // estado: service.estado,
-      // fechaCreado: service.fechaCreado,
-      // fechaFinalizado: service.fechaFinalizado,
     });
     this.serviceForm.addControl('fechaHoraRealizar', this.formBuilder.control(service.fechaHoraRealizar, []))
     this.serviceForm.addControl('idTrabajador', this.formBuilder.control(idTrabajador, []))
-    // this.serviceForm.addControl('idServicio', this.formBuilder.control(service.idServicio, []));
     this.idService = service.idServicio;
   }
 
@@ -288,17 +292,36 @@ export class ServicioComponent implements OnInit {
   }
 
   protected deleteServiceModal() {
-    Swal.fire({
-      title: '¡Atención!',
-      text: '¿Está seguro de eliminar el servicio?',
-      icon: 'warning',
-      showConfirmButton: true,
-      showCancelButton: true
-    }).then((res: any) => {
-      if (res.isConfirmed) {
-        this.deleteService(this.idService);
-      }
-    });
+    let servicio : ServicioRelaciones;
+    if (this.viewCompletedService) {
+      const serviceIndex = this.serviciosCompletados.findIndex(
+        (r) => r.idServicio === this.idServicio);
+        servicio = this.serviciosCompletados[serviceIndex];
+    } else {
+      const serviceIndex = this.serviciosPendientes.findIndex(
+        (r) => r.idServicio === this.idServicio);
+        servicio = this.serviciosPendientes[serviceIndex];
+    }
+    if (servicio.estado != "En ejecución.") {
+      Swal.fire({
+        title: '¡Atención!',
+        text: '¿Está seguro de eliminar el servicio?',
+        icon: 'warning',
+        showConfirmButton: true,
+        showCancelButton: true
+      }).then((res: any) => {
+        if (res.isConfirmed) {
+          this.deleteService(this.idService);
+        }
+      });
+    }else{
+      Swal.fire({
+        title: "Denegado",
+        text: "No puede eliminar el servicio",
+        icon: 'warning'
+      });
+    }
+
   }
 
   private clearInput() {
