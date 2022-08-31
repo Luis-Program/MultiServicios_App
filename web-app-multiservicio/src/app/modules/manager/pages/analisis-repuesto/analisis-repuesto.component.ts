@@ -17,7 +17,11 @@ export class AnalisisRepuestoComponent implements OnInit {
   protected loading = false; // Carga principal
   protected filter = "";
 
-  public chartData!: any[];
+  public chartData      !: any[];
+  public gradient       : boolean = true;
+  public showLabels     : boolean = true;
+  public isDoughnut     : boolean = false;
+  public colorScheme    : string  = 'nightLights';
 
   constructor(
     private analisisRepuestoService: AnalisisRepuestoService,
