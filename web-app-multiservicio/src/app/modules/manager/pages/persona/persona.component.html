@@ -4,22 +4,13 @@
       <div class="card-body">
 
         <!-- MAIN CHART -->
-        <div class="row" *ngIf="showworkersChart">
+        <div class="row" *ngIf="showworkersChart && tipo != 'all'">
           <div class="col-12">
             <div class="main-chart-container">
-              <ngx-charts-bar-horizontal
-                [scheme]="colorScheme"
-                [legend]="showLegend"
-                [results]="workersChart"
-                [gradient]="gradient"
-                [xAxis]="showXAxis"
-                [yAxis]="showYAxis"
-                [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabel"
-                [yAxisLabel]="yAxisLabel"
-                [legendTitle]="legendTitle"
-                >
+              <ngx-charts-bar-horizontal [scheme]="colorScheme" [legend]="showLegend" [results]="workersChart"
+                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                [legendTitle]="legendTitle">
               </ngx-charts-bar-horizontal>
             </div>
           </div>
@@ -31,17 +22,13 @@
           <!-- ADD COUNTRY BUTTON -->
           <div class="col-1">
             <div class="row">
-              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
                 <i class="mdi mdi-plus"></i>
               </button>
             </div>
           </div>
           <!-- /ADD COUNTRY BUTTON -->
-
-          <div class="col-1">
-            <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('client')" *ngIf="tipo != 'client'">Clientes</button>
-            <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('worker')" *ngIf="tipo != 'worker'">Trabajadores</button>
-          </div>
 
           <!-- INPUT SEARCH -->
           <div class="col-10">
@@ -50,21 +37,85 @@
           <!-- /INPUT SEARCH -->
         </div>
         <!-- /INICIO BOTON -->
+        <br>
+        <div class="col-1">
+          <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('all')"
+            *ngIf="tipo != 'all'">Todos</button>
+          <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('client')"
+            *ngIf="tipo != 'client'">Clientes</button>
+          <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('worker')"
+            *ngIf="tipo != 'worker'">Trabajadores</button>
+        </div>
 
         <!-- CARDS -->
-        <div class="row mt-5">
-          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of personas | filterPerson:filter">
-            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(persona)">
-              <div class="card-header bg-dark">
-              </div>
-              <div class="card-body border">
-                <div class="row">
-                  <div class="col-10">
-                    <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
-                    <p class="card-text">{{ persona.dpi }}</p>
+        <div [ngSwitch]="tipo">
+          <div *ngSwitchCase="'all'">
+            <div class="row mt-5">
+              <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of personas | filterPerson:filter">
+                <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                  (click)="openModal(persona)">
+                  <div class="card-header bg-dark">
                   </div>
-                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
-                    <i class="mdi mdi-account"></i>
+                  <div class="card-body border">
+                    <div class="row">
+                      <div class="col-10">
+                        <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
+                        <small><p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p>
+                        <p class="card-text">{{ persona.dpi }}</p>
+                        <p class="card-text">{{ persona.correo }}</p></small>
+                      </div>
+                      <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                        <i class="mdi mdi-account"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="'client'">
+            <div class="row mt-5">
+              <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of clientes ">
+                <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                  (click)="openModal(persona)">
+                  <div class="card-header bg-dark">
+                  </div>
+                  <div class="card-body border">
+                    <div class="row">
+                      <div class="col-10">
+                        <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
+                        <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p>
+                        <p class="card-text">{{ persona.dpi }}</p>
+                        <p class="card-text">{{ persona.correo }}</p>
+                      </div>
+                      <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                        <i class="mdi mdi-account"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="'worker'">
+            <div class="row mt-5">
+              <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of trabajadores | filterPerson:filter">
+                <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                  (click)="openModal(persona)">
+                  <div class="card-header bg-dark">
+                  </div>
+                  <div class="card-body border">
+                    <div class="row">
+                      <div class="col-10">
+                        <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
+                        <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p>
+                        <p class="card-text">{{ persona.dpi }}</p>
+                        <p class="card-text">{{ persona.correo }}</p>
+                      </div>
+                      <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                        <i class="mdi mdi-account"></i>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -78,7 +129,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel1">Persona</h4>
+                <h4 class="modal-title" id="exampleModalLabel1">{{type}}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>
               </div>
@@ -101,35 +152,38 @@
                     <label for="recipient-name" class="control-label">DPI*</label>
                     <input type="text" class="form-control" id="recipient-name1" formControlName="dpi">
                   </div>
+                  <div class="form-group" *ngIf="tipo != 'all'">
+                    <label for="recipient-name" class="control-label">{{amount}}</label>
+                    <input type="text" class="form-control" id="recipient-name1" [value]="amountPerson" readonly>
+                  </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Tipo persona*</label>
                     <select class="form-control custom-select" formControlName="idTipoPersona">
-                      <option *ngFor="let tiposPersona of tiposPersonas" [value]="tiposPersona.idTipoPersona">{{ tiposPersona.tipo }}</option>
+                      <option *ngFor="let tiposPersona of tiposPersonas" [value]="tiposPersona.idTipoPersona">
+                        {{ tiposPersona.tipo }}</option>
                     </select>
                     <!-- <small *ngIf="idEmpresaValue <= 0" class="form-control-feedback">No ingresado *</small> -->
                   </div>
                 </form>
               </div>
 
-              <div class="row" *ngIf="showoperatorChart">
+              <div class="row" *ngIf="showoperatorChart && worker">
                 <div class="col-12">
                   <div class="chart-container">
-                    <ngx-charts-pie-chart
-                      [scheme]="colorScheme"
-                      [results]="chartData"
-                      [gradient]="gradient"
-                      [labels]="showLabels"
-                      [doughnut]="isDoughnut"
-                      >
+                    <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
+                      [labels]="showLabels" [doughnut]="isDoughnut">
                     </ngx-charts-pie-chart>
                   </div>
                 </div>
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newItem" (click)="deleteItem()">Eliminar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newItem"  (click)="createItem()">Crear</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newItem" (click)="createItem()">Editar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newItem"
+                  (click)="deleteItem()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newItem"
+                  (click)="createItem()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newItem"
+                  (click)="createItem()">Editar</button>
               </div>
 
             </div>
