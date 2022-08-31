@@ -75,7 +75,7 @@
           </div>
           <div *ngSwitchCase="'client'">
             <div class="row mt-5">
-              <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of clientes ">
+              <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of clientes | filterPerson:filter ">
                 <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
                   (click)="openModal(persona)">
                   <div class="card-header bg-dark">

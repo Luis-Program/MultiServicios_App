@@ -1,6 +1,5 @@
-<h1>Servicios</h1>
+<!-- <h1>Servicios</h1>
 <h3 *ngIf="loading">Cargando</h3>
-<!-- INPUT SEARCH -->
 <div>
   <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
 </div>
@@ -98,28 +97,170 @@
   </ng-template>
 
   <p>------------------------------------</p>
-  <!-- Cuando selecione uno  -->
-</div>
-<!-- <div *ngIf="equipo">
-  <h3>Seleccion de un solo equipo</h3>
-  <p>Id: {{equipo.idEquipo}}</p>
-  <p>Numero: {{equipo.nombre}}</p>
-  <p>Modelo: {{equipo.modelo}}</p>
-  <p>Estado: {{equipo.estado}}</p>
-  <p>Fecha de último servicio: {{equipo.fechaUltimoServicio}}</p>
-  <p>Plazo del servicio: {{equipo.periodoDeServicio}}</p>
-  <p>Servicio preventivo Activo: {{equipo.preventivoActivo}}</p>
-  <h4>Persona</h4>
-  <p>nombre: {{equipo.Persona.nombre}} {{equipo.Persona.apellidos}}</p>
-  <h4>Ubicación</h4>
-  <p>Dirección: {{equipo.Direccion.Direccion}}</p>
-  <p>Municipio: {{equipo.Direccion.Municipio.nombre}}</p>
-  <p>Departamento: {{equipo.Direccion.Municipio.Departamento.nombre}}</p>
-  <p>Pais: {{equipo.Direccion.Municipio.Departamento.Pais.nombre}}</p>
-  <div *ngIf="unEquipoServicio">
-    <h3>Servicios</h3>
-    <p>Completados: {{unEquipoServicio.completada}}</p>
-    <p>Pendientes: {{unEquipoServicio.pendiente}}</p>
+</div> -->
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row mt-5">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByService()">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+
+          <!-- INPUT SEARCH -->
+          <div class="col-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+
+          <br>
+          <div class="col-1">
+            <button class="btn btn-outline-primary btn-large" (click)="switchView()"
+              *ngIf="viewCompletedService">Pendientes</button>
+            <button class="btn btn-outline-primary btn-large" (click)="switchView()"
+              *ngIf="!viewCompletedService">Completados</button>
+          </div>
+
+        </div>
+
+        <!-- CARD UNCOMPLETED-->
+        <div class="row mt-5" *ngIf="!viewCompletedService">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosPendientes | filterService:filter">
+            <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-12">
+                    <h3 class="card-title text-dark">
+                      {{ servicio.Tipo_Servicio.tipo }}</h3>
+                    <p class="card-title">{{ servicio.Trabajador ? servicio.Trabajador.nombre + " " +servicio.Trabajador.apellidos : 'No ingresado' }}</p>
+                    <p class="card-title">{{ servicio.prioridad }}</p>
+                    <p class="card-title">Fase: {{ servicio.estado }}</p>
+                    <p class="card-title">Creado: {{ servicio.fechaCreado }}</p>
+                    <p class="card-title">Ejecutar: {{ servicio.fechaHoraRealizar ? servicio.fechaHoraRealizar : "No ingresada" }}</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARD UNCOMPLETED-->
+
+        <!-- CARD COMPLETED-->
+        <div class="row mt-5" *ngIf="viewCompletedService">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosCompletados | filterService:filter">
+            <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-12">
+                    <h3 class="card-title text-dark">
+                      {{ servicio.Tipo_Servicio.tipo }}</h3>
+                    <p class="card-title">{{ servicio.Trabajador.nombre + " " +servicio.Trabajador.apellidos}}</p>
+                    <p class="card-title">{{ servicio.prioridad }}</p>
+                    <p class="card-title">Creado: {{ servicio.fechaCreado }}</p>
+                    <p class="card-title">Ejecutar: {{ servicio.fechaHoraRealizar }}</p>
+                    <p class="card-title">Finalizado: {{ servicio.fechaFinalizado }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- /CARD COMPLETED-->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Servicio</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="serviceForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Prioridad:</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="prioridad">
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Tipo Servicio*</label>
+                    <select class="form-control custom-select" formControlName="idTipoServicio">
+                      <option *ngFor="let tiposervicio of tiposServicios" [value]="tiposervicio.idTipoServicio">
+                        {{ tiposervicio.tipoServicio }}</option>
+                    </select>
+                    <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Equipo</label>
+                    <select class="form-control custom-select" formControlName="idEquipo">
+                      <option *ngFor="let equipo of equipos" [value]="equipo.idEquipo">
+                        {{ equipo.nombre }}</option>
+                    </select>
+                    <!-- <small *ngIf="!idEquipo" class="form-control-feedback">No ingresado *</small> -->
+                  </div>
+
+                  <div *ngIf="!newService">
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Fecha y hora de ejecución</label>
+                      <input type="date" class="form-control" id="recipient-name1" formControlName="fechaHoraRealizar">
+                    </div>
+                    <label for="message-text" class="control-label">Trabajador*</label>
+                    <select class="form-control custom-select" formControlName="idTrabajador">
+                      <option *ngFor="let trabajador of trabajadores" [value]="trabajador.idPersona">
+                        {{ trabajador.nombre }}</option>
+                    </select>
+                    <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
+                  </div>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newService"
+                  (click)="deleteServiceModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newService"
+                  (click)="createServiceForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newService"
+                  (click)="createServiceForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+
+      </div>
+    </div>
   </div>
 </div>
-<button (click)="getOneEquipment(1)">Una Persona</button> -->
+
+<!-- <div class="form-group">
+  <label for="recipient-name" class="control-label">Número:</label>
+  <input type="number" class="form-control" min="10000000" max="99999999" id="recipient-name1" formControlName="numero">
+  <label for="recipient-name" class="control-label">Persona:</label>
+  <select class="form-control custom-select" formControlName="idPersona">
+    <option *ngFor="let servicio of servicios" [value]="persona.idPersona">
+      {{ persona.nombre }}</option>
+  </select>
+  <small *ngIf="idPersona <= 0" class="form-control-feedback">No ingresado *</small>
+  <br>
+  <label for="recipient-name" class="control-label">Tipo Teléfono:</label>
+  <select class="form-control custom-select" formControlName="idTipoTelefono">
+    <option *ngFor="let tipoTelefono of tiposTelefonos" [value]="tipoTelefono.idTipoTelefono">
+      {{ tipoTelefono.tipo }}</option>
+  </select>
+  <small *ngIf="idTipoTelefono <= 0" class="form-control-feedback">No ingresado *</small>
+</div> -->
