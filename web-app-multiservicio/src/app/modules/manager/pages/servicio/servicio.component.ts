@@ -9,11 +9,13 @@ import { PersonaService } from 'src/app/services/persona.service';
 import { ServicioService } from 'src/app/services/servicio.service';
 import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 import Swal from 'sweetalert2';
+import { DatePipe, formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-servicio',
   templateUrl: './servicio.component.html',
-  styleUrls: ['./servicio.component.css']
+  styleUrls: ['./servicio.component.css'],
+  providers: [DatePipe]
 })
 export class ServicioComponent implements OnInit {
 
@@ -42,7 +44,8 @@ export class ServicioComponent implements OnInit {
     private tipoServicioService: TipoServicioService,
     private equipoService: EquipoService,
     private personaService: PersonaService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -254,15 +257,9 @@ export class ServicioComponent implements OnInit {
   private initForm() {
     this.newService = true;
     this.serviceForm = this.formBuilder.group({
-      // fechaHoraRealizar: [''],
-      // fechaCreado: [''],
-      // fechaFinalizado: [''],
-      // estado: [''],
-      // fechaHoraAsignadoTrabajador: [''],
-      // idTrabajador: [''],
-      prioridad: [''],
+      prioridad     : [''],
       idTipoServicio: ['', [Validators.required]],
-      idEquipo: ['', [Validators.required]],
+      idEquipo      : ['', [Validators.required]],
     });
   }
 
@@ -271,13 +268,17 @@ export class ServicioComponent implements OnInit {
     idEquipo = (service.Equipo.idEquipo) ? service.Equipo.idEquipo : 0;
     idTipoServicio = (service.Tipo_Servicio?.idTipoServicio) ? service.Tipo_Servicio.idTipoServicio : 0;
     idTrabajador = (service.Trabajador?.idPersona) ? service.Trabajador.idPersona : 0;
+
     this.serviceForm.setValue({
-      prioridad: service.prioridad,
+      prioridad     : service.prioridad,
       idTipoServicio: idTipoServicio,
-      idEquipo: idEquipo,
+      idEquipo      : idEquipo,
     });
-    this.serviceForm.addControl('fechaHoraRealizar', this.formBuilder.control(service.fechaHoraRealizar, []))
+    
+    this.serviceForm.addControl('fechaHoraRealizar', this.formBuilder.control(formatDate(service.fechaHoraRealizar!, 'dd-MM-yyyy HH:mm:ss', 'en'), []))
     this.serviceForm.addControl('idTrabajador', this.formBuilder.control(idTrabajador, []))
+
+    this.serviceForm.updateValueAndValidity();
     this.idService = service.idServicio;
   }
 
