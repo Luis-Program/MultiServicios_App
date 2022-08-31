@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Analisis_Repuesto, Graphics } from 'src/app/models/analisis_repuesto.model';
 import { AnalisisRepuestoService } from 'src/app/services/analisis-repuesto.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-analisis-repuesto',
   templateUrl: './analisis-repuesto.component.html',
-  styleUrls: ['./analisis-repuesto.component.css']
+  styleUrls: ['./analisis-repuesto.component.css'],
+  providers: [DatePipe]
 })
 export class AnalisisRepuestoComponent implements OnInit {
 
@@ -15,8 +17,11 @@ export class AnalisisRepuestoComponent implements OnInit {
   protected loading = false; // Carga principal
   protected filter = "";
 
+  public chartData!: any[];
+
   constructor(
-    private analisisRepuestoService: AnalisisRepuestoService
+    private analisisRepuestoService: AnalisisRepuestoService,
+    public datepipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +33,6 @@ export class AnalisisRepuestoComponent implements OnInit {
     this.analisisRepuestoService.getAll()
     .subscribe(replacementsAnalysis => {
       this.analisisRepuestos = replacementsAnalysis;
-      console.log(this.analisisRepuestos);
       this.loading = false;
     });
   }
@@ -36,8 +40,15 @@ export class AnalisisRepuestoComponent implements OnInit {
   protected getDataGraphic(nombreRepuesto: string){
     this.loading = true;
     this.analisisRepuestoService.getDataGraphics(nombreRepuesto)
-    .subscribe(data => {
-      this.dataGraphic = data;
+    .subscribe((data: Graphics[]) => {
+      
+      this.chartData = data.map(d => {
+        return {
+          value : d.amount,
+          name  : this.datepipe.transform(d.timedate, 'yyyy/MM/dd HH:mm')
+        }
+      })      
+
       this.clearInput();
       this.loading = false;
     });
@@ -45,5 +56,9 @@ export class AnalisisRepuestoComponent implements OnInit {
 
   private clearInput() {
     this.filter = "";
+  }
+
+  openModal(analisis: Analisis_Repuesto) {
+    this.getDataGraphic(analisis.nombreRepuesto)
   }
 }
