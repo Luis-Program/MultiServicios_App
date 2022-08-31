@@ -53,6 +53,7 @@ export class EquipoComponent implements OnInit {
     this.idEquipo = Number(id);
     localStorage.removeItem('idNoti');
     this.getAllEquipmentWithRelations();
+    this.getAllDireccions();
     this.getEquipmentActiveInactive();
     this.getClientAmountMinMAx();
     if (this.idEquipo) {
@@ -89,9 +90,8 @@ export class EquipoComponent implements OnInit {
         })
 
         console.log(this.minMaxChart);
-        
 
-        this.getAllDireccions();
+
         this.loadingGraphicClient = false;
       });
   }
@@ -136,7 +136,7 @@ export class EquipoComponent implements OnInit {
         this.equipoActivosInactivos = data;
 
         // console.log(data);
-        
+
 
         this.loadingGraphicEquipmentsInacAct = true;
       });
