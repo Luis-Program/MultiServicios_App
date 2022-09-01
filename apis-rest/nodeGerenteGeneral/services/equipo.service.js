@@ -66,7 +66,7 @@ class EquipoService {
     const response = await models.Equipo.sequelize.query("SELECT estado, COUNT(*) AS 'cantidad' FROM MultiServicios.Equipo GROUP BY estado", {
       type: QueryTypes.SELECT
     });
-    return response;
+    return response[0];
   }
 
   async findOne(idEquipo) {
@@ -90,7 +90,8 @@ class EquipoService {
 
   async update(idEquipo, changes) {
     const equipo = await this.findOne(idEquipo);
-    const response = await equipo.update(changes);
+    const updated = await equipo.update(changes);
+    const response = await this.findOne(updated.idEquipo);
     return response;
   }
 

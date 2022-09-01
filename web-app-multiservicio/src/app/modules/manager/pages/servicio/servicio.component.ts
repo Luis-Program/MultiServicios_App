@@ -24,7 +24,7 @@ export class ServicioComponent implements OnInit {
   protected serviciosCompletados: ServicioRelaciones[] = [];
   protected serviciosPendientes: ServicioRelaciones[] = [];
   protected trabajadores: TrabajadoresDropDown[] = [];
-  // protected servicios: ServicioRelaciones[] = [];
+  protected prioridad = ['Alta','Media','Baja'];
   protected tiposServicios: TipoServicio[] = [];
   protected idServicio: number | null = null;
   protected equipos: EquipoDropDown[] = [];
@@ -124,13 +124,13 @@ export class ServicioComponent implements OnInit {
         this.chartTypeService = [
           {
             name  : 'Preventivo',
-            value : data.preventivo 
+            value : data.preventivo
           },
           {
             name  : 'Correctivo',
-            value : data.correctivo 
+            value : data.correctivo
           }
-        ]        
+        ]
         this.loadingGraphicType = false;
       });
   }
@@ -168,7 +168,7 @@ export class ServicioComponent implements OnInit {
             name  : 'Servicios sin asignar',
             value : data.cantidadServicios - data.serviciosAsignados
           }
-        ]        
+        ]
         this.loadingGraphicAsig = this.loadingGraphicCom = false;
       });
   }
@@ -286,7 +286,7 @@ export class ServicioComponent implements OnInit {
       this.initForm();
       if (service) {
         this.newService = false;
-        return this.setPhone(service);
+        return this.setService(service);
       }
     } else {
       Swal.fire({
@@ -307,7 +307,7 @@ export class ServicioComponent implements OnInit {
     });
   }
 
-  private setPhone(service: ServicioRelaciones) {
+  private setService(service: ServicioRelaciones) {
     let idEquipo, idTipoServicio, idTrabajador = null;
     idEquipo = (service.Equipo.idEquipo) ? service.Equipo.idEquipo : 0;
     idTipoServicio = (service.Tipo_Servicio?.idTipoServicio) ? service.Tipo_Servicio.idTipoServicio : 0;
@@ -318,7 +318,7 @@ export class ServicioComponent implements OnInit {
       idTipoServicio: idTipoServicio,
       idEquipo      : idEquipo,
     });
-    
+
     this.serviceForm.addControl('fechaHoraRealizar', this.formBuilder.control(formatDate(service.fechaHoraRealizar!, 'dd-MM-yyyy HH:mm:ss', 'en'), []))
     this.serviceForm.addControl('idTrabajador', this.formBuilder.control(idTrabajador, []))
 
