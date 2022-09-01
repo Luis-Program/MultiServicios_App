@@ -37,6 +37,8 @@ export class EquipoComponent implements OnInit {
   // CHARTS
   public activesCharts  !: any[];
   public minMaxChart    !: any[];
+  public equipoChart    !: any[];
+
   public gradient: boolean = true;
   public showLabels: boolean = true;
   public isDoughnut: boolean = false;
@@ -49,6 +51,9 @@ export class EquipoComponent implements OnInit {
   public xAxisLabel = 'Cliente';
   public showYAxisLabel = true;
   public yAxisLabel = 'Equipos';
+
+  public showLegend = true;
+  public legendTitle = 'Equipos';
 
   constructor(
     private direccionService: DireccionService,
@@ -139,11 +144,22 @@ export class EquipoComponent implements OnInit {
   private getEquipmentActiveInactive() {
     this.loadingGraphicEquipmentsInacAct = false;
     this.equipoService.getEquipmentsActiveInactive()
-      .subscribe(data => {
+      .subscribe((data: EquipoActivoInactivo[]) => {
         this.equipoActivosInactivos = data;
-        console.log(data);
+
+        this.activesCharts = data.map(a => {
+          return {
+            name  : this.getNameService(a.estado),
+            value : a.cantidad
+          }
+        })   
+
         this.loadingGraphicEquipmentsInacAct = true;
       });
+  }
+
+  getNameService(state: boolean): string {
+    return (state) ? 'Activos' : 'Inactivos';
   }
 
   protected getOneEquipment(idEquipo: number) {
@@ -162,8 +178,20 @@ export class EquipoComponent implements OnInit {
    */
   private getOneEquipmentServices(idEquipo: number) {
     this.equipoService.getOneEquipmentsServices(idEquipo)
-      .subscribe(data => {
+      .subscribe((data: UnEquipoServicios) => {
         this.unEquipoServicio = data;
+        
+        this.equipoChart = [
+          {
+            name : 'Completados',
+            value: data.completada
+          },
+          {
+            name: 'Pendientes',
+            value: data.pendiente
+          }
+        ]
+        
         this.loadingGraphicOneEquipment = false;
       });
   }
@@ -228,6 +256,7 @@ export class EquipoComponent implements OnInit {
     this.initForm();
     if (equipment) {
       this.newEquipment = false;
+      this.getOneEquipmentServices(equipment.idEquipo);
       return this.setEquipment(equipment);
     }
   }
