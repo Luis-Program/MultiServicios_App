@@ -50,6 +50,9 @@ export class EquipoComponent implements OnInit {
   public showYAxisLabel = true;
   public yAxisLabel = 'Equipos';
 
+  public showLegend = true;
+  public legendTitle = 'Equipos';
+
   constructor(
     private direccionService: DireccionService,
     private personaService: PersonaService,
@@ -139,11 +142,22 @@ export class EquipoComponent implements OnInit {
   private getEquipmentActiveInactive() {
     this.loadingGraphicEquipmentsInacAct = false;
     this.equipoService.getEquipmentsActiveInactive()
-      .subscribe(data => {
+      .subscribe((data: EquipoActivoInactivo[]) => {
         this.equipoActivosInactivos = data;
-        console.log(data);
+
+        this.activesCharts = data.map(a => {
+          return {
+            name  : this.getNameService(a.estado),
+            value : a.cantidad
+          }
+        })   
+
         this.loadingGraphicEquipmentsInacAct = true;
       });
+  }
+
+  getNameService(state: boolean): string {
+    return (state) ? 'Activos' : 'Inactivos';
   }
 
   protected getOneEquipment(idEquipo: number) {
