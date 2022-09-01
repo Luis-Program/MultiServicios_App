@@ -40,6 +40,8 @@ export class ServicioComponent implements OnInit {
     this.loading = true;
     this.servicioService.getAllByIdEmployee(idPersona)
       .subscribe(services => {
+        console.log(services);
+        
         this.servicios = services;
         this.loading = false;
       });
