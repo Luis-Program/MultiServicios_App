@@ -88,9 +88,6 @@ export class EquipoComponent implements OnInit {
           }
         })
 
-        console.log(this.minMaxChart);
-        
-
         this.getAllDireccions();
         this.loadingGraphicClient = false;
       });
@@ -135,7 +132,7 @@ export class EquipoComponent implements OnInit {
       .subscribe(data => {
         this.equipoActivosInactivos = data;
 
-        // console.log(data);
+        console.log(data);
         
 
         this.loadingGraphicEquipmentsInacAct = true;
