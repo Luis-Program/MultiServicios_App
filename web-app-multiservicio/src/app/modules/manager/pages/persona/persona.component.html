@@ -23,7 +23,7 @@
           <div class="col-1">
             <div class="row">
               <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(null, true)">
                 <i class="mdi mdi-plus"></i>
               </button>
             </div>
@@ -84,7 +84,7 @@
                     <div class="row">
                       <div class="col-10">
                         <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
-                        <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p>
+                        <!-- <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p> -->
                         <p class="card-text">{{ persona.dpi }}</p>
                         <p class="card-text">{{ persona.correo }}</p>
                       </div>
@@ -108,7 +108,7 @@
                     <div class="row">
                       <div class="col-10">
                         <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
-                        <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p>
+                        <!-- <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p> -->
                         <p class="card-text">{{ persona.dpi }}</p>
                         <p class="card-text">{{ persona.correo }}</p>
                       </div>
@@ -152,7 +152,7 @@
                     <label for="recipient-name" class="control-label">DPI*</label>
                     <input type="text" class="form-control" id="recipient-name1" formControlName="dpi">
                   </div>
-                  <div class="form-group" *ngIf="tipo != 'all'">
+                  <div class="form-group" *ngIf="tipo != 'all' && !create">
                     <label for="recipient-name" class="control-label">{{amount}}</label>
                     <input type="text" class="form-control" id="recipient-name1" [value]="amountPerson" readonly>
                   </div>
@@ -167,7 +167,7 @@
                 </form>
               </div>
 
-              <div class="row" *ngIf="showoperatorChart && worker">
+              <div class="row" *ngIf="showoperatorChart && worker && !create">
                 <div class="col-12">
                   <div class="chart-container">
                     <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"

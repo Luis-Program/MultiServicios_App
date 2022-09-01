@@ -28,10 +28,16 @@ class EmpresaService {
 
   async findMinMaxClient() {
     let response = []
-    const max = await models.Empresa.sequelize.query("SELECT e.nombre AS 'empresa', COUNT(*) AS 'cantidad' FROM (MultiServicios.Empresa e INNER JOIN MultiServicios.Tipo_Persona t ON e.idEmpresa = t.idEmpresa) INNER JOIN MultiServicios.Persona p ON t.idTipoPersona = p.idTipoPersona WHERE t.tipo = 'Cliente' GROUP BY e.nombre ORDER BY cantidad DESC LIMIT 1;", {
+    const max = await models.Empresa.sequelize.query(`SELECT e.nombre AS 'empresa', COUNT(p.idPersona) AS 'cantidad'
+    FROM (MultiServicios.Empresa e LEFT JOIN MultiServicios.Tipo_Persona t
+    ON e.idEmpresa = t.idEmpresa) LEFT JOIN MultiServicios.Persona p
+    ON t.idTipoPersona = p.idTipoPersona
+    WHERE t.tipo = 'Cliente'
+    GROUP BY e.nombre
+    ORDER BY cantidad DESC LIMIT 1`, {
       type: QueryTypes.SELECT
     });
-    const min = await models.Empresa.sequelize.query("SELECT e.nombre AS 'empresa', COUNT(*) AS 'cantidad' FROM (MultiServicios.Empresa e INNER JOIN MultiServicios.Tipo_Persona t ON e.idEmpresa = t.idEmpresa) INNER JOIN MultiServicios.Persona p ON t.idTipoPersona = p.idTipoPersona WHERE t.tipo = 'Cliente' GROUP BY e.nombre ORDER BY cantidad ASC LIMIT 1;", {
+    const min = await models.Empresa.sequelize.query(`SELECT e.nombre AS 'empresa', COUNT(p.idPersona) AS 'cantidad' FROM (MultiServicios.Empresa e INNER JOIN MultiServicios.Tipo_Persona t ON e.idEmpresa = t.idEmpresa) LEFT JOIN MultiServicios.Persona p ON t.idTipoPersona = p.idTipoPersona WHERE t.tipo = 'Cliente' GROUP BY e.nombre ORDER BY cantidad ASC LIMIT 1`, {
       type: QueryTypes.SELECT
     });
     response[0] = max[0][0];

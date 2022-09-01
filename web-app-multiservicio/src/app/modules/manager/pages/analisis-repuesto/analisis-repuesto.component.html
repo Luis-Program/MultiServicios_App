@@ -38,22 +38,20 @@
                   <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Acción</th>
                   <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Repuesto</th>
                   <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Tipo</th>
-                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">
-                    <abbr title="Rotten Tomato Rating">Cantidades previas</abbr>
-                  </th>
-                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Cantidades Actuales</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">Cantidad antes</th>
+                  <th align="center" scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Cantidad actual</th>
                   <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="5">Diferencia</th>
                   <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let analisisRepuesto of analisisRepuestos | filterAnalysis:filter">
-                  <td class="title"><a class="link" href="javascript:void(0)">{{ analisisRepuesto.tipoAccion }}</a></td>
+                  <td class="title">{{ analisisRepuesto.tipoAccion }}</td>
                   <td>{{ analisisRepuesto.nombreRepuesto }}</td>
                   <td>{{ analisisRepuesto.nombreTipo }}</td>
-                  <td>{{ analisisRepuesto.cantidadAntes }}</td>
-                  <td>{{ analisisRepuesto.cantidadDespues }}</td>
-                  <td>{{ analisisRepuesto.diferenciaCantidades }}</td>
+                  <td align="center">{{ analisisRepuesto.cantidadAntes }}</td>
+                  <td align="center">{{ analisisRepuesto.cantidadDespues }}</td>
+                  <td align="center">{{ analisisRepuesto.diferenciaCantidades }}</td>
                   <td data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(analisisRepuesto)"><i class="mdi mdi-chevron-right"></i></td>
                 </tr>
               </tbody>
@@ -64,14 +62,13 @@
 
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
               <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel1">Servicio</h4>
+                <h4 class="modal-title" id="exampleModalLabel1">Análisis del Repuesto</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               </div>
-
               <div class="modal-body">
                 <div class="row">
                   <div class="col-12">
@@ -79,19 +76,23 @@
                       <ngx-charts-line-chart
                       [scheme]="colorScheme"
                       [legend]="legend"
+                      [legendTitle]="'Repuesto'"
                       [showXAxisLabel]="showXAxisLabel"
                       [showYAxisLabel]="showYAxisLabel"
                       [xAxis]="xAxis"
                       [yAxis]="yAxis"
-                      [xAxisLabel]="xAxisLabel"
-                      [yAxisLabel]="yAxisLabel"
                       [timeline]="timeline"
                       [results]="chartData"
                       >
                     </ngx-charts-line-chart>
+                                          <!-- [xAxisLabel]="xAxisLabel"
+                                          [yAxisLabel]="yAxisLabel"-->
                     </div>
                   </div>
                 </div>
+                <!-- <div>
+                <label class="col-auto" for="recipient-name" class="control-label">{{analisisRepuesto.nombreTipo}}. {{analisisRepuesto.nombreRepuesto}}</label>
+              </div> -->
               </div>
 
               <div class="modal-footer">

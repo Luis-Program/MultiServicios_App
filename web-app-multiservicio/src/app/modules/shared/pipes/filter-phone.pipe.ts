@@ -15,13 +15,12 @@ export class FilterPhonePipe implements PipeTransform {
         if (String(object.numero).indexOf(arg) > -1
         || object.Persona.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
         || object.Persona.apellidos.toLowerCase().indexOf(arg.toLowerCase()) > -1
-        || object.Tipo_Telefono.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1
-        || object.Tipo_Telefono.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
+        || (object.Tipo_Telefono && object.Tipo_Telefono.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1)) {
           resultFilter.push(object);
         }
       } else {
         if (String(object.numero).indexOf(arg) > -1
-          || object.Tipo_Telefono.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
+          || (object.Tipo_Telefono && object.Tipo_Telefono.tipo.toLowerCase().indexOf(arg.toLowerCase()) > -1)) {
           resultFilter.push(object);
         }
       }

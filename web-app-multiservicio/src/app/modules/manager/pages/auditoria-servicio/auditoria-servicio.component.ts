@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Auditoria_servicio } from 'src/app/models/auditoria_servicio.model';
 import { AuditoriaServicioService } from 'src/app/services/auditoria-servicio.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-auditoria-servicio',
@@ -30,7 +31,7 @@ export class AuditoriaServicioComponent implements OnInit {
     this.loading = true;
     this.auditoriaServicioService.getAll()
     .subscribe(servicesAudit => {
-      this.auditoriaServicios = servicesAudit;      
+      this.auditoriaServicios = servicesAudit;
       this.loading = false;
     });
   }
@@ -65,26 +66,28 @@ export class AuditoriaServicioComponent implements OnInit {
       tipoServicio                : [''],
     })
   }
-
+// formatDate(Date(auditoria.fechaHoraCreado),'MMM d, y, h:mm:ss')
   setForm(auditoria: Auditoria_servicio) {
     this.Form.setValue({
       dpiCliente: auditoria.dpiCliente,
-      dpiTrabajador: auditoria.dpiTrabajador,
+      dpiTrabajador: auditoria.dpiTrabajador ? auditoria.dpiTrabajador : 'No ingresado',
       empresaCliente: auditoria.empresaCliente,
-      empresaClienteNit: auditoria.empresaClienteNit,
+      empresaClienteNit: auditoria.empresaClienteNit ? auditoria.empresaClienteNit : 'No ingresado',
       estado: auditoria.estado,
-      fechaHora: auditoria.fechaHora,
-      fechaHoraAsignadoTrabajador: auditoria.fechaHoraAsignadoTrabajador,
-      fechaHoraCreado: auditoria.fechaHoraCreado,
-      fechaHoraFinalizado: auditoria.fechaHoraFinalizado,
-      fechaHoraRealizar: auditoria.fechaHoraRealizar,
+      fechaHora: formatDate(auditoria.fechaHora,'medium','en'),
+      fechaHoraAsignadoTrabajador: auditoria.fechaHoraAsignadoTrabajador ? formatDate(auditoria.fechaHoraAsignadoTrabajador,'medium','en') : 'No ingresado',
+      fechaHoraCreado: formatDate(auditoria.fechaHoraCreado,'medium','en'),
+      fechaHoraFinalizado: auditoria.fechaHoraFinalizado ? formatDate(auditoria.fechaHoraFinalizado,'medium','en') : 'No ingresado',
+      fechaHoraRealizar: auditoria.fechaHoraRealizar ? formatDate(auditoria.fechaHoraRealizar,'medium','en') : 'No ingresado',
       idAuditoriaServicio: auditoria.idAuditoriaServicio,
       idServicio: auditoria.idServicio,
       nombreCliente: auditoria.nombreCliente,
       nombreEquipo: auditoria.nombreEquipo,
-      nombreTrabajador: auditoria.nombreTrabajador,
+      nombreTrabajador: auditoria.nombreTrabajador ? auditoria.nombreTrabajador : 'No ingresado',
       prioridad: auditoria.prioridad,
       tipoServicio: auditoria.tipoServicio,
     })
   }
 }
+
+

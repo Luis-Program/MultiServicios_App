@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 export class AnalisisRepuestoComponent implements OnInit {
 
   protected analisisRepuestos: Analisis_Repuesto[] = [];
+  protected analisisRepuesto!: Analisis_Repuesto;
   protected dataGraphic: Graphics[] = [];
   protected loadingGraphic = false; // Carga del grafico
   protected loading = false; // Carga principal
@@ -29,8 +30,8 @@ export class AnalisisRepuestoComponent implements OnInit {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
-  xAxisLabel: string = 'Year';
-  yAxisLabel: string = 'Population';
+  // xAxisLabel: string = 'Fecha';
+  // yAxisLabel: string = 'Population';
   timeline: boolean = true;
 
   constructor(
@@ -58,7 +59,7 @@ export class AnalisisRepuestoComponent implements OnInit {
 
       this.chartData = [
         {
-          name: 'Repuesto',
+          name: nombreRepuesto,
           series: data.map(d =>{
             return {
               name: this.datepipe.transform(d.timedate),
@@ -67,26 +68,6 @@ export class AnalisisRepuestoComponent implements OnInit {
           })
         }
       ]
-      console.log(this.chartData)
-
-      // {
-      //   "name": "Germany",
-      //   "series": [
-      //     {
-      //       "name": "1990",
-      //       "value": 62000000
-      //     },
-      //     {
-      //       "name": "2010",
-      //       "value": 73000000
-      //     },
-      //     {
-      //       "name": "2011",
-      //       "value": 89400000
-      //     }
-      //   ]
-      // },
-
       this.clearInput();
       this.loading = false;
     });
@@ -97,6 +78,7 @@ export class AnalisisRepuestoComponent implements OnInit {
   }
 
   openModal(analisis: Analisis_Repuesto) {
+    this.analisisRepuesto = analisis;
     this.getDataGraphic(analisis.nombreRepuesto)
   }
 }

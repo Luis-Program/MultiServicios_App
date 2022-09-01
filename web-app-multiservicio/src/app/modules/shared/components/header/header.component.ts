@@ -137,6 +137,7 @@ export class HeaderComponent implements OnInit {
         // Servicio Finalizado
         case 7:
           localStorage.setItem('idNoti', String(notification.notificacionId));
+          localStorage.setItem('tipo', 'f');
           this.router.navigate(['gerente-general/servicio']);
           break;
         default:

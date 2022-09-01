@@ -17,24 +17,28 @@
             <table class="tablesaw table-striped table-hover table-bordered table" data-tablesaw-mode="columntoggle">
               <thead>
                 <tr>
-                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="persist">Estado</th>
-                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="3">Empresa</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Equipo</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Servicio</th>
                   <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Cliente</th>
                   <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">
-                    <abbr title="Rotten Tomato Rating">Prioridad</abbr>
+                    <!-- <abbr title="Rotten Tomato Rating">Prioridad</abbr> -->
+                    Estado
                   </th>
-                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Servicio</th>
-                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="5"></th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Trabajador</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Fecha Creado</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let auditoriaServicio of auditoriaServicios | filterAudit:filter">
-                  <td class="title"><a class="link" href="javascript:void(0)">{{ auditoriaServicio.estado }}</a></td>
-                  <td>{{ auditoriaServicio.empresaCliente }}</td>
-                  <td>{{ auditoriaServicio.nombreCliente }}</td>
-                  <td>{{ auditoriaServicio.prioridad }}</td>
+                  <td class="title">{{ auditoriaServicio.nombreEquipo }}</td>
                   <td>{{ auditoriaServicio.tipoServicio }}</td>
-                  <td data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(auditoriaServicio)"><i class="mdi mdi-chevron-right"></i></td>
+                  <td>{{ auditoriaServicio.nombreCliente }}</td>
+                  <td>{{ auditoriaServicio.estado }}</td>
+                  <td>{{ auditoriaServicio.nombreTrabajador ? auditoriaServicio.nombreTrabajador : 'No asignado' }}</td>
+                  <td>{{ auditoriaServicio.fechaHoraCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</td>
+                  <td data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                    (click)="openModal(auditoriaServicio)"><i class="mdi mdi-chevron-right"></i></td>
                 </tr>
               </tbody>
             </table>
@@ -46,81 +50,79 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-
               <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel1">Auditoria</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
               </div>
-
               <div class="modal-body">
                 <form [formGroup]="Form">
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">DPI Cliente*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="dpiCliente">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">DPI Trabajador*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="dpiTrabajador">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Empresa Cliente*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="empresaCliente">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">NIT Empresa Cliente*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="empresaClienteNit">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Estado*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="estado">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Fecha Hora*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHora">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Fecha Trabajador*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHoraAsignadoTrabajador">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Fecha de creción*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHoraCreado">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Fecha de finalización*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHoraFinalizado">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Fecha realizado*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="fechaHoraRealizar">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Audotoria servicio*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="idAuditoriaServicio">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Servicio*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="idServicio">
-                  </div>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Nombre del cliente*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="nombreCliente">
-                  </div>
-                  <div class="form-group">
                     <label for="recipient-name" class="control-label">Nombre del equipo*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="nombreEquipo">
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="nombreEquipo">
                   </div>
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Nombre del trabajador*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="nombreTrabajador">
+                    <label for="recipient-name" class="control-label">Tipo de servicio*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="tipoServicio">
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Prioridad*</label>
                     <input type="text" class="form-control" id="recipient-name1" readonly formControlName="prioridad">
                   </div>
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Tipo de servicio*</label>
-                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="tipoServicio">
+                    <label for="recipient-name" class="control-label">Estado*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="estado">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre del cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="nombreCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">DPI Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="dpiCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Empresa Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="empresaCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">NIT Empresa Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="empresaClienteNit">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre del trabajador*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="nombreTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">DPI Trabajador*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="dpiTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha de creación*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                    formControlName="fechaHoraCreado" >
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha Trabajador Asignado*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="fechaHoraAsignadoTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha realizado*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="fechaHoraRealizar">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha de finalización*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="fechaHoraFinalizado">
                   </div>
                 </form>
               </div>

@@ -25,8 +25,10 @@ export class EquipoComponent implements OnInit {
   protected loadingGraphicOneEquipment = false;  // Carga grafica cuando se selecciona un equipo y mustra sus servicios
   protected clientes: PersonaDropdown[] = [];
   protected idEquipo: number | null = null;
+  protected graphicEquipmentData = false;
   protected loadingGraphicClient = false; // Carga de grafica con menor y mayor cantidad de equipos
   protected loading = false; // Carga principal
+  protected create = false;
   protected filter = "";
 
   //MODAL
@@ -103,10 +105,6 @@ export class EquipoComponent implements OnInit {
             value: m.cantidad
           }
         })
-
-        console.log(this.minMaxChart);
-
-
         this.loadingGraphicClient = false;
       });
   }
@@ -182,19 +180,21 @@ export class EquipoComponent implements OnInit {
   private getOneEquipmentServices(idEquipo: number) {
     this.equipoService.getOneEquipmentsServices(idEquipo)
       .subscribe((data: UnEquipoServicios) => {
-        this.unEquipoServicio = data;
-
-        this.equipoChart = [
-          {
-            name : 'Completados',
-            value: data.completada
-          },
-          {
-            name: 'Pendientes',
-            value: data.pendiente
-          }
-        ]
-
+        if (data.completada || data.pendiente) {
+          this.graphicEquipmentData = true;
+          this.equipoChart = [
+            {
+              name : 'Completados',
+              value: data.completada
+            },
+            {
+              name: 'Pendientes',
+              value: data.pendiente
+            }
+          ];
+        } else {
+          this.graphicEquipmentData = false;
+        }
         this.loadingGraphicOneEquipment = false;
       });
   }
@@ -254,8 +254,9 @@ export class EquipoComponent implements OnInit {
       });
   }
 
-  protected openModalByEquipment(equipment?: EquipoRelacionesAnidadas) {
+  protected openModalByEquipment(equipment?: EquipoRelacionesAnidadas | null, create?: boolean) {
     this.initForm();
+    this.create = create ? true : false;
     if (equipment) {
       this.newEquipment = false;
       this.getOneEquipmentServices(equipment.idEquipo);

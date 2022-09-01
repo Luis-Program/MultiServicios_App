@@ -25,6 +25,7 @@ export class PersonaComponent implements OnInit {
   protected loadingGraphicWorker = false; // Carga de grafica cuando se traen los trabajdores con la cantidad de servicios que tienen
   protected clientes: Clientes[] = [];
   protected worker = false;
+  protected create :boolean = true;
   protected amountPerson!: number;
   protected loading = false; // Carga principal
   protected tipo = 'all';
@@ -63,8 +64,8 @@ export class PersonaComponent implements OnInit {
   ngOnInit(): void {
     this.getAllPersonsWithRelations();
     this.getAllTypePersons();
-    this.getAllClients();
-    this.getAllWorkers();
+    // this.getAllClients();
+    // this.getAllWorkers();
     this.initForm();
   }
 
@@ -133,14 +134,17 @@ export class PersonaComponent implements OnInit {
       this.yAxisLabel = 'Trabajadores';
       this.legendTitle = 'Trabajadores'
       this.getWorkersMinMax();
+      this.getAllWorkers();
       this.tipo = tipo;
     }else  if (tipo === 'client') {
       this.xAxisLabel = 'Cantidad de equipos';
       this.yAxisLabel = 'Clientes';
       this.legendTitle = 'Clientes'
       this.getClientsMinMax();
+      this.getAllClients();
       this.tipo = tipo;
     }else {
+      this.getAllPersonsWithRelations();
       this.tipo = tipo;
     }
   }
@@ -303,9 +307,9 @@ export class PersonaComponent implements OnInit {
     }
   }
 
-  openModal(persona?: PersonaRelaciones | Clientes | Trabajadores) {
+  openModal(persona?: PersonaRelaciones | Clientes | Trabajadores | null, create?: boolean) {
     this.initForm();
-
+    this.create = create ? true : false;
     if (persona) {
       this.newItem = false;
       if (this.tipo != 'all') {

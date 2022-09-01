@@ -1,4 +1,9 @@
 .chart-container {
-    display: grid;
-    height: 300px;
+  display: grid;
+  height: 300px;
+}
+
+.chart-wrapper {
+  display: flex;
+  overflow: hidden;
 }

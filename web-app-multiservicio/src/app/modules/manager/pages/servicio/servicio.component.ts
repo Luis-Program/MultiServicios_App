@@ -9,13 +9,12 @@ import { PersonaService } from 'src/app/services/persona.service';
 import { ServicioService } from 'src/app/services/servicio.service';
 import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 import Swal from 'sweetalert2';
-import { DatePipe, formatDate } from '@angular/common';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-servicio',
   templateUrl: './servicio.component.html',
-  styleUrls: ['./servicio.component.css'],
-  providers: [DatePipe]
+  styleUrls: ['./servicio.component.css']
 })
 export class ServicioComponent implements OnInit {
 
@@ -55,16 +54,20 @@ export class ServicioComponent implements OnInit {
     private equipoService: EquipoService,
     private personaService: PersonaService,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
     const id = localStorage.getItem('idNoti');
     this.idServicio = Number(id);
+    const completed = localStorage.getItem('tipo');
     localStorage.removeItem('idNoti');
+    localStorage.removeItem('tipo');
     this.getAllData();
     this.initForm();
     if (this.idServicio) {
+      if (completed) {
+        this.switchView();
+      }
       this.getOneService(this.idServicio);
     }
   }
@@ -210,11 +213,14 @@ export class ServicioComponent implements OnInit {
   }
 
   protected createService(dto: CreateServicioDTO) {
+    dto.fechaHoraRealizar = null;
     // Pendiente de asignación de Trabajador
+    console.log("Crear: "+dto)
     this.loading = true;
     this.servicioService.create(dto)
       .subscribe(service => {
         if (service) {
+          console.log(service)
           if (this.viewCompletedService) {
             this.serviciosCompletados.push(service)
           } else {
@@ -300,10 +306,16 @@ export class ServicioComponent implements OnInit {
   private initForm() {
     this.newService = true;
     this.serviceForm = this.formBuilder.group({
+      idServicio: [''],
       prioridad: [''],
+      fechaHoraRealizar: [''],
       idTipoServicio: ['', [Validators.required]],
       idEquipo: ['', [Validators.required]],
     });
+  }
+
+  protected parseDate(date :Date){
+    return formatDate(date,'yyyy-MM-dd hh-mm-ss aaa','en')
   }
 
   private setService(service: ServicioRelaciones) {
@@ -313,7 +325,9 @@ export class ServicioComponent implements OnInit {
     idTrabajador = (service.Trabajador?.idPersona) ? service.Trabajador.idPersona : 0;
 
     this.serviceForm.setValue({
+      idServicio: service.idServicio,
       prioridad: service.prioridad,
+      fechaHoraRealizar: service.fechaHoraRealizar ? formatDate(service.fechaHoraRealizar,'dd/MM/yyy HH:mm aa','en') : 'No ingresado',
       idTipoServicio: (idTipoServicio > 2) ? 1 : idTipoServicio,
       idEquipo: idEquipo,
     });
@@ -328,27 +342,29 @@ export class ServicioComponent implements OnInit {
   protected createServiceForm() {
     if (this.serviceForm.invalid) return Object.values(this.serviceForm.controls).forEach(c => c.markAsTouched());
     if (!this.serviceForm.touched) return;
-    const { idService, ...rest } = this.serviceForm.value;
-    if (idService) {
+    const { idServicio, ...rest } = this.serviceForm.value;
+    if (idServicio) {
       if (!this.viewCompletedService) {
-        return this.updateService(idService, rest);
+        return this.updateService(idServicio, rest);
       } else {
         this.throwAlert();
       }
+    }else{
+      return this.createService(rest);
     }
-    return this.createService(rest);
   }
 
   protected deleteServiceModal() {
-    let servicio: ServicioRelaciones;
+    let servicio!: ServicioRelaciones;
+    console.log(this.viewCompletedService)
     if (this.viewCompletedService) {
       const serviceIndex = this.serviciosCompletados.findIndex(
-        (r) => r.idServicio === this.idServicio);
+        (r) => r.idServicio === this.idService);
       servicio = this.serviciosCompletados[serviceIndex];
     } else {
       const serviceIndex = this.serviciosPendientes.findIndex(
-        (r) => r.idServicio === this.idServicio);
-      servicio = this.serviciosPendientes[serviceIndex];
+        (r) => r.idServicio === this.idService);
+      servicio = this.serviciosPendientes[serviceIndex] as ServicioRelaciones;
     }
     if (servicio.estado != "En ejecución.") {
       Swal.fire({
@@ -369,7 +385,6 @@ export class ServicioComponent implements OnInit {
         icon: 'warning'
       });
     }
-
   }
 
   private clearInput() {
