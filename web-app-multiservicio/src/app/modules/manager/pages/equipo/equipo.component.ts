@@ -37,6 +37,8 @@ export class EquipoComponent implements OnInit {
   // CHARTS
   public activesCharts  !: any[];
   public minMaxChart    !: any[];
+  public equipoChart    !: any[];
+
   public gradient: boolean = true;
   public showLabels: boolean = true;
   public isDoughnut: boolean = false;
@@ -176,8 +178,20 @@ export class EquipoComponent implements OnInit {
    */
   private getOneEquipmentServices(idEquipo: number) {
     this.equipoService.getOneEquipmentsServices(idEquipo)
-      .subscribe(data => {
+      .subscribe((data: UnEquipoServicios) => {
         this.unEquipoServicio = data;
+        
+        this.equipoChart = [
+          {
+            name : 'Completados',
+            value: data.completada
+          },
+          {
+            name: 'Pendientes',
+            value: data.pendiente
+          }
+        ]
+        
         this.loadingGraphicOneEquipment = false;
       });
   }
@@ -242,6 +256,7 @@ export class EquipoComponent implements OnInit {
     this.initForm();
     if (equipment) {
       this.newEquipment = false;
+      this.getOneEquipmentServices(equipment.idEquipo);
       return this.setEquipment(equipment);
     }
   }

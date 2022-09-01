@@ -117,6 +117,24 @@
                   </select>
                   <!-- <small *ngIf="!idPersona" class="form-control-feedback">No ingresado *</small> -->
                 </form>
+
+                <hr>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="chart-container">
+                      <ngx-charts-pie-chart
+                        [scheme]="colorScheme"
+                        [results]="equipoChart"
+                        [gradient]="gradient"
+                        [labels]="showLabels"
+                        [doughnut]="isDoughnut"
+                        >
+                      </ngx-charts-pie-chart>
+                    </div>
+                  </div>
+                </div>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newEquipment"
