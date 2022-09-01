@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { EquipoActivoInactivo, EquipoCliente, EquipoClienteServicios, EquipoMaxMinCliente, UpdateEquipoDTO } from 'src/app/models/equipo.model';
 import { EquipoService } from 'src/app/services/equipo.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-equipo',
@@ -14,6 +15,7 @@ export class EquipoComponent implements OnInit {
   protected cantidadActivoInactivo: EquipoActivoInactivo[] = [];
   protected equiposMaxMin: EquipoMaxMinCliente | null = null;
   protected equipo: EquipoCliente | null = null;
+  protected list = [{estado: "Activo",value: true},{estado: "Inactivo", value: false}]
   protected equipos: EquipoCliente[] = [];
   private idPersona: string | null = null;
   protected loadingGraphic1 = false; // Carga de graficos servicios pendientes y finalizados
@@ -22,8 +24,14 @@ export class EquipoComponent implements OnInit {
   protected loadingMain = false; // Carga principal
   protected filter = "";
 
+    //MODAL
+    protected equipmentForm!: FormGroup;
+    protected newEquipment!: Boolean;
+    protected idEquipment!: number;
+
   constructor(
     private equipoService: EquipoService,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +41,7 @@ export class EquipoComponent implements OnInit {
       this.getServiceAmount(this.idPersona);
       this.getEquipmentActiveInactive(this.idPersona);
       this.getEquipmentMinMax(this.idPersona);
+      this.initForm();
     }
   }
 
@@ -80,10 +89,78 @@ export class EquipoComponent implements OnInit {
           const equipmentIndex = this.equipos.findIndex(
             (res) => res.idEquipo === idEquipo);
           this.equipos[equipmentIndex] = res;
+          Swal.fire({
+            title: "Actualizado",
+            text: "Equipo actualizado",
+            icon: 'success'
+          });
           this.clearInput();
         }
         this.loadingMain = false;
       });
+  }
+
+  protected openModalByEquipment(equipment?: EquipoCliente) {
+    this.initForm();
+    if (equipment) {
+      this.equipo = equipment;
+      this.newEquipment = false;
+      return this.setEquipment(equipment);
+    }
+  }
+
+  private initForm() {
+    this.newEquipment = true;
+    this.equipmentForm = this.formBuilder.group({
+      idEquipo: [''],
+      estado: ['']
+    });
+  }
+
+  private setEquipment(equipment: EquipoCliente) {
+    this.equipmentForm.setValue({
+      idEquipo: equipment.idEquipo,
+      estado :  equipment.estado
+    });
+    this.equipmentForm.addControl('estado', this.formBuilder.control(this.equipmentForm.value.estado, []));
+    this.idEquipment = equipment.idEquipo;
+  }
+
+  protected editEquipmentForm() {
+    if (this.equipmentForm.invalid) return Object.values(this.equipmentForm.controls).forEach(c => c.markAsTouched());
+    if (!this.equipmentForm.touched) return;
+    const { idEquipo, ...rest } = this.equipmentForm.value;
+    if (idEquipo) {
+      if (!this.equipo?.estado) {
+        this.updateEquipmentManager(idEquipo, rest);
+      } else {
+        Swal.fire({
+          title: '¡Atención!',
+          text: '¿Está seguro de desactivar el equipo?',
+          icon: 'warning',
+          showConfirmButton: true,
+          showCancelButton: true
+        }).then((res: any) => {
+          if (res.isConfirmed) {
+          this.updateEquipmentManager(idEquipo, rest);
+          }
+        });
+      }
+    }
+  }
+
+  protected get department(){
+    if (this.equipo && this.equipo.Direccion?.Municipio?.Departamento?.Pais) {
+      return this.equipo.Direccion?.Municipio?.Departamento?.Pais?.nombre + " " + this.equipo.Direccion?.Municipio?.Departamento?.nombre
+    }
+    return "No ingresado"
+  }
+
+  protected get direction(){
+    if (this.equipo && this.equipo.Direccion?.Municipio) {
+      return this.equipo.Direccion?.Municipio.nombre+ " " + this.equipo.Direccion.direccion
+    }
+    return "No ingresado"
   }
 
   private clearInput(){

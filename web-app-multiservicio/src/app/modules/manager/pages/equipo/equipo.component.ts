@@ -103,7 +103,10 @@ export class EquipoComponent implements OnInit {
             value: m.cantidad
           }
         })
-        this.getAllDireccions();
+
+        console.log(this.minMaxChart);
+
+
         this.loadingGraphicClient = false;
       });
   }
@@ -256,7 +259,6 @@ export class EquipoComponent implements OnInit {
     this.initForm();
     if (equipment) {
       this.newEquipment = false;
-      this.getOneEquipmentServices(equipment.idEquipo);
       return this.setEquipment(equipment);
     }
   }
