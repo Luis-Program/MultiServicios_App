@@ -259,6 +259,7 @@ export class EquipoComponent implements OnInit {
     this.initForm();
     if (equipment) {
       this.newEquipment = false;
+      this.getOneEquipmentServices(equipment.idEquipo);
       return this.setEquipment(equipment);
     }
   }
