@@ -23,6 +23,16 @@ export class AnalisisRepuestoComponent implements OnInit {
   public isDoughnut     : boolean = false;
   public colorScheme    : string  = 'nightLights';
 
+  legend: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxisLabel: string = 'Year';
+  yAxisLabel: string = 'Population';
+  timeline: boolean = true;
+
   constructor(
     private analisisRepuestoService: AnalisisRepuestoService,
     public datepipe: DatePipe
@@ -45,13 +55,37 @@ export class AnalisisRepuestoComponent implements OnInit {
     this.loading = true;
     this.analisisRepuestoService.getDataGraphics(nombreRepuesto)
     .subscribe((data: Graphics[]) => {
-      
-      this.chartData = data.map(d => {
-        return {
-          value : d.amount,
-          name  : this.datepipe.transform(d.timedate, 'yyyy/MM/dd HH:mm')
+
+      this.chartData = [
+        {
+          name: 'Repuesto',
+          series: data.map(d =>{
+            return {
+              name: this.datepipe.transform(d.timedate),
+              value: d.amount
+            }
+          })
         }
-      })      
+      ]
+      console.log(this.chartData)
+
+      // {
+      //   "name": "Germany",
+      //   "series": [
+      //     {
+      //       "name": "1990",
+      //       "value": 62000000
+      //     },
+      //     {
+      //       "name": "2010",
+      //       "value": 73000000
+      //     },
+      //     {
+      //       "name": "2011",
+      //       "value": 89400000
+      //     }
+      //   ]
+      // },
 
       this.clearInput();
       this.loading = false;

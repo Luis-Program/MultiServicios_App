@@ -226,7 +226,81 @@ export class EquipoComponent implements OnInit {
       });
   }
 
-  private clearInput(){
+  protected openModalByEquipment(equipment?: EquipoRelacionesAnidadas) {
+    this.initForm();
+    if (equipment) {
+      this.newEquipment = false;
+      this.getOneEquipmentServices(equipment.idEquipo);
+      return this.setEquipment(equipment);
+    }
+  }
+
+  private initForm() {
+    this.newEquipment = true;
+    this.equipmentForm = this.formBuilder.group({
+      idEquipo: [''],
+      nombre: ['', [Validators.required, Validators.maxLength(150)]],
+      modelo: ['', [Validators.required, Validators.maxLength(100)]],
+      estado: true,
+      fechaUltimoServicio: ['', [Validators.required]],
+      periodoDeServicio: ['', [Validators.required]],
+      preventivoActivo: false,
+      idDireccion: ['', [Validators.required]],
+      idPersona: ['', [Validators.required]],
+    });
+  }
+
+  private setEquipment(equipment: EquipoRelacionesAnidadas) {
+    let idPersona, idDireccion!: number;
+    idPersona = (equipment.Persona.idPersona) ? equipment.Persona.idPersona : 0;
+    idDireccion = (equipment.Direccion?.idDireccion) ? equipment.Direccion?.idDireccion : 0;
+    this.equipmentForm.setValue({
+      idEquipo: equipment.idEquipo,
+      nombre: equipment.nombre,
+      modelo: equipment.modelo,
+      estado: equipment.estado,
+      fechaUltimoServicio: equipment.fechaUltimoServicio,
+      periodoDeServicio: equipment.periodoDeServicio,
+      preventivoActivo: equipment.preventivoActivo,
+      idDireccion: idDireccion,
+      idPersona: idPersona,
+    });
+    this.equipmentForm.addControl('nombre', this.formBuilder.control(this.equipmentForm.value.nombre, []));
+    this.equipmentForm.addControl('modelo', this.formBuilder.control(this.equipmentForm.value.modelo, []));
+    this.equipmentForm.addControl('estado', this.formBuilder.control(this.equipmentForm.value.estado, []));
+    this.equipmentForm.addControl('periodoDeServicio', this.formBuilder.control(this.equipmentForm.value.periodoDeServicio, []));
+    this.equipmentForm.addControl('fechaUltimoServicio', this.formBuilder.control(formatDate(this.equipmentForm.value.fechaUltimoServicio!, 'dd-MM-yyyy HH:mm:ss', 'en'), []));
+    this.equipmentForm.addControl('idDireccion', this.formBuilder.control(idDireccion, []));
+    this.equipmentForm.addControl('idPersona', this.formBuilder.control(idPersona, []));
+    this.idEquipment = equipment.idEquipo;
+  }
+
+  protected createEquipmentForm() {
+    if (this.equipmentForm.invalid) return Object.values(this.equipmentForm.controls).forEach(c => c.markAsTouched());
+    if (!this.equipmentForm.touched) return;
+    const { idEquipo, ...rest } = this.equipmentForm.value;
+    if (idEquipo) {
+      return this.updateEquipmentManager(idEquipo, rest);
+    }
+    return this.createEquipment(rest);
+  }
+
+  protected deleteEquipmentModal() {
+    Swal.fire({
+      title: '¡Atención!',
+      text: '¿Está seguro de eliminar el servicio?',
+      icon: 'warning',
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then((res: any) => {
+      if (res.isConfirmed) {
+        this.deleteEquipment(this.idEquipment);
+      }
+    });
+  }
+
+
+  private clearInput() {
     this.filter = "";
   }
 }
