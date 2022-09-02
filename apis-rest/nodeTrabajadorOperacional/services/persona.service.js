@@ -24,6 +24,16 @@ class PersonaService {
     return persona;
   }
 
+  async findAll() {
+    const personas = await models.Persona.findAll({
+      include: [{
+        association: 'Tipo_Persona',
+        include: ['Empresa']
+      }]
+    });
+    return personas;
+}
+
   async findOne(idPersona) {
       const persona = await models.Persona.findByPk(idPersona, {
         include: [{

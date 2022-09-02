@@ -57,15 +57,18 @@
                 <div class="row">
                   <div class="col-12">
                     <h3 class="card-title text-dark">
-                      {{ servicio.Tipo_Servicio.tipo }}</h3>
+                      {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo  }}</h3>
                     <p class="card-title">
-                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " +servicio.Trabajador.apellidos : 'No ingresado' }}
+                      {{ servicio.Tipo_Servicio.tipo }}
                     </p>
-                    <p class="card-title">{{ servicio.prioridad }}</p>
                     <p class="card-title">Fase: {{ servicio.estado }}</p>
-                    <p class="card-title">Creado: {{ servicio.fechaCreado | date}}</p>
-                    <p class="card-title">Ejecutar: {{ servicio.fechaHoraRealizar ? servicio.fechaHoraRealizar : "No ingresada" }}</p>
-                    </div>
+                    <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
+                    <p class="card-title">Trabajador:
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
+                    </p>
+                    <p class="card-title">Ejecutar:
+                      {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -84,12 +87,20 @@
                 <div class="row">
                   <div class="col-12">
                     <h3 class="card-title text-dark">
-                      {{ servicio.Tipo_Servicio.tipo }}</h3>
-                    <p class="card-title">{{ servicio.Trabajador.nombre + " " +servicio.Trabajador.apellidos}}</p>
-                    <p class="card-title">{{ servicio.prioridad }}</p>
-                    <p class="card-title">Creado: {{ servicio.fechaCreado| date }}</p>
-                    <p class="card-title">Ejecutar: {{ servicio.fechaHoraRealizar | date:'medium' }}</p>
-                    <p class="card-title">Finalizado: {{ servicio.fechaFinalizado | date:'medium'}}</p>
+                      {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
+                    <p class="card-title">
+                      {{ servicio.Tipo_Servicio.tipo }}
+                    </p>
+                    <p class="card-title">Prioridad: {{ servicio.prioridad }}</p>
+                    <p class="card-title">Fase: {{ servicio.estado }}</p>
+                    <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
+                    <p class="card-title">Trabajador:
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
+                    </p>
+                    <p class="card-title">Ejecutar:
+                      {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
+                    <p class="card-title">Finalizado:
+                      {{ servicio.fechaFinalizado ? parseDate(servicio.fechaFinalizado) : 'No ingresado' }}</p>
                   </div>
                 </div>
               </div>
@@ -137,8 +148,8 @@
                   <div *ngIf="!newService">
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Fecha y hora de ejecución</label>
-                      <input type="datetime" class="form-control" id="recipient-name1"
-                        formControlName="fechaHoraRealizar" readonly>
+                      <input type="datetime-local" class="form-control" id="recipient-name1"
+                        formControlName="fechaHoraRealizar">
                     </div>
                     <label for="message-text" class="control-label">Trabajador*</label>
                     <select class="form-control custom-select" formControlName="idTrabajador">
@@ -154,8 +165,8 @@
                   (click)="deleteServiceModal()">Eliminar</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newService"
                   (click)="createServiceForm()">Crear</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newService && !viewCompletedService"
-                  (click)="createServiceForm()">Editar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  *ngIf="!newService && !viewCompletedService" (click)="createServiceForm()">Editar</button>
               </div>
             </div>
           </div>
