@@ -1,7 +1,6 @@
 const boom = require('@hapi/boom');
 const {
   QueryTypes,
-  Op
 } = require('sequelize');
 const {
   models
@@ -39,53 +38,27 @@ class ServicioService {
   }
 
   async findCompleted(idTrabajador) {
-    const servicios = await models.Servicio.findAll({
-      include: ['Tipo_Servicio', {
-        association: 'Equipo',
-        include: [{
-          association: 'Direccion',
-          include: [{
-            association: 'Municipio',
-            include: [{
-              association: 'Departamento',
-              include: ['Pais']
-            }]
-          }]
-        }]
-      }],
-      where: {
-        idTrabajador: idTrabajador,
-        fechaFinalizado: {
-          [Op.ne]: null
-        }
-      }
+    const servicios = await models.Servicio.sequelize.query(`SELECT s.*, e.nombre, e.modelo, e.idDireccion, e.idPersona, t.tipoServicio FROM (MultiServicios.Servicio s
+      INNER JOIN MultiServicios.Equipo e
+      ON s.idEquipo = e.idEquipo)
+      INNER JOIN MultiServicios.Tipo_Servicio t
+      ON s.idTipoServicio = t.idTipoServicio
+    WHERE s.idTrabajador = ${idTrabajador} AND s.fechaFinalizado IS NOT null`, {
+      type: QueryTypes.SELECT
     });
     return servicios;
   }
 
   async findNotCompleted(idTrabajador) {
-    const servicios = await models.Servicio.findAll({
-      include: ['Tipo_Servicio', {
-        association: 'Equipo',
-        include: [{
-          association: 'Direccion',
-          include: [{
-            association: 'Municipio',
-            include: [{
-              association: 'Departamento',
-              include: ['Pais']
-            }]
-          }]
-        }]
-      }],
-      where: {
-        idTrabajador: idTrabajador,
-        fechaFinalizado: {
-          [Op.is]: null
-        }
-      }
+    const servicios = await models.Servicio.sequelize.query(`SELECT s.*, e.nombre, e.modelo, e.idDireccion, e.idPersona, t.tipoServicio FROM (MultiServicios.Servicio s
+      INNER JOIN MultiServicios.Equipo e
+      ON s.idEquipo = e.idEquipo)
+      INNER JOIN MultiServicios.Tipo_Servicio t
+      ON s.idTipoServicio = t.idTipoServicio
+    WHERE s.idTrabajador = ${idTrabajador} AND s.fechaFinalizado IS null`, {
+      type: QueryTypes.SELECT
     });
-    return servicios;
+  return servicios;
   }
 
   async findWorkerServicesAmount(idTrabajador) {
@@ -121,7 +94,8 @@ class ServicioService {
 
   async update(idServicio, changes) {
     const servicio = await this.findOne(idServicio);
-    const response = await servicio.update(changes);
+    const update = await servicio.update(changes);
+    const response = await this.findOne(update.idServicio);
     return response;
   }
 

@@ -260,6 +260,7 @@ export class ServicioComponent implements OnInit {
         }
         this.loading = false;
       });
+      this.getAllWorkers();
   }
 
   protected deleteService(idServicio: number) {

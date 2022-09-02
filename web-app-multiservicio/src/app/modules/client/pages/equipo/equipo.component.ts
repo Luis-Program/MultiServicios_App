@@ -151,7 +151,7 @@ export class EquipoComponent implements OnInit {
 
   protected get department(){
     if (this.equipo && this.equipo.Direccion?.Municipio?.Departamento?.Pais) {
-      return this.equipo.Direccion?.Municipio?.Departamento?.Pais?.nombre + " " + this.equipo.Direccion?.Municipio?.Departamento?.nombre
+      return this.equipo.Direccion?.Municipio?.Departamento?.Pais?.nombre + ", " + this.equipo.Direccion?.Municipio?.Departamento?.nombre
     }
     return "No ingresado"
   }

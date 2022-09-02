@@ -47,6 +47,20 @@ router.get('/:idPersona',
   }
 );
 
+router.get('/',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const persona = await service.findAll();
+      res.json(persona);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.patch('/:idPersona',
   passport.authenticate('oauth-bearer', {
     session: false

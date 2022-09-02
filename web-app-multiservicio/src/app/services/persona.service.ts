@@ -134,6 +134,15 @@ export class PersonaService {
         }));
   }
 
+  public getAllPersonTypesForWorker() {
+    this.getAPI();
+    return this.http.get<PersonaRelacionesLogin[]>(`${this.apiUrl}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
   public getOneWorkerServicesAmount(idPersona: number | string) {
     this.getAPI();
     return this.http.get<ServiciosFinalizadosPendientes>(`${this.apiUrl}/trabajador/${idPersona}`)
