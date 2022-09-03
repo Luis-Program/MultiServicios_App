@@ -31,6 +31,8 @@ export class EquipoComponent implements OnInit {
 
   // CHARTS
   public chartMinMax  !: any[];
+  public activeInactiveChart !: any[];
+  public endStartedServicesChart !: any[];
 
   public showXAxis = true;
   public showYAxis = true;
@@ -41,6 +43,10 @@ export class EquipoComponent implements OnInit {
   public yAxisLabel = 'Population';
   public colorScheme = 'nightLights'
 
+    // options
+  public showLabels: boolean = true;
+  public isDoughnut: boolean = false;
+  
   constructor(
     private equipoService: EquipoService,
     private formBuilder: FormBuilder,
@@ -71,6 +77,18 @@ export class EquipoComponent implements OnInit {
     this.equipoService.getServiceAmountClient(idPersona)
       .subscribe(data => {
         this.cantidadServiciosFinPen = data;
+        
+        this.endStartedServicesChart = [
+          {
+            name  : 'Finalizados',
+            value : data.finalizados 
+          },
+          {
+            name  : 'Pendientes',
+            value : data.pendientes
+          }
+        ]        
+
         this.loadingGraphic1 = false;
       });
   }
@@ -78,8 +96,16 @@ export class EquipoComponent implements OnInit {
   private getEquipmentActiveInactive(idPersona: string) {
     this.loadingGraphic2 = true;
     this.equipoService.getEquipmentsActiveInactiveClient(idPersona)
-      .subscribe(data => {
+      .subscribe((data: EquipoActivoInactivo[]) => {
         this.cantidadActivoInactivo = data;
+
+        this.activeInactiveChart = data.map(d => {
+          return {
+            name: (d.estado) ? 'Activos' : 'Inactivos',
+            value: d.cantidad
+          }
+        })
+
         this.loadingGraphic2 = false;
       });
   }

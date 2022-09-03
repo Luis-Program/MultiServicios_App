@@ -6,7 +6,14 @@
         <div class="row">
           <div class="col-4">
             <div class="chart-container">
-
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="activeInactiveChart"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                >
+              </ngx-charts-pie-chart>
             </div>
           </div>
           <div class="col-4">
@@ -26,7 +33,13 @@
           </div>
           <div class="col-4">
             <div class="chart-container">
-
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="endStartedServicesChart"
+                [gradient]="gradient"
+                [doughnut]="isDoughnut"
+                >
+              </ngx-charts-pie-chart>
             </div>
           </div>
         </div>
