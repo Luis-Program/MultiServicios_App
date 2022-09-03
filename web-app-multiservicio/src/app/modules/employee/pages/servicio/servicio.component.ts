@@ -35,6 +35,15 @@ export class ServicioComponent implements OnInit {
   protected newService!: Boolean;
   protected idService!: number;
 
+  // CHART  
+  public chartData  !: any[];
+  public gradient   : boolean = true;
+  public showLegend : boolean = true;
+  public showLabels : boolean = true;
+  public isDoughnut : boolean = false;
+  public colorScheme: string  = 'nightLights'
+  public legendTitle: string  = 'Servicios';
+
   constructor(
     private direccionService: DireccionService,
     private servicioService: ServicioService,
@@ -108,6 +117,18 @@ export class ServicioComponent implements OnInit {
     this.servicioService.getAmountServicesWorker(idPersona)
       .subscribe(services => {
         this.cantidadServicios = services;
+
+        this.chartData = [
+          {
+            name  : 'Pendientes',
+            value : services.pendientes
+          },
+          {
+            name  : 'Finalizados',
+            value : services.finalizados
+          }
+        ]
+        
         this.loading = false;
       });
   }
