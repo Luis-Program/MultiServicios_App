@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card padre">
       <div class="card-body">
 
         <div class="row">
@@ -23,6 +23,8 @@
           </div>
         </div>
         <!-- /MAIN CHART -->
+
+        <hr *ngIf="showworkersChart && tipo != 'all'">
 
         <!-- INICIO BOTON -->
         <div class="row mt-5">
@@ -144,31 +146,50 @@
               <div class="modal-body">
                 <form [formGroup]="Form">
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Nombre*</label>
+                    <label for="recipient-name" class="control-label">Nombres</label>
                     <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                    <div *ngIf="nombre?.invalid && nombre?.touched">
+                      <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*Nombre no debe exceder de 20 carácteres</small>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Apellidos*</label>
+                    <label for="recipient-name" class="control-label">Apellidos</label>
                     <input type="text" class="form-control" id="recipient-name1" formControlName="apellidos">
+                    <div *ngIf="apellidos?.invalid && apellidos?.touched">
+                      <small *ngIf="apellidos?.hasError('required')" class="text-danger">*Apellido requerido</small>
+                      <small *ngIf="apellidos?.hasError('maxlength')" class="text-danger">*El apellido no debe exceder de 20 carácteres</small>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Correo*</label>
+                    <label for="recipient-name" class="control-label">Correo</label>
                     <input type="email" class="form-control" id="recipient-name1" formControlName="correo">
+                    <div *ngIf="correo?.invalid && correo?.touched">
+                      <small *ngIf="correo?.hasError('required')" class="text-danger">*Correo requerido</small>
+                      <small *ngIf="correo?.hasError('email')" class="text-danger">*Debe ser un correo válido</small>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">DPI*</label>
+                    <label for="recipient-name" class="control-label">DPI</label>
                     <input type="text" class="form-control" id="recipient-name1" formControlName="dpi">
+                    <div *ngIf="dpi?.invalid && dpi?.touched">
+                      <small *ngIf="dpi?.hasError('required')" class="text-danger">*DPI requerido</small>
+                      <small *ngIf="dpi?.hasError('maxlength') || dpi?.hasError('minlength')" class="text-danger">*El DPI debe ser de 13 carácteres</small>
+                    </div>
                   </div>
                   <div class="form-group" *ngIf="tipo != 'all' && !create">
                     <label for="recipient-name" class="control-label">{{amount}}</label>
                     <input type="text" class="form-control" id="recipient-name1" [value]="amountPerson" readonly>
                   </div>
                   <div class="form-group">
-                    <label for="message-text" class="control-label">Tipo persona*</label>
+                    <label for="message-text" class="control-label">Rol</label>
                     <select class="form-control custom-select" formControlName="idTipoPersona">
                       <option *ngFor="let tiposPersona of tiposPersonas" [value]="tiposPersona.idTipoPersona">
                         {{ tiposPersona.tipo }}</option>
                     </select>
+                    <div *ngIf="tipoPersona?.invalid && tipoPersona?.touched">
+                      <small *ngIf="tipoPersona?.hasError('required')" class="text-danger">*Rol requerido</small>
+                    </div>
                     <!-- <small *ngIf="idEmpresaValue <= 0" class="form-control-feedback">No ingresado *</small> -->
                   </div>
                 </form>

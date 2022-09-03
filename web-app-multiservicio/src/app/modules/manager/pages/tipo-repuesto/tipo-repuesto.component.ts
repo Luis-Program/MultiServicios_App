@@ -104,13 +104,18 @@ export class TipoRepuestoComponent implements OnInit {
   private initForm() {
     this.newTypeReplacement = true;
     this.typeReplacementForm = this.formBuilder.group({
-      // idTipoRepuesto: [''],
-      tipo: ['', [Validators.required, Validators.maxLength(100)]]
+      idTipoRepuesto: [''],
+      tipo: ['', [Validators.required, Validators.maxLength(20)]]
     });
+  }
+
+  protected get tipo() {
+    return this.typeReplacementForm.get('tipo');
   }
 
   private setTypeReplacement(typeReplacement: TipoRepuesto) {
     this.typeReplacementForm.setValue({
+      idTipoRepuesto: typeReplacement.idTipoRepuesto,
       tipo: typeReplacement.tipo
     });
     this.typeReplacementForm.addControl('idTipoRepuesto', this.formBuilder.control(typeReplacement.idTipoRepuesto, []));

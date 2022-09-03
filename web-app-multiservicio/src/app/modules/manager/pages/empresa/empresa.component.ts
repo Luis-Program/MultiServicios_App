@@ -125,7 +125,7 @@ export class EmpresaComponent implements OnInit {
       });
   }
 
-  initForm() {
+  protected initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
       idEmpresa: [''],
@@ -134,7 +134,7 @@ export class EmpresaComponent implements OnInit {
     })
   }
 
-  setForm(empresa: Empresa) {
+  protected setForm(empresa: Empresa) {
 
     this.Form.setValue({
       idEmpresa: empresa.idEmpresa,
@@ -145,7 +145,15 @@ export class EmpresaComponent implements OnInit {
     this.idItem = empresa.idEmpresa;
   }
 
-  openModal(empresa?: Empresa) {
+  protected get nombre() {
+    return this.Form.get('nombre');
+  }
+
+  protected get nit() {
+    return this.Form.get('nit');
+  }
+
+  protected openModal(empresa?: Empresa) {
     this.initForm();
 
     if (empresa) {
@@ -154,7 +162,7 @@ export class EmpresaComponent implements OnInit {
     }
   }
 
-  createItem() {
+  protected createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
     const { idEmpresa, ...rest } = this.Form.value;
@@ -166,7 +174,7 @@ export class EmpresaComponent implements OnInit {
     this.createEnterprise(rest)
   }
 
-  deleteItem() {
+  protected deleteItem() {
     Swal.fire({
       title: '¡Atención!',
       text: '¿Está seguro de eliminar el municipio?',
