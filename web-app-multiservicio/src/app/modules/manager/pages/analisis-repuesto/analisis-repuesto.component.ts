@@ -22,7 +22,7 @@ export class AnalisisRepuestoComponent implements OnInit {
   public gradient       : boolean = true;
   public showLabels     : boolean = true;
   public isDoughnut     : boolean = false;
-  public colorScheme    : string  = 'nightLights';
+  public colorScheme    : string  = 'ocean';
 
   legend: boolean = true;
   animations: boolean = true;

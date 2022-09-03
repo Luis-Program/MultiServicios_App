@@ -47,8 +47,6 @@ export class ServicioComponent implements OnInit {
   public isDoughnut: boolean = false;
   public showLegend: boolean = true;
   public colorScheme: string = 'nightLights';
-  public legendTitle: string = 'Servicios';
-  public legendType: string = 'Tipos de servicios'
 
   constructor(
     private servicioService: ServicioService,
@@ -85,6 +83,9 @@ export class ServicioComponent implements OnInit {
     this.getAllServicesWithRelationsNotCompleted();
   }
 
+  get label(){
+    return 'teste \n  tesas'
+  }
   // private getAllServicesWithRelations() {
   //   this.loading = true;
   //   this.servicioService.getAllWithRelations()

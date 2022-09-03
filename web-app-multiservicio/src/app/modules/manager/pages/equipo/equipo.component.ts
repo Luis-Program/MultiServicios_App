@@ -44,7 +44,8 @@ export class EquipoComponent implements OnInit {
   public gradient: boolean = true;
   public showLabels: boolean = true;
   public isDoughnut: boolean = false;
-  public colorScheme: string = 'vivid';
+  public colorScheme: string = 'ocean';
+  // cool ocean nightLights
 
   // BAR CHART
   public showXAxis = true;
@@ -211,6 +212,7 @@ export class EquipoComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+          this.getClientAmountMinMAx();
         }
         this.loading = false;
       });
@@ -230,6 +232,7 @@ export class EquipoComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+          this.getClientAmountMinMAx();
         }
         this.loading = false;
       });
@@ -248,6 +251,7 @@ export class EquipoComponent implements OnInit {
             text: 'Equipo eliminado',
             icon: 'success'
           });
+          this.getClientAmountMinMAx();
           this.clearInput();
         }
         this.loading = false;

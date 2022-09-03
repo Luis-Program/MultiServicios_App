@@ -28,7 +28,7 @@ export class EmpresaComponent implements OnInit {
   public showLegend     : boolean = true;
   public showXAxisLabel : boolean = true;
   public xAxisLabel     : string  = 'Servicios';
-  public colorScheme    : string  = 'vivid';
+  public colorScheme    : string  = 'ocean';
   public legendTitle    : string  = 'Empresas';
   public single         !: any[];
 

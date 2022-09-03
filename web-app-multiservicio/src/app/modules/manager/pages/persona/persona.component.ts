@@ -35,7 +35,7 @@ export class PersonaComponent implements OnInit {
   public gradient: boolean = true;
   public showLabels: boolean = true;
   public isDoughnut: boolean = false;
-  public colorScheme: string = 'vivid';
+  public colorScheme: string = 'ocean';
   public chartData      !: any[];
   public showoperatorChart !: boolean;
 
@@ -300,7 +300,7 @@ export class PersonaComponent implements OnInit {
   }
 
   protected get nombre() {
-    return this.Form.get('nombre')?.value;
+    return this.Form.get('nombre');
   }
 
   protected get apellidos() {

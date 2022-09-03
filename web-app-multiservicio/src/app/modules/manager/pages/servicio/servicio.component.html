@@ -2,7 +2,6 @@
   <div class="col-12">
     <div class="card padre">
       <div class="card-body">
-
         <div class="row">
           <div class="col-12 text-center">
             <h1>{{title}}</h1>
@@ -10,7 +9,7 @@
         </div>
         <br>
         <div class="row">
-          <div class="col-sm-12 col-md-4">
+          <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
               <h3>Pendientes y Finalizados</h3>
               <ngx-charts-pie-chart
@@ -22,8 +21,7 @@
               </ngx-charts-pie-chart>
             </div>
           </div>
-
-          <div class="col-sm-12 col-md-4">
+          <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
               <h3>Asignados y No Asignados</h3>
               <ngx-charts-pie-chart
@@ -35,8 +33,7 @@
               </ngx-charts-pie-chart>
             </div>
           </div>
-
-          <div class="col-sm-12 col-md-4">
+          <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
               <h3>Tipo</h3>
               <ngx-charts-pie-chart
@@ -49,9 +46,7 @@
             </div>
           </div>
         </div>
-
         <div class="row mt-3">
-          <!-- ADD BUTTON -->
           <div class="col-1">
             <div class="row">
               <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
@@ -60,12 +55,9 @@
               </button>
             </div>
           </div>
-          <!-- /ADD BUTTON -->
-          <!-- INPUT SEARCH -->
           <div class="col-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
-          <!-- /INPUT SEARCH -->
         </div>
         <div class="row mt-3 text-center">
           <div class="col-12">
@@ -75,7 +67,7 @@
               *ngIf="!viewCompletedService">Completados</button>
           </div>
 
-        <!-- CARD UNCOMPLETED-->
+      <!-- CARD UNCOMPLETED-->
         <div class="row mt-4" *ngIf="!viewCompletedService">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosPendientes | filterService:filter">
             <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
@@ -84,7 +76,7 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-10 text-left">
                     <h3 class="card-title text-dark">
                       {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
                     <p class="card-title">
@@ -115,8 +107,8 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-12">
-                    <h3 class="card-title text-dark">
+                  <div class="col-10 text-left">
+                    <h3 class="card-title text-dark ">
                       {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
                     <p class="card-title">
                       {{ servicio.Tipo_Servicio.tipo }}
@@ -149,7 +141,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body text-left">
                 <form [formGroup]="serviceForm">
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Prioridad</label>
@@ -157,7 +149,6 @@
                       <option *ngFor="let alter of prioridad" [value]="alter">
                         {{ alter }}</option>
                     </select>
-                    <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
                     <div *ngIf="prioridadServicio?.invalid && prioridadServicio?.touched">
                       <small *ngIf="prioridadServicio?.hasError('required')" class="text-danger">*Prioridad requerida</small>
                     </div>
@@ -168,7 +159,6 @@
                       <option *ngFor="let tiposervicio of tiposServicios" [value]="tiposervicio.idTipoServicio">
                         {{ tiposervicio.tipoServicio }}</option>
                     </select>
-                    <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
                     <div *ngIf="idTipoServicio?.invalid && idTipoServicio?.touched">
                       <small *ngIf="idTipoServicio?.hasError('required')" class="text-danger">*Tipo Servicio requerido</small>
                     </div>
@@ -179,7 +169,6 @@
                       <option *ngFor="let equipo of equipos" [value]="equipo.idEquipo">
                         {{ equipo.nombre }}</option>
                     </select>
-                    <!-- <small *ngIf="!idEquipo" class="form-control-feedback">No ingresado *</small> -->
                     <div *ngIf="idEquipo?.invalid && idEquipo?.touched">
                       <small *ngIf="idEquipo?.hasError('required')" class="text-danger">*Equipo requerido</small>
                     </div>
@@ -203,7 +192,6 @@
                       <small *ngIf="idTrabajador?.hasError('required')" class="text-danger">*Trabajador requerido</small>
                     </div>
                   </div>
-
                 </form>
               </div>
               <div class="modal-footer">
@@ -223,3 +211,4 @@
     </div>
   </div>
 </div>
+

@@ -232,10 +232,10 @@ export class EquipoComponent implements OnInit {
   public showYAxis = true;
   public gradient = false;
   public showXAxisLabel = true;
-  public xAxisLabel = 'Country';
+  public xAxisLabel = 'Equipo';
   public showYAxisLabel = true;
-  public yAxisLabel = 'Population';
-  public colorScheme = 'nightLights'
+  public yAxisLabel = 'Cantidad';
+  public colorScheme = 'ocean'
 
     // options
   public showLabels: boolean = true;
@@ -309,11 +309,11 @@ export class EquipoComponent implements OnInit {
 
         this.chartMinMax = [
           {
-            name  : "Mínimo",
+            name  : data.equipmentMin.nombre + ' ' + data.equipmentMin.modelo,
             value : data.equipmentMin.cantidad
           },
           {
-            name  : "Máximo",
+            name  : data.equipmentMax.nombre + ' ' + data.equipmentMax.modelo,
             value : data.equipmentMax.cantidad
           }
         ]
