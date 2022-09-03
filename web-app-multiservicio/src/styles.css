@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+.padre {
+    height: 100vh;
+}
+
+.button-padding {
+    padding-left: 25px;
+}

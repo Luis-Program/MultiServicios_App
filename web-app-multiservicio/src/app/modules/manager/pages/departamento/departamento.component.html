@@ -59,6 +59,12 @@
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Nombre*</label>
                     <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+
+                    <div *ngIf="nameControl?.invalid && nameControl?.touched">
+                      <small *ngIf="nameControl?.hasError('required')" class="text-danger">Nombre requerido</small>
+                      <small *ngIf="nameControl?.hasError('maxlength')" class="text-danger">El nombre no debe exceder de 50 carácteres</small>
+                    </div>
+
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Código*</label>
