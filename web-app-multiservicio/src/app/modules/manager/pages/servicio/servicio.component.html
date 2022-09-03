@@ -4,17 +4,41 @@
       <div class="card-body">
 
         <div class="row">
-          <div class="col-6">
-            <div class="chart-container">
-              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartService" [legend]="showLegend"
-                [gradient]="gradient" [labels]="showLabels" [doughnut]="isDoughnut" [legendTitle]="legendTitle">
+          <div class="col-4">
+            <div class="chart-container text-center">
+              <h3>Servicios pendientes & finalizados</h3>
+              <ngx-charts-pie-chart 
+                [scheme]="colorScheme" 
+                [results]="chartService" 
+                [gradient]="gradient" 
+                [labels]="showLabels" 
+                [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
-          <div class="col-6">
-            <div class="chart-container">
-              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartTypeService" [legend]="showLegend"
-                [gradient]="gradient" [labels]="showLabels" [doughnut]="isDoughnut" [legendTitle]="legendType">
+
+          <div class="col-4">
+            <div class="chart-container text-center">
+              <h3>Servicios asignados & sin asignar</h3>
+              <ngx-charts-pie-chart 
+                [scheme]="colorScheme" 
+                [results]="chartServicesUnAssigned" 
+                [gradient]="gradient" 
+                [labels]="showLabels" 
+                [doughnut]="isDoughnut">
+              </ngx-charts-pie-chart>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="chart-container text-center">
+              <h3>Tipos de servicios</h3>
+              <ngx-charts-pie-chart 
+                [scheme]="colorScheme" 
+                [results]="chartTypeService" 
+                [gradient]="gradient" 
+                [labels]="showLabels" 
+                [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
@@ -31,19 +55,19 @@
             </div>
           </div>
           <!-- /ADD BUTTON -->
-          <!-- INPUT SEARCH -->
-          <div class="col-10">
-            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-          </div>
-          <!-- /INPUT SEARCH -->
-        </div>
-        <div class="row mt-5">
+
           <div class="col-1">
             <button class="btn btn-outline-primary" (click)="switchView()"
               *ngIf="viewCompletedService">Pendientes</button>
             <button class="btn btn-outline-primary mr-3" (click)="switchView()"
               *ngIf="!viewCompletedService">Completados</button>
           </div>
+
+          <!-- INPUT SEARCH -->
+          <div class="col-10 button-padding">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
         </div>
 
         <!-- CARD UNCOMPLETED-->
@@ -57,14 +81,15 @@
                 <div class="row">
                   <div class="col-12">
                     <h3 class="card-title text-dark">
-                      {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo  }}</h3>
+                      {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
                     <p class="card-title">
                       {{ servicio.Tipo_Servicio.tipo }}
                     </p>
                     <p class="card-title">Fase: {{ servicio.estado }}</p>
                     <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
                     <p class="card-title">Trabajador:
-                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No
+                      ingresado'}}
                     </p>
                     <p class="card-title">Ejecutar:
                       {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
@@ -95,7 +120,8 @@
                     <p class="card-title">Fase: {{ servicio.estado }}</p>
                     <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
                     <p class="card-title">Trabajador:
-                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No
+                      ingresado'}}
                     </p>
                     <p class="card-title">Ejecutar:
                       {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>

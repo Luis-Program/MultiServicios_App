@@ -39,6 +39,7 @@ export class ServicioComponent implements OnInit {
   protected idService!: number;
 
   public chartService!: any[];
+  public chartServicesUnAssigned !: any[];
   public chartTypeService!: any[];
   public gradient: boolean = true;
   public showLabels: boolean = true;
@@ -156,22 +157,22 @@ export class ServicioComponent implements OnInit {
             value: data.serviciosCompletados
           },
           {
-            name: 'Cantidad de servicios',
-            value: data.cantidadServicios
-          },
+            name: 'Servicios pendientes',
+            value: data.cantidadServicios - data.serviciosCompletados
+          }
+        ];
+
+        this.chartServicesUnAssigned = [
           {
             name: 'Servicios asignados',
             value: data.serviciosAsignados
           },
           {
-            name: 'Servicios pendientes',
-            value: data.cantidadServicios - data.serviciosCompletados
-          },
-          {
             name: 'Servicios sin asignar',
             value: data.cantidadServicios - data.serviciosAsignados
           }
-        ]
+        ];
+
         this.loadingGraphicAsig = this.loadingGraphicCom = false;
       });
   }
