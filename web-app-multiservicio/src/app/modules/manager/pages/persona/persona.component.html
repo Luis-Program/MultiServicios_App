@@ -3,6 +3,13 @@
     <div class="card">
       <div class="card-body">
 
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>{{ title }}</h1>
+          </div>
+        </div>
+
+
         <!-- MAIN CHART -->
         <div class="row" *ngIf="showworkersChart && tipo != 'all'">
           <div class="col-12">
@@ -30,22 +37,22 @@
           </div>
           <!-- /ADD COUNTRY BUTTON -->
 
+          <div class="col-2">
+            <button class="btn btn-outline-primary btn-large mr-2" (click)="changeTypePerson('all')"
+              *ngIf="tipo != 'all'">Todos</button>
+            <button class="btn btn-outline-primary btn-large mr-2" (click)="changeTypePerson('client')"
+              *ngIf="tipo != 'client'">Clientes</button>
+            <button class="btn btn-outline-primary btn-large mr-2" (click)="changeTypePerson('worker')"
+              *ngIf="tipo != 'worker'">Trabajadores</button>
+          </div>
+
           <!-- INPUT SEARCH -->
-          <div class="col-10">
+          <div class="col-9">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
         <!-- /INICIO BOTON -->
-        <br>
-        <div class="col-1">
-          <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('all')"
-            *ngIf="tipo != 'all'">Todos</button>
-          <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('client')"
-            *ngIf="tipo != 'client'">Clientes</button>
-          <button class="btn btn-outline-primary btn-large" (click)="changeTypePerson('worker')"
-            *ngIf="tipo != 'worker'">Trabajadores</button>
-        </div>
 
         <!-- CARDS -->
         <div [ngSwitch]="tipo">

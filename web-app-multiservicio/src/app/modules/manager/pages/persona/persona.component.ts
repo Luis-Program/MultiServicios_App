@@ -55,11 +55,15 @@ export class PersonaComponent implements OnInit {
   public yAxisLabel!: string;
   public legendTitle!: string;
 
+  public title!: string;
+
   constructor(
     private personaService: PersonaService,
     private tipoPersonaService: TipoPersonaService,
     private fb: FormBuilder
-  ) { }
+  ) { 
+    this.title = 'TODOS';
+  }
 
   ngOnInit(): void {
     this.getAllPersonsWithRelations();
@@ -130,6 +134,7 @@ export class PersonaComponent implements OnInit {
 
   protected changeTypePerson(tipo: string) {
     if (tipo === 'worker') {
+      this.title = "TRABAJADORES";
       this.xAxisLabel = "Servicios asignados"
       this.yAxisLabel = 'Trabajadores';
       this.legendTitle = 'Trabajadores'
@@ -137,6 +142,7 @@ export class PersonaComponent implements OnInit {
       this.getAllWorkers();
       this.tipo = tipo;
     }else  if (tipo === 'client') {
+      this.title = "CLIENTES";
       this.xAxisLabel = 'Cantidad de equipos';
       this.yAxisLabel = 'Clientes';
       this.legendTitle = 'Clientes'
