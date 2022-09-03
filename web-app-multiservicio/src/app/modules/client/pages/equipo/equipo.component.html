@@ -68,15 +68,21 @@
     <p>No ingresada.</p>
   </ng-template>
 </div>
- -->
- <div class="row">
+-->
+<div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card padre">
       <div class="card-body">
+
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>EQUIPOS</h1>
+          </div>
+        </div>
 
         <div class="row mt-5">
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
@@ -117,28 +123,28 @@
               </div>
               <div class="modal-body">
 
-                    <label for="recipient-name" class="control-label">Nombre</label>
-                    <input type="text" class="form-control" id="recipient-name1" [value]="equipo?.nombre" readonly>
-                    <label for="recipient-name" class="control-label">Modelo</label>
-                    <input type="text" class="form-control" id="recipient-name1" [value]="equipo?.modelo" readonly>
-                    <form [formGroup]="equipmentForm">
-                      <div class="form-group">
-                        <label for="recipient-name" class="control-label">Estado</label>
-                        <select class="form-control custom-select" formControlName="estado">
-                          <option *ngFor="let l of list" [value]="l.value">
-                            {{ l.estado }}</option>
-                        </select>
-                      </div>
-                    </form>
-                    <label for="recipient-name" class="control-label">Periodo del servicio</label>
-                    <input type="number" class="form-control" id="recipient-name1"
-                    [value]="equipo?.periodoDeServicio" readonly>
-                    <label for="recipient-name" class="control-label">Fecha último sevicio</label>
-                    <input type="date" class="form-control" id="recipient-name1"
-                    [value]="equipo?.fechaUltimoServicio" readonly>
-                    <label for="message-text" class="control-label">Ubicación</label>
-                    <input type="text" class="form-control" id="recipient-name1" [value]="department" readonly>
-                    <input type="text" class="form-control mt-3" id="recipient-name1" [value]="direction" readonly>
+                <label for="recipient-name" class="control-label">Nombre</label>
+                <input type="text" class="form-control" id="recipient-name1" [value]="equipo?.nombre" readonly>
+                <label for="recipient-name" class="control-label mt-2">Modelo</label>
+                <input type="text" class="form-control" id="recipient-name1" [value]="equipo?.modelo" readonly>
+                <form [formGroup]="equipmentForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label mt-2">Estado</label>
+                    <select class="form-control custom-select" formControlName="estado">
+                      <option *ngFor="let l of list" [value]="l.value">
+                        {{ l.estado }}</option>
+                    </select>
+                  </div>
+                </form>
+                <label for="recipient-name" class="control-label">Periodo del servicio</label>
+                <input type="number" class="form-control" id="recipient-name1" [value]="equipo?.periodoDeServicio"
+                  readonly>
+                <label for="recipient-name" class="control-label mt-2">Fecha último sevicio</label>
+                <input type="date" class="form-control" id="recipient-name1" [value]="equipo?.fechaUltimoServicio"
+                  readonly>
+                <label for="message-text" class="control-label mt-2">Ubicación</label>
+                <input type="text" class="form-control" id="recipient-name1" [value]="department" readonly>
+                <input type="text" class="form-control mt-3" id="recipient-name1" [value]="direction" readonly>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newEquipment"
@@ -152,4 +158,3 @@
     </div>
   </div>
 </div>
-

@@ -5,12 +5,12 @@
 
         <div class="row">
           <div class="col-12 text-center">
-            <h1>SERVICIOS</h1>
+            <h1>{{title}}</h1>
           </div>
         </div>
 
         <br>
-        
+
         <div class="row">
           <div class="col-6">
             <div class="chart-container">
@@ -28,6 +28,8 @@
           </div>
         </div>
 
+        <hr>
+
         <div class="row mt-5">
           <!-- ADD BUTTON -->
           <div class="col-1">
@@ -40,13 +42,13 @@
           </div>
           <!-- /ADD BUTTON -->
           <!-- INPUT SEARCH -->
-          <div class="col-10">
+          <div class="col-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
-        <div class="row mt-5">
-          <div class="col-1">
+        <div class="row mt-3 text-center">
+          <div class="col-12">
             <button class="btn btn-outline-primary" (click)="switchView()"
               *ngIf="viewCompletedService">Pendientes</button>
             <button class="btn btn-outline-primary mr-3" (click)="switchView()"
@@ -55,7 +57,7 @@
         </div>
 
         <!-- CARD UNCOMPLETED-->
-        <div class="row mt-5" *ngIf="!viewCompletedService">
+        <div class="row mt-4" *ngIf="!viewCompletedService">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosPendientes | filterService:filter">
             <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
@@ -85,7 +87,7 @@
         <!-- /CARD UNCOMPLETED-->
 
         <!-- CARD COMPLETED-->
-        <div class="row mt-5" *ngIf="viewCompletedService">
+        <div class="row mt-4" *ngIf="viewCompletedService">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosCompletados | filterService:filter">
             <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
@@ -135,14 +137,20 @@
                         {{ alter }}</option>
                     </select>
                     <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="prioridadServicio?.invalid && prioridadServicio?.touched">
+                      <small *ngIf="prioridadServicio?.hasError('required')" class="text-danger">*Prioridad requerida</small>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label for="message-text" class="control-label">Tipo Servicio*</label>
+                    <label for="message-text" class="control-label">Tipo Servicio</label>
                     <select class="form-control custom-select" formControlName="idTipoServicio">
                       <option *ngFor="let tiposervicio of tiposServicios" [value]="tiposervicio.idTipoServicio">
                         {{ tiposervicio.tipoServicio }}</option>
                     </select>
                     <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="idTipoServicio?.invalid && idTipoServicio?.touched">
+                      <small *ngIf="idTipoServicio?.hasError('required')" class="text-danger">*Tipo Servicio requerido</small>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Equipo</label>
@@ -151,6 +159,9 @@
                         {{ equipo.nombre }}</option>
                     </select>
                     <!-- <small *ngIf="!idEquipo" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="idEquipo?.invalid && idEquipo?.touched">
+                      <small *ngIf="idEquipo?.hasError('required')" class="text-danger">*Equipo requerido</small>
+                    </div>
                   </div>
 
                   <div *ngIf="!newService">
@@ -158,12 +169,18 @@
                       <label for="recipient-name" class="control-label">Fecha y hora de ejecución</label>
                       <input type="datetime-local" class="form-control" id="recipient-name1"
                         formControlName="fechaHoraRealizar">
+                        <div *ngIf="fechaHoraRealizar?.invalid && fechaHoraRealizar?.touched">
+                          <small *ngIf="fechaHoraRealizar?.hasError('required')" class="text-danger">*Fecha y hora requerido</small>
+                        </div>
                     </div>
                     <label for="message-text" class="control-label">Trabajador*</label>
                     <select class="form-control custom-select" formControlName="idTrabajador">
                       <option *ngFor="let trabajador of trabajadores" [value]="trabajador.idPersona">
                         {{ trabajador.nombre }}</option>
                     </select>
+                    <div *ngIf="idTrabajador?.invalid && idTrabajador?.touched">
+                      <small *ngIf="idTrabajador?.hasError('required')" class="text-danger">*Trabajador requerido</small>
+                    </div>
                   </div>
 
                 </form>

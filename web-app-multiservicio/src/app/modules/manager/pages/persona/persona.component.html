@@ -27,7 +27,7 @@
         <hr *ngIf="showworkersChart && tipo != 'all'">
 
         <!-- INICIO BOTON -->
-        <div class="row mt-5">
+        <div class="row mt-1">
           <!-- ADD COUNTRY BUTTON -->
           <div class="col-1">
             <div class="row">
@@ -39,27 +39,29 @@
           </div>
           <!-- /ADD COUNTRY BUTTON -->
 
-          <div class="col-2">
-            <button class="btn btn-outline-primary btn-large mr-2" (click)="changeTypePerson('all')"
-              *ngIf="tipo != 'all'">Todos</button>
-            <button class="btn btn-outline-primary btn-large mr-2" (click)="changeTypePerson('client')"
-              *ngIf="tipo != 'client'">Clientes</button>
-            <button class="btn btn-outline-primary btn-large mr-2" (click)="changeTypePerson('worker')"
-              *ngIf="tipo != 'worker'">Trabajadores</button>
-          </div>
 
           <!-- INPUT SEARCH -->
-          <div class="col-9">
+          <div class="col-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-3 text-center">
+          <div class="col-12">
+            <button class="btn btn-outline-primary btn-large mr-1" (click)="changeTypePerson('all')"
+              *ngIf="tipo != 'all'">Todos</button>
+            <button class="btn btn-outline-primary btn-large mr-1" (click)="changeTypePerson('client')"
+              *ngIf="tipo != 'client'">Clientes</button>
+            <button class="btn btn-outline-primary btn-large mr-1" (click)="changeTypePerson('worker')"
+              *ngIf="tipo != 'worker'">Trabajadores</button>
+          </div>
         </div>
         <!-- /INICIO BOTON -->
 
         <!-- CARDS -->
         <div [ngSwitch]="tipo">
           <div *ngSwitchCase="'all'">
-            <div class="row mt-5">
+            <div class="row mt-3">
               <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of personas | filterPerson:filter">
                 <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
                   (click)="openModal(persona)">
@@ -83,7 +85,7 @@
             </div>
           </div>
           <div *ngSwitchCase="'client'">
-            <div class="row mt-5">
+            <div class="row mt-3">
               <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of clientes | filterPerson:filter ">
                 <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
                   (click)="openModal(persona)">
@@ -107,7 +109,7 @@
             </div>
           </div>
           <div *ngSwitchCase="'worker'">
-            <div class="row mt-5">
+            <div class="row mt-3">
               <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of trabajadores | filterPerson:filter">
                 <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
                   (click)="openModal(persona)">

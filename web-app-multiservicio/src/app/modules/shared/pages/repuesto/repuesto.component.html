@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <div class="row mt-2">
+        <div class="row mt-2" *ngIf="rol === 'Gerente General'">
           <!-- ADD BUTTON -->
           <div class="col-1">
             <div class="row">
@@ -41,6 +41,14 @@
 
           <!-- INPUT SEARCH -->
           <div class="col-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+
+        <div class="row mt-2" *ngIf="rol != 'Gerente General'">
+          <!-- INPUT SEARCH -->
+          <div class="col-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
@@ -89,24 +97,27 @@
                       <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
                       <div *ngIf="nombre?.invalid && nombre?.touched">
                         <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
-                        <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 25 carácteres</small>
+                        <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de
+                          25 carácteres</small>
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Cantidad:</label>
                       <input type="number" min="0" class="form-control" id="recipient-name1"
                         formControlName="cantidadDisponible">
-                        <div *ngIf="cantidadDisponible?.invalid && cantidadDisponible?.touched">
-                          <small *ngIf="cantidadDisponible?.hasError('required')" class="text-danger">*Cantidad requerido</small>
-                        </div>
+                      <div *ngIf="cantidadDisponible?.invalid && cantidadDisponible?.touched">
+                        <small *ngIf="cantidadDisponible?.hasError('required')" class="text-danger">*Cantidad
+                          requerido</small>
+                      </div>
                     </div>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Límite Inferior:</label>
                       <input type="number" min="0" class="form-control" id="recipient-name1"
                         formControlName="limiteInferior">
-                        <div *ngIf="limiteInferior?.invalid && limiteInferior?.touched">
-                          <small *ngIf="limiteInferior?.hasError('required')" class="text-danger">*Límite inferior requerido</small>
-                        </div>
+                      <div *ngIf="limiteInferior?.invalid && limiteInferior?.touched">
+                        <small *ngIf="limiteInferior?.hasError('required')" class="text-danger">*Límite inferior
+                          requerido</small>
+                      </div>
                     </div>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Tipo Repuesto:</label>
@@ -115,7 +126,8 @@
                           {{ tipoRepuesto.tipo }}</option>
                       </select>
                       <div *ngIf="idTipoRepuesto?.invalid && idTipoRepuesto?.touched">
-                        <small *ngIf="idTipoRepuesto?.hasError('required')" class="text-danger">*Tipo repuesto requerido</small>
+                        <small *ngIf="idTipoRepuesto?.hasError('required')" class="text-danger">*Tipo repuesto
+                          requerido</small>
                       </div>
                       <!-- <small *ngIf="idTipoRepuestoValue <= 0" class="form-control-feedback">No ingresado *</small> -->
                     </div>
@@ -129,9 +141,10 @@
                       <label for="recipient-name" class="control-label">Cantidad:</label>
                       <input type="number" min="0" [max]="maxValueInput" class="form-control" id="recipient-name1"
                         formControlName="cantidadDisponible">
-                        <div *ngIf="cantidadDisponible?.invalid && cantidadDisponible?.touched">
-                          <small *ngIf="cantidadDisponible?.hasError('required')" class="text-danger">*Cantidad requerido</small>
-                        </div>
+                      <div *ngIf="cantidadDisponible?.invalid && cantidadDisponible?.touched">
+                        <small *ngIf="cantidadDisponible?.hasError('required')" class="text-danger">*Cantidad
+                          requerido</small>
+                      </div>
                     </div>
                   </ng-template>
                 </form>
