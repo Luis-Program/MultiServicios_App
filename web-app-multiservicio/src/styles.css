@@ -1,8 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 .padre {
-    height: 100vh;
+    height: 85vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .button-padding {
     padding-left: 25px;
+}
+
+.scroll {
+  overflow: hidden;
 }

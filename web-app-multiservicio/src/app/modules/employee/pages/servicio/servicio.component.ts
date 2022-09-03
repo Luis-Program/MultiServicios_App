@@ -28,6 +28,7 @@ export class ServicioComponent implements OnInit {
   protected idServicio: number | null = null;
   protected idPersona: string | null = null;
   protected viewCompletedService = false;
+  protected title: string = "SERVICIOS PENDIENTES";
   protected loading = false;
   protected filter = "";
 
@@ -80,9 +81,12 @@ export class ServicioComponent implements OnInit {
       if (this.viewCompletedService) {
         this.viewCompletedService = false;
         this.getAllServicesWithRelationsNotCompleted(this.idPersona);
+        this.title = "SERVICIOS FINALIZADOS";
       } else {
         this.viewCompletedService = true;
         this.getAllServicesWithRelationsCompleted(this.idPersona);
+        this.title = "SERVICIOS PENDIENTES";
+
       }
     }
   }

@@ -4,6 +4,12 @@
       <div class="card-body">
 
         <div class="row">
+          <div class="col-12 text-center">
+            <h1>{{title}}</h1>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="col-12">
             <div class="chart-container">
               <ngx-charts-pie-chart
@@ -19,17 +25,18 @@
             </div>
           </div>
         </div>
+        <hr>
 
         <!-- INPUT SEARCH -->
         <div class="row">
-          <div class="col-1">
+          <div class="col-2">
             <button class="btn btn-outline-primary" (click)="switchView()"
             *ngIf="viewCompletedService">Pendientes</button>
             <button class="btn btn-outline-primary mr-3" (click)="switchView()"
-            *ngIf="!viewCompletedService">Completados</button>            
+            *ngIf="!viewCompletedService">Finalizados</button>
           </div>
 
-          <div class="col-11 button-padding">
+          <div class="col-10 button-padding">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
         </div>

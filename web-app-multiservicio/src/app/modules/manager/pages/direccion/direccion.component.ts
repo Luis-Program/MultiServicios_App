@@ -108,16 +108,16 @@ export class DireccionComponent implements OnInit {
       });
   }
 
-  initForm() {
+  protected initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
       idDireccion : [''],
-      direccion   : ['', [Validators.required, Validators.maxLength(250)]],
+      direccion   : ['', [Validators.required, Validators.maxLength(25)]],
       idMunicipio : ['', Validators.required],
     })
   }
 
-  setForm(direccion: DireccionRelacionesAnidadas) {
+  protected setForm(direccion: DireccionRelacionesAnidadas) {
 
     let idMuncipio = null;
     (direccion.Municipio?.idMunicipio) ? idMuncipio = direccion.Municipio.idMunicipio : idMuncipio = 0;
@@ -139,7 +139,7 @@ export class DireccionComponent implements OnInit {
     this.idItem = direccion.idDireccion;
   }
 
-  openModal(direccion?: DireccionRelacionesAnidadas) {
+  protected openModal(direccion?: DireccionRelacionesAnidadas) {
     this.initForm();
 
     if (direccion) {
@@ -148,7 +148,7 @@ export class DireccionComponent implements OnInit {
     }
   }
 
-  createItem() {
+  protected createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
     const { idDireccion, departamento, pais, ...rest } = this.Form.value;
@@ -160,7 +160,7 @@ export class DireccionComponent implements OnInit {
     this.createAddress(rest);
   }
 
-  deleteItem() {
+  protected deleteItem() {
     Swal.fire({
       title : '¡Atención!',
       text  : '¿Está seguro de eliminar el municipio?',
@@ -176,13 +176,22 @@ export class DireccionComponent implements OnInit {
     })
   }
 
-  get f() {
+  protected get f() {
     return this.Form;
   }
 
-  get idMunicipio() {
+  protected get idMunicipio() {
     return this.Form.get('idMunicipio')?.value;
   }
+
+  protected get direccion() {
+    return this.Form.get('direccion');
+  }
+
+  protected get municipioDireccion() {
+    return this.Form.get('idMunicipio');
+  }
+
 
   private clearInput() {
     this.filter = "";

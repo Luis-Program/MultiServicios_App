@@ -1,7 +1,13 @@
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card padre">
       <div class="card-body">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>EQUIPOS</h1>
+          </div>
+        </div>
+        <br>
         <div class="row">
           <div class="col-6 border">
             <div class="chart-container">
@@ -80,19 +86,33 @@
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Nombre</label>
                     <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                    <div *ngIf="nombre?.invalid && nombre?.touched">
+                      <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 20 carácteres</small>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Modelo</label>
                     <input type="text" class="form-control" id="recipient-name1" formControlName="modelo">
+                    <div *ngIf="modelo?.invalid && modelo?.touched">
+                      <small *ngIf="modelo?.hasError('required')" class="text-danger">*Modelo requerido</small>
+                      <small *ngIf="modelo?.hasError('maxlength')" class="text-danger">*El modelo no debe exceder de 20 carácteres</small>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Periodo del servicio</label>
+                    <label for="recipient-name" class="control-label">Período del servicio</label>
                     <input type="number" class="form-control" min="0" max="101" id="recipient-name1"
                       formControlName="periodoDeServicio">
+                      <div *ngIf="periodoDeServicio?.invalid && periodoDeServicio?.touched">
+                        <small *ngIf="periodoDeServicio?.hasError('required')" class="text-danger">*Período requerido</small>
+                      </div>
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Fecha último sevicio</label>
                     <input type="date" class="form-control" id="recipient-name1" formControlName="fechaUltimoServicio">
+                    <div *ngIf="fechaUltimoServicio?.invalid && fechaUltimoServicio?.touched">
+                      <small *ngIf="fechaUltimoServicio?.hasError('required')" class="text-danger">*Fecha requerida</small>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Dirección</label>
@@ -100,6 +120,9 @@
                       <option *ngFor="let ubicacion of direcciones" [value]="ubicacion.idDireccion">
                         {{ ubicacion.direccion }}</option>
                     </select>
+                    <div *ngIf="idDireccion?.invalid && idDireccion?.touched">
+                      <small *ngIf="idDireccion?.hasError('required')" class="text-danger">*Dirección requerida</small>
+                    </div>
                     <!-- <small *ngIf="!idDireccion" class="form-control-feedback">No ingresado *</small> -->
                   </div>
                   <label for="message-text" class="control-label">Cliente</label>
@@ -107,6 +130,9 @@
                     <option *ngFor="let cliente of clientes" [value]="cliente.idPersona">
                       {{ cliente.nombre }}</option>
                   </select>
+                  <div *ngIf="idPersona?.invalid && idPersona?.touched">
+                    <small *ngIf="idPersona?.hasError('required')" class="text-danger">*Cliente requerido</small>
+                  </div>
                   <!-- <small *ngIf="!idPersona" class="form-control-feedback">No ingresado *</small> -->
                 </form>
                 <div class="row" *ngIf="!create && graphicEquipmentData">

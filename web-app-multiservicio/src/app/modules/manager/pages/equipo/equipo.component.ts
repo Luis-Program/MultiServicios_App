@@ -150,8 +150,8 @@ export class EquipoComponent implements OnInit {
 
         this.activesCharts = data.map(a => {
           return {
-            name  : this.getNameService(a.estado),
-            value : a.cantidad
+            name: this.getNameService(a.estado),
+            value: a.cantidad
           }
         })
 
@@ -184,7 +184,7 @@ export class EquipoComponent implements OnInit {
           this.graphicEquipmentData = true;
           this.equipoChart = [
             {
-              name : 'Completados',
+              name: 'Completados',
               value: data.completada
             },
             {
@@ -268,8 +268,8 @@ export class EquipoComponent implements OnInit {
     this.newEquipment = true;
     this.equipmentForm = this.formBuilder.group({
       idEquipo: [''],
-      nombre: ['', [Validators.required, Validators.maxLength(150)]],
-      modelo: ['', [Validators.required, Validators.maxLength(100)]],
+      nombre: ['', [Validators.required, Validators.maxLength(20)]],
+      modelo: ['', [Validators.required, Validators.maxLength(20)]],
       estado: true,
       fechaUltimoServicio: ['', [Validators.required]],
       periodoDeServicio: ['', [Validators.required]],
@@ -277,6 +277,30 @@ export class EquipoComponent implements OnInit {
       idDireccion: ['', [Validators.required]],
       idPersona: ['', [Validators.required]],
     });
+  }
+
+  protected get nombre() {
+    return this.equipmentForm.get('nombre');
+  }
+
+  protected get modelo() {
+    return this.equipmentForm.get('modelo');
+  }
+
+  protected get fechaUltimoServicio() {
+    return this.equipmentForm.get('fechaUltimoServicio');
+  }
+
+  protected get periodoDeServicio() {
+    return this.equipmentForm.get('periodoDeServicio');
+  }
+
+  protected get idDireccion() {
+    return this.equipmentForm.get('idDireccion');
+  }
+
+  protected get idPersona() {
+    return this.equipmentForm.get('idPersona');
   }
 
   private setEquipment(equipment: EquipoRelacionesAnidadas) {

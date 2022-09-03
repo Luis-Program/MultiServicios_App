@@ -1,9 +1,15 @@
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card padre">
       <div class="card-body">
 
-        <div class="row mt-5">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>ROLES</h1>
+          </div>
+        </div>
+
+        <div class="row mt-2">
           <!-- ADD BUTTON -->
           <div class="col-1">
             <div class="row">
@@ -58,18 +64,23 @@
               <div class="modal-body">
                 <form [formGroup]="Form">
                   <div class="form-group">
-                    <label for="message-text" class="control-label">Rol*</label>
+                    <label for="message-text" class="control-label">Rol</label>
                     <select class="form-control custom-select" formControlName="tipo">
                       <option *ngFor="let tipo of listaTiposPersonas" [value]="tipo">{{ tipo }}</option>
                     </select>
+                    <div *ngIf="tipo?.invalid && tipo?.touched">
+                      <small *ngIf="tipo?.hasError('required')" class="text-danger">*Rol requerido</small>
+                    </div>
                   </div>
-
                   <div class="form-group">
-                    <label for="message-text" class="control-label">Empresa*</label>
+                    <label for="message-text" class="control-label">Empresa</label>
                     <select class="form-control custom-select" formControlName="idEmpresa">
                       <option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">{{ empresa.nombre }}</option>
                     </select>
-                    <small *ngIf="idEmpresaValue <= 0" class="form-control-feedback">No ingresado *</small>
+                    <!-- <small *ngIf="idEmpresaValue <= 0" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="empresa?.invalid && empresa?.touched">
+                      <small *ngIf="empresa?.hasError('required')" class="text-danger">*Empresa requerida</small>
+                    </div>
                   </div>
                 </form>
               </div>

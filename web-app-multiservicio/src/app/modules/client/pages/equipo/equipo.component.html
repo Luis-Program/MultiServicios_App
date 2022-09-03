@@ -1,9 +1,108 @@
-<div class="row">
+<!-- <h1>Equipos Cliente</h1>
+<h3 *ngIf="loadingMain">Cargando</h3>
+<div>
+  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+</div>
+<h3 *ngIf="loadingGraphic1">Cargando gráfica 1 </h3>
+<div *ngIf="cantidadServiciosFinPen">
+  <h3>Gráfica de servicios finalizados y pendientes</h3>
+  <p>Finalizados cantidad: {{cantidadServiciosFinPen.finalizados}}</p>
+  <p>Pendientes cantidad: {{cantidadServiciosFinPen.pendientes}}</p>
+</div>
+<h3 *ngIf="loadingGraphic2">Cargando gráfica 2 </h3>
+<div *ngIf="cantidadActivoInactivo[0] && cantidadActivoInactivo[1]">
+  <h3>Gráfica de Equipos Activos Inactivos</h3>
+  <p>Inactivos {{cantidadActivoInactivo[1].estado}} Cantidad: {{cantidadActivoInactivo[1].cantidad}}</p>
+  <p>Activos {{cantidadActivoInactivo[0].estado}} Cantidad: {{cantidadActivoInactivo[0].cantidad}}</p>
+</div>
+<h3 *ngIf="loadingGraphic3">Cargando gráfica 3 </h3>
+<div *ngIf="equiposMaxMin">
+  <h3>Gráfica de equipos con mayor y menor cantidad de servicios</h3>
+  <h4>Mayor Cantidad</h4>
+  <h3>Equipo</h3>
+  <p>Id: {{equiposMaxMin.equipmentMax.idEquipo}}</p>
+  <p>Numero: {{equiposMaxMin.equipmentMax.nombre}}</p>
+  <p>Modelo: {{equiposMaxMin.equipmentMax.modelo}}</p>
+  <p>Estado: {{equiposMaxMin.equipmentMax.estado}}</p>
+  <p>Fecha de último servicio: {{equiposMaxMin.equipmentMax.fechaUltimoServicio}}</p>
+  <p>Plazo del servicio: {{equiposMaxMin.equipmentMax.periodoDeServicio}}</p>
+  <p>Servicio preventivo Activo: {{equiposMaxMin.equipmentMax.preventivoActivo}}</p>
+  <p>Id Direccion: {{equiposMaxMin.equipmentMax.idDireccion}}</p>
+  <p>Id Persona: {{equiposMaxMin.equipmentMax.idPersona}}</p>
+  <h5>Cantidad: {{equiposMaxMin.equipmentMax.cantidad}}</h5>
+  <h4>Menor Cantidad</h4>
+  <h3>Equipo</h3>
+  <p>Id: {{equiposMaxMin.equipmentMin.idEquipo}}</p>
+  <p>Numero: {{equiposMaxMin.equipmentMin.nombre}}</p>
+  <p>Modelo: {{equiposMaxMin.equipmentMin.modelo}}</p>
+  <p>Estado: {{equiposMaxMin.equipmentMin.estado}}</p>
+  <p>Fecha de último servicio: {{equiposMaxMin.equipmentMin.fechaUltimoServicio}}</p>
+  <p>Plazo del servicio: {{equiposMaxMin.equipmentMin.periodoDeServicio}}</p>
+  <p>Servicio preventivo Activo: {{equiposMaxMin.equipmentMin.preventivoActivo}}</p>
+  <p>Id Direccion: {{equiposMaxMin.equipmentMin.idDireccion}}</p>
+  <p>Id Persona: {{equiposMaxMin.equipmentMin.idPersona}}</p>
+  <h5>Cantidad: {{equiposMaxMin.equipmentMin.cantidad}}</h5>
+</div>
+<div *ngFor="let equipo of equipos | filterEquipment:filter; let indice=index">
+  <h3>Equipo</h3>
+  <p>Indice: {{++indice}}</p>
+  <p>Id: {{equipo.idEquipo}}</p>
+  <p>Numero: {{equipo.nombre}}</p>
+  <p>Modelo: {{equipo.modelo}}</p>
+  <p>Estado: {{equipo.estado}}</p>
+  <p>Fecha de último servicio: {{equipo.fechaUltimoServicio}}</p>
+  <p>Plazo del servicio: {{equipo.periodoDeServicio}}</p>
+  <p>Servicio preventivo Activo: {{equipo.preventivoActivo}}</p>
+  <h4>Ubicación</h4>
+  <div *ngIf="equipo.Direccion; else nullDirection">
+    <p>Dirección: {{equipo.Direccion.direccion}}</p>
+    <p>{{equipo.Direccion.Municipio ? 'Municipio:  ' + equipo.Direccion.Municipio.nombre : 'No ingresado.'}}</p>
+    <p>
+      {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento ? 'Departamento: ' + equipo.Direccion.Municipio.Departamento.nombre : 'No ingresado.'}}
+    </p>
+    <p>
+      {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento && equipo.Direccion.Municipio.Departamento.Pais ? 'Pais: ' + equipo.Direccion.Municipio.Departamento.Pais.nombre : 'No ingresado.'}}
+    </p>
+  </div>
+  <ng-template #nullDirection>
+    <p>No ingresada.</p>
+  </ng-template>
+</div>
+-->
+<!-- <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card padre">
       <div class="card-body">
 
         <div class="row">
+          <div class="col-12 text-center">
+            <h1>EQUIPOS</h1>
+          </div>
+        </div>
+
+           <div class="col-4">
+            <div class="chart-container">
+              <ngx-charts-bar-vertical
+                [scheme]="colorScheme"
+                [results]="chartMinMax"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel">
+              </ngx-charts-bar-vertical>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="chart-container">
+
+            </div>
+          </div>
+        </div>
+
           <div class="col-4">
             <div class="chart-container">
 
@@ -24,9 +123,103 @@
               </ngx-charts-bar-vertical>
             </div>
           </div>
+
+          <hr>
+
+        <div class="row mt-1">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Equipo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+
+                <label for="recipient-name" class="control-label">Nombre</label>
+                <input type="text" class="form-control" id="recipient-name1" [value]="equipo?.nombre" readonly>
+                <label for="recipient-name" class="control-label mt-2">Modelo</label>
+                <input type="text" class="form-control" id="recipient-name1" [value]="equipo?.modelo" readonly>
+                <form [formGroup]="equipmentForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label mt-2">Estado</label>
+                    <select class="form-control custom-select" formControlName="estado">
+                      <option *ngFor="let l of list" [value]="l.value">
+                        {{ l.estado }}</option>
+                    </select>
+                  </div>
+                </form>
+                <label for="recipient-name" class="control-label">Periodo del servicio</label>
+                <input type="number" class="form-control" id="recipient-name1" [value]="equipo?.periodoDeServicio"
+                  readonly>
+                <label for="recipient-name" class="control-label mt-2">Fecha último sevicio</label>
+                <input type="date" class="form-control" id="recipient-name1" [value]="equipo?.fechaUltimoServicio"
+                  readonly>
+                <label for="message-text" class="control-label mt-2">Ubicación</label>
+                <input type="text" class="form-control" id="recipient-name1" [value]="department" readonly>
+                <input type="text" class="form-control mt-3" id="recipient-name1" [value]="direction" readonly>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newEquipment"
+                  (click)="editEquipmentForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+ -->
+
+ <div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+<!-- [labels]="showLabels" -->
+        <div class="row">
           <div class="col-4">
             <div class="chart-container">
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="activeInactiveChart"
+                [gradient]="gradient"
 
+                [doughnut]="isDoughnut"
+                >
+              </ngx-charts-pie-chart>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="chart-container">
+              <ngx-charts-bar-vertical
+                [scheme]="colorScheme"
+                [results]="chartMinMax"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel">
+              </ngx-charts-bar-vertical>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="chart-container">
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="endStartedServicesChart"
+                [gradient]="gradient"
+                [doughnut]="isDoughnut"
+                >
+              </ngx-charts-pie-chart>
             </div>
           </div>
         </div>

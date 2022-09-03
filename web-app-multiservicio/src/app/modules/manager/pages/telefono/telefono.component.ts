@@ -132,6 +132,18 @@ export class TelefonoComponent implements OnInit {
     });
   }
 
+  protected get numero() {
+    return this.phoneForm.get('numero');
+  }
+
+  protected get persona() {
+    return this.phoneForm.get('idPersona');
+  }
+
+  protected get tipo() {
+    return this.phoneForm.get('idTipoTelefono');
+  }
+
   private setPhone(phone: TelefonoRelaciones) {
     let idPersona, idTipoTelefono = null;
     (phone.Persona.idPersona) ? idPersona = phone.Persona.idPersona : idPersona = 0;

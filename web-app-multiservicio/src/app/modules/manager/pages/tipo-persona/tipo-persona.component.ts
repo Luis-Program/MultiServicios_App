@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 export class TipoPersonaComponent implements OnInit {
 
   protected tiposPersonas: TipoPersonaRelaciones[] = [];
-  protected listaTiposPersonas = ['Gerente General','Trabajador Operacional','Cliente'];
+  protected listaTiposPersonas = ['Gerente General', 'Trabajador Operacional', 'Cliente'];
   protected empresas: Empresa[] = [];
   protected filter = "";
   protected loading = false;
@@ -61,9 +61,9 @@ export class TipoPersonaComponent implements OnInit {
           this.clearInput();
           this.tiposPersonas.push(typePerson);
           Swal.fire({
-            icon  : 'success',
-            title : 'Creado',
-            text  : 'Rol creado'
+            icon: 'success',
+            title: 'Creado',
+            text: 'Rol creado'
           })
         }
         this.loading = false;
@@ -80,9 +80,9 @@ export class TipoPersonaComponent implements OnInit {
           this.tiposPersonas[typePersonIndex] = res;
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Actualizado',
-            text  : 'Rol actualizado'
+            icon: 'success',
+            title: 'Actualizado',
+            text: 'Rol actualizado'
           })
           // this.getAllTypesPersonsWithRelations();
         }
@@ -100,9 +100,9 @@ export class TipoPersonaComponent implements OnInit {
           this.tiposPersonas.splice(typePersonIndex, 1);
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Eliminado',
-            text  : 'Rol eliminado'
+            icon: 'success',
+            title: 'Eliminado',
+            text: 'Rol eliminado'
           })
         }
         this.loading = false;
@@ -113,35 +113,43 @@ export class TipoPersonaComponent implements OnInit {
     this.filter = "";
   }
 
-  showCompanyName(name: string): string {
+  protected showCompanyName(name: string): string {
     return (name) ? name : 'No ingresado';
   }
 
-  initForm() {
+  protected initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
-      idTipo    : [''],
-      tipo      : ['', Validators.required],
-      idEmpresa : ['', Validators.required]
+      idTipo: [''],
+      tipo: ['', Validators.required],
+      idEmpresa: ['', Validators.required]
     })
   }
 
-  setForm(rol: TipoPersonaRelaciones) {
+  protected get tipo() {
+    return this.Form.get('tipo');
+  }
+
+  protected get empresa() {
+    return this.Form.get('idEmpresa');
+  }
+
+  protected setForm(rol: TipoPersonaRelaciones) {
 
     let idEmpresa = null;
 
     (rol.Empresa?.idEmpresa) ? idEmpresa = rol.Empresa?.idEmpresa : idEmpresa = 0;
 
     this.Form.setValue({
-      idTipo    : rol.idTipoPersona,
-      tipo      : rol.tipo,
-      idEmpresa : idEmpresa
+      idTipo: rol.idTipoPersona,
+      tipo: rol.tipo,
+      idEmpresa: idEmpresa
     })
 
     this.idItem = rol.idTipoPersona;
   }
 
-  openModal(rol?: TipoPersonaRelaciones) {
+  protected openModal(rol?: TipoPersonaRelaciones) {
     this.initForm();
 
     if (rol) {
@@ -150,7 +158,7 @@ export class TipoPersonaComponent implements OnInit {
     }
   }
 
-  createItem() {
+  protected createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
     const { idTipo, ...rest } = this.Form.value;
@@ -162,13 +170,13 @@ export class TipoPersonaComponent implements OnInit {
     this.createTypePerson(rest);
   }
 
-  deleteItem() {
+  protected deleteItem() {
     Swal.fire({
-      title : '¡Atención!',
-      text  : '¿Está seguro de eliminar el rol?',
-      icon  : 'warning',
-      showConfirmButton : true,
-      showCancelButton  : true
+      title: '¡Atención!',
+      text: '¿Está seguro de eliminar el rol?',
+      icon: 'warning',
+      showConfirmButton: true,
+      showCancelButton: true
     }).then((res: any) => {
 
       if (res.isConfirmed) {
@@ -178,7 +186,7 @@ export class TipoPersonaComponent implements OnInit {
     })
   }
 
-  get idEmpresaValue() {
+  protected get idEmpresaValue() {
     return this.Form.get('idEmpresa')?.value;
   }
 }

@@ -1,9 +1,15 @@
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card padre">
       <div class="card-body">
 
-        <div class="row mt-5">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>TELÉFONOS</h1>
+          </div>
+        </div>
+
+        <div class="row mt-2">
           <!-- ADD BUTTON -->
           <div class="col-1">
             <div class="row">
@@ -34,7 +40,8 @@
                   <div class="col-10">
                     <h3 class="card-title text-dark">
                       {{ telefono.Persona.nombre + " " + telefono.Persona.apellidos }}</h3>
-                    <p class="card-title">{{ telefono.Tipo_Telefono ? telefono.Tipo_Telefono.tipo : 'No ingresado' }}</p>
+                    <p class="card-title">{{ telefono.Tipo_Telefono ? telefono.Tipo_Telefono.tipo : 'No ingresado' }}
+                    </p>
                     <p class="card-title">{{ telefono.numero }}</p>
                   </div>
                   <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
@@ -53,28 +60,41 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel1">Teléfonos</h4>
+                <h4 class="modal-title" id="exampleModalLabel1">Teléfono</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
                 <form [formGroup]="phoneForm">
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Número:</label>
-                    <input type="number" class="form-control" min="10000000" max="99999999" id="recipient-name1" formControlName="numero">
-                    <label for="recipient-name" class="control-label">Persona:</label>
+                    <label for="recipient-name" class="control-label">Número</label>
+                    <input type="number" class="form-control" min="10000000" max="99999999" id="recipient-name1"
+                      formControlName="numero">
+                      <div *ngIf="numero?.invalid && numero?.touched">
+                        <small *ngIf="numero?.hasError('required')" class="text-danger">*Número requerido</small>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Persona</label>
                     <select class="form-control custom-select" formControlName="idPersona">
                       <option *ngFor="let persona of personas" [value]="persona.idPersona">
                         {{ persona.nombre }}</option>
                     </select>
-                    <small *ngIf="idPersona <= 0" class="form-control-feedback">No ingresado *</small>
-                    <br>
-                    <label for="recipient-name" class="control-label">Tipo Teléfono:</label>
+                    <!-- <small *ngIf="idPersona <= 0" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="persona?.invalid && persona?.touched">
+                      <small *ngIf="persona?.hasError('required')" class="text-danger">*Persona requerida</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tipo Teléfono</label>
                     <select class="form-control custom-select" formControlName="idTipoTelefono">
                       <option *ngFor="let tipoTelefono of tiposTelefonos" [value]="tipoTelefono.idTipoTelefono">
                         {{ tipoTelefono.tipo }}</option>
                     </select>
-                    <small *ngIf="idTipoTelefono <= 0" class="form-control-feedback">No ingresado *</small>
+                    <!-- <small *ngIf="idTipoTelefono <= 0" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="tipo?.invalid && tipo?.touched">
+                      <small *ngIf="tipo?.hasError('required')" class="text-danger">*Tipo teléfono requerido</small>
+                    </div>
                   </div>
                 </form>
               </div>

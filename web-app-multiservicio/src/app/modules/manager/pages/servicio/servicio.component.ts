@@ -27,6 +27,7 @@ export class ServicioComponent implements OnInit {
   protected tiposServicios: TipoServicio[] = [];
   protected idServicio: number | null = null;
   protected equipos: EquipoDropDown[] = [];
+  protected title = "SERVICIOS PENDIENTES"
   protected viewCompletedService = false;
   protected loadingGraphicAsig = false; // Carga grafico de cantidad de servicios asignados y no asignados
   protected loadingGraphicType = false; // Carga de grafico por tipo de servicios
@@ -95,9 +96,11 @@ export class ServicioComponent implements OnInit {
 
   protected switchView() {
     if (this.viewCompletedService) {
+      this.title = "SERVICIOS COMPLETADOS";
       this.viewCompletedService = false;
       this.getAllServicesWithRelationsNotCompleted();
     } else {
+      this.title = "SERVICIOS PENDIENTES";
       this.viewCompletedService = true;
       this.getAllServicesWithRelationsCompleted();
     }
@@ -289,8 +292,12 @@ export class ServicioComponent implements OnInit {
       });
   }
 
-  protected openModalByService(service?: ServicioRelaciones) {
-    this.initForm();
+  protected openModalByService(service?: ServicioRelaciones, edit?: boolean) {
+    if (edit) {
+      this.initForm(true);
+    } else {
+      this.initForm();
+    }
     if (service) {
         this.newService = false;
         return this.setService(service);
@@ -305,15 +312,36 @@ export class ServicioComponent implements OnInit {
     });
   }
 
-  private initForm() {
+  private initForm(data?:boolean) {
     this.newService = true;
     this.serviceForm = this.formBuilder.group({
       idServicio: [''],
-      prioridad: [''],
-      fechaHoraRealizar: [''],
+      prioridad: ['', [Validators.required]],
+      fechaHoraRealizar: ['', [Validators.required]],
       idTipoServicio: ['', [Validators.required]],
+      idTrabajador: ['', [Validators.required]],
       idEquipo: ['', [Validators.required]],
     });
+  }
+
+  protected get prioridadServicio() {
+    return this.serviceForm.get('prioridad');
+  }
+
+  protected get fechaHoraRealizar() {
+    return this.serviceForm.get('fechaHoraRealizar');
+  }
+
+  protected get idTipoServicio() {
+    return this.serviceForm.get('idTipoServicio');
+  }
+
+  protected get idTrabajador() {
+    return this.serviceForm.get('idTrabajador');
+  }
+
+  protected get idEquipo() {
+    return this.serviceForm.get('idEquipo');
   }
 
   protected parseDate(date :Date){
@@ -331,6 +359,7 @@ export class ServicioComponent implements OnInit {
       prioridad: service.prioridad,
       fechaHoraRealizar: service.fechaHoraRealizar ? formatDate(service.fechaHoraRealizar,'dd/MM/yyy HH:mm aa','en') : 'No ingresado',
       idTipoServicio: (idTipoServicio > 2) ? 1 : idTipoServicio,
+      idTrabajador: idTrabajador,
       idEquipo: idEquipo,
     });
 

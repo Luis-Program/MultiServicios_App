@@ -134,6 +134,14 @@ export class TelefonoComponent implements OnInit {
     });
   }
 
+  protected get numero() {
+    return this.phoneForm.get('numero');
+  }
+
+  protected get tipo() {
+    return this.phoneForm.get('idTipoTelefono');
+  }
+
   private setPhone(phone: TelefonoRelacionTipoTelefono) {
     let idTipoTelefono = null;
     (phone.Tipo_Telefono?.idTipoTelefono) ? idTipoTelefono = phone.Tipo_Telefono?.idTipoTelefono : idTipoTelefono = 0;

@@ -126,7 +126,7 @@ export class DepartamentoComponent implements OnInit {
   /**
    * INIT DEPARTMENT FORM
    */
-  initForm() {
+  protected initForm() {
     this.newDepartment = true;
     this.departmentForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
@@ -135,7 +135,7 @@ export class DepartamentoComponent implements OnInit {
     })
   }
 
-  setDepartmentForm(department: DepartamentoRelaciones) {
+  protected setDepartmentForm(department: DepartamentoRelaciones) {
 
     let pais = null;
 
@@ -160,7 +160,7 @@ export class DepartamentoComponent implements OnInit {
    *
    * @param department - <DepartamentoRelaciones> Department to update/delete
    */
-  openModalByDepartment(department?: DepartamentoRelaciones) {
+  protected openModalByDepartment(department?: DepartamentoRelaciones) {
     this.initForm();
     this.listenCountry();
 
@@ -171,7 +171,7 @@ export class DepartamentoComponent implements OnInit {
     }
   }
 
-  createDepartmentForm() {
+  protected createDepartmentForm() {
     if (this.departmentForm.invalid) return Object.values(this.departmentForm.controls).forEach(c => c.markAsTouched());
 
     if (!this.departmentForm.touched) return;
@@ -185,7 +185,7 @@ export class DepartamentoComponent implements OnInit {
     this.createDepartment(rest);
   }
 
-  deleteDepartmentModal() {
+  protected deleteDepartmentModal() {
     Swal.fire({
       title: '¡Atención!',
       text: '¿Está seguro de eliminar el departamento?',
@@ -201,19 +201,27 @@ export class DepartamentoComponent implements OnInit {
     })
   }
 
-  get f() {
+  protected get f() {
     return this.departmentForm;
   }
 
-  get nameControl() {
+  protected get nameControl() {
     return this.departmentForm.get('nombre');
   }
 
-  get idCountryValue() {
+  protected get codeControl() {
+    return this.departmentForm.get('codigo');
+  }
+
+  protected get country() {
+    return this.departmentForm.get('idPais');
+  }
+
+  protected get idCountryValue() {
     return this.departmentForm.get('idPais')?.value;
   }
 
-  listenCountry() {
+  protected listenCountry() {
     this.departmentForm.get('idPais')?.valueChanges.subscribe(res => {
 
       const country = this.departamentos.find(department => department.Pais?.idPais == res) as DepartamentoRelaciones;
