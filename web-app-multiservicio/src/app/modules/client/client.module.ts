@@ -5,6 +5,7 @@ import { ClientRoutingModule } from './client-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { EquipoComponent } from './pages/equipo/equipo.component';
 import { ServicioComponent } from './pages/servicio/servicio.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ServicioComponent } from './pages/servicio/servicio.component';
   imports: [
     CommonModule,
     ClientRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxChartsModule
   ]
 })
 export class ClientModule { }

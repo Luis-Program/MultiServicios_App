@@ -24,10 +24,22 @@ export class EquipoComponent implements OnInit {
   protected loadingMain = false; // Carga principal
   protected filter = "";
 
-    //MODAL
-    protected equipmentForm!: FormGroup;
-    protected newEquipment!: Boolean;
-    protected idEquipment!: number;
+  //MODAL
+  protected equipmentForm!: FormGroup;
+  protected newEquipment!: Boolean;
+  protected idEquipment!: number;
+
+  // CHARTS
+  public chartMinMax  !: any[];
+
+  public showXAxis = true;
+  public showYAxis = true;
+  public gradient = false;
+  public showXAxisLabel = true;
+  public xAxisLabel = 'Country';
+  public showYAxisLabel = true;
+  public yAxisLabel = 'Population';
+  public colorScheme = 'nightLights'
 
   constructor(
     private equipoService: EquipoService,
@@ -75,8 +87,20 @@ export class EquipoComponent implements OnInit {
   private getEquipmentMinMax(idPersona: string) {
     this.loadingGraphic3 = true;
     this.equipoService.getEquipmentMaxMinClient(idPersona)
-      .subscribe(data => {
+      .subscribe((data: EquipoMaxMinCliente) => {
         this.equiposMaxMin = data;
+                
+        this.chartMinMax = [
+          {
+            name  : "Mínimo",
+            value : data.equipmentMin.cantidad
+          },
+          {
+            name  : "Máximo",
+            value : data.equipmentMax.cantidad
+          }
+        ]
+
         this.loadingGraphic3 = false;
       });
   }
