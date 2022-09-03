@@ -105,7 +105,14 @@
 
           <div class="col-4">
             <div class="chart-container">
-
+               <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="activeInactiveChart"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut"
+                >
+              </ngx-charts-pie-chart>
             </div>
           </div>
           <div class="col-4">
@@ -182,44 +189,18 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-<!-- [labels]="showLabels" -->
+        <!-- [labels]="showLabels" -->
         <div class="row">
           <div class="col-4">
             <div class="chart-container">
               <ngx-charts-pie-chart
-                [scheme]="colorScheme"
-                [results]="activeInactiveChart"
-                [gradient]="gradient"
-
-                [doughnut]="isDoughnut"
-                >
-              </ngx-charts-pie-chart>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="chart-container">
-              <ngx-charts-bar-vertical
-                [scheme]="colorScheme"
-                [results]="chartMinMax"
-                [gradient]="gradient"
-                [xAxis]="showXAxis"
-                [yAxis]="showYAxis"
-                [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabel"
-                [yAxisLabel]="yAxisLabel">
-              </ngx-charts-bar-vertical>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="chart-container">
-              <ngx-charts-pie-chart
-                [scheme]="colorScheme"
-                [results]="endStartedServicesChart"
-                [gradient]="gradient"
-                [doughnut]="isDoughnut"
-                >
-              </ngx-charts-pie-chart>
+              [scheme]="colorScheme"
+              [results]="activeInactiveChart"
+              [gradient]="gradient"
+              [labels]="showLabels"
+              [doughnut]="isDoughnut"
+              >
+            </ngx-charts-pie-chart>
             </div>
           </div>
         </div>

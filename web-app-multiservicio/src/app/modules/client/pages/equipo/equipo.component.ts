@@ -240,7 +240,6 @@ export class EquipoComponent implements OnInit {
     // options
   public showLabels: boolean = true;
   public isDoughnut: boolean = false;
-
   constructor(
     private equipoService: EquipoService,
     private formBuilder: FormBuilder,
