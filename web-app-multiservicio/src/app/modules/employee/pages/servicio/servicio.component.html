@@ -84,19 +84,19 @@
           </div>
         </div> -->
         <!-- INPUT SEARCH -->
-        <div class="col-12">
-          <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-        </div>
-        <!-- /INPUT SEARCH -->
-
-        <div class="row mt-5">
+        <div class="row">
           <div class="col-1">
             <button class="btn btn-outline-primary" (click)="switchView()"
-              *ngIf="viewCompletedService">Pendientes</button>
+            *ngIf="viewCompletedService">Pendientes</button>
             <button class="btn btn-outline-primary mr-3" (click)="switchView()"
-              *ngIf="!viewCompletedService">Completados</button>
+            *ngIf="!viewCompletedService">Completados</button>            
+          </div>
+
+          <div class="col-11 button-padding">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
         </div>
+        <!-- /INPUT SEARCH -->
 
         <!-- CARD UNCOMPLETED-->
         <div class="row mt-5" *ngIf="!viewCompletedService">

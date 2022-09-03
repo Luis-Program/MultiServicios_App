@@ -16,7 +16,7 @@ export class DepartamentoComponent implements OnInit {
 
   protected departamentos: DepartamentoRelaciones[] = [];
   protected pais: Pais | null = null;
-  protected codeCountry! : number | null;
+  protected codeCountry!: number | null;
   protected paises: Pais[] = [];
   protected loading = false;
   protected filter = "";
@@ -38,7 +38,7 @@ export class DepartamentoComponent implements OnInit {
     this.getAllCountriesToUpdateDepartment();
     this.getAllDepartmentsWithRelations();
 
-    this.dropdownSettings  = {
+    this.dropdownSettings = {
       idField: 'idPais',
       textField: 'nombre',
       allowSearchFilter: true,
@@ -51,9 +51,9 @@ export class DepartamentoComponent implements OnInit {
   protected getAllCountriesToUpdateDepartment() {
     this.loading = true;
     this.paisService.getAll()
-    .subscribe(countries => {
-      this.paises = countries;
-      this.loading = false;
+      .subscribe(countries => {
+        this.paises = countries;
+        this.loading = false;
       });
   }
 
@@ -73,9 +73,9 @@ export class DepartamentoComponent implements OnInit {
         if (department) {
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Creado',
-            text  : 'Departamento creado'
+            icon: 'success',
+            title: 'Creado',
+            text: 'Departamento creado'
           })
           this.departamentos.push(department);
         }
@@ -93,9 +93,9 @@ export class DepartamentoComponent implements OnInit {
           this.departamentos[departmentIndex] = res;
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Actualizado',
-            text  : 'Departamento actualizado'
+            icon: 'success',
+            title: 'Actualizado',
+            text: 'Departamento actualizado'
           })
         }
         this.loading = false;
@@ -114,9 +114,9 @@ export class DepartamentoComponent implements OnInit {
           this.departamentos.splice(departmentIndex, 1);
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Eliminado',
-            text  : 'Departamento eliminado'
+            icon: 'success',
+            title: 'Eliminado',
+            text: 'Departamento eliminado'
           })
         }
         this.loading = false;
@@ -187,9 +187,9 @@ export class DepartamentoComponent implements OnInit {
 
   deleteDepartmentModal() {
     Swal.fire({
-      title : '¡Atención!',
-      text  : '¿Está seguro de eliminar el departamento?',
-      icon  : 'warning',
+      title: '¡Atención!',
+      text: '¿Está seguro de eliminar el departamento?',
+      icon: 'warning',
       showConfirmButton: true,
       showCancelButton: true
     }).then((res: any) => {
@@ -203,6 +203,10 @@ export class DepartamentoComponent implements OnInit {
 
   get f() {
     return this.departmentForm;
+  }
+
+  get nameControl() {
+    return this.departmentForm.get('nombre');
   }
 
   get idCountryValue() {
@@ -228,11 +232,15 @@ export class DepartamentoComponent implements OnInit {
   }
 
   protected onItemSelect(item: any) {
-    console.log("idPais: "+item.idPais);
+    console.log("idPais: " + item.idPais);
   }
 
   private clearInput() {
     this.filter = "";
   }
 
-  }
+  // 1. Hacemos referencia al control utilizando getters - get miControl
+  // 2. Creamos un div con las condiciones si el control es invalido/tocado - miControl?.invalid && miControl.touched
+  // 3. Validaciones específicas como requeridas o carácteres máxuimos  - miControl?.hasError('maxlength')
+  // 4. Agregamos clase - class="text-danger
+}
