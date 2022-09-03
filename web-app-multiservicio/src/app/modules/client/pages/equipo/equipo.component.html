@@ -33,7 +33,13 @@
           </div>
           <div class="col-4">
             <div class="chart-container">
-
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="activeInactiveChart"
+                [gradient]="gradient"
+                [doughnut]="isDoughnut"
+                >
+              </ngx-charts-pie-chart>
             </div>
           </div>
         </div>

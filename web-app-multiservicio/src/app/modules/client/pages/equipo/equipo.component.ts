@@ -32,6 +32,7 @@ export class EquipoComponent implements OnInit {
   // CHARTS
   public chartMinMax  !: any[];
   public activeInactiveChart !: any[];
+  public endStartedServicesChart !: any[];
 
   public showXAxis = true;
   public showYAxis = true;
@@ -76,6 +77,18 @@ export class EquipoComponent implements OnInit {
     this.equipoService.getServiceAmountClient(idPersona)
       .subscribe(data => {
         this.cantidadServiciosFinPen = data;
+        
+        this.endStartedServicesChart = [
+          {
+            name  : 'Finalizados',
+            value : data.finalizados 
+          },
+          {
+            name  : 'Pendientes',
+            value : data.pendientes
+          }
+        ]        
+
         this.loadingGraphic1 = false;
       });
   }
