@@ -107,7 +107,6 @@ export class ServicioComponent implements OnInit {
   // }
 
   protected getAllServicesByEquipment(equipo: EquipoCliente) {
-    console.log("idequipo " + equipo.idEquipo)
     this.getAllServicesWithRelationsCompleted(equipo.idEquipo);
   }
 
@@ -115,8 +114,6 @@ export class ServicioComponent implements OnInit {
     const equipmentIndex = this.equipos.findIndex(
       (res) => res.idEquipo === id);
     this.equipo = this.equipos[equipmentIndex];
-    console.log("Id: " + id)
-    console.log(this.equipo.nombre)
     this.title = 'SERVICIOS ' + this.equipo.nombre.toUpperCase() + ' ' + this.equipo.modelo.toUpperCase();
   }
 
