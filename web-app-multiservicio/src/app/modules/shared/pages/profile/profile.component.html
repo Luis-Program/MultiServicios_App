@@ -1,16 +1,73 @@
-<h1>Perfil</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<!-- <button (click)="prueba()">go</button> -->
-<div *ngIf="persona">
-  <h4>Empresa</h4>
-  <p>Nombre:
-    {{persona.Tipo_Persona && persona.Tipo_Persona.Empresa ? persona.Tipo_Persona.Empresa.nombre : 'No ingresada.'}}
-  </p>
-  <h3>Persona</h3>
-  <p>Rol: {{persona.Tipo_Persona ? persona.Tipo_Persona.tipo : 'No ingresada.'}}</p>
-  <p>Nombre: {{persona.nombre}}</p>
-  <p>Apellido: {{persona.apellidos}}</p>
-  <p>Correo: {{persona.correo}}</p>
-  <p>Dpi: {{persona.dpi}}</p>
-  <p>-----------------------------------------</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+      <div class="card-body">
+
+        <div class="row justify-content-md-center" *ngIf="persona">
+          <!-- FORM -->
+          <div class="col-md-8 border">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">{{ persona?.Tipo_Persona?.Empresa?.nombre }}</h4>
+                <h6 class="card-subtitle">{{ persona?.Tipo_Persona?.tipo }}</h6>
+
+                <form class="form p-t-20" [formGroup]="Form" (submit)="updateUser()">
+
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="exampleInputuname">Nombre</label>
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="ti-user"></i></div>
+                          <input type="text" class="form-control" id="exampleInputuname" placeholder="Nombre" formControlName="nombre">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="exampleInputuname">Apellidos</label>
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="ti-user"></i></div>
+                          <input type="text" class="form-control" id="exampleInputuname" placeholder="Apellidos" formControlName="apellidos">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-7">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Correo</label>
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="ti-email"></i></div>
+                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Correo" formControlName="correo" readonly>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">DPI</label>
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="mdi mdi-credit-card"></i></div>
+                          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="DPI" formControlName="dpi">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10">
+                    <i class="fa fa-save"></i>
+                    Guardar cambios
+                  </button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+          <!-- /FORM -->
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>
