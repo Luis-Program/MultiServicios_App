@@ -108,6 +108,10 @@ export class TipoTelefonoComponent implements OnInit {
     });
   }
 
+  protected get tipo() {
+    return this.typePhoneForm.get('tipo');
+  }
+
   private setTypePhone(typePhone: TipoTelefono) {
     this.typePhoneForm.setValue({
       tipo: typePhone.tipo

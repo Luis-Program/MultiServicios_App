@@ -118,7 +118,7 @@ export class MunicipioComponent implements OnInit {
       });
   }
 
-  initForm() {
+  protected initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
       idMunicipio: [''],
@@ -128,7 +128,7 @@ export class MunicipioComponent implements OnInit {
     })
   }
 
-  setForm(municipio: MunicipioRelacionesAnidadas) {
+  protected setForm(municipio: MunicipioRelacionesAnidadas) {
 
     let departamento = null;
 
@@ -144,7 +144,7 @@ export class MunicipioComponent implements OnInit {
     this.idItem = municipio.idMunicipio;
   }
 
-  openModal(municipio?: MunicipioRelacionesAnidadas) {
+  protected openModal(municipio?: MunicipioRelacionesAnidadas) {
     this.initForm();
 
     if (municipio) {
@@ -153,7 +153,7 @@ export class MunicipioComponent implements OnInit {
     }
   }
 
-  createItem() {
+  protected createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
     const { idMunicipio, pais, ...rest } = this.Form.value;
@@ -165,7 +165,7 @@ export class MunicipioComponent implements OnInit {
     this.createMunicipality(rest);
   }
 
-  deleteItem() {
+  protected deleteItem() {
     Swal.fire({
       title : '¡Atención!',
       text  : '¿Está seguro de eliminar el municipio?',
@@ -181,16 +181,28 @@ export class MunicipioComponent implements OnInit {
     })
   }
 
-  get f() {
+  protected get f() {
     return this.Form
   }
 
-  get idMunicipio() {
+  protected get idMunicipio() {
     return this.Form.get('idDepartamento')?.value;
   }
 
-  get nameCountry() {
+  protected get nameCountry() {
     return this.Form.get('pais')?.value;
+  }
+
+  protected get nombreMunicipio() {
+    return this.Form.get('nombre');
+  }
+
+  protected get codigoMunicipio() {
+    return this.Form.get('codigo');
+  }
+
+  protected get departamentoMunicipio() {
+    return this.Form.get('idDepartamento');
   }
 
   private clearInput(){

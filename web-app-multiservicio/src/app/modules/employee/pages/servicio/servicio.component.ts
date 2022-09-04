@@ -28,6 +28,7 @@ export class ServicioComponent implements OnInit {
   protected idServicio: number | null = null;
   protected idPersona: string | null = null;
   protected viewCompletedService = false;
+  protected title: string = "SERVICIOS PENDIENTES";
   protected loading = false;
   protected filter = "";
 
@@ -35,13 +36,13 @@ export class ServicioComponent implements OnInit {
   protected newService!: Boolean;
   protected idService!: number;
 
-  // CHART  
+  // CHART
   public chartData  !: any[];
   public gradient   : boolean = true;
   public showLegend : boolean = true;
   public showLabels : boolean = true;
   public isDoughnut : boolean = false;
-  public colorScheme: string  = 'nightLights'
+  public colorScheme: string  = 'ocean'
   public legendTitle: string  = 'Servicios';
 
   constructor(
@@ -66,23 +67,17 @@ export class ServicioComponent implements OnInit {
     }
   }
 
-  // private getAllServicesWithRelations(idPersona: string | number) {
-  //   this.loading = true;
-  //   this.servicioService.getAllByIdEmployee(idPersona)
-  //     .subscribe(services => {
-  //       this.servicios = services;
-  //       this.loading = false;
-  //     });
-  // }
-
   protected switchView() {
     if (this.idPersona) {
       if (this.viewCompletedService) {
         this.viewCompletedService = false;
         this.getAllServicesWithRelationsNotCompleted(this.idPersona);
+        this.title = "SERVICIOS PENDIENTES";
       } else {
         this.viewCompletedService = true;
         this.getAllServicesWithRelationsCompleted(this.idPersona);
+        this.title = "SERVICIOS FINALIZADOS";
+
       }
     }
   }
@@ -128,7 +123,7 @@ export class ServicioComponent implements OnInit {
             value : services.finalizados
           }
         ]
-        
+
         this.loading = false;
       });
   }
@@ -159,6 +154,9 @@ export class ServicioComponent implements OnInit {
             text: "Servicio actualizado",
             icon: 'success'
           });
+          if (this.idPersona) {
+              this.getAmountServices(this.idPersona);
+          }
           this.clearInput();
         }
         this.loading = false;

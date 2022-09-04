@@ -1,51 +1,52 @@
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card padre">
       <div class="card-body">
-
         <div class="row">
-          <div class="col-4">
+          <div class="col-12 text-center">
+            <h1>{{title}}</h1>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
-              <h3>Servicios pendientes & finalizados</h3>
-              <ngx-charts-pie-chart 
-                [scheme]="colorScheme" 
-                [results]="chartService" 
-                [gradient]="gradient" 
-                [labels]="showLabels" 
+              <h3>Pendientes y Finalizados</h3>
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="chartService"
+                [gradient]="gradient"
+                [labels]="showLabels"
                 [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
-
-          <div class="col-4">
+          <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
-              <h3>Servicios asignados & sin asignar</h3>
-              <ngx-charts-pie-chart 
-                [scheme]="colorScheme" 
-                [results]="chartServicesUnAssigned" 
-                [gradient]="gradient" 
-                [labels]="showLabels" 
+              <h3>Asignados y No Asignados</h3>
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="chartServicesUnAssigned"
+                [gradient]="gradient"
+                [labels]="showLabels"
                 [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
-
-          <div class="col-4">
+          <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
-              <h3>Tipos de servicios</h3>
-              <ngx-charts-pie-chart 
-                [scheme]="colorScheme" 
-                [results]="chartTypeService" 
-                [gradient]="gradient" 
-                [labels]="showLabels" 
+              <h3>Tipo</h3>
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="chartTypeService"
+                [gradient]="gradient"
+                [labels]="showLabels"
                 [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
         </div>
-
-        <div class="row mt-5">
-          <!-- ADD BUTTON -->
+        <div class="row mt-3">
           <div class="col-1">
             <div class="row">
               <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
@@ -54,24 +55,20 @@
               </button>
             </div>
           </div>
-          <!-- /ADD BUTTON -->
-
-          <div class="col-1">
+          <div class="col-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <div class="row mt-3 text-center">
+          <div class="col-12">
             <button class="btn btn-outline-primary" (click)="switchView()"
               *ngIf="viewCompletedService">Pendientes</button>
             <button class="btn btn-outline-primary mr-3" (click)="switchView()"
               *ngIf="!viewCompletedService">Completados</button>
           </div>
 
-          <!-- INPUT SEARCH -->
-          <div class="col-10 button-padding">
-            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-          </div>
-          <!-- /INPUT SEARCH -->
-        </div>
-
-        <!-- CARD UNCOMPLETED-->
-        <div class="row mt-5" *ngIf="!viewCompletedService">
+      <!-- CARD UNCOMPLETED-->
+        <div class="row mt-4" *ngIf="!viewCompletedService">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosPendientes | filterService:filter">
             <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
@@ -79,7 +76,7 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-10 text-left">
                     <h3 class="card-title text-dark">
                       {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
                     <p class="card-title">
@@ -102,7 +99,7 @@
         <!-- /CARD UNCOMPLETED-->
 
         <!-- CARD COMPLETED-->
-        <div class="row mt-5" *ngIf="viewCompletedService">
+        <div class="row mt-4" *ngIf="viewCompletedService">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosCompletados | filterService:filter">
             <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
@@ -110,8 +107,8 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-12">
-                    <h3 class="card-title text-dark">
+                  <div class="col-10 text-left">
+                    <h3 class="card-title text-dark ">
                       {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
                     <p class="card-title">
                       {{ servicio.Tipo_Servicio.tipo }}
@@ -144,7 +141,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                     aria-hidden="true">&times;</span></button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body text-left">
                 <form [formGroup]="serviceForm">
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Prioridad</label>
@@ -152,15 +149,19 @@
                       <option *ngFor="let alter of prioridad" [value]="alter">
                         {{ alter }}</option>
                     </select>
-                    <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="prioridadServicio?.invalid && prioridadServicio?.touched">
+                      <small *ngIf="prioridadServicio?.hasError('required')" class="text-danger">*Prioridad requerida</small>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label for="message-text" class="control-label">Tipo Servicio*</label>
+                    <label for="message-text" class="control-label">Tipo Servicio</label>
                     <select class="form-control custom-select" formControlName="idTipoServicio">
                       <option *ngFor="let tiposervicio of tiposServicios" [value]="tiposervicio.idTipoServicio">
                         {{ tiposervicio.tipoServicio }}</option>
                     </select>
-                    <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="idTipoServicio?.invalid && idTipoServicio?.touched">
+                      <small *ngIf="idTipoServicio?.hasError('required')" class="text-danger">*Tipo Servicio requerido</small>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Equipo</label>
@@ -168,7 +169,9 @@
                       <option *ngFor="let equipo of equipos" [value]="equipo.idEquipo">
                         {{ equipo.nombre }}</option>
                     </select>
-                    <!-- <small *ngIf="!idEquipo" class="form-control-feedback">No ingresado *</small> -->
+                    <div *ngIf="idEquipo?.invalid && idEquipo?.touched">
+                      <small *ngIf="idEquipo?.hasError('required')" class="text-danger">*Equipo requerido</small>
+                    </div>
                   </div>
 
                   <div *ngIf="!newService">
@@ -176,14 +179,19 @@
                       <label for="recipient-name" class="control-label">Fecha y hora de ejecución</label>
                       <input type="datetime-local" class="form-control" id="recipient-name1"
                         formControlName="fechaHoraRealizar">
+                        <div *ngIf="fechaHoraRealizar?.invalid && fechaHoraRealizar?.touched">
+                          <small *ngIf="fechaHoraRealizar?.hasError('required')" class="text-danger">*Fecha y hora requerido</small>
+                        </div>
                     </div>
                     <label for="message-text" class="control-label">Trabajador*</label>
                     <select class="form-control custom-select" formControlName="idTrabajador">
                       <option *ngFor="let trabajador of trabajadores" [value]="trabajador.idPersona">
                         {{ trabajador.nombre }}</option>
                     </select>
+                    <div *ngIf="idTrabajador?.invalid && idTrabajador?.touched">
+                      <small *ngIf="idTrabajador?.hasError('required')" class="text-danger">*Trabajador requerido</small>
+                    </div>
                   </div>
-
                 </form>
               </div>
               <div class="modal-footer">
@@ -204,20 +212,3 @@
   </div>
 </div>
 
-<!-- <div class="form-group">
-  <label for="recipient-name" class="control-label">Número:</label>
-  <input type="number" class="form-control" min="10000000" max="99999999" id="recipient-name1" formControlName="numero">
-  <label for="recipient-name" class="control-label">Persona:</label>
-  <select class="form-control custom-select" formControlName="idPersona">
-    <option *ngFor="let servicio of servicios" [value]="persona.idPersona">
-      {{ persona.nombre }}</option>
-  </select>
-  <small *ngIf="idPersona <= 0" class="form-control-feedback">No ingresado *</small>
-  <br>
-  <label for="recipient-name" class="control-label">Tipo Teléfono:</label>
-  <select class="form-control custom-select" formControlName="idTipoTelefono">
-    <option *ngFor="let tipoTelefono of tiposTelefonos" [value]="tipoTelefono.idTipoTelefono">
-      {{ tipoTelefono.tipo }}</option>
-  </select>
-  <small *ngIf="idTipoTelefono <= 0" class="form-control-feedback">No ingresado *</small>
-</div> -->

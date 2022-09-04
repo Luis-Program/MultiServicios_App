@@ -147,11 +147,27 @@ export class RepuestoComponent implements OnInit {
   private initForm() {
     this.newReplacement = true;
     this.replacementForm = this.formBuilder.group({
-      nombre: ['', [Validators.required, Validators.maxLength(100)]],
+      nombre: ['', [Validators.required, Validators.maxLength(25)]],
       cantidadDisponible: ['', [Validators.required]],
       limiteInferior: ['', [Validators.required]],
       idTipoRepuesto: ['', [Validators.required]]
     });
+  }
+
+  protected get nombre() {
+    return this.replacementForm.get('nombre');
+  }
+
+  protected get cantidadDisponible() {
+    return this.replacementForm.get('cantidadDisponible');
+  }
+
+  protected get limiteInferior() {
+    return this.replacementForm.get('limiteInferior');
+  }
+
+  protected get idTipoRepuesto() {
+    return this.replacementForm.get('idTipoRepuesto');
   }
 
   private setReplacement(replacement: RepuestoRelaciones) {

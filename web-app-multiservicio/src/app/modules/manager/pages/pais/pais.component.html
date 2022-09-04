@@ -1,9 +1,15 @@
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card padre">
       <div class="card-body">
 
-        <div class="row mt-5">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>PAISES</h1>
+          </div>
+        </div>
+
+        <div class="row mt-2">
           <!-- ADD COUNTRY BUTTON -->
           <div class="col-1">
             <div class="row">
@@ -60,8 +66,8 @@
                     <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
 
                     <div *ngIf="nameControl?.invalid && nameControl?.touched">
-                      <small *ngIf="nameControl?.hasError('required')" class="text-danger">Nombre requerido</small>
-                      <small *ngIf="nameControl?.hasError('maxlength')" class="text-danger">Máximo 20 carácteres</small>
+                      <small *ngIf="nameControl?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                      <small *ngIf="nameControl?.hasError('maxlength')" class="text-danger">*Máximo 20 carácteres</small>
                     </div>
 
                   </div>
@@ -70,7 +76,7 @@
                     <input type="number" class="form-control" min="0" max="999" id="recipient-name1" formControlName="codigo">
 
                     <div *ngIf="codeControl?.invalid && codeControl?.touched">
-                      <small *ngIf="codeControl?.hasError('required')" class="text-danger">Código requerido</small>
+                      <small *ngIf="codeControl?.hasError('required')" class="text-danger">*Código requerido</small>
                     </div>
 
                   </div>

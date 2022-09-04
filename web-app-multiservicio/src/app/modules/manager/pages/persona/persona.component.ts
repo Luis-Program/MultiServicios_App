@@ -35,7 +35,7 @@ export class PersonaComponent implements OnInit {
   public gradient: boolean = true;
   public showLabels: boolean = true;
   public isDoughnut: boolean = false;
-  public colorScheme: string = 'vivid';
+  public colorScheme: string = 'ocean';
   public chartData      !: any[];
   public showoperatorChart !: boolean;
 
@@ -61,8 +61,8 @@ export class PersonaComponent implements OnInit {
     private personaService: PersonaService,
     private tipoPersonaService: TipoPersonaService,
     private fb: FormBuilder
-  ) { 
-    this.title = 'TODOS';
+  ) {
+    this.title = 'PERSONAS';
   }
 
   ngOnInit(): void {
@@ -150,6 +150,7 @@ export class PersonaComponent implements OnInit {
       this.getAllClients();
       this.tipo = tipo;
     }else {
+      this.title = 'PERSONAS';
       this.getAllPersonsWithRelations();
       this.tipo = tipo;
     }
@@ -286,19 +287,39 @@ export class PersonaComponent implements OnInit {
     this.filter = "";
   }
 
-  initForm() {
+  protected initForm() {
     this.newItem = true;
     this.Form = this.fb.group({
       idPersona: [''],
-      nombre: ['', [Validators.required, Validators.maxLength(30)]],
-      apellidos: ['', [Validators.required, Validators.maxLength(30)]],
+      nombre: ['', [Validators.required, Validators.maxLength(20)]],
+      apellidos: ['', [Validators.required, Validators.maxLength(20)]],
       correo: ['', [Validators.required, Validators.email]],
-      dpi: ['', [Validators.required, Validators.maxLength(20)]],
+      dpi: ['', [Validators.required, Validators.maxLength(13), Validators.minLength(13)]],
       idTipoPersona: ['', Validators.required]
     })
   }
 
-  setForm(persona: PersonaRelaciones | Clientes | Trabajadores) {
+  protected get nombre() {
+    return this.Form.get('nombre');
+  }
+
+  protected get apellidos() {
+    return this.Form.get('apellidos');
+  }
+
+  protected get correo() {
+    return this.Form.get('correo');
+  }
+
+  protected get dpi() {
+    return this.Form.get('dpi');
+  }
+
+  protected get tipoPersona() {
+    return this.Form.get('idTipoPersona');
+  }
+
+  protected setForm(persona: PersonaRelaciones | Clientes | Trabajadores) {
     this.Form.setValue({
       idPersona: persona.idPersona,
       nombre: persona.nombre,
@@ -313,7 +334,7 @@ export class PersonaComponent implements OnInit {
     }
   }
 
-  openModal(persona?: PersonaRelaciones | Clientes | Trabajadores | null, create?: boolean) {
+  protected openModal(persona?: PersonaRelaciones | Clientes | Trabajadores | null, create?: boolean) {
     this.initForm();
     this.create = create ? true : false;
     if (persona) {
@@ -326,7 +347,7 @@ export class PersonaComponent implements OnInit {
     }
   }
 
-  createItem() {
+  protected createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
 
     const { idPersona, ...rest } = this.Form.value;
@@ -336,7 +357,7 @@ export class PersonaComponent implements OnInit {
     this.createPerson(rest);
   }
 
-  deleteItem() {
+  protected deleteItem() {
     Swal.fire({
       title: '¡Atención!',
       text: '¿Está seguro de eliminar el rol?',
