@@ -39,7 +39,7 @@ class ServicioService {
 
   async findCompleted(idEquipo) {
     const servicios = await models.Servicio.findAll({
-      include: ['Tipo_Servicio', 'Equipo', 'Trabajador'],
+      include: ['Tipo_Servicio', 'Trabajador'],
       where: {
         idEquipo: idEquipo,
         fechaFinalizado: {
@@ -52,7 +52,7 @@ class ServicioService {
 
   async findNotCompleted(idEquipo) {
     const servicios = await models.Servicio.findAll({
-      include: ['Tipo_Servicio', 'Equipo', 'Trabajador'],
+      include: ['Tipo_Servicio', 'Trabajador'],
       where: {
         idEquipo: idEquipo,
         fechaFinalizado: {
@@ -65,7 +65,7 @@ class ServicioService {
 
   async findOne(idServicio) {
     const servicio = await models.Servicio.findByPk(idServicio, {
-      include: ['Tipo_Servicio', 'Equipo', 'Trabajador'],
+      include: ['Tipo_Servicio','Trabajador'],
     });
     if (!servicio) {
       throw boom.notFound('Servicio no encontrado...');

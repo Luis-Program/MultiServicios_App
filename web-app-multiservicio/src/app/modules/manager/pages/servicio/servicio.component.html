@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-
       <loader *ngIf="loader"></loader>
 
       <div class="card-body" *ngIf="!loader">
@@ -15,24 +14,36 @@
           <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
               <h3>Pendientes y Finalizados</h3>
-              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartService" [gradient]="gradient"
-                [labels]="showLabels" [doughnut]="isDoughnut">
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="chartService"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
           <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
               <h3>Asignados y No Asignados</h3>
-              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartServicesUnAssigned" [gradient]="gradient"
-                [labels]="showLabels" [doughnut]="isDoughnut">
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="chartServicesUnAssigned"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
           <div class="col-sm-12 col-md-4 border">
             <div class="chart-container text-center">
               <h3>Tipo</h3>
-              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartTypeService" [gradient]="gradient"
-                [labels]="showLabels" [doughnut]="isDoughnut">
+              <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="chartTypeService"
+                [gradient]="gradient"
+                [labels]="showLabels"
+                [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
@@ -58,153 +69,151 @@
               *ngIf="!viewCompletedService">Completados</button>
           </div>
 
-          <!-- CARD UNCOMPLETED-->
-          <div class="row mt-4" *ngIf="!viewCompletedService">
-            <div class="col-lg-3 col-md-6 col-sm-12"
-              *ngFor="let servicio of serviciosPendientes | filterService:filter">
-              <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
-                data-target="#exampleModal" data-whatever="@mdo">
-                <div class="card-header bg-dark">
-                </div>
-                <div class="card-body border">
-                  <div class="row">
-                    <div class="col-10 text-left">
-                      <h3 class="card-title text-dark">
-                        {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
-                      <p class="card-title">
-                        {{ servicio.Tipo_Servicio.tipo }}
-                      </p>
-                      <p class="card-title">Fase: {{ servicio.estado }}</p>
-                      <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
-                      <p class="card-title">Trabajador:
-                        {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No
-                        ingresado'}}
-                      </p>
-                      <p class="card-title">Ejecutar:
-                        {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
-                    </div>
+      <!-- CARD UNCOMPLETED-->
+        <div class="row mt-4" *ngIf="!viewCompletedService">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosPendientes | filterService:filter">
+            <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10 text-left">
+                    <h3 class="card-title text-dark">
+                      {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
+                    <p class="card-title">
+                      {{ servicio.Tipo_Servicio.tipoServicio }}
+                    </p>
+                    <p class="card-title">Fase: {{ servicio.estado }}</p>
+                    <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
+                    <p class="card-title">Trabajador:
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
+                    </p>
+                    <p class="card-title">Ejecutar:
+                      {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-wrench"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <!-- /CARD UNCOMPLETED-->
-
-          <!-- CARD COMPLETED-->
-          <div class="row mt-4" *ngIf="viewCompletedService">
-            <div class="col-lg-3 col-md-6 col-sm-12"
-              *ngFor="let servicio of serviciosCompletados | filterService:filter">
-              <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
-                data-target="#exampleModal" data-whatever="@mdo">
-                <div class="card-header bg-dark">
-                </div>
-                <div class="card-body border">
-                  <div class="row">
-                    <div class="col-10 text-left">
-                      <h3 class="card-title text-dark ">
-                        {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
-                      <p class="card-title">
-                        {{ servicio.Tipo_Servicio.tipo }}
-                      </p>
-                      <p class="card-title">Prioridad: {{ servicio.prioridad }}</p>
-                      <p class="card-title">Fase: {{ servicio.estado }}</p>
-                      <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
-                      <p class="card-title">Trabajador:
-                        {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No
-                        ingresado'}}
-                      </p>
-                      <p class="card-title">Ejecutar:
-                        {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
-                      <p class="card-title">Finalizado:
-                        {{ servicio.fechaFinalizado ? parseDate(servicio.fechaFinalizado) : 'No ingresado' }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- /CARD COMPLETED-->
-
-          <!-- MODAL -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="exampleModalLabel1">Servicio</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                      aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body text-left">
-                  <form [formGroup]="serviceForm">
-                    <div class="form-group">
-                      <label for="recipient-name" class="control-label">Prioridad</label>
-                      <select class="form-control custom-select" formControlName="prioridad">
-                        <option *ngFor="let alter of prioridad" [value]="alter">
-                          {{ alter }}</option>
-                      </select>
-                      <div *ngIf="prioridadServicio?.invalid && prioridadServicio?.touched">
-                        <small *ngIf="prioridadServicio?.hasError('required')" class="text-danger">*Prioridad
-                          requerida</small>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="message-text" class="control-label">Tipo Servicio</label>
-                      <select class="form-control custom-select" formControlName="idTipoServicio">
-                        <option *ngFor="let tiposervicio of tiposServicios" [value]="tiposervicio.idTipoServicio">
-                          {{ tiposervicio.tipoServicio }}</option>
-                      </select>
-                      <div *ngIf="idTipoServicio?.invalid && idTipoServicio?.touched">
-                        <small *ngIf="idTipoServicio?.hasError('required')" class="text-danger">*Tipo Servicio
-                          requerido</small>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="message-text" class="control-label">Equipo</label>
-                      <select class="form-control custom-select" formControlName="idEquipo">
-                        <option *ngFor="let equipo of equipos" [value]="equipo.idEquipo">
-                          {{ equipo.nombre }}</option>
-                      </select>
-                      <div *ngIf="idEquipo?.invalid && idEquipo?.touched">
-                        <small *ngIf="idEquipo?.hasError('required')" class="text-danger">*Equipo requerido</small>
-                      </div>
-                    </div>
-
-                    <div *ngIf="!newService">
-                      <div class="form-group">
-                        <label for="recipient-name" class="control-label">Fecha y hora de ejecución</label>
-                        <input type="datetime-local" class="form-control" id="recipient-name1"
-                          formControlName="fechaHoraRealizar">
-                        <div *ngIf="fechaHoraRealizar?.invalid && fechaHoraRealizar?.touched">
-                          <small *ngIf="fechaHoraRealizar?.hasError('required')" class="text-danger">*Fecha y hora
-                            requerido</small>
-                        </div>
-                      </div>
-                      <label for="message-text" class="control-label">Trabajador*</label>
-                      <select class="form-control custom-select" formControlName="idTrabajador">
-                        <option *ngFor="let trabajador of trabajadores" [value]="trabajador.idPersona">
-                          {{ trabajador.nombre }}</option>
-                      </select>
-                      <div *ngIf="idTrabajador?.invalid && idTrabajador?.touched">
-                        <small *ngIf="idTrabajador?.hasError('required')" class="text-danger">*Trabajador
-                          requerido</small>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newService"
-                    (click)="deleteServiceModal()">Eliminar</button>
-                  <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newService"
-                    (click)="createServiceForm()">Crear</button>
-                  <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    *ngIf="!newService && !viewCompletedService" (click)="createServiceForm()">Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- /MODAL -->
-
         </div>
+        <!-- /CARD UNCOMPLETED-->
+
+        <!-- CARD COMPLETED-->
+        <div class="row mt-4" *ngIf="viewCompletedService">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosCompletados | filterService:filter">
+            <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10 text-left">
+                    <h3 class="card-title text-dark ">
+                      {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
+                    <p class="card-title">
+                      {{ servicio.Tipo_Servicio.tipoServicio }}
+                    </p>
+                    <p class="card-title">Prioridad: {{ servicio.prioridad }}</p>
+                    <p class="card-title">Fase: {{ servicio.estado }}</p>
+                    <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
+                    <p class="card-title">Trabajador:
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
+                    </p>
+                    <p class="card-title">Ejecutar:
+                      {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
+                    <p class="card-title">Finalizado:
+                      {{ servicio.fechaFinalizado ? parseDate(servicio.fechaFinalizado) : 'No ingresado' }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-wrench"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARD COMPLETED-->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Servicio</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body text-left">
+                <form [formGroup]="serviceForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Prioridad</label>
+                    <select class="form-control custom-select" formControlName="prioridad">
+                      <option *ngFor="let alter of prioridad" [value]="alter">
+                        {{ alter }}</option>
+                    </select>
+                    <div *ngIf="prioridadServicio?.invalid && prioridadServicio?.touched">
+                      <small *ngIf="prioridadServicio?.hasError('required')" class="text-danger">*Prioridad requerida</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Tipo Servicio</label>
+                    <select class="form-control custom-select" formControlName="idTipoServicio">
+                      <option *ngFor="let tiposervicio of tiposServicios" [value]="tiposervicio.idTipoServicio">
+                        {{ tiposervicio.tipoServicio }}</option>
+                    </select>
+                    <div *ngIf="idTipoServicio?.invalid && idTipoServicio?.touched">
+                      <small *ngIf="idTipoServicio?.hasError('required')" class="text-danger">*Tipo Servicio requerido</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Equipo</label>
+                    <select class="form-control custom-select" formControlName="idEquipo">
+                      <option *ngFor="let equipo of equipos" [value]="equipo.idEquipo">
+                        {{ equipo.nombre }}</option>
+                    </select>
+                    <div *ngIf="idEquipo?.invalid && idEquipo?.touched">
+                      <small *ngIf="idEquipo?.hasError('required')" class="text-danger">*Equipo requerido</small>
+                    </div>
+                  </div>
+
+                  <div *ngIf="!newService">
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Fecha y hora de ejecución</label>
+                      <input type="datetime-local" class="form-control" id="recipient-name1"
+                        formControlName="fechaHoraRealizar">
+                        <div *ngIf="fechaHoraRealizar?.invalid && fechaHoraRealizar?.touched">
+                          <small *ngIf="fechaHoraRealizar?.hasError('required')" class="text-danger">*Fecha y hora requerido</small>
+                        </div>
+                    </div>
+                    <label for="message-text" class="control-label">Trabajador*</label>
+                    <select class="form-control custom-select" formControlName="idTrabajador">
+                      <option *ngFor="let trabajador of trabajadores" [value]="trabajador.idPersona">
+                        {{ trabajador.nombre }}</option>
+                    </select>
+                    <div *ngIf="idTrabajador?.invalid && idTrabajador?.touched">
+                      <small *ngIf="idTrabajador?.hasError('required')" class="text-danger">*Trabajador requerido</small>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newService"
+                  (click)="deleteServiceModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newService"
+                  (click)="createServiceForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  *ngIf="!newService && !viewCompletedService" (click)="createServiceForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+
       </div>
     </div>
   </div>
+</div>

@@ -50,7 +50,7 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-10">
                     <h3 class="card-title text-dark">
                       {{ servicio.nombre + ' ' + servicio.modelo }}</h3>
                     <p class="card-title">
@@ -60,6 +60,9 @@
                     <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
                     <p class="card-title">Ejecutar:
                       {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-wrench"></i>
                   </div>
                 </div>
               </div>
@@ -77,7 +80,7 @@
               </div>
               <div class="card-body border">
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-10">
                     <h3 class="card-title text-dark">
                       {{ servicio.nombre + ' ' + servicio.modelo }}</h3>
                     <p class="card-title">
@@ -90,6 +93,9 @@
                       {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
                     <p class="card-title">Finalizado:
                       {{ servicio.fechaFinalizado ? parseDate(servicio.fechaFinalizado) : 'No ingresado' }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-wrench"></i>
                   </div>
                 </div>
               </div>
