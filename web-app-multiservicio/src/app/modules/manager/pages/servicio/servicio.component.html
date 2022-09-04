@@ -80,13 +80,12 @@
                     <h3 class="card-title text-dark">
                       {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
                     <p class="card-title">
-                      {{ servicio.Tipo_Servicio.tipo }}
+                      {{ servicio.Tipo_Servicio.tipoServicio }}
                     </p>
                     <p class="card-title">Fase: {{ servicio.estado }}</p>
                     <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
                     <p class="card-title">Trabajador:
-                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No
-                      ingresado'}}
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
                     </p>
                     <p class="card-title">Ejecutar:
                       {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
@@ -111,14 +110,13 @@
                     <h3 class="card-title text-dark ">
                       {{ servicio.Equipo.nombre + ' ' + servicio.Equipo.modelo }}</h3>
                     <p class="card-title">
-                      {{ servicio.Tipo_Servicio.tipo }}
+                      {{ servicio.Tipo_Servicio.tipoServicio }}
                     </p>
                     <p class="card-title">Prioridad: {{ servicio.prioridad }}</p>
                     <p class="card-title">Fase: {{ servicio.estado }}</p>
                     <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
                     <p class="card-title">Trabajador:
-                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No
-                      ingresado'}}
+                      {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
                     </p>
                     <p class="card-title">Ejecutar:
                       {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>

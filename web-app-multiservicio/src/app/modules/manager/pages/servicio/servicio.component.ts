@@ -46,7 +46,7 @@ export class ServicioComponent implements OnInit {
   public showLabels: boolean = true;
   public isDoughnut: boolean = false;
   public showLegend: boolean = true;
-  public colorScheme: string = 'nightLights';
+  public colorScheme: string = 'ocean';
 
   constructor(
     private servicioService: ServicioService,
@@ -220,12 +220,10 @@ export class ServicioComponent implements OnInit {
   protected createService(dto: CreateServicioDTO) {
     dto.fechaHoraRealizar = null;
     // Pendiente de asignación de Trabajador
-    console.log("Crear: "+dto)
     this.loading = true;
     this.servicioService.create(dto)
       .subscribe(service => {
         if (service) {
-          console.log(service)
           if (this.viewCompletedService) {
             this.serviciosCompletados.push(service)
           } else {
@@ -388,7 +386,6 @@ export class ServicioComponent implements OnInit {
 
   protected deleteServiceModal() {
     let servicio!: ServicioRelaciones;
-    console.log(this.viewCompletedService)
     if (this.viewCompletedService) {
       const serviceIndex = this.serviciosCompletados.findIndex(
         (r) => r.idServicio === this.idService);
