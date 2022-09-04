@@ -56,10 +56,10 @@
                             <li>
                                 <div class="row">
                                     <div class="drop-title col-8 ml-2">Notificaciones</div>
-                                    <!-- <div class="drop-title col-1" (click)="setAllRead()"><i class="mdi mdi-bell-off"></i></div>
-                                    <div class="drop-title col-1" (click)="deleteAll()"><i class="mdi mdi-close"></i></div> -->
-                                    <div class="drop-title col-1"><i class="mdi mdi-bell-off"></i></div>
-                                    <div class="drop-title col-1"><i class="mdi mdi-close"></i></div>
+                                    <div class="drop-title col-1" (click)="setAllRead()"><i class="mdi mdi-bell-off"></i></div>
+                                    <div class="drop-title col-1" (click)="deleteAll()"><i class="mdi mdi-close"></i></div>
+                                    <!-- <div class="drop-title col-1"><i class="mdi mdi-bell-off"></i></div>
+                                    <div class="drop-title col-1"><i class="mdi mdi-close"></i></div> -->
                                 </div>
                             </li>
                             <li>
@@ -71,7 +71,7 @@
                                           <span *ngIf="n.visto" class="profile-status online pull-right"></span>
                                         </div>
                                         <div class="mail-contnet">
-                                            <span class="mail-desc">{{ n.textoNotificacion }}</span>
+                                            <small>{{ n.textoNotificacion }}</small>
                                             <span class="time"><i class="mdi mdi-close" (click)="deleteOne(n.idNotificacion)"></i></span>
                                         </div>
                                     </a>
