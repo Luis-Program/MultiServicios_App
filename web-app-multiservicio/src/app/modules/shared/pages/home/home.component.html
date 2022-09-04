@@ -1,10 +1,10 @@
-<!-- <div class="row page-titles">
-  <button class="btn btn-success">Logout</button>
-</div> -->
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
+
+      <loader *ngIf="loader"></loader>
+
+      <div class="card-body" *ngIf="!loader">
         <div class="row">
           <!-- column -->
           <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12" *ngFor="let permission of permissions">

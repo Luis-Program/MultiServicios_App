@@ -12,10 +12,12 @@ export class HomeComponent implements OnInit {
   rol: string | null = null;
 
   public permissions!: IPermissions[];
+  public loader!: boolean;
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    this.loader = true;
     this.getRol();
   }
 
@@ -26,6 +28,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.getPermissions(this.rol!);
+    this.loader = false;
   }
 
   getPermissions(rol: string): any {

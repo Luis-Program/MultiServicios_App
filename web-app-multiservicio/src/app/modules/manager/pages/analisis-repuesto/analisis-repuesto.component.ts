@@ -15,7 +15,7 @@ export class AnalisisRepuestoComponent implements OnInit {
   protected analisisRepuesto!: Analisis_Repuesto;
   protected dataGraphic: Graphics[] = [];
   protected loadingGraphic = false; // Carga del grafico
-  protected loading = false; // Carga principal
+  public loading !: boolean; // Carga principal
   protected filter = "";
 
   public chartData      !: any[];
@@ -39,12 +39,12 @@ export class AnalisisRepuestoComponent implements OnInit {
     public datepipe: DatePipe
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.loading = true;
     this.getAllReplacementAnalysis();
   }
 
   private getAllReplacementAnalysis(){
-    this.loading = true;
     this.analisisRepuestoService.getAll()
     .subscribe(replacementsAnalysis => {
       this.analisisRepuestos = replacementsAnalysis;
@@ -53,7 +53,6 @@ export class AnalisisRepuestoComponent implements OnInit {
   }
 
   protected getDataGraphic(nombreRepuesto: string){
-    this.loading = true;
     this.analisisRepuestoService.getDataGraphics(nombreRepuesto)
     .subscribe((data: Graphics[]) => {
 
@@ -69,7 +68,6 @@ export class AnalisisRepuestoComponent implements OnInit {
         }
       ]
       this.clearInput();
-      this.loading = false;
     });
   }
 
