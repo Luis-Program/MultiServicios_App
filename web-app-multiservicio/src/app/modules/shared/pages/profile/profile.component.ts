@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   protected persona: PersonaRelacionesLogin | null = null;
   protected idPersona: string | null = null;
   protected rol: string | null = null;
-  protected loading = false;
+  protected loading !: boolean;
 
   public Form!: FormGroup;
 
@@ -26,10 +26,12 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.idPersona = localStorage.getItem('idPersona');
     this.rol = localStorage.getItem('rol');
     if (this.idPersona && this.rol) {
       this.getOnePerson(this.idPersona);
+      this.loading = false;
     } else {
       this.router.navigate(['/home']);
     }
@@ -45,7 +47,6 @@ export class ProfileComponent implements OnInit {
 
   protected updatePerson(dto: UpdatePersonaDTO) {
     if (this.idPersona) {
-      this.loading = true;
       this.personaService.update(this.idPersona, dto)
         .subscribe(res => {
           if (res) {
@@ -58,7 +59,6 @@ export class ProfileComponent implements OnInit {
               text  :  "Perfil actualizado"  
             })
           }
-          this.loading = false;
         });
     }
   }

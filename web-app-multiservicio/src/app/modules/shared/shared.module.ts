@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterServicePipe } from './pipes/filter-service.pipe';
 import { FilterEquipmentPipe } from './pipes/filter-equipment.pipe';
 import { FilterPhonePipe } from './pipes/filter-phone.pipe';
+import { LoaderComponent } from './components/loader/loader.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { FilterPhonePipe } from './pipes/filter-phone.pipe';
     FilterReplacementPipe,
     FilterServicePipe,
     FilterEquipmentPipe,
-    FilterPhonePipe
+    FilterPhonePipe,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +46,8 @@ import { FilterPhonePipe } from './pipes/filter-phone.pipe';
     FilterServicePipe,
     FilterEquipmentPipe,
     FilterPhonePipe,
-    FormsModule
+    FormsModule,
+    LoaderComponent
   ]
 })
 export class SharedModule { }

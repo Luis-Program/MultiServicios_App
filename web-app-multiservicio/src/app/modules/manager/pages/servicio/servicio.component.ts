@@ -39,6 +39,8 @@ export class ServicioComponent implements OnInit {
   protected newService!: Boolean;
   protected idService!: number;
 
+  public loader : boolean = true;
+
   public chartService!: any[];
   public chartServicesUnAssigned !: any[];
   public chartTypeService!: any[];
@@ -70,6 +72,7 @@ export class ServicioComponent implements OnInit {
       }
       this.getOneService(this.idServicio);
     }
+    this.loader = false;
   }
 
   private getAllData() {
