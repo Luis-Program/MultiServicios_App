@@ -37,3 +37,8 @@
   position: absolute;
   height: 100%;
 }
+
+/*  HOMEPAGE */
+.container-fluid {
+  padding: 0 25px !important;
+}
