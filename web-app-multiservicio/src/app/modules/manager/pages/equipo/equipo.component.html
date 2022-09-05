@@ -11,7 +11,8 @@
           <!-- ADD BUTTON -->
           <div class="col-1">
             <div class="row">
-              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+              <button
+                class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
                 data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
                 <i class="mdi mdi-plus"></i>
               </button>
@@ -19,7 +20,7 @@
           </div>
           <!-- /ADD BUTTON -->
           <!-- INPUT SEARCH -->
-          <div class="col-sm-12 col-md-11">
+          <div class="col-sm-12 col-md-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador">
           </div>
           <!-- /INPUT SEARCH -->
@@ -52,19 +53,15 @@
         </div>
         <div class="row mt-5">
           <!-- ADD BUTTON -->
-          <div class="col-1">
-            <div class="row">
-              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
-                (click)="openModalByEquipment(null, true)">
-                <i class="mdi mdi-plus"></i>
-              </button>
-            </div>
-          </div>
+          <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+            (click)="openModalByEquipment(null, true)">
+            <i class="mdi mdi-plus"></i>
+          </button>
           <!-- /ADD BUTTON -->
 
           <!-- INPUT SEARCH -->
-          <div class="col-sm-12 col-md-11">
+          <div class="col-sm-12 col-md-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
@@ -113,7 +110,8 @@
                     <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
                     <div *ngIf="nombre?.invalid && nombre?.touched">
                       <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
-                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 20 carácteres</small>
+                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 20
+                        carácteres</small>
                     </div>
                   </div>
                   <div class="form-group">
@@ -121,7 +119,8 @@
                     <input type="text" class="form-control" id="recipient-name1" formControlName="modelo">
                     <div *ngIf="modelo?.invalid && modelo?.touched">
                       <small *ngIf="modelo?.hasError('required')" class="text-danger">*Modelo requerido</small>
-                      <small *ngIf="modelo?.hasError('maxlength')" class="text-danger">*El modelo no debe exceder 20 carácteres</small>
+                      <small *ngIf="modelo?.hasError('maxlength')" class="text-danger">*El modelo no debe exceder 20
+                        carácteres</small>
                     </div>
                   </div>
                   <div class="form-group" *ngIf="!newEquipment">
@@ -135,15 +134,17 @@
                     <label for="recipient-name" class="control-label">Período del servicio</label>
                     <input type="number" class="form-control" min="0" max="101" id="recipient-name1"
                       formControlName="periodoDeServicio">
-                      <div *ngIf="periodoDeServicio?.invalid && periodoDeServicio?.touched">
-                        <small *ngIf="periodoDeServicio?.hasError('required')" class="text-danger">*Período requerido</small>
-                      </div>
+                    <div *ngIf="periodoDeServicio?.invalid && periodoDeServicio?.touched">
+                      <small *ngIf="periodoDeServicio?.hasError('required')" class="text-danger">*Período
+                        requerido</small>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Fecha último sevicio</label>
                     <input type="date" class="form-control" id="recipient-name1" formControlName="fechaUltimoServicio">
                     <div *ngIf="fechaUltimoServicio?.invalid && fechaUltimoServicio?.touched">
-                      <small *ngIf="fechaUltimoServicio?.hasError('required')" class="text-danger">*Fecha requerida</small>
+                      <small *ngIf="fechaUltimoServicio?.hasError('required')" class="text-danger">*Fecha
+                        requerida</small>
                     </div>
                   </div>
                   <div class="form-group">

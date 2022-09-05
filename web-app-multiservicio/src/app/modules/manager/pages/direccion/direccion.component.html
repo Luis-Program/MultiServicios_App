@@ -11,7 +11,8 @@
           <!-- ADD BUTTON -->
           <div class="col-1">
             <div class="row">
-              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+              <button
+                class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
                 data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
                 <i class="mdi mdi-plus"></i>
               </button>
@@ -19,7 +20,7 @@
           </div>
           <!-- /ADD BUTTON -->
           <!-- INPUT SEARCH -->
-          <div class="col-sm-12 col-md-11">
+          <div class="col-sm-12 col-md-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador">
           </div>
           <!-- /INPUT SEARCH -->
@@ -34,17 +35,13 @@
         </div>
         <div class="row mt-2">
           <!-- ADD BUTTON -->
-          <div class="col-1">
-            <div class="row">
-              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
-                <i class="mdi mdi-plus"></i>
-              </button>
-            </div>
-          </div>
+          <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+            <i class="mdi mdi-plus"></i>
+          </button>
           <!-- /ADD BUTTON -->
           <!-- INPUT SEARCH -->
-          <div class="col-sm-12 col-md-11">
+          <div class="col-sm-12 col-md-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
