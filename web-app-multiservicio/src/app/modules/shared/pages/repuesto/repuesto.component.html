@@ -1,25 +1,32 @@
-<!-- <h1>Repuestos</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div>
-  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-</div>
-<div *ngFor="let repuesto of repuestos | filterReplacement:filter">
-  <h3>Repuesto</h3>
-  <p>Id: {{repuesto.idRepuesto}}</p>
-  <p>Nombre: {{repuesto.nombre}}</p>
-  <p>Cantidad disponible: {{repuesto.cantidadDisponible}}</p>
-  <p>Limite inferior de notificación: {{repuesto.limiteInferior}}</p>
-  <h3>Tipo Repuesto</h3>
-  <p *ngIf="repuesto.Tipo_Repuesto; else without">Tipo: {{repuesto.Tipo_Repuesto.tipo}}</p>
-  <ng-template #without>
-    <p>Tipo: Sin categoria</p>
-  </ng-template>
-</div> -->
-
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>REPUESTOS</h1>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
 
         <div class="row">
           <div class="col-12 text-center">

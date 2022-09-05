@@ -19,9 +19,9 @@ export class MunicipioComponent implements OnInit {
   protected loading = false;
   protected filter = "";
 
-  public Form     !: FormGroup;
-  public newItem  !: boolean;
-  public idItem   !: number;
+  protected Form     !: FormGroup;
+  protected newItem  !: boolean;
+  protected idItem   !: number;
 
   constructor(
     private municipioService: MunicipioService,
@@ -36,11 +36,9 @@ export class MunicipioComponent implements OnInit {
   }
 
   protected getAllDepartmentsToUpdateMunicipality() {
-    this.loading = true;
     this.departamentoService.getAll()
       .subscribe(departments => {
         this.departamentos = departments;
-        this.loading = false;
       });
   }
 
@@ -61,25 +59,22 @@ export class MunicipioComponent implements OnInit {
   }
 
   protected createMunicipality(municipio: CreateMunicipioDTO) {
-    this.loading = true;
     this.municipioService.create(municipio)
       .subscribe(municipality => {
         if (municipality) {
           this.clearInput();
           this.municipios.push(municipality);
           Swal.fire({
-            icon  : 'success',
-            title : 'Creado',
-            text  : 'Municipio creado'
+            icon: 'success',
+            title: 'Creado',
+            text: 'Municipio creado'
           })
         }
-        this.loading = false;
         this.getAllMunicipalitiesWithRelations();
       });
   }
 
   protected updateMunicipality(idMunicipio: number, dto: UpdateMunicipioDTO) {
-    this.loading = true;
     this.municipioService.update(idMunicipio, dto)
       .subscribe(res => {
         if (res) {
@@ -88,18 +83,16 @@ export class MunicipioComponent implements OnInit {
           this.municipios[municipalityIndex] = res;
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Actualizado',
-            text  : 'Municipio actualizado'
+            icon: 'success',
+            title: 'Actualizado',
+            text: 'Municipio actualizado'
           })
           this.getAllMunicipalitiesWithRelations();
         }
-        this.loading = false;
       });
   }
 
   protected deleteMunicipality(idMunicipio: number) {
-    this.loading = true;
     this.municipioService.delete(idMunicipio)
       .subscribe(res => {
         if (res) {
@@ -108,13 +101,12 @@ export class MunicipioComponent implements OnInit {
           this.municipios.splice(municipalityIndex, 1);
           this.clearInput();
           Swal.fire({
-            icon  : 'success',
-            title : 'Eliminado',
-            text  : 'Municipio eliminado'
+            icon: 'success',
+            title: 'Eliminado',
+            text: 'Municipio eliminado'
           })
           this.getAllMunicipalitiesWithRelations();
         }
-        this.loading = false;
       });
   }
 
@@ -167,9 +159,9 @@ export class MunicipioComponent implements OnInit {
 
   protected deleteItem() {
     Swal.fire({
-      title : '¡Atención!',
-      text  : '¿Está seguro de eliminar el municipio?',
-      icon  : 'warning',
+      title: '¡Atención!',
+      text: '¿Está seguro de eliminar el municipio?',
+      icon: 'warning',
       showConfirmButton: true,
       showCancelButton: true
     }).then((res: any) => {
@@ -205,7 +197,7 @@ export class MunicipioComponent implements OnInit {
     return this.Form.get('idDepartamento');
   }
 
-  private clearInput(){
+  private clearInput() {
     this.filter = "";
   }
 }

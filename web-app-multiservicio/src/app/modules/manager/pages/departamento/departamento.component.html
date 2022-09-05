@@ -1,7 +1,32 @@
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>DEPARTAMENTOS</h1>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
 
         <div class="row">
           <div class="col-12 text-center">
@@ -22,7 +47,7 @@
           <!-- /ADD BUTTON -->
 
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-sm-12 col-md-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
@@ -67,12 +92,14 @@
                     <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
                     <div *ngIf="nameControl?.invalid && nameControl?.touched">
                       <small *ngIf="nameControl?.hasError('required')" class="text-danger">*Nombre requerido</small>
-                      <small *ngIf="nameControl?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 50 carácteres</small>
+                      <small *ngIf="nameControl?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder
+                        de 50 carácteres</small>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Código</label>
-                    <input type="number" class="form-control" min="0" max="22" id="recipient-name1" formControlName="codigo">
+                    <input type="number" class="form-control" min="0" max="22" id="recipient-name1"
+                      formControlName="codigo">
                     <div *ngIf="codeControl?.invalid && codeControl?.touched">
                       <small *ngIf="codeControl?.hasError('required')" class="text-danger">*Código requerido</small>
                     </div>
@@ -80,7 +107,8 @@
                   <div class="form-group">
                     <label for="message-text" class="control-label">Pais</label>
                     <select class="form-control custom-select" formControlName="idPais">
-                      <option *ngFor="let pais of paises" [value]="pais.idPais">{{ pais ? pais.nombre : 'No ingresado' }}</option>
+                      <option *ngFor="let pais of paises" [value]="pais.idPais">
+                        {{ pais ? pais.nombre : 'No ingresado' }}</option>
                     </select>
                     <!-- <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small> -->
 
@@ -100,8 +128,7 @@
                     <hr>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Código del país*</label>
-                      <input type="text" class="form-control" id="recipient-name1" [value]="codeCountry"
-                        readonly>
+                      <input type="text" class="form-control" id="recipient-name1" [value]="codeCountry" readonly>
                     </div>
                   </div>
 

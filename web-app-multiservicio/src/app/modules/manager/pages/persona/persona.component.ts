@@ -20,56 +20,50 @@ export class PersonaComponent implements OnInit {
   protected trabajador: Trabajadores | null = null;
   protected personas: PersonaRelaciones[] = [];
   protected trabajadores: Trabajadores[] = [];
-  protected loadingGraphicOneWorker = false; // Carga de grafica cuando se selecciona un solo trabajador y muestra los servicios finalizados y pendientes
   protected cliente: Clientes | null = null;
-  protected loadingGraphicWorker = false; // Carga de grafica cuando se traen los trabajdores con la cantidad de servicios que tienen
   protected clientes: Clientes[] = [];
-  protected worker = false;
-  protected create :boolean = true;
+  protected create: boolean = true;
   protected amountPerson!: number;
   protected loading = false; // Carga principal
+  protected worker = false;
   protected tipo = 'all';
   protected filter = "";
 
   // CHART OPERADOR
-  public gradient: boolean = true;
-  public showLabels: boolean = true;
-  public isDoughnut: boolean = false;
-  public colorScheme: string = 'ocean';
-  public chartData      !: any[];
-  public showoperatorChart !: boolean;
+  protected gradient: boolean = true;
+  protected showLabels: boolean = true;
+  protected isDoughnut: boolean = false;
+  protected colorScheme: string = 'ocean';
+  protected chartData      !: any[];
+  protected showoperatorChart !: boolean;
 
-  public Form     !: FormGroup;
-  public newItem  !: boolean;
-  public idItem   !: number;
+  protected Form     !: FormGroup;
+  protected newItem  !: boolean;
+  protected idItem   !: number;
 
   // GRAFICA DE BARRAS CHART
-  public showXAxis: boolean = true;
-  public showYAxis: boolean = true;
-  public showXAxisLabel: boolean = true;
-  public showYAxisLabel: boolean = true;
-  public workersChart   !: any[];
-  public showworkersChart !: boolean;
-  public showLegend: boolean = true;
-  public xAxisLabel!: string;
-  public yAxisLabel!: string;
-  public legendTitle!: string;
+  protected showXAxis: boolean = true;
+  protected showYAxis: boolean = true;
+  protected showXAxisLabel: boolean = true;
+  protected showYAxisLabel: boolean = true;
+  protected workersChart   !: any[];
+  protected showworkersChart !: boolean;
+  protected showLegend: boolean = true;
+  protected xAxisLabel!: string;
+  protected yAxisLabel!: string;
+  protected legendTitle!: string;
 
-  public title!: string;
+  protected title = 'PERSONAS';
 
   constructor(
     private personaService: PersonaService,
     private tipoPersonaService: TipoPersonaService,
     private fb: FormBuilder
-  ) {
-    this.title = 'PERSONAS';
-  }
+  ) { }
 
   ngOnInit(): void {
     this.getAllPersonsWithRelations();
     this.getAllTypePersons();
-    // this.getAllClients();
-    // this.getAllWorkers();
     this.initForm();
   }
 
@@ -86,16 +80,13 @@ export class PersonaComponent implements OnInit {
    * Trabajadores, [Persona, + cantidad: serviciosAsignados]
    */
   protected getAllWorkers() {
-    this.loading = true;
     this.personaService.getAllWorkersWithServices()
       .subscribe(persons => {
         this.trabajadores = persons;
-        this.loading = false;
       });
   }
 
   protected getWorkersMinMax() {
-    this.loadingGraphicWorker = true;
     this.personaService.getWorkersMinMaxServices()
       .subscribe(minMax => {
         this.workersChart = [
@@ -109,12 +100,10 @@ export class PersonaComponent implements OnInit {
           }
         ];
         this.showworkersChart = true;
-        this.loadingGraphicWorker = false;
       });
   }
 
   protected getClientsMinMax() {
-    this.loadingGraphicWorker = true;
     this.personaService.getClientsWithAmountEquipsMinMax()
       .subscribe(minMax => {
         this.workersChart = [
@@ -128,7 +117,6 @@ export class PersonaComponent implements OnInit {
           }
         ];
         this.showworkersChart = true;
-        this.loadingGraphicWorker = false;
       });
   }
 
@@ -141,7 +129,7 @@ export class PersonaComponent implements OnInit {
       this.getWorkersMinMax();
       this.getAllWorkers();
       this.tipo = tipo;
-    }else  if (tipo === 'client') {
+    } else if (tipo === 'client') {
       this.title = "CLIENTES";
       this.xAxisLabel = 'Cantidad de equipos';
       this.yAxisLabel = 'Clientes';
@@ -149,7 +137,7 @@ export class PersonaComponent implements OnInit {
       this.getClientsMinMax();
       this.getAllClients();
       this.tipo = tipo;
-    }else {
+    } else {
       this.title = 'PERSONAS';
       this.getAllPersonsWithRelations();
       this.tipo = tipo;
@@ -179,25 +167,20 @@ export class PersonaComponent implements OnInit {
    * Clientes, [Persona, + cantidad: equipos]
    */
   protected getAllClients() {
-    this.loading = true;
     this.personaService.getAllCientsEquipments()
       .subscribe(persons => {
         this.clientes = persons;
-        this.loading = false;
       });
   }
 
   protected getAllTypePersons() {
-    this.loading = true;
     this.tipoPersonaService.getAllDropDown()
       .subscribe(typesPerson => {
         this.tiposPersonas = typesPerson;
-        this.loading = false;
       });
   }
 
   protected getOnePerson(idPersona: number) {
-    this.loadingGraphicOneWorker = true;
     this.personaService.getOneWorkerServicesAmount(idPersona)
       .subscribe(amount => {
         if (amount.finalizados || amount.pendientes) {
@@ -215,12 +198,10 @@ export class PersonaComponent implements OnInit {
         } else {
           this.showoperatorChart = false;
         }
-        this.loadingGraphicOneWorker = false;
       });
   }
 
   protected createPerson(dto: CreatePersonaDTO) {
-    this.loading = true;
     this.personaService.create(dto)
       .subscribe(person => {
         if (person) {
@@ -237,12 +218,10 @@ export class PersonaComponent implements OnInit {
             text: 'Usuario creado'
           })
         }
-        this.loading = false;
       });
   }
 
   protected updatePerson(idPersona: number, dto: UpdatePersonaDTO) {
-    this.loading = true;
     this.personaService.updateManager(idPersona, dto)
       .subscribe(res => {
         if (res) {
@@ -258,12 +237,10 @@ export class PersonaComponent implements OnInit {
             text: 'Usuario actualizado'
           })
         }
-        this.loading = false;
       });
   }
 
   protected deletePerson(idPersona: number) {
-    this.loading = true;
     this.personaService.delete(idPersona)
       .subscribe(res => {
         if (res) {
@@ -279,7 +256,6 @@ export class PersonaComponent implements OnInit {
             text: 'Usuario eliminado'
           })
         }
-        this.loading = false;
       });
   }
 
@@ -349,7 +325,6 @@ export class PersonaComponent implements OnInit {
 
   protected createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
-
     const { idPersona, ...rest } = this.Form.value;
     if (idPersona) {
       return this.updatePerson(idPersona, rest);
@@ -365,11 +340,9 @@ export class PersonaComponent implements OnInit {
       showConfirmButton: true,
       showCancelButton: true
     }).then((res: any) => {
-
       if (res.isConfirmed) {
         this.deletePerson(this.idItem);
       }
-
     })
   }
 }

@@ -25,14 +25,14 @@ export class ServicioComponent implements OnInit {
   protected tiposServicios: TipoServicio[] = [];
   protected idServicio: number | null = null;
   protected idPersona: string | null = null;
+  protected typeServiceUncompleted = false;
   protected idEquipo: string | null = null;
   protected equipos: EquipoCliente[] = [];
   protected typeServiceCompleted = false;
-  protected typeServiceUncompleted = false;
-  protected showEquipments = true;
   protected typeService = 'PENDIENTES';
-  protected oneService = false;
-  protected title = "EQUIPOS";
+  protected showEquipments = true;
+  protected title = "SERVICIOS";
+  protected noServices = false;
   protected loading = false;
   protected filter = "";
 
@@ -64,8 +64,8 @@ export class ServicioComponent implements OnInit {
 
   protected changeViewService(back?: boolean) {
     if (back) {
-      this.title = "EQUIPOS";
-      this.typeServiceCompleted = this.typeServiceUncompleted = false;
+      this.title = "SERVICIOS";
+      this.noServices = this.typeServiceCompleted = this.typeServiceUncompleted = false;
       this.showEquipments = true;
       this.typeService = 'PENDIENTES';
     } else {
@@ -73,7 +73,7 @@ export class ServicioComponent implements OnInit {
         this.getAllServicesWithRelationsCompleted(this.equipo.idEquipo);
         this.typeService = 'PENDIENTES';
       } else if (this.typeService === 'PENDIENTES' && this.typeServiceUncompleted && this.equipo) {
-        this.getAllServicesWithRelationsNotCompleted(this.equipo.idEquipo, true);
+        this.getAllServicesWithRelationsNotCompleted(this.equipo.idEquipo);
         this.typeService = 'FINALIZADOS';
       }
     }
@@ -85,8 +85,8 @@ export class ServicioComponent implements OnInit {
     this.equipoService.getAllByIdPersona(idPersona)
       .subscribe(equipments => {
         this.equipos = equipments;
-        this.oneService, this.loading = false;
         this.showEquipments = true;
+        this.loading = false;
       });
   }
 
@@ -108,6 +108,8 @@ export class ServicioComponent implements OnInit {
 
   protected getAllServicesByEquipment(equipo: EquipoCliente) {
     this.getAllServicesWithRelationsCompleted(equipo.idEquipo);
+    this.getAllServicesWithRelationsNotCompleted(equipo.idEquipo);
+
   }
 
   private setEquipment(id: number) {
@@ -118,11 +120,9 @@ export class ServicioComponent implements OnInit {
   }
 
   protected getAllServicesWithRelationsCompleted(idEquipo: number) {
-    this.loading = true;
     this.servicioService.getAllByIdEquipoCompleted(idEquipo)
       .subscribe(services => {
         this.serviciosCompletados = services;
-        this.getAllServicesWithRelationsNotCompleted(idEquipo);
       });
   }
 
@@ -132,25 +132,28 @@ export class ServicioComponent implements OnInit {
         this.serviciosPendientes = services;
         if (!load) {
           if (this.serviciosPendientes.length > 0) {
-            this.showEquipments = false;
             this.typeServiceUncompleted = true;
+            this.showEquipments = false;
           }
           if (this.serviciosCompletados.length > 0) {
-            this.showEquipments = false;
             this.typeServiceCompleted = true;
+            this.showEquipments = false;
           }
           if (!this.typeServiceCompleted && !this.typeServiceUncompleted) {
-            this.throwAlert();
-            this.showEquipments = true;
-            this.typeServiceCompleted = this.typeServiceUncompleted = false;
+            // this.throwAlert();
+            this.noServices = true;
+            this.typeServiceUncompleted = true;
+            this.typeServiceCompleted = false;
+            this.showEquipments = false;
           }
-          if (this.typeServiceCompleted || this.typeServiceUncompleted) {
-            this.setEquipment(idEquipo);
-          }
-        } else {
-          this.setEquipment(idEquipo);
+          // if (this.typeServiceCompleted || this.typeServiceUncompleted) {
+          //   this.setEquipment(idEquipo);
+          // }
         }
-        this.loading = false;
+        // else {
+        //   this.setEquipment(idEquipo);
+        // }
+        this.setEquipment(idEquipo);
       });
   }
 
@@ -170,12 +173,13 @@ export class ServicioComponent implements OnInit {
   // }
 
   protected createService(dto: CreateServicioDTO) {
-    // Pendiente de asignación de Trabajador
-    this.loading = true;
     this.servicioService.createClient(dto)
       .subscribe(service => {
         if (service) {
           this.serviciosPendientes.push(service);
+          if (this.noServices) {
+            this.noServices = false;
+          }
           Swal.fire({
             title: 'Creado',
             text: 'Servicio creado',
@@ -183,13 +187,11 @@ export class ServicioComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
 
   protected deleteService(idServicio: number) {
-    this.loading = true;
     this.servicioService.delete(idServicio)
       .subscribe(res => {
         if (res) {
@@ -198,7 +200,7 @@ export class ServicioComponent implements OnInit {
           this.servicios.splice(serviceIndex, 1);
           if (this.equipo) {
             this.getAllServicesWithRelationsCompleted(this.equipo.idEquipo);
-            this.getAllServicesWithRelationsCompleted(this.equipo.idEquipo);
+            this.getAllServicesWithRelationsNotCompleted(this.equipo.idEquipo);
           }
           Swal.fire({
             title: 'Eliminado',
@@ -207,7 +209,6 @@ export class ServicioComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
@@ -216,6 +217,7 @@ export class ServicioComponent implements OnInit {
   }
 
   protected openModalByService(service?: ServicioCliente) {
+    console.log("Call")
     this.initForm();
     if (service) {
       this.newService = false;
@@ -226,13 +228,18 @@ export class ServicioComponent implements OnInit {
   protected throwAlert() {
     Swal.fire({
       title: 'No existen servicios para el equipo',
-      text: '¿Sea crear un servicio?',
+      text: '¿Desea crear un servicio?',
       icon: 'warning',
       showConfirmButton: true,
       showCancelButton: true
     }).then((res: any) => {
       if (res.isConfirmed) {
-        this.openModalByService();
+        this.noServices = true;
+        this.typeServiceUncompleted = true;
+        this.typeServiceCompleted = false;
+        this.showEquipments = false;
+      } else {
+        this.showEquipments = true;
       }
     });
   }
@@ -264,7 +271,7 @@ export class ServicioComponent implements OnInit {
 
   protected parseDate(date: Date, modal?: boolean) {
     if (modal) {
-      return formatDate(date, 'medium', 'en')
+      return formatDate(date, 'medium', 'en');
     } else {
       return formatDate(date, 'yyyy-MM-dd hh-mm-ss aaa', 'en');
     }
@@ -276,7 +283,6 @@ export class ServicioComponent implements OnInit {
     idEquipo = (this.equipo) ? this.equipo.idEquipo : 0;
     idTipoServicio = (service.Tipo_Servicio?.idTipoServicio) ? service.Tipo_Servicio.idTipoServicio : 0;
     idTrabajador = (service.Trabajador?.idPersona) ? service.Trabajador.idPersona : 0;
-
     this.serviceForm.setValue({
       idServicio: service.idServicio,
       prioridad: service.prioridad,
@@ -286,10 +292,8 @@ export class ServicioComponent implements OnInit {
       idTrabajador: idTrabajador,
       idEquipo: idEquipo,
     });
-
     this.serviceForm.addControl('fechaHoraRealizar', this.formBuilder.control(formatDate(service.fechaHoraRealizar!, 'yyyy-MM-ddTHH:mm:ss', 'en'), []))
     this.serviceForm.addControl('idTrabajador', this.formBuilder.control(idTrabajador, []))
-
     this.serviceForm.updateValueAndValidity();
     this.idService = service.idServicio;
   }

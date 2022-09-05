@@ -1,14 +1,37 @@
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
-
+      <div class="card-body" *ngIf="loading">
         <div class="row">
           <div class="col-12 text-center">
             <h1>EMPRESAS</h1>
           </div>
         </div>
-
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>EMPRESAS</h1>
+          </div>
+        </div>
         <div class="row">
           <div class="col-12 border">
             <div class="chart-container">
@@ -32,7 +55,7 @@
           <!-- /ADD BUTTON -->
 
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-sm-12 col-md-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
@@ -78,7 +101,8 @@
                     <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
                     <div *ngIf="nombre?.invalid && nombre?.touched">
                       <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerida</small>
-                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 45 carácteres</small>
+                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 45
+                        carácteres</small>
                     </div>
                   </div>
                   <div class="form-group">
@@ -86,7 +110,8 @@
                     <input type="text" class="form-control" id="recipient-name1" formControlName="nit">
                     <div *ngIf="nit?.invalid && nit?.touched">
                       <small *ngIf="nit?.hasError('required')" class="text-danger">*NIT requerida</small>
-                      <small *ngIf="nit?.hasError('maxlength')" class="text-danger">*El NIT no debe exceder de 20 carácteres</small>
+                      <small *ngIf="nit?.hasError('maxlength')" class="text-danger">*El NIT no debe exceder de 20
+                        carácteres</small>
                     </div>
                   </div>
                 </form>

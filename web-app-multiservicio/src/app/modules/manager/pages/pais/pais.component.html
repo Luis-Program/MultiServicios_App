@@ -1,7 +1,32 @@
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>PAISES</h1>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
 
         <div class="row">
           <div class="col-12 text-center">
@@ -13,7 +38,8 @@
           <!-- ADD COUNTRY BUTTON -->
           <div class="col-1">
             <div class="row">
-              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByCountry()">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByCountry()">
                 <i class="mdi mdi-plus"></i>
               </button>
             </div>
@@ -21,7 +47,7 @@
           <!-- /ADD COUNTRY BUTTON -->
 
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-sm-12 col-md-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
@@ -30,7 +56,8 @@
         <div class="row mt-5">
           <!-- CARD -->
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let pais of paises | filterNameCode:filter">
-            <div class="card card-outline-info" (click)="openModalByCountry(pais)" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+            <div class="card card-outline-info" (click)="openModalByCountry(pais)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
               <div class="card-header bg-dark">
               </div>
               <div class="card-body border">
@@ -67,13 +94,15 @@
 
                     <div *ngIf="nameControl?.invalid && nameControl?.touched">
                       <small *ngIf="nameControl?.hasError('required')" class="text-danger">*Nombre requerido</small>
-                      <small *ngIf="nameControl?.hasError('maxlength')" class="text-danger">*Máximo 20 carácteres</small>
+                      <small *ngIf="nameControl?.hasError('maxlength')" class="text-danger">*Máximo 20
+                        carácteres</small>
                     </div>
 
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Código:</label>
-                    <input type="number" class="form-control" min="0" max="999" id="recipient-name1" formControlName="codigo">
+                    <input type="number" class="form-control" min="0" max="999" id="recipient-name1"
+                      formControlName="codigo">
 
                     <div *ngIf="codeControl?.invalid && codeControl?.touched">
                       <small *ngIf="codeControl?.hasError('required')" class="text-danger">*Código requerido</small>
@@ -83,9 +112,12 @@
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newCountry" (click)="deleteCountryModal()">Eliminar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newCountry" (click)="createCountryForm()">Crear</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newCountry" (click)="createCountryForm()">Editar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newCountry"
+                  (click)="deleteCountryModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newCountry"
+                  (click)="createCountryForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newCountry"
+                  (click)="createCountryForm()">Editar</button>
               </div>
             </div>
           </div>

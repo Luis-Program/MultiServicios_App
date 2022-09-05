@@ -9,10 +9,10 @@ import { IPermissions } from '../Intefaces/IPermissions';
 })
 export class HomeComponent implements OnInit {
 
-  rol: string | null = null;
+  protected rol: string | null = null;
 
-  public permissions!: IPermissions[];
-  public loader!: boolean;
+  protected permissions!: IPermissions[];
+  protected loader!: boolean;
 
   constructor(private router: Router) { }
 
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
     this.getRol();
   }
 
-  getRol(): any {
+  protected getRol(): any {
     this.rol = localStorage.getItem('rol');
     if (!this.rol) {
       return this.router.navigate(['/']);
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
     this.loader = false;
   }
 
-  getPermissions(rol: string): any {
+  protected getPermissions(rol: string): any {
 
     switch(rol) {
       case "Gerente General":
@@ -156,7 +156,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  navigate(permission: string) {
+  protected navigate(permission: string) {
     return this.router.navigate([`${permission}`]);
   }
 }

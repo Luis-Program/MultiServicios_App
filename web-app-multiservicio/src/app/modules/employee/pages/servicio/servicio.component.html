@@ -1,7 +1,32 @@
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>{{title}}</h1>
+          </div>
+        </div>
+        <!-- BUTTON CHANGE -->
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+            <button class="btn btn-outline-primary" (click)="switchView()"
+              *ngIf="viewCompletedService">Pendientes</button>
+            <button class="btn btn-outline-primary" (click)="switchView()"
+              *ngIf="!viewCompletedService">Finalizados</button>
+          </div>
+        </div>
+        <!-- BUTTON CHANGE -->
+        <!-- INPUT SEARCH -->
+        <div class="row mt-3">
+          <div class="col-12 button-padding">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
 
         <div class="row">
           <div class="col-12 text-center">
@@ -12,38 +37,33 @@
         <div class="row">
           <div class="col-sm-12 col-md-12 border">
             <div class="chart-container">
-              <ngx-charts-pie-chart
-                [scheme]="colorScheme"
-                [results]="chartData"
-                [gradient]="gradient"
-                [legend]="showLegend"
-                [labels]="showLabels"
-                [doughnut]="isDoughnut"
-                [legendTitle]="legendTitle"
-                >
+              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
+                [legend]="showLegend" [labels]="showLabels" [doughnut]="isDoughnut" [legendTitle]="legendTitle">
               </ngx-charts-pie-chart>
             </div>
           </div>
         </div>
 
+        <!-- BUTTON CHANGE -->
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+            <button class="btn btn-outline-primary" (click)="switchView()"
+              *ngIf="viewCompletedService">Pendientes</button>
+            <button class="btn btn-outline-primary" (click)="switchView()"
+              *ngIf="!viewCompletedService">Finalizados</button>
+          </div>
+        </div>
+        <!-- BUTTON CHANGE -->
         <!-- INPUT SEARCH -->
         <div class="row mt-3">
-          <div class="col-sm-12 col-md-2">
-            <button class="btn btn-outline-primary" (click)="switchView()"
-            *ngIf="viewCompletedService">Pendientes</button>
-            <button class="btn btn-outline-primary mr-3" (click)="switchView()"
-            *ngIf="!viewCompletedService">Finalizados</button>
-          </div>
-
-          <div class="col-sm-12 col-md-10 button-padding">
+          <div class="col-12 button-padding">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
         </div>
         <!-- /INPUT SEARCH -->
-
         <!-- CARD UNCOMPLETED-->
         <div class="row mt-3" *ngIf="!viewCompletedService">
-          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosPendientes | filterService:filter">
+          <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let servicio of serviciosPendientes | filterService:filter">
             <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
               <div class="card-header bg-dark">
@@ -70,10 +90,14 @@
           </div>
         </div>
         <!-- /CARD UNCOMPLETED-->
-
+        <div class="row mt-3 text-center" *ngIf="empty">
+          <div class="col-12">
+            <h1>NO HAY SERVICIOS ASIGNADOS</h1>
+          </div>
+        </div>
         <!-- CARD COMPLETED-->
-        <div class="row mt-5" *ngIf="viewCompletedService">
-          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let servicio of serviciosCompletados | filterService:filter">
+        <div class="row mt-3" *ngIf="viewCompletedService">
+          <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let servicio of serviciosCompletados | filterService:filter">
             <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
               <div class="card-header bg-dark">

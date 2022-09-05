@@ -1,14 +1,37 @@
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
-
+      <div class="card-body" *ngIf="loading">
         <div class="row">
           <div class="col-12 text-center">
             <h1>DIRECCIONES</h1>
           </div>
         </div>
-
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>DIRECCIONES</h1>
+          </div>
+        </div>
         <div class="row mt-2">
           <!-- ADD BUTTON -->
           <div class="col-1">
@@ -20,18 +43,17 @@
             </div>
           </div>
           <!-- /ADD BUTTON -->
-
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-sm-12 col-md-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
-
         <!-- CARD -->
         <div class="row mt-5">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let direccion of direcciones | filterDireccion:filter">
-            <div class="card card-outline-info" Data-toggle="modal"data-target="#exampleModal" data-whatever="@mdo" (click)="openModal(direccion)">
+            <div class="card card-outline-info" Data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+              (click)="openModal(direccion)">
               <div class="card-header bg-dark">
               </div>
               <div class="card-body border">
@@ -65,24 +87,28 @@
                     <input type="text" class="form-control" id="recipient-name1" formControlName="direccion">
                     <div *ngIf="direccion?.invalid && direccion?.touched">
                       <small *ngIf="direccion?.hasError('required')" class="text-danger">*Dirección requerida</small>
-                      <small *ngIf="direccion?.hasError('maxlength')" class="text-danger">*La dirección no debe exceder de 25 carácteres</small>
+                      <small *ngIf="direccion?.hasError('maxlength')" class="text-danger">*La dirección no debe exceder
+                        de 25 carácteres</small>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Municipio*</label>
                     <select class="form-control custom-select" formControlName="idMunicipio">
-                      <option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">{{ municipio.nombre }}</option>
+                      <option *ngFor="let municipio of municipios" [value]="municipio.idMunicipio">
+                        {{ municipio.nombre }}</option>
                     </select>
                     <!-- <small *ngIf="!idMunicipio" class="form-control-feedback">No ingresado *</small> -->
                     <div *ngIf="municipioDireccion?.invalid && municipioDireccion?.touched">
-                      <small *ngIf="municipioDireccion?.hasError('required')" class="text-danger">*Departamento requerido</small>
+                      <small *ngIf="municipioDireccion?.hasError('required')" class="text-danger">*Departamento
+                        requerido</small>
                     </div>
                   </div>
                   <div *ngIf="idMunicipio >= 1 && !newItem">
                     <hr>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Departamento*</label>
-                      <input type="text" class="form-control" id="recipient-name1" formControlName="departamento" readonly>
+                      <input type="text" class="form-control" id="recipient-name1" formControlName="departamento"
+                        readonly>
                     </div>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Pais*</label>
@@ -93,11 +119,11 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newItem"
-                  (click)="deleteItem()">Eliminar</button>
+                    (click)="deleteItem()">Eliminar</button>
                   <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newItem"
-                  (click)="createItem()">Crear</button>
+                    (click)="createItem()">Crear</button>
                   <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newItem"
-                  (click)="createItem()">Editar</button>
+                    (click)="createItem()">Editar</button>
                 </div>
 
               </div>

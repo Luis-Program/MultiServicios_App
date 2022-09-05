@@ -39,7 +39,6 @@ export class TipoRepuestoComponent implements OnInit {
   }
 
   protected createReplacementType(pais: CreateTipoRepuestoDTO) {
-    this.loading = true;
     this.tipoRepuestoService.create(pais)
       .subscribe(replacementType => {
         if (replacementType) {
@@ -51,12 +50,10 @@ export class TipoRepuestoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected updateReplacementType(idTipoRepuesto: number, dto: UpdateTipoRepuestoDTO) {
-    this.loading = true;
     this.tipoRepuestoService.update(idTipoRepuesto, dto)
       .subscribe(res => {
         if (res) {
@@ -70,12 +67,10 @@ export class TipoRepuestoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected deleteReplacementType(idTipoRepuesto: number) {
-    this.loading = true;
     this.tipoRepuestoService.delete(idTipoRepuesto)
       .subscribe(res => {
         if (res) {
@@ -89,7 +84,6 @@ export class TipoRepuestoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 

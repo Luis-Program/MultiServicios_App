@@ -48,7 +48,6 @@ export class TelefonoComponent implements OnInit {
   }
 
   protected getAllPersonsAndPhonesTypes() {
-    this.loading = true;
     this.personaService.getAllDropDown()
       .subscribe(persons => {
         this.personas = persons;
@@ -56,12 +55,10 @@ export class TelefonoComponent implements OnInit {
     this.tipoTelefonoService.getAll()
       .subscribe(phonestypes => {
         this.tiposTelefonos = phonestypes;
-        this.loading = false;
       });
   }
 
   protected createPhone(dto: CreateTelefonoDTO) {
-    this.loading = true;
     this.telefonoService.createManager(dto)
       .subscribe(phone => {
         if (phone) {
@@ -73,12 +70,10 @@ export class TelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected updatePhone(idTelefono: number, dto: UpdateTelefonoDTO) {
-    this.loading = true;
     this.telefonoService.updateManager(idTelefono, dto)
       .subscribe(phone => {
         if (phone) {
@@ -92,12 +87,10 @@ export class TelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected deletePhone(idTelefono: number) {
-    this.loading = true;
     this.telefonoService.delete(idTelefono)
       .subscribe(res => {
         if (res) {
@@ -111,7 +104,6 @@ export class TelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 

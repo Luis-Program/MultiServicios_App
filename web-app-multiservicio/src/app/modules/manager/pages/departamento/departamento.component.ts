@@ -21,9 +21,9 @@ export class DepartamentoComponent implements OnInit {
   protected loading = false;
   protected filter = "";
 
-  public departmentForm !: FormGroup;
-  public newDepartment  !: boolean;
-  public idDepartment   !: number;
+  protected departmentForm !: FormGroup;
+  protected newDepartment  !: boolean;
+  protected idDepartment   !: number;
 
   protected dropdownSettings: IDropdownSettings = {};
 
@@ -49,11 +49,9 @@ export class DepartamentoComponent implements OnInit {
   }
 
   protected getAllCountriesToUpdateDepartment() {
-    this.loading = true;
     this.paisService.getAll()
       .subscribe(countries => {
         this.paises = countries;
-        this.loading = false;
       });
   }
 
@@ -67,7 +65,6 @@ export class DepartamentoComponent implements OnInit {
   }
 
   protected createDepartment(department: CreateDepartamentoDTO) {
-    this.loading = true;
     this.departamentoService.create(department)
       .subscribe(department => {
         if (department) {
@@ -79,12 +76,10 @@ export class DepartamentoComponent implements OnInit {
           })
           this.departamentos.push(department);
         }
-        this.loading = false;
       });
   }
 
   protected updateDepartment(idDepartamento: number, dto: UpdateDepartamentoDTO) {
-    this.loading = true;
     this.departamentoService.update(idDepartamento, dto)
       .subscribe(res => {
         if (res) {
@@ -98,14 +93,12 @@ export class DepartamentoComponent implements OnInit {
             text: 'Departamento actualizado'
           })
         }
-        this.loading = false;
         this.getAllDepartmentsWithRelations();
         this.getAllCountriesToUpdateDepartment();
       });
   }
 
   protected deleteDepartment(idDepartamento: number) {
-    this.loading = true;
     this.departamentoService.delete(idDepartamento)
       .subscribe(res => {
         if (res) {
@@ -119,7 +112,6 @@ export class DepartamentoComponent implements OnInit {
             text: 'Departamento eliminado'
           })
         }
-        this.loading = false;
       });
   }
 
@@ -156,10 +148,6 @@ export class DepartamentoComponent implements OnInit {
 
   }
 
-  /**
-   *
-   * @param department - <DepartamentoRelaciones> Department to update/delete
-   */
   protected openModalByDepartment(department?: DepartamentoRelaciones) {
     this.initForm();
     this.listenCountry();

@@ -39,7 +39,6 @@ export class TipoTelefonoComponent implements OnInit {
   }
 
   protected createPhoneTypes(dto: CreateTipoTelefonoDTO) {
-    this.loading = true;
     this.tipotelefonoService.create(dto)
       .subscribe(phoneType => {
         if (phoneType) {
@@ -51,12 +50,10 @@ export class TipoTelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected updatePhoneTypes(idTipoTelefono: number, dto: UpdateTipoTelefonoDTO) {
-    this.loading = true;
     this.tipotelefonoService.update(idTipoTelefono, dto)
       .subscribe(phoneType => {
         if (phoneType) {
@@ -70,12 +67,10 @@ export class TipoTelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected deletePhoneTypes(idTipoTelefono: number) {
-    this.loading = true;
     this.tipotelefonoService.delete(idTipoTelefono)
       .subscribe(res => {
         if (res) {
@@ -89,7 +84,6 @@ export class TipoTelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 

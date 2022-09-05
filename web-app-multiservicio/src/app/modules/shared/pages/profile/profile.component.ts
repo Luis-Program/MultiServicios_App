@@ -51,33 +51,43 @@ export class ProfileComponent implements OnInit {
         .subscribe(res => {
           if (res) {
             this.persona = res;
-            // Success
-
             Swal.fire({
               icon  :  "success",
               title :  "Actualizado",
-              text  :  "Perfil actualizado"  
+              text  :  "Perfil actualizado"
             })
           }
         });
     }
   }
 
-  initForm(persona: PersonaRelacionesLogin) {
+  protected initForm(persona: PersonaRelacionesLogin) {
     this.Form = this.formBuilder.group({
       idPersona : [persona.idPersona],
-      nombre    : [persona.nombre,    [Validators.required, Validators.maxLength(30)]],
-      apellidos : [persona.apellidos, [Validators.required, Validators.maxLength(30)]],
+      nombre    : [persona.nombre,    [Validators.required, Validators.maxLength(15)]],
+      apellidos : [persona.apellidos, [Validators.required, Validators.maxLength(15)]],
       correo    : [persona.correo,    [Validators.required, Validators.email]],
-      dpi       : [persona.dpi,       [Validators.required, Validators.maxLength(20)]]
+      dpi       : [persona.dpi,       [Validators.required, Validators.maxLength(13), Validators.minLength(13)]]
     })
   }
 
-  updateUser() {
-    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
-    
-    const { idPersona, ...rest } = this.Form.value; 
+  protected get nombre() {
+    return this.Form.get('nombre');
+  }
 
+  protected get apellidos() {
+    return this.Form.get('apellidos');
+  }
+
+  protected get dpi() {
+    return this.Form.get('dpi');
+  }
+
+  protected updateUser() {
+    if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
+    const { idPersona, ...rest } = this.Form.value;
     this.updatePerson(rest);
   }
+
+
 }

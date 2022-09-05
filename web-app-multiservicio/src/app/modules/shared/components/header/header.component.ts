@@ -65,7 +65,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  navigateToProfile(): any {
+  protected navigateToProfile(): any {
     switch (this.rol) {
       case "Gerente General": return this.router.navigate(['/gerente-general/perfil']);
       case "Trabajador Operacional": return this.router.navigate(['/trabajador/perfil']);

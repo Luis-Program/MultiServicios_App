@@ -1,14 +1,38 @@
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>TELÉFONOS</h1>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
 
         <div class="row">
           <div class="col-12 text-center">
             <h1>TELÉFONOS</h1>
           </div>
         </div>
-
         <div class="row mt-2">
           <!-- ADD BUTTON -->
           <div class="col-1">
@@ -20,14 +44,12 @@
             </div>
           </div>
           <!-- /ADD BUTTON -->
-
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-sm-12 col-md-11">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
-
         <!-- CARD -->
         <div class="row mt-5">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let telefono of telefonos | filterPhone:filter">
@@ -52,9 +74,7 @@
             </div>
           </div>
           <!-- /CARD -->
-
         </div>
-
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
           <div class="modal-dialog" role="document">
@@ -80,7 +100,6 @@
                       <option *ngFor="let persona of personas" [value]="persona.idPersona">
                         {{ persona.nombre }}</option>
                     </select>
-                    <!-- <small *ngIf="idPersona <= 0" class="form-control-feedback">No ingresado *</small> -->
                     <div *ngIf="persona?.invalid && persona?.touched">
                       <small *ngIf="persona?.hasError('required')" class="text-danger">*Persona requerida</small>
                     </div>
@@ -91,7 +110,6 @@
                       <option *ngFor="let tipoTelefono of tiposTelefonos" [value]="tipoTelefono.idTipoTelefono">
                         {{ tipoTelefono.tipo }}</option>
                     </select>
-                    <!-- <small *ngIf="idTipoTelefono <= 0" class="form-control-feedback">No ingresado *</small> -->
                     <div *ngIf="tipo?.invalid && tipo?.touched">
                       <small *ngIf="tipo?.hasError('required')" class="text-danger">*Tipo teléfono requerido</small>
                     </div>

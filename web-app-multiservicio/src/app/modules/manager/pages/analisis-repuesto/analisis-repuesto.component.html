@@ -2,19 +2,31 @@
   <div class="col-12">
     <div class="card padre" style="overflow-x: scroll">
 
-      
-      <div class="card-body">
-        
-        <loader *ngIf="loading"></loader>
-        
-        <div class="row" *ngIf="!loading">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>ANÁLISIS DEL REPUESTO</h1>
+          </div>
+        </div>
+        <!-- INPUT SEARCH -->
+        <div class="row">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+        <loader></loader>
+      </div>
+
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
           <div class="col-12 text-center">
             <h1>ANÁLISIS DEL REPUESTO</h1>
           </div>
         </div>
 
         <!-- INPUT SEARCH -->
-        <div class="row" *ngIf="!loading">
+        <div class="row">
           <div class="col-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
@@ -22,7 +34,7 @@
         <!-- /INPUT SEARCH -->
 
         <!-- TABLE -->
-        <div class="row mt-3" *ngIf="!loading">
+        <div class="row mt-3">
           <div class="col-12">
             <table class="tablesaw table-striped table-hover table-bordered table" data-tablesaw-mode="columntoggle">
               <thead>
