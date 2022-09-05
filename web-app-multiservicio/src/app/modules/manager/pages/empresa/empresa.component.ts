@@ -14,7 +14,6 @@ export class EmpresaComponent implements OnInit {
   protected empresas: Empresa[] = [];
   protected maxMinClient: MinMaxEmpresa[] = [];
   protected loading = false; // Carga principal
-  protected loadingGraphic = false; // Carga del grafico
   protected filter = "";
 
   public Form     !: FormGroup;
@@ -54,7 +53,6 @@ export class EmpresaComponent implements OnInit {
 
   private getMinMaxClient() {
     // Becomes the max first then min
-    this.loadingGraphic = true;
     this.empresaService.getMinMaxClients()
       .subscribe((data: MinMaxEmpresa[]) => {
         this.single = data.map(c => {
@@ -63,12 +61,10 @@ export class EmpresaComponent implements OnInit {
             value: c.cantidad
           }
         })
-        this.loadingGraphic = false;
       });
   }
 
   protected createEnterprise(dto: CreateEmpresaDTO) {
-    this.loading = true;
     this.empresaService.create(dto)
       .subscribe(enterprise => {
         if (enterprise) {
@@ -81,12 +77,10 @@ export class EmpresaComponent implements OnInit {
           })
           this.getAllEnterprises();
         }
-        this.loading = false;
       });
   }
 
   protected updateEnterprise(idEmpresa: number, dto: UpdateEmpresaDTO) {
-    this.loading = true;
     this.empresaService.update(idEmpresa, dto)
       .subscribe(res => {
         if (res) {
@@ -101,12 +95,10 @@ export class EmpresaComponent implements OnInit {
           })
           this.getAllEnterprises();
         }
-        this.loading = false;
       });
   }
 
   protected deleteEnterprise(idEmpresa: number) {
-    this.loading = true;
     this.empresaService.delete(idEmpresa)
       .subscribe(res => {
         if (res) {
@@ -121,7 +113,6 @@ export class EmpresaComponent implements OnInit {
           })
           this.getAllEnterprises();
         }
-        this.loading = false;
       });
   }
 

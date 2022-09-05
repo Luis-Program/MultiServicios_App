@@ -1,23 +1,32 @@
-<!--
-<h1>Telefonos</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div>
-  <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-</div>
-<div *ngFor="let telefono of telefonos | filterPhone:filter">
-  <h3>Telefono</h3>
-  <p>Id: {{telefono.idTelefono}}</p>
-  <p>Numero: {{telefono.numero}}</p>
-  <h4>Tipo Telefono</h4>
-  <p>{{telefono.Tipo_Telefono ? 'Tipo: ' + telefono.Tipo_Telefono.tipo : 'No ingresado.'}}</p>
-  <h4>Persona: {{telefono.idPersona}}</h4>
-  <p>------------------------------------</p>
-</div> -->
-
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>TELÉFONOS</h1>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
 
         <div class="row">
           <div class="col-12 text-center">

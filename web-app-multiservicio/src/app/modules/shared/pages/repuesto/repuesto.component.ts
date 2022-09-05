@@ -71,16 +71,13 @@ export class RepuestoComponent implements OnInit {
   }
 
   protected getAllReplacementType() {
-    this.loading = true;
     this.tipoRepuestoService.getAll()
       .subscribe(replacementTypes => {
         this.tipoRepuestos = replacementTypes;
-        this.loading = false;
-      })
+      });
   }
 
   protected createReplacement(repuesto: CreateRepuestoDTO) {
-    this.loading = true;
     this.repuestoService.create(repuesto)
       .subscribe(replacement => {
         if (replacement) {
@@ -92,13 +89,11 @@ export class RepuestoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   // Trabajador puede actualizar solo la cantidad, restarle cantidad al repuesto
   protected updateReplacement(idRepuesto: number, dto: UpdateRepuestoDTO) {
-    this.loading = true;
     this.repuestoService.update(idRepuesto, dto)
       .subscribe(res => {
         if (res) {
@@ -112,12 +107,10 @@ export class RepuestoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected deleteReplacement(idRepuesto: number) {
-    this.loading = true;
     this.repuestoService.delete(idRepuesto)
       .subscribe(res => {
         if (res) {
@@ -131,7 +124,6 @@ export class RepuestoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 

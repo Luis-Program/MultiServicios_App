@@ -38,12 +38,12 @@ export class ServicioComponent implements OnInit {
 
   // CHART
   public chartData  !: any[];
-  public gradient   : boolean = true;
-  public showLegend : boolean = true;
-  public showLabels : boolean = true;
-  public isDoughnut : boolean = false;
-  public colorScheme: string  = 'ocean'
-  public legendTitle: string  = 'Servicios';
+  public gradient: boolean = true;
+  public showLegend: boolean = true;
+  public showLabels: boolean = true;
+  public isDoughnut: boolean = false;
+  public colorScheme: string = 'ocean'
+  public legendTitle: string = 'Servicios';
 
   constructor(
     private direccionService: DireccionService,
@@ -59,7 +59,7 @@ export class ServicioComponent implements OnInit {
     this.idPersona = localStorage.getItem('idPersona');
     this.initForm();
     if (this.idPersona) {
-      this.getAllServicesWithRelationsNotCompleted(this.idPersona);
+      this.getAllServicesWithRelationsNotCompleted(this.idPersona, true);
       this.getAmountServices(this.idPersona);
       if (this.idServicio) {
         this.getOneService(this.idServicio);
@@ -71,7 +71,7 @@ export class ServicioComponent implements OnInit {
     if (this.idPersona) {
       if (this.viewCompletedService) {
         this.viewCompletedService = false;
-        this.getAllServicesWithRelationsNotCompleted(this.idPersona);
+        this.getAllServicesWithRelationsNotCompleted(this.idPersona, false);
         this.title = "SERVICIOS PENDIENTES";
       } else {
         this.viewCompletedService = true;
@@ -82,22 +82,24 @@ export class ServicioComponent implements OnInit {
     }
   }
 
+  protected get empty() {
+    return (!this.viewCompletedService && this.serviciosPendientes.length === 0 && this.title === 'SERVICIOS PENDIENTES') || (this.viewCompletedService && this.serviciosCompletados.length === 0 && this.title === 'SERVICIOS FINALIZADOS');
+  }
+
   private getAllDirections() {
     this.direccionService.getAllWithRelations()
       .subscribe(data => this.direcciones = data);
   }
 
   private getAllServicesWithRelationsCompleted(idPersona: string | number) {
-    this.loading = true;
     this.servicioService.getAllServicesCompletedByIdWorker(idPersona)
       .subscribe(services => {
         this.serviciosCompletados = services;
-        this.loading = false;
       });
   }
 
-  private getAllServicesWithRelationsNotCompleted(idPersona: string | number) {
-    this.loading = true;
+  private getAllServicesWithRelationsNotCompleted(idPersona: string | number, load: boolean) {
+    this.loading = load;
     this.servicioService.getAllServicesNotCompletedByIdWorker(idPersona)
       .subscribe(services => {
         this.getAllDirections();
@@ -108,23 +110,19 @@ export class ServicioComponent implements OnInit {
   }
 
   private getAmountServices(idPersona: string | number) {
-    this.loading = true;
     this.servicioService.getAmountServicesWorker(idPersona)
       .subscribe(services => {
         this.cantidadServicios = services;
-
         this.chartData = [
           {
-            name  : 'Pendientes',
-            value : services.pendientes
+            name: 'Pendientes',
+            value: services.pendientes
           },
           {
-            name  : 'Finalizados',
-            value : services.finalizados
+            name: 'Finalizados',
+            value: services.finalizados
           }
-        ]
-
-        this.loading = false;
+        ];
       });
   }
 
@@ -141,7 +139,6 @@ export class ServicioComponent implements OnInit {
   }
 
   protected updateService(idServicio: number, dto: UpdateServicioDTO) {
-    this.loading = true;
     this.servicioService.updateWorker(idServicio, dto)
       .subscribe(res => {
         if (res) {
@@ -155,11 +152,10 @@ export class ServicioComponent implements OnInit {
             icon: 'success'
           });
           if (this.idPersona) {
-              this.getAmountServices(this.idPersona);
+            this.getAmountServices(this.idPersona);
           }
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 

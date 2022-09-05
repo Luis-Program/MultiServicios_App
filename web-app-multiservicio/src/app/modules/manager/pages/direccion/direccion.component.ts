@@ -18,9 +18,9 @@ export class DireccionComponent implements OnInit {
   protected loading = false;
   protected filter = "";
 
-  public Form     !: FormGroup;
-  public newItem  !: boolean;
-  public idItem   !: number;
+  protected Form     !: FormGroup;
+  protected newItem  !: boolean;
+  protected idItem   !: number;
 
   constructor(
     private direccionService: DireccionService,
@@ -35,11 +35,9 @@ export class DireccionComponent implements OnInit {
   }
 
   protected getAllMunicipalitiesToUpdateAddresses() {
-    this.loading = true;
     this.municipioService.getAll()
       .subscribe(municipalities => {
         this.municipios = municipalities;
-        this.loading = false;
       });
   }
 
@@ -53,7 +51,6 @@ export class DireccionComponent implements OnInit {
   }
 
   protected createAddress(dto: CreateDireccionDTO) {
-    this.loading = true;
     this.direccionService.create(dto)
       .subscribe(address => {
         if (address) {
@@ -65,12 +62,10 @@ export class DireccionComponent implements OnInit {
             text  : 'Dirección creada'
           })
         }
-        this.loading = false;
       });
   }
 
   protected updateAddress(idDireccion: number, dto: UpdateDireccionDTO) {
-    this.loading = true;
     this.direccionService.update(idDireccion, dto)
       .subscribe(res => {
         if (res) {
@@ -85,12 +80,10 @@ export class DireccionComponent implements OnInit {
           })
           this.getAllAddressesWithRelations();
         }
-        this.loading = false;
       });
   }
 
   protected deleteAddress(idDireccion: number) {
-    this.loading = true;
     this.direccionService.delete(idDireccion)
       .subscribe(res => {
         if (res) {
@@ -104,7 +97,6 @@ export class DireccionComponent implements OnInit {
             text  : 'Dirección eliminada'
           })
         }
-        this.loading = false;
       });
   }
 

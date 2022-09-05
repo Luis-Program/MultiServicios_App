@@ -16,9 +16,9 @@ export class PaisComponent implements OnInit {
   protected loading = false;
   protected filter = "";
 
-  public countryForm!: FormGroup;
-  public newCountry!: Boolean;
-  public idCountry!: number;
+  protected countryForm!: FormGroup;
+  protected newCountry!: Boolean;
+  protected idCountry!: number;
 
   constructor(
     private paisService: PaisService,
@@ -47,7 +47,6 @@ export class PaisComponent implements OnInit {
   }
 
   protected createCountry(pais: CreatePaisDTO) {
-    this.loading = true;
     this.paisService.create(pais)
       .subscribe(country => {
         if (country) {
@@ -59,12 +58,10 @@ export class PaisComponent implements OnInit {
             icon: 'success'
           })
         }
-        this.loading = false;
       });
   }
 
   protected updateCountry(idPais: number, dto: UpdatePaisDTO) {
-    this.loading = true;
     this.paisService.update(idPais, dto)
       .subscribe(res => {
         if (res) {
@@ -78,12 +75,10 @@ export class PaisComponent implements OnInit {
           })
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected deleteCountry(idPais: number) {
-    this.loading = true;
     this.paisService.delete(idPais)
       .subscribe(res => {
         if (res) {
@@ -97,11 +92,10 @@ export class PaisComponent implements OnInit {
             icon: 'success'
           })
         }
-        this.loading = false;
       });
   }
 
-  openModalByCountry(country?: Pais) {
+  protected openModalByCountry(country?: Pais) {
     this.initForm();
 
     if (country) {
@@ -110,7 +104,7 @@ export class PaisComponent implements OnInit {
     }
   }
 
-  initForm() {
+  protected initForm() {
     this.newCountry = true;
     this.countryForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(20)]],
@@ -118,7 +112,7 @@ export class PaisComponent implements OnInit {
     })
   }
 
-  setCountry(country: Pais) {
+  protected setCountry(country: Pais) {
     this.countryForm.setValue({
       nombre: country.nombre,
       codigo: country.codigo,
@@ -128,7 +122,7 @@ export class PaisComponent implements OnInit {
     this.idCountry = country.idPais;
   }
 
-  createCountryForm() {
+  protected createCountryForm() {
     if (this.countryForm.invalid) return Object.values(this.countryForm.controls).forEach(c => c.markAsTouched());
 
     if (!this.countryForm.touched) return;
@@ -142,7 +136,7 @@ export class PaisComponent implements OnInit {
     return this.createCountry(this.countryForm.value);
   }
 
-  deleteCountryModal() {
+  protected deleteCountryModal() {
     Swal.fire({
       title: '¡Atención!',
       text: '¿Está seguro de eliminar el país?',
@@ -159,19 +153,19 @@ export class PaisComponent implements OnInit {
   }
 
   /* FORM VALIDATIONS */
-  get f() {
+  protected get f() {
     return this.countryForm;
   }
 
-  get invalidName() {
+  protected get invalidName() {
     return this.countryForm.get('nombre')?.touched && this.countryForm.get('nombre')?.invalid;
   }
 
-  get nameControl() {
+  protected get nameControl() {
     return this.countryForm.get('nombre');
   }
 
-  get codeControl() {
+  protected get codeControl() {
     return this.countryForm.get('codigo');
   }
 

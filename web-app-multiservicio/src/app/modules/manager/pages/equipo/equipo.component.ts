@@ -16,18 +16,16 @@ import Swal from 'sweetalert2';
 })
 export class EquipoComponent implements OnInit {
 
+  protected list = [{ estado: "Activo", value: true }, { estado: "Inactivo", value: false }];
   protected clientesEquiposMinMax: TrabajadoresMinMaxServicios[] = [];
   protected equipoActivosInactivos: EquipoActivoInactivo[] = [];
   protected unEquipoServicio: UnEquipoServicios | null = null;
   protected equipos: EquipoRelacionesAnidadas[] = [];
-  protected loadingGraphicEquipmentsInacAct = false; // Carga grafica de equipos inactivo y activos
   protected direcciones: DireccionDropDown[] = [];
-  protected loadingGraphicOneEquipment = false;  // Carga grafica cuando se selecciona un equipo y mustra sus servicios
   protected clientes: PersonaDropdown[] = [];
   protected idEquipo: number | null = null;
   protected graphicEquipmentData = false;
-  protected loadingGraphicClient = false; // Carga de grafica con menor y mayor cantidad de equipos
-  protected loading = false; // Carga principal
+  protected loading = false;
   protected create = false;
   protected filter = "";
 
@@ -37,26 +35,26 @@ export class EquipoComponent implements OnInit {
   protected idEquipment!: number;
 
   // CHARTS
-  public activesCharts  !: any[];
-  public minMaxChart    !: any[];
-  public equipoChart    !: any[];
+  protected activesCharts  !: any[];
+  protected minMaxChart    !: any[];
+  protected equipoChart    !: any[];
 
-  public gradient: boolean = true;
-  public showLabels: boolean = true;
-  public isDoughnut: boolean = false;
-  public colorScheme: string = 'ocean';
+  protected gradient: boolean = true;
+  protected showLabels: boolean = true;
+  protected isDoughnut: boolean = false;
+  protected colorScheme: string = 'ocean';
   // cool ocean nightLights
 
   // BAR CHART
-  public showXAxis = true;
-  public showYAxis = true;
-  public showXAxisLabel = true;
-  public xAxisLabel = 'Cliente';
-  public showYAxisLabel = true;
-  public yAxisLabel = 'Equipos';
+  protected showXAxis = true;
+  protected showYAxis = true;
+  protected showXAxisLabel = true;
+  protected xAxisLabel = 'Cliente';
+  protected showYAxisLabel = true;
+  protected yAxisLabel = 'Equipos';
 
-  public showLegend = true;
-  public legendTitle = 'Equipos';
+  protected showLegend = true;
+  protected legendTitle = 'Equipos';
 
   constructor(
     private direccionService: DireccionService,
@@ -95,7 +93,6 @@ export class EquipoComponent implements OnInit {
    * Traer clientes con cantidad de equipos solo el máximo y minimo de equipos
    */
   private getClientAmountMinMAx() {
-    this.loadingGraphicClient = true;
     this.personaService.getClientsWithAmountEquipsMinMax()
       .subscribe((data) => {
         this.clientesEquiposMinMax = data;
@@ -106,7 +103,6 @@ export class EquipoComponent implements OnInit {
             value: m.cantidad
           }
         })
-        this.loadingGraphicClient = false;
       });
   }
 
@@ -121,12 +117,10 @@ export class EquipoComponent implements OnInit {
    * Peronas Clientes
    */
   private getAllClients() {
-    this.loading = true;
     this.personaService.getAllCients()
       .subscribe(clients => {
         this.clientes = clients;
         this.getAllDireccions();
-        this.loading = false;
       });
   }
 
@@ -144,23 +138,19 @@ export class EquipoComponent implements OnInit {
    * Obtención de cantidad de equipos inactivos y activos
    */
   private getEquipmentActiveInactive() {
-    this.loadingGraphicEquipmentsInacAct = false;
     this.equipoService.getEquipmentsActiveInactive()
       .subscribe((data: EquipoActivoInactivo[]) => {
         this.equipoActivosInactivos = data;
-
         this.activesCharts = data.map(a => {
           return {
             name: this.getNameService(a.estado),
             value: a.cantidad
           }
         })
-
-        this.loadingGraphicEquipmentsInacAct = true;
       });
   }
 
-  getNameService(state: boolean): string {
+  protected getNameService(state: boolean): string {
     return (state) ? 'Activos' : 'Inactivos';
   }
 
@@ -173,16 +163,10 @@ export class EquipoComponent implements OnInit {
       })
   }
 
-  /**
-   *
-   * @param idEquipo
-   * Trae los servicios completos y pendientes de ese equipo
-   */
   private getOneEquipmentServices(idEquipo: number) {
     this.equipoService.getOneEquipmentsServices(idEquipo)
       .subscribe((data: UnEquipoServicios) => {
         if (data.completada || data.pendiente) {
-          this.graphicEquipmentData = true;
           this.equipoChart = [
             {
               name: 'Completados',
@@ -196,12 +180,10 @@ export class EquipoComponent implements OnInit {
         } else {
           this.graphicEquipmentData = false;
         }
-        this.loadingGraphicOneEquipment = false;
       });
   }
 
   protected createEquipment(dto: CreateEquipoDTO) {
-    this.loading = true;
     this.equipoService.create(dto)
       .subscribe(equipment => {
         if (equipment) {
@@ -214,12 +196,10 @@ export class EquipoComponent implements OnInit {
           this.clearInput();
           this.getClientAmountMinMAx();
         }
-        this.loading = false;
       });
   }
 
   protected updateEquipmentManager(idEquipo: number, dto: UpdateEquipoDTO) {
-    this.loading = true;
     this.equipoService.updateManager(idEquipo, dto)
       .subscribe(res => {
         if (res) {
@@ -234,12 +214,10 @@ export class EquipoComponent implements OnInit {
           this.clearInput();
           this.getClientAmountMinMAx();
         }
-        this.loading = false;
       });
   }
 
   protected deleteEquipment(idEquipo: number) {
-    this.loading = true;
     this.equipoService.delete(idEquipo)
       .subscribe(res => {
         if (res) {
@@ -254,7 +232,6 @@ export class EquipoComponent implements OnInit {
           this.getClientAmountMinMAx();
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
@@ -337,9 +314,9 @@ export class EquipoComponent implements OnInit {
     if (!this.equipmentForm.touched) return;
     const { idEquipo, ...rest } = this.equipmentForm.value;
     if (idEquipo) {
-      return this.updateEquipmentManager(idEquipo, rest);
-    }
-    return this.createEquipment(rest);
+        this.updateEquipmentManager(idEquipo, rest);
+      }
+      return this.createEquipment(rest);
   }
 
   protected deleteEquipmentModal() {
@@ -355,7 +332,6 @@ export class EquipoComponent implements OnInit {
       }
     });
   }
-
 
   private clearInput() {
     this.filter = "";

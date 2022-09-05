@@ -29,17 +29,12 @@ export class ServicioComponent implements OnInit {
   protected equipos: EquipoDropDown[] = [];
   protected title = "SERVICIOS PENDIENTES"
   protected viewCompletedService = false;
-  protected loadingGraphicAsig = false; // Carga grafico de cantidad de servicios asignados y no asignados
-  protected loadingGraphicType = false; // Carga de grafico por tipo de servicios
-  protected loadingGraphicCom = false; // Carga grafico de cantidad de servicios pendientes y finalizados
   protected loading = false; // Carga principal
   protected filter = "";
 
   protected serviceForm!: FormGroup;
   protected newService!: Boolean;
   protected idService!: number;
-
-  public loader : boolean = true;
 
   public chartService!: any[];
   public chartServicesUnAssigned !: any[];
@@ -72,7 +67,6 @@ export class ServicioComponent implements OnInit {
       }
       this.getOneService(this.idServicio);
     }
-    this.loader = false;
   }
 
   private getAllData() {
@@ -80,29 +74,19 @@ export class ServicioComponent implements OnInit {
     this.getServiceByType();
     this.getAllEquipment();
     this.getAllServiceTypes();
-    // this.getAllServicesWithRelationsCompleted();
-    // this.getAllServicesWithRelations();
     this.getAllWorkers();
-    this.getAllServicesWithRelationsNotCompleted();
+    this.getAllServicesWithRelationsNotCompleted(true);
   }
 
-  get label(){
+  protected get label(){
     return 'teste \n  tesas'
   }
-  // private getAllServicesWithRelations() {
-  //   this.loading = true;
-  //   this.servicioService.getAllWithRelations()
-  //     .subscribe(services => {
-  //       this.servicios = services;
-  //       this.loading = false;
-  //     });
-  // }
 
   protected switchView() {
     if (this.viewCompletedService) {
       this.title = "SERVICIOS COMPLETADOS";
       this.viewCompletedService = false;
-      this.getAllServicesWithRelationsNotCompleted();
+      this.getAllServicesWithRelationsNotCompleted(false);
     } else {
       this.title = "SERVICIOS PENDIENTES";
       this.viewCompletedService = true;
@@ -111,23 +95,22 @@ export class ServicioComponent implements OnInit {
   }
 
   protected getAllServicesWithRelationsCompleted() {
-    this.loading = true;
     this.servicioService.getAllServicesCompleted()
       .subscribe(services => {
         this.serviciosCompletados = services;
       });
   }
 
-  protected getAllServicesWithRelationsNotCompleted() {
-    this.loading = true;
+  protected getAllServicesWithRelationsNotCompleted(load: boolean) {
+    this.loading = load;
     this.servicioService.getAllServicesNotCompleted()
       .subscribe(services => {
         this.serviciosPendientes = services;
+        this.loading = false;
       });
   }
 
   private getServiceByType() {
-    this.loadingGraphicType = true;
     this.servicioService.getServiceAmountTypeService()
       .subscribe((data: ServiciosCantidadPorTipoServicio) => {
         this.servicioPorTipo = data;
@@ -142,12 +125,10 @@ export class ServicioComponent implements OnInit {
             value : data.correctivo
           }
         ]
-        this.loadingGraphicType = false;
       });
   }
 
   private getServiceAmount() {
-    this.loadingGraphicAsig = this.loadingGraphicCom = true;
     this.servicioService.getAmountServicesCompletedAsigned()
       .subscribe(data => {
         this.servicioCantidades = {
@@ -179,13 +160,10 @@ export class ServicioComponent implements OnInit {
             value: data.cantidadServicios - data.serviciosAsignados
           }
         ];
-
-        this.loadingGraphicAsig = this.loadingGraphicCom = false;
       });
   }
 
   protected loadDataCreateDelete() {
-    this.loading = true;
     this.getAllServiceTypes();
     this.getAllEquipment();
     this.getAllWorkers();
@@ -209,7 +187,6 @@ export class ServicioComponent implements OnInit {
     this.personaService.getAllWorkersWithServicesDropDown()
       .subscribe(workers => {
         this.trabajadores = workers;
-        this.loading = true;
       });
   }
 
@@ -222,8 +199,6 @@ export class ServicioComponent implements OnInit {
 
   protected createService(dto: CreateServicioDTO) {
     dto.fechaHoraRealizar = null;
-    // Pendiente de asignación de Trabajador
-    this.loading = true;
     this.servicioService.create(dto)
       .subscribe(service => {
         if (service) {
@@ -239,12 +214,10 @@ export class ServicioComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected updateService(idServicio: number, dto: UpdateServicioDTO) {
-    this.loading = true;
     this.servicioService.update(idServicio, dto)
       .subscribe(res => {
         if (res) {
@@ -264,13 +237,11 @@ export class ServicioComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
       this.getAllWorkers();
   }
 
   protected deleteService(idServicio: number) {
-    this.loading = true;
     this.servicioService.delete(idServicio)
       .subscribe(res => {
         if (res) {
@@ -290,7 +261,6 @@ export class ServicioComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 

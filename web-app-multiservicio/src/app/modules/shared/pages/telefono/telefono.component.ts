@@ -13,9 +13,9 @@ import Swal from 'sweetalert2';
 })
 export class TelefonoComponent implements OnInit {
 
+  private idPersona: string | null = null;
   protected telefonos: TelefonoRelacionTipoTelefono[] = [];
   protected tiposTelefonos: TipoTelefono[] = [];
-  private idPersona: string | null = null;
   protected rol: string | null = null;
   protected loading = false;
   protected filter = "";
@@ -54,16 +54,13 @@ export class TelefonoComponent implements OnInit {
   }
 
   protected getAllPhonesTypes() {
-    this.loading = true;
     this.tipoTelefonoService.getAll()
       .subscribe(phonestypes => {
         this.tiposTelefonos = phonestypes;
-        this.loading = false;
       });
   }
 
   protected createPhone(dto: CreateTelefonoDTO) {
-    this.loading = true;
     this.telefonoService.createClientEmployee(dto)
       .subscribe(phone => {
         if (phone) {
@@ -75,12 +72,10 @@ export class TelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected updatePhone(idTelefono: number, dto: UpdateTelefonoDTO) {
-    this.loading = true;
     this.telefonoService.updateClientEmployee(idTelefono, dto)
       .subscribe(phone => {
         if (phone) {
@@ -94,12 +89,10 @@ export class TelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 
   protected deletePhone(idTelefono: number) {
-    this.loading = true;
     this.telefonoService.delete(idTelefono)
       .subscribe(res => {
         if (res) {
@@ -113,7 +106,6 @@ export class TelefonoComponent implements OnInit {
           });
           this.clearInput();
         }
-        this.loading = false;
       });
   }
 

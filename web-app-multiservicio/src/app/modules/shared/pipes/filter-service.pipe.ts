@@ -10,15 +10,29 @@ export class FilterServicePipe implements PipeTransform {
     const resultFilter = [];
     const rol = localStorage.getItem("rol");
     arg = arg.trim();
+    console.log(arg);
     for (const object of value) {
-      if (object.prioridad.toLowerCase().indexOf(arg.toLowerCase()) > -1
-        || object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
-        || (object.tipoServicio && object.tipoServicio.toLowerCase().indexOf(arg.toLowerCase()) > -1)
-        || (object.fechaHoraRealizar && String(object.fechaHoraRealizar).replace("T", " ").indexOf(arg))
-        || (object.fechaFinalizado && String(object.fechaFinalizado).replace("T", " ").indexOf(arg) > -1)
-        || (rol === 'Gerente General' && object.Trabajador && String(object.Trabajador.nombre + " " + object.Trabajador.apellidos).toLowerCase().indexOf(arg.toLocaleLowerCase()) > -1)) {
-        resultFilter.push(object);
+      switch (rol) {
+        case 'Trabajador Operacional':
+          if (object.tipoServicio.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
+            resultFilter.push(object);
+          }
+        break;
+        default:
+          resultFilter.push(object);
+          break;
       }
+
+      // if (object.prioridad.toLowerCase().indexOf(arg.toLowerCase()) > -1
+      //   || (rol === 'Trabajador Operacional' && object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1)
+      //   || (rol === 'Gerente General' && object.Equipo.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1)
+      //   || (rol === 'Trabajador Operacional' && object.tipoServicio && object.tipoServicio.toLowerCase().indexOf(arg.toLowerCase()) > -1)
+      //   || (rol === 'Gerente General' && object.Tipo_Servicio.tipoServicio.toLowerCase().indexOf(arg.toLowerCase()) > -1)
+      //   || (object.fechaHoraRealizar && String(object.fechaHoraRealizar).replace("T", " ").indexOf(arg))
+      //   || (object.fechaFinalizado && String(object.fechaFinalizado).replace("T", " ").indexOf(arg) > -1)
+      //   || (rol === 'Gerente General' && object.Trabajador && String(object.Trabajador.nombre + " " + object.Trabajador.apellidos).toLowerCase().indexOf(arg.toLocaleLowerCase()) > -1)) {
+      //   resultFilter.push(object);
+      // }
     }
     return resultFilter;
   }

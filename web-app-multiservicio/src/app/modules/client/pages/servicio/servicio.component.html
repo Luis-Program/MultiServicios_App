@@ -1,10 +1,41 @@
 <div class="row">
   <div class="col-12">
     <div class="card padre">
-      <div class="card-body">
+      <div class="card-body" *ngIf="loading">
         <div class="row">
           <div class="col-12 text-center">
             <h1>{{title}}</h1>
+          </div>
+          <div class="col-12 text-center">
+            <h3>EQUIPOS</h3>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <div class="col-1">
+            <div class="row">
+              <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <i class="mdi mdi-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-11">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>{{title}}</h1>
+          </div>
+          <div class="col-12 text-center" *ngIf="showEquipments">
+            <h3>EQUIPOS</h3>
           </div>
         </div>
         <div class="row" *ngIf="!showEquipments && (typeServiceUncompleted || typeServiceCompleted)">
@@ -21,7 +52,7 @@
         <!-- /INPUT SEARCH EQUIPMENT-->
 
         <!-- ADD BUTTON, SEARCH, BUTTONS TYPE SERVICES-->
-        <div class="row mt-3" *ngIf="!showEquipments && (typeServiceUncompleted || typeServiceCompleted)">
+        <div class="row mt-3 " *ngIf="!showEquipments && (typeServiceUncompleted || typeServiceCompleted)">
           <div class="col-1">
             <div class="row">
               <button class="waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
@@ -34,7 +65,8 @@
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
         </div>
-        <div class="row mt-3 text-center">
+
+        <div class="row mt-3 text-center min-with ">
           <div class="col-12">
             <button class="btn btn-outline-primary mr-3" (click)="changeViewService()"
               *ngIf="typeServiceUncompleted && typeService != 'PENDIENTES'">Pendientes</button>
@@ -46,7 +78,7 @@
           <!-- /ADD BUTTON, SEARCH, BUTTONS TYPE SERVICES-->
           <!-- CARD -->
           <div class="row mt-3" *ngIf="showEquipments">
-            <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let equipo of equipos | filterEquipment:filter">
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12" *ngFor="let equipo of equipos | filterEquipment:filter">
               <div class="card card-outline-info" (click)="getAllServicesByEquipment(equipo)">
                 <div class="card-header bg-dark">
                 </div>
@@ -69,30 +101,30 @@
           <!-- /CARD -->
 
           <!-- CARD UNCOMPLETED-->
-          <div *ngIf="typeServiceUncompleted && typeService === 'PENDIENTES'">
-            <div class="row mt-3">
-              <div class="col-lg-3 col-md-6 col-sm-12"
-                *ngFor="let servicio of serviciosPendientes | filterService:filter">
-                <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
-                  data-target="#exampleModal" data-whatever="@mdo">
-                  <div class="card-header bg-dark">
-                  </div>
-                  <div class="card-body border">
-                    <div class="row">
-                      <div class="col-10 text-left">
-                        <h3 class="card-title text-dark">
-                          {{ servicio.Tipo_Servicio.tipoServicio }}</h3>
-                        <p class="card-title">Fase: {{ servicio.estado }}</p>
-                        <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
-                        <p class="card-title">Trabajador:
-                          {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
-                        </p>
-                        <p class="card-title">Ejecutar:
-                          {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
-                      </div>
-                      <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
-                        <i class="mdi mdi-wrench"></i>
-                      </div>
+          <div class="row mt-5 min-with" *ngIf="typeServiceUncompleted && typeService === 'PENDIENTES'">
+            <div class="col-12 text-center" *ngIf="noServices">
+              <h1 class="font-weight-bold">NO HAY SERVICIOS</h1>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12" id="min-with" *ngFor="let servicio of serviciosPendientes | filterService:filter">
+              <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
+                data-target="#exampleModal" data-whatever="@mdo">
+                <div class="card-header bg-dark">
+                </div>
+                <div class="card-body border">
+                  <div class="row">
+                    <div class="col-10 text-left">
+                      <h3 class="card-title text-dark">
+                        {{ servicio.Tipo_Servicio.tipoServicio }}</h3>
+                      <p class="card-title">Fase: {{ servicio.estado }}</p>
+                      <p class="card-title">Creado: {{ servicio.fechaCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</p>
+                      <p class="card-title">Trabajador:
+                        {{ servicio.Trabajador ? servicio.Trabajador.nombre + " " + servicio.Trabajador.apellidos : 'No ingresado'}}
+                      </p>
+                      <p class="card-title">Ejecutar:
+                        {{ servicio.fechaHoraRealizar ? parseDate(servicio.fechaHoraRealizar) : "No ingresada" }}</p>
+                    </div>
+                    <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                      <i class="mdi mdi-wrench"></i>
                     </div>
                   </div>
                 </div>
@@ -102,9 +134,8 @@
           <!-- /CARD UNCOMPLETED-->
 
           <!-- CARD COMPLETED-->
-          <div *ngIf="typeServiceCompleted && typeService === 'FINALIZADOS'">
-            <div class="row mt-3">
-              <div class="col-lg-3 col-md-6 col-sm-12"
+            <div class="row mt-5 min-with" *ngIf="typeServiceCompleted && typeService === 'FINALIZADOS'">
+              <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12"
                 *ngFor="let servicio of serviciosCompletados | filterService:filter">
                 <div class="card card-outline-info" (click)="openModalByService(servicio)" data-toggle="modal"
                   data-target="#exampleModal" data-whatever="@mdo">
@@ -134,7 +165,6 @@
                 </div>
               </div>
             </div>
-          </div>
           <!-- /CARD COMPLETED-->
 
           <!-- MODAL -->

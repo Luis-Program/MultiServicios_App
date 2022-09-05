@@ -16,12 +16,12 @@ export class TipoPersonaComponent implements OnInit {
   protected tiposPersonas: TipoPersonaRelaciones[] = [];
   protected listaTiposPersonas = ['Gerente General', 'Trabajador Operacional', 'Cliente'];
   protected empresas: Empresa[] = [];
-  protected filter = "";
   protected loading = false;
+  protected filter = "";
 
-  public Form     !: FormGroup;
-  public newItem  !: boolean;
-  public idItem   !: number;
+  protected Form     !: FormGroup;
+  protected newItem  !: boolean;
+  protected idItem   !: number;
 
   constructor(
     private tipoPersonaService: TipoPersonaService,
@@ -45,16 +45,13 @@ export class TipoPersonaComponent implements OnInit {
   }
 
   protected getAllEnterprises() {
-    this.loading = true;
     this.empresaService.getAll()
       .subscribe(enterpises => {
         this.empresas = enterpises;
-        this.loading = false;
       });
   }
 
   protected createTypePerson(dto: CreateTipoPersonaDTO) {
-    this.loading = true;
     this.tipoPersonaService.create(dto)
       .subscribe(typePerson => {
         if (typePerson) {
@@ -66,12 +63,10 @@ export class TipoPersonaComponent implements OnInit {
             text: 'Rol creado'
           })
         }
-        this.loading = false;
       });
   }
 
   protected updateTypePerson(idTipoPersona: number, dto: UpdateTipoPersonaDTO) {
-    this.loading = true;
     this.tipoPersonaService.update(idTipoPersona, dto)
       .subscribe(res => {
         if (res) {
@@ -84,14 +79,11 @@ export class TipoPersonaComponent implements OnInit {
             title: 'Actualizado',
             text: 'Rol actualizado'
           })
-          // this.getAllTypesPersonsWithRelations();
         }
-        this.loading = false;
       });
   }
 
   protected deleteTypePerson(idTipoPersona: number) {
-    this.loading = true;
     this.tipoPersonaService.delete(idTipoPersona)
       .subscribe(res => {
         if (res) {
@@ -105,7 +97,6 @@ export class TipoPersonaComponent implements OnInit {
             text: 'Rol eliminado'
           })
         }
-        this.loading = false;
       });
   }
 
@@ -151,7 +142,6 @@ export class TipoPersonaComponent implements OnInit {
 
   protected openModal(rol?: TipoPersonaRelaciones) {
     this.initForm();
-
     if (rol) {
       this.newItem = false;
       return this.setForm(rol);
@@ -160,13 +150,10 @@ export class TipoPersonaComponent implements OnInit {
 
   protected createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
-
     const { idTipo, ...rest } = this.Form.value;
-
     if (idTipo) {
       return this.updateTypePerson(idTipo, rest);
     }
-
     this.createTypePerson(rest);
   }
 
@@ -178,12 +165,10 @@ export class TipoPersonaComponent implements OnInit {
       showConfirmButton: true,
       showCancelButton: true
     }).then((res: any) => {
-
       if (res.isConfirmed) {
         this.deleteTypePerson(this.idItem);
       }
-
-    })
+    });
   }
 
   protected get idEmpresaValue() {

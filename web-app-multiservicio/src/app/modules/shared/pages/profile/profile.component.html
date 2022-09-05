@@ -7,37 +7,46 @@
 
         <div class="row justify-content-md-center" *ngIf="persona">
           <!-- FORM -->
-          <div class="col-md-8 border">
+          <div class="col-md-12 border">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">{{ persona?.Tipo_Persona?.Empresa?.nombre }}</h4>
-                <h6 class="card-subtitle">{{ persona?.Tipo_Persona?.tipo }}</h6>
-
+                <h1 class="card-title text-center">{{ persona.Tipo_Persona.Empresa ? persona.Tipo_Persona.Empresa.nombre : 'Empresa no ingresada'}}</h1>
+                <hr>
+                <h3 class="card-subtitle text-center">{{ persona.Tipo_Persona ? persona.Tipo_Persona.tipo : 'Sin rol'}}</h3>
+                <hr>
                 <form class="form p-t-20" [formGroup]="Form" (submit)="updateUser()">
 
                   <div class="row">
-                    <div class="col-6">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
                       <div class="form-group">
-                        <label for="exampleInputuname">Nombre</label>
+                        <label for="exampleInputuname">Nombres</label>
                         <div class="input-group">
                           <div class="input-group-addon"><i class="ti-user"></i></div>
                           <input type="text" class="form-control" id="exampleInputuname" placeholder="Nombre" formControlName="nombre">
                         </div>
+                        <div *ngIf="nombre?.invalid && nombre?.touched">
+                          <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                          <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder 15 carácteres</small>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
                       <div class="form-group">
                         <label for="exampleInputuname">Apellidos</label>
                         <div class="input-group">
                           <div class="input-group-addon"><i class="ti-user"></i></div>
                           <input type="text" class="form-control" id="exampleInputuname" placeholder="Apellidos" formControlName="apellidos">
                         </div>
+                        <div *ngIf="apellidos?.invalid && apellidos?.touched">
+                          <small *ngIf="apellidos?.hasError('required')" class="text-danger">*Apellido requerido</small>
+                          <small *ngIf="apellidos?.hasError('maxlength')" class="text-danger">*El apellido no debe exceder 15 carácteres</small>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="row">
-                    <div class="col-7">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Correo</label>
                         <div class="input-group">
@@ -46,12 +55,16 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
                       <div class="form-group">
                         <label for="exampleInputEmail1">DPI</label>
                         <div class="input-group">
                           <div class="input-group-addon"><i class="mdi mdi-credit-card"></i></div>
                           <input type="text" class="form-control" id="exampleInputEmail1" placeholder="DPI" formControlName="dpi">
+                        </div>
+                        <div *ngIf="dpi?.invalid && dpi?.touched">
+                          <small *ngIf="dpi?.hasError('required')" class="text-danger">*DPI requerido</small>
+                          <small *ngIf="dpi?.hasError('maxlength') || dpi?.hasError('minlength')" class="text-danger">*El DPI debe ser de 13 carácteres</small>
                         </div>
                       </div>
                     </div>
