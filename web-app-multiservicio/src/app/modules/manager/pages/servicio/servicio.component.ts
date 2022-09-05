@@ -317,7 +317,7 @@ export class ServicioComponent implements OnInit {
   }
 
   protected parseDate(date :Date){
-    return formatDate(date,'yyyy-MM-dd hh-mm-ss aaa','en')
+    return formatDate(date,'medium','en');
   }
 
   private setService(service: ServicioRelaciones) {

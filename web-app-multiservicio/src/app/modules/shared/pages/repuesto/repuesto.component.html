@@ -7,62 +7,53 @@
             <h1>REPUESTOS</h1>
           </div>
         </div>
-        <div class="row mt-3">
-          <!-- ADD BUTTON -->
-          <div class="col-1">
-            <div class="row">
-              <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
-                <i class="mdi mdi-plus"></i>
-              </button>
-            </div>
-          </div>
-          <!-- /ADD BUTTON -->
+        <div class="row mt-2">
           <!-- INPUT SEARCH -->
-          <div class="col-11">
-            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByReplacement()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
         <loader></loader>
-      </div>
-      <div class="card-body" *ngIf="!loading">
 
+      </div>
+
+      <div class="card-body" *ngIf="!loading">
         <div class="row">
           <div class="col-12 text-center">
             <h1>REPUESTOS</h1>
           </div>
         </div>
 
-        <div class="row mt-2" *ngIf="rol === 'Gerente General'">
-          <!-- ADD BUTTON -->
-          <div class="col-1">
-            <div class="row">
-              <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByReplacement()">
-                <i class="mdi mdi-plus"></i>
-              </button>
-            </div>
-          </div>
-          <!-- /ADD BUTTON -->
-
+        <div class="row mt-2">
           <!-- INPUT SEARCH -->
-          <div class="col-11">
+          <div class="col-sm-12 col-md-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
 
-        <div class="row mt-2" *ngIf="rol != 'Gerente General'">
-          <!-- INPUT SEARCH -->
-          <div class="col-12">
-            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
-          </div>
-          <!-- /INPUT SEARCH -->
+        <div class="row mt-2" *ngIf="rol === 'Gerente General'">
+            <!-- ADD BUTTON -->
+            <div class="col-12 text-center">
+              <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByReplacement()">
+              Nuevo
+            </button>
+            </div>
+            <!-- /ADD BUTTON -->
         </div>
 
         <!-- CARD -->
-        <div class="row mt-5">
+        <div class="row mt-3">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let repuesto of repuestos | filterReplacement:filter">
             <div class="card card-outline-info" (click)="openModalByReplacement(repuesto)" data-toggle="modal"
               data-target="#exampleModal" data-whatever="@mdo">
@@ -157,7 +148,7 @@
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newReplacement && bolRol"
+                <button type="button" class="btn btn-danger" data-dismiss="modal" *ngIf="!newReplacement && bolRol"
                   (click)="deleteReplacementModal()">Eliminar</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newReplacement && bolRol"
                   (click)="createReplacementForm()">Crear</button>

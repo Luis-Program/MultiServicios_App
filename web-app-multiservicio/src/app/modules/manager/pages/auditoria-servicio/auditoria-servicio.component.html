@@ -59,7 +59,7 @@
                   <td>{{ auditoriaServicio.nombreCliente }}</td>
                   <td>{{ auditoriaServicio.estado }}</td>
                   <td>{{ auditoriaServicio.nombreTrabajador ? auditoriaServicio.nombreTrabajador : 'No asignado' }}</td>
-                  <td>{{ auditoriaServicio.fechaHoraCreado | date:'yyyy-MM-dd hh-mm-ss aaa'}}</td>
+                  <td>{{ auditoriaServicio.fechaHoraCreado | date:'medium'}}</td>
                   <td data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
                     (click)="openModal(auditoriaServicio)"><i class="mdi mdi-chevron-right"></i></td>
                 </tr>

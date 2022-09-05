@@ -7,16 +7,19 @@
             <h1>EMPRESAS</h1>
           </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-2">
           <!-- ADD BUTTON -->
-          <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
-            <i class="mdi mdi-plus"></i>
+          <div class="col-12 text-center ">
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+            Nuevo
           </button>
+          </div>
           <!-- /ADD BUTTON -->
+        </div>
+        <div class="row mt-2">
           <!-- INPUT SEARCH -->
           <div class="col-sm-12 col-md-12">
-            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
@@ -38,19 +41,16 @@
             </div>
           </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-2">
           <!-- ADD BUTTON -->
-          <div class="col-1">
-            <div class="row">
-              <button
-                class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
-                <i class="mdi mdi-plus"></i>
-              </button>
-            </div>
+          <div class="col-12 text-center ">
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+            Nuevo
+          </button>
           </div>
           <!-- /ADD BUTTON -->
-
+        </div>
+        <div class="row mt-2">
           <!-- INPUT SEARCH -->
           <div class="col-sm-12 col-md-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
@@ -59,9 +59,9 @@
         </div>
 
         <!-- CARD -->
-        <div class="row mt-5">
-          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let empresa of empresas | filterNameCode:filter">
-            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+        <div class="row mt-3">
+          <div class="col-lg-3 col-md-6 col-sm-12"  *ngFor="let empresa of empresas | filterBusiness:filter">
+            <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
               (click)="openModal(empresa)">
               <div class="card-header bg-dark">
               </div>
@@ -115,7 +115,7 @@
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newItem"
+                <button type="button" class="btn btn-danger" data-dismiss="modal" *ngIf="!newItem"
                   (click)="deleteItem()">Eliminar</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newItem"
                   (click)="createItem()">Crear</button>

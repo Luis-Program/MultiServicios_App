@@ -110,7 +110,7 @@ export class EmpresaComponent implements OnInit {
             icon: 'success',
             title: 'Eliminado',
             text: 'Empresa eliminada'
-          })
+          });
           this.getAllEnterprises();
         }
       });
