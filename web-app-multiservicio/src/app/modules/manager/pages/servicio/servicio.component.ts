@@ -193,7 +193,9 @@ export class ServicioComponent implements OnInit {
   protected getOneService(idServicio: number) {
     this.servicioService.getOne(idServicio)
       .subscribe(service => {
-        this.filter = String(service.fechaCreado).replace("T", " ").substring(0, 18);
+        if (service.fechaCreado) {
+          this.filter = String(this.parseDate(service.fechaCreado));
+        }
       });
   }
 

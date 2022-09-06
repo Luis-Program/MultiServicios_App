@@ -15,7 +15,11 @@ export class FilterServicePipe implements PipeTransform {
     for (const object of value) {
       switch (rol) {
         case 'Trabajador Operacional':
-          if (object.tipoServicio.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
+          if (object.tipoServicio.toLowerCase().indexOf(arg.toLowerCase()) > -1
+            || (object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1)
+            || (String(formatDate(object.fechaCreado, 'medium', 'en')).toLowerCase().indexOf(arg) > -1)
+            || (object.fechaHoraRealizar && String(formatDate(object.fechaHoraRealizar, 'medium', 'en')).toLowerCase().indexOf(arg) > -1)
+            || (object.fechaFinalizado && String(formatDate(object.fechaFinalizado, 'medium', 'en')).toLowerCase().indexOf(arg) > -1)) {
             resultFilter.push(object);
           }
         break;

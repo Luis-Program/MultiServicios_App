@@ -202,10 +202,8 @@ export class HeaderComponent implements OnInit {
   protected deleteOne(idNotificacion: string | number) {
     this.notificacionService.delete(idNotificacion)
       .subscribe(resp => {
-        if (resp) {
-          const notificationIndex = this.notificaciones.findIndex(
-            (res) => res.idNotificacion === idNotificacion);
-          this.notificaciones.splice(notificationIndex, 1);
+        if (resp && this.idPersona) {
+          this.getNotificationsById(this.idPersona);
         }
       });
   }
@@ -213,13 +211,6 @@ export class HeaderComponent implements OnInit {
   showNotificationDetail(notification: Notificacion) {
 
     this.setOneRead(notification.idNotificacion);
-
-    Swal.fire({
-      'title': "Notificación",
-      'text': notification.textoNotificacion,
-      'focusConfirm': true
-    })
-
     return this.getNotificationsById(this.idPersona!)
   }
 

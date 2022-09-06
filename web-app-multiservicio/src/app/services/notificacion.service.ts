@@ -66,6 +66,7 @@ export class NotificacionService {
   }
 
   public deleteAll(idPersona: number | string) {
+    console.log("eliminado: "+idPersona)
     return this.http.delete<boolean>(`${this.apiUrl}/eliminar/${idPersona}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {

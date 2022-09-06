@@ -139,6 +139,7 @@ export class RepuestoComponent implements OnInit {
   private initForm() {
     this.newReplacement = true;
     this.replacementForm = this.formBuilder.group({
+      idRepuesto: [''],
       nombre: ['', [Validators.required, Validators.maxLength(25)]],
       cantidadDisponible: ['', [Validators.required]],
       limiteInferior: ['', [Validators.required]],
@@ -166,6 +167,7 @@ export class RepuestoComponent implements OnInit {
     let idTipoRepuesto = null;
     (replacement.Tipo_Repuesto?.idTipoRepuesto) ? idTipoRepuesto = replacement.Tipo_Repuesto?.idTipoRepuesto : idTipoRepuesto = 0;
     this.replacementForm.setValue({
+      idRepuesto: replacement.idRepuesto,
       nombre: replacement.nombre,
       cantidadDisponible: replacement.cantidadDisponible,
       limiteInferior: replacement.limiteInferior,

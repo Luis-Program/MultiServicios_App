@@ -194,9 +194,9 @@ export class ServicioComponent implements OnInit {
     });
   }
 
-  protected parseDate(date: Date | null, bol?: boolean) {
+  protected parseDate(date: Date | null) {
     if (date) {
-      return (bol) ? formatDate(date, 'medium', 'en') : formatDate(date, 'yyyy-MM-dd hh-mm-ss aaa', 'en');
+      return formatDate(date, 'medium', 'en');
     }
     return 'No ingresado';
   }
