@@ -19,7 +19,7 @@ export class FilterEquipmentPipe implements PipeTransform {
           resultFilter.push(object);
         }
       } else {
-        const estado = (object.estado) ? "Activado" : "Desactivado";
+        const estado = (object.estado) ? "Activo" : "Inactivo";
         if (object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
           || object.modelo.toLowerCase().indexOf(arg.toLowerCase()) > -1
           || estado.toLowerCase().indexOf(arg.toLowerCase()) > -1) {

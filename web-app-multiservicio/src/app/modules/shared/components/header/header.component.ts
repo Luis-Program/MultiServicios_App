@@ -194,6 +194,11 @@ export class HeaderComponent implements OnInit {
         .subscribe(done => {
           if (done) {
             this.notificaciones = [];
+            Swal.fire({
+              title: "Eliminado",
+              text: "Notificaciones Eliminadas",
+              icon: 'success'
+            });
           }
         });
     }

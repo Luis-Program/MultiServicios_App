@@ -63,11 +63,11 @@ router.get('/visto/:idPersona',
     }
   });
 
-router.get('/eliminar/:idPersona',
+router.delete('/eliminar/:idPersona',
   passport.authenticate('oauth-bearer', {
     session: false
   }),
-  validatorHandler(getNotificacionSchema, 'params'),
+  validatorHandler(getAllNotificacionSchema, 'params'),
   async (req, res, next) => {
     try {
       const {

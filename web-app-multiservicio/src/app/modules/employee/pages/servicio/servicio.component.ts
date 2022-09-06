@@ -134,7 +134,7 @@ export class ServicioComponent implements OnInit {
   protected getOneService(idServicio: number) {
     this.servicioService.getOne(idServicio)
       .subscribe(service => {
-        this.filter = String(service.fechaCreado).replace("T", " ").substring(0, 18);
+        this.filter = String(this.parseDate(service.fechaCreado));
       });
   }
 
@@ -153,6 +153,7 @@ export class ServicioComponent implements OnInit {
           });
           if (this.idPersona) {
             this.getAmountServices(this.idPersona);
+
           }
           this.clearInput();
         }
@@ -196,7 +197,7 @@ export class ServicioComponent implements OnInit {
 
   protected parseDate(date: Date | null) {
     if (date) {
-      return formatDate(date, 'medium', 'en');
+      return formatDate(date, 'medium', 'es');
     }
     return 'No ingresado';
   }
@@ -220,7 +221,7 @@ export class ServicioComponent implements OnInit {
       Swal.fire({
         title: '¡Atención!',
         text: `¿Está seguro de la fecha y hora finalizado?\n
-                ${formatDate(rest.fechaFinalizado, 'medium', 'en')}`,
+                ${formatDate(rest.fechaFinalizado, 'medium', 'es')}`,
         icon: 'warning',
         showConfirmButton: true,
         showCancelButton: true

@@ -65,7 +65,7 @@ class ServicioService {
 
   async findOne(idServicio) {
     const servicio = await models.Servicio.findByPk(idServicio, {
-      include: ['Tipo_Servicio','Trabajador'],
+      include: ['Tipo_Servicio','Trabajador','Equipo'],
     });
     if (!servicio) {
       throw boom.notFound('Servicio no encontrado...');

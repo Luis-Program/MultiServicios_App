@@ -55,9 +55,6 @@ export class ServicioComponent implements OnInit {
     this.getAllServiceTypes();
     if (this.idPersona) {
       this.getAllEquipment(this.idPersona);
-      if (this.idServicio) {
-        // this.getOneService(this.idServicio);
-      }
     }
     this.initForm();
   }
@@ -85,26 +82,14 @@ export class ServicioComponent implements OnInit {
     this.equipoService.getAllByIdPersona(idPersona)
       .subscribe(equipments => {
         this.equipos = equipments;
-        this.showEquipments = true;
+        if (this.idServicio) {
+          this.getOneService(this.idServicio);
+        }else {
+          this.showEquipments = true;
+        }
         this.loading = false;
       });
   }
-
-  // Aqui cambia a servicios
-  // protected getAllServicesWithRelations(equipo: EquipoCliente) {
-  //   this.loading = true;
-  //   this.equipo = this.equipos.find(equipo => equipo.idEquipo = Number(equipo.idEquipo)) as EquipoCliente;
-  //   this.servicioService.getAllByIdEquipo(equipo.idEquipo)
-  //     .subscribe(services => {
-  //       console.log(services.length)
-  //       this.servicios = services;
-  //       if (services.length > 0) {
-  //         this.showEquipments = false;
-  //       }else {
-  //         this.throwAlert();
-  //       }
-  //     });
-  // }
 
   protected getAllServicesByEquipment(equipo: EquipoCliente) {
     this.getAllServicesWithRelationsCompleted(equipo.idEquipo);
@@ -123,6 +108,9 @@ export class ServicioComponent implements OnInit {
     this.servicioService.getAllByIdEquipoCompleted(idEquipo)
       .subscribe(services => {
         this.serviciosCompletados = services;
+        if (this.idServicio) {
+          this.getAllServicesWithRelationsNotCompleted(idEquipo);
+        }
       });
   }
 
@@ -140,21 +128,38 @@ export class ServicioComponent implements OnInit {
             this.showEquipments = false;
           }
           if (!this.typeServiceCompleted && !this.typeServiceUncompleted) {
-            // this.throwAlert();
             this.noServices = true;
             this.typeServiceUncompleted = true;
             this.typeServiceCompleted = false;
             this.showEquipments = false;
           }
-          // if (this.typeServiceCompleted || this.typeServiceUncompleted) {
-          //   this.setEquipment(idEquipo);
-          // }
         }
-        // else {
-        //   this.setEquipment(idEquipo);
-        // }
+        if (this.idServicio) {
+          this.findService();
+        }
         this.setEquipment(idEquipo);
       });
+  }
+
+  protected findService(){
+    let found = false;
+    if (this.serviciosCompletados.length > 0) {
+      const serviceIndex = this.serviciosCompletados.findIndex(
+        (res) => res.idServicio === this.idServicio);
+      if (serviceIndex != -1) {
+        found = true;
+        this.typeService = 'FINALIZADOS';
+        this.filter = String(this.parseDate(this.serviciosCompletados[serviceIndex].fechaCreado));
+      }
+    }
+    if (this.serviciosPendientes.length > 0 && !found) {
+      const serviceIndex = this.serviciosPendientes.findIndex(
+        (res) => res.idServicio === this.idServicio);
+      if (serviceIndex != -1) {
+        found = true;
+        this.filter = String(this.parseDate(this.serviciosPendientes[serviceIndex].fechaCreado));
+      }
+    }
   }
 
   protected getAllServiceTypes() {
@@ -164,13 +169,13 @@ export class ServicioComponent implements OnInit {
       });
   }
 
-  // protected getOneService(idServicio: number) {
-  //   this.servicioService.getOne(idServicio)
-  //     .subscribe(service => {
-  //       this.getAllServicesWithRelations(service.Equipo.idEquipo);
-  //       this.filter = String(service.fechaCreado).replace("T", " ").substring(0,18);
-  //     });
-  // }
+  protected getOneService(idServicio: number) {
+    this.servicioService.getOne(idServicio)
+      .subscribe(service => {
+        this.getAllServicesWithRelationsCompleted(service.Equipo.idEquipo);
+
+      });
+  }
 
   protected createService(dto: CreateServicioDTO) {
     this.servicioService.createClient(dto)
@@ -217,7 +222,6 @@ export class ServicioComponent implements OnInit {
   }
 
   protected openModalByService(service?: ServicioCliente) {
-    console.log("Call")
     this.initForm();
     if (service) {
       this.newService = false;
@@ -269,12 +273,16 @@ export class ServicioComponent implements OnInit {
     return this.serviceForm.get('idEquipo');
   }
 
-  protected parseDate(date: Date, modal?: boolean) {
-    if (modal) {
-      return formatDate(date, 'medium', 'en');
-    } else {
-      return formatDate(date, 'yyyy-MM-dd hh-mm-ss aaa', 'en');
+  protected parseDate(date: Date | null) {
+    if (date) {
+      return formatDate(date, 'medium', 'es');
     }
+      return 'No ingresado'
+
+  }
+
+  protected state(bol : boolean){
+    return bol ? 'Activo' : 'Inactivo';
   }
 
   private setService(service: ServicioCliente) {
