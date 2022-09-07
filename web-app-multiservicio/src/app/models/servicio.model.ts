@@ -26,6 +26,11 @@ export interface ServiciosFinalizadosPendientesTrabajador {
   pendientes: number
 }
 
+export interface ServicioGraficaClientes {
+  pendientes: number,
+  finalizados: number
+}
+
 export interface ServiciosCantidad {
   serviciosCompletados: number,
   cantidadServicios: number,

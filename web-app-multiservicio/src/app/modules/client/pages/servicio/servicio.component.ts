@@ -2,7 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EquipoCliente } from 'src/app/models/equipo.model';
-import { CreateServicioDTO, ServicioCliente, ServicioRelaciones } from 'src/app/models/servicio.model';
+import { CreateServicioDTO, ServicioCliente, ServicioGraficaClientes, ServicioRelaciones } from 'src/app/models/servicio.model';
 import { TipoServicio } from 'src/app/models/tipo_servicio.model';
 import { EquipoService } from 'src/app/services/equipo.service';
 import { ServicioService } from 'src/app/services/servicio.service';
@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 })
 export class ServicioComponent implements OnInit {
 
+  // protected graphicAll: ServicioGraficaClientes | null = null;
   protected serviciosCompletados: ServicioCliente[] = [];
   protected serviciosPendientes: ServicioCliente[] = [];
   protected servicio: ServicioCliente | null = null;
@@ -36,6 +37,15 @@ export class ServicioComponent implements OnInit {
   protected loading = false;
   protected filter = "";
 
+  // CHART
+  protected chartData  !: any[];
+  protected gradient: boolean = true;
+  protected showLegend: boolean = true;
+  protected showLabels: boolean = true;
+  protected isDoughnut: boolean = false;
+  protected colorScheme: string = 'ocean'
+  protected legendTitle: string = 'Total de Servicios';
+
   protected serviceForm!: FormGroup;
   protected newService!: Boolean;
   protected idService!: number;
@@ -55,6 +65,8 @@ export class ServicioComponent implements OnInit {
     this.getAllServiceTypes();
     if (this.idPersona) {
       this.getAllEquipment(this.idPersona);
+      // DELETE THIS
+      this.getGraphicsAll()
     }
     this.initForm();
   }
@@ -65,6 +77,8 @@ export class ServicioComponent implements OnInit {
       this.noServices = this.typeServiceCompleted = this.typeServiceUncompleted = false;
       this.showEquipments = true;
       this.typeService = 'PENDIENTES';
+      this.equipo = null;
+      this.getGraphicsAll();
     } else {
       if (this.typeService === 'FINALIZADOS' && this.typeServiceCompleted && this.equipo) {
         this.getAllServicesWithRelationsCompleted(this.equipo.idEquipo);
@@ -76,6 +90,45 @@ export class ServicioComponent implements OnInit {
     }
   }
 
+  protected getGraphicsAll() {
+    if (this.idPersona) {
+      this.servicioService.getAllGraphicsClient(this.idPersona)
+        .subscribe(data => {
+          // this.graphicAll = data
+          this.chartData = [
+            {
+              name: 'Pendientes',
+              value: data.pendientes
+            },
+            {
+              name: 'Finalizados',
+              value: data.finalizados
+            }
+          ];
+        });
+    }
+  }
+
+  // protected getGraphicsOne() {
+  //   if (this.equipo) {
+  //     this.servicioService.getOneGraphicsClient(this.equipo.idEquipo)
+  //       .subscribe(data => {
+  //         this.graphicAll = data
+  //         this.chartData = [
+  //           {
+  //             name: 'Pendientes',
+  //             value: data.pendientes
+  //           },
+  //           {
+  //             name: 'Finalizados',
+  //             value: data.finalizados
+  //           }
+  //         ];
+  //       });
+  //   }
+  // }
+
+
   protected getAllEquipment(idPersona: string) {
     this.loading = true;
     this.equipo = null;
@@ -84,7 +137,7 @@ export class ServicioComponent implements OnInit {
         this.equipos = equipments;
         if (this.idServicio) {
           this.getOneService(this.idServicio);
-        }else {
+        } else {
           this.showEquipments = true;
         }
         this.loading = false;
@@ -102,6 +155,7 @@ export class ServicioComponent implements OnInit {
       (res) => res.idEquipo === id);
     this.equipo = this.equipos[equipmentIndex];
     this.title = 'SERVICIOS ' + this.equipo.nombre.toUpperCase() + ' ' + this.equipo.modelo.toUpperCase();
+    // this.getGraphicsOne();
   }
 
   protected getAllServicesWithRelationsCompleted(idEquipo: number) {
@@ -141,7 +195,7 @@ export class ServicioComponent implements OnInit {
       });
   }
 
-  protected findService(){
+  protected findService() {
     let found = false;
     if (this.serviciosCompletados.length > 0) {
       const serviceIndex = this.serviciosCompletados.findIndex(
@@ -191,7 +245,11 @@ export class ServicioComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+
         }
+        // if (this.equipo) {
+        //   this.getGraphicsOne();
+        // }
       });
   }
 
@@ -213,6 +271,9 @@ export class ServicioComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+          // if (this.equipo) {
+          //   this.getGraphicsOne();
+          // }
         }
       });
   }
@@ -277,11 +338,11 @@ export class ServicioComponent implements OnInit {
     if (date) {
       return formatDate(date, 'medium', 'es');
     }
-      return 'No ingresado'
+    return 'No ingresado'
 
   }
 
-  protected state(bol : boolean){
+  protected state(bol: boolean) {
     return bol ? 'Activo' : 'Inactivo';
   }
 

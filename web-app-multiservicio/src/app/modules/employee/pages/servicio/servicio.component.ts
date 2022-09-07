@@ -37,13 +37,13 @@ export class ServicioComponent implements OnInit {
   protected idService!: number;
 
   // CHART
-  public chartData  !: any[];
-  public gradient: boolean = true;
-  public showLegend: boolean = true;
-  public showLabels: boolean = true;
-  public isDoughnut: boolean = false;
-  public colorScheme: string = 'ocean'
-  public legendTitle: string = 'Servicios';
+  protected chartData  !: any[];
+  protected gradient: boolean = true;
+  protected showLegend: boolean = true;
+  protected showLabels: boolean = true;
+  protected isDoughnut: boolean = false;
+  protected colorScheme: string = 'ocean'
+  protected legendTitle: string = 'Servicios';
 
   constructor(
     private direccionService: DireccionService,

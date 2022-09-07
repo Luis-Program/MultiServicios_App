@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { CreateServicioDTO, Servicio, ServicioCliente, ServicioRelaciones, ServiciosCantidad, ServiciosCantidadPorTipoServicio, ServiciosFinalizadosPendientesTrabajador, ServicioTrabajador, UpdateServicioDTO } from '../models/servicio.model';
+import { CreateServicioDTO, Servicio, ServicioCliente, ServicioGraficaClientes, ServicioRelaciones, ServiciosCantidad, ServiciosCantidadPorTipoServicio, ServiciosFinalizadosPendientesTrabajador, ServicioTrabajador, UpdateServicioDTO } from '../models/servicio.model';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -158,6 +158,24 @@ export class ServicioService {
           return manageError(error, this.router);
         }));
   }
+
+  public getAllGraphicsClient(idPersona: string) {
+    this.getAPI();
+    return this.http.get<ServicioGraficaClientes>(`${this.apiUrl}/graficapenfin/${idPersona}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
+  // public getOneGraphicsClient(idEquipo: number) {
+  //   this.getAPI();
+  //   return this.http.get<ServicioGraficaClientes>(`${this.apiUrl}/graficaequipo/${idEquipo}`)
+  //     .pipe(
+  //       catchError((error: HttpErrorResponse) => {
+  //         return manageError(error, this.router);
+  //       }));
+  // }
 
   public create(dto: CreateServicioDTO) {
     this.getAPI();

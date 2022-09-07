@@ -39,8 +39,19 @@
             <h3>{{typeService}}</h3>
           </div>
         </div>
+        <!-- GRAPHIC -->
+        <div class="row" style="max-height: 25%; min-height: 25%;" *ngIf="showEquipments">
+          <div class="col-12 border">
+            <div class="chart-container" style="max-height: 100%; min-height:100%; max-width: 90%;">
+              <ngx-charts-pie-chart  [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
+                [legend]="showLegend" [labels]="showLabels" [doughnut]="isDoughnut" [legendTitle]="legendTitle">
+              </ngx-charts-pie-chart>
+            </div>
+          </div>
+        </div>
+        <!-- /GRAPHIC -->
         <!-- INPUT SEARCH EQUIPENT-->
-        <div class="row mt-3" *ngIf="showEquipments">
+        <div class="row mt-2" *ngIf="showEquipments">
           <div class="col-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
@@ -48,17 +59,15 @@
         <!-- /INPUT SEARCH EQUIPMENT-->
 
         <!-- ADD BUTTON, SEARCH, BUTTONS TYPE SERVICES-->
-        <div *ngIf="!showEquipments && (typeServiceUncompleted || typeServiceCompleted)">
-          <div class="row mt-2">
+          <div class="row mt-2" *ngIf="!showEquipments && (typeServiceUncompleted || typeServiceCompleted)">
             <!-- INPUT SEARCH -->
-            <div class="col-sm-12 col-md-12">
+            <div class="col-12">
               <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
             </div>
             <!-- /INPUT SEARCH -->
           </div>
-        </div>
 
-        <div class="row mt-3 text-center min-with ">
+        <div class="row mt-2 text-center min-with">
           <div class="col-12">
             <!-- ADD BUTTON -->
               <button *ngIf="!showEquipments" class="btn btn-outline-primary mr-3" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByService()">
@@ -74,7 +83,7 @@
           </div>
           <!-- /ADD BUTTON, SEARCH, BUTTONS TYPE SERVICES-->
           <!-- CARD -->
-          <div class="row mt-3 min-with" *ngIf="showEquipments">
+          <div class="row mt-1 min-with" *ngIf="showEquipments">
             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12" *ngFor="let equipo of equipos | filterEquipment:filter">
               <div class="card card-outline-info card-height" (click)="getAllServicesByEquipment(equipo)">
                 <div class="card-header bg-dark">
