@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
   private readonly _destroyingClaims$ = new Subject<void>();
   protected loggedIn = false;
   protected serviceInfo = false;
+  protected loading = true;
 
   public loaded!: boolean;
 
@@ -109,6 +110,7 @@ export class NavbarComponent implements OnInit {
           }
         });
     } else {
+      this.loading = false;
       localStorage.clear();
       this.loggedIn = true;
     }
