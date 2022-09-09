@@ -39,10 +39,10 @@
             <h3>{{typeService}}</h3>
           </div>
         </div>
-        <!-- GRAPHIC -->
-        <div class="row" style="max-height: 25%; min-height: 25%;" *ngIf="showEquipments">
+        <!-- GRAPHIC row style="max-height: 25%; min-height: 25%;" chart-container style="max-height: 100%; min-height:100%; max-width: 90%;"-->
+        <div class="row" *ngIf="!noServices" >
           <div class="col-12 border">
-            <div class="chart-container" style="max-height: 100%; min-height:100%; max-width: 90%;">
+            <div class="chart-container main-chart-container" >
               <ngx-charts-pie-chart  [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
                 [legend]="showLegend" [labels]="showLabels" [doughnut]="isDoughnut" [legendTitle]="legendTitle">
               </ngx-charts-pie-chart>

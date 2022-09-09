@@ -46,7 +46,7 @@
         <!-- /MAIN CHART -->
 
           <!-- INPUT SEARCH -->
-          <div class="col-sm-12 col-md-12">
+          <div class="col-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
@@ -68,9 +68,7 @@
         <!-- /INICIO BOTON -->
 
         <!-- CARDS -->
-        <div [ngSwitch]="tipo">
-          <div *ngSwitchCase="'all'">
-            <div class="row mt-3">
+            <div class="row mt-3" style="min-width: 100%;" *ngIf="tipo === 'all'">
               <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of personas | filterPerson:filter">
                 <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
                   (click)="openModal(persona)">
@@ -78,7 +76,7 @@
                   </div>
                   <div class="card-body border">
                     <div class="row">
-                      <div class="col-10">
+                      <div class="col-10 text-left">
                         <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
                         <small><p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p>
                         <p class="card-text">{{ persona.dpi }}</p>
@@ -92,9 +90,7 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div *ngSwitchCase="'client'">
-            <div class="row mt-3">
+            <div class="row mt-3 min-with" *ngIf="tipo === 'client'">
               <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of clientes | filterPerson:filter ">
                 <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
                   (click)="openModal(persona)">
@@ -102,7 +98,7 @@
                   </div>
                   <div class="card-body border">
                     <div class="row">
-                      <div class="col-10">
+                      <div class="col-10 text-left">
                         <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
                         <!-- <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p> -->
                         <p class="card-text">{{ persona.dpi }}</p>
@@ -116,9 +112,7 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div *ngSwitchCase="'worker'">
-            <div class="row mt-3">
+            <div class="row mt-3 min-with" *ngIf="tipo === 'worker'">
               <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of trabajadores | filterPerson:filter">
                 <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
                   (click)="openModal(persona)">
@@ -126,7 +120,7 @@
                   </div>
                   <div class="card-body border">
                     <div class="row">
-                      <div class="col-10">
+                      <div class="col-10 text-left">
                         <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
                         <!-- <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p> -->
                         <p class="card-text">{{ persona.dpi }}</p>
@@ -140,8 +134,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
         <!-- /CARDS -->
       </div>
         <!-- MODAL -->
@@ -188,7 +180,7 @@
                       <small *ngIf="dpi?.hasError('maxlength') || dpi?.hasError('minlength')" class="text-danger">*El DPI debe ser de 13 carácteres</small>
                     </div>
                   </div>
-                  <div class="form-group" *ngIf="tipo != 'all' && !create">
+                  <div class="form-group" *ngIf="tipo != 'all' && !create && !newItem">
                     <label for="recipient-name" class="control-label">{{amount}}</label>
                     <input type="text" class="form-control" id="recipient-name1" [value]="amountPerson" readonly>
                   </div>

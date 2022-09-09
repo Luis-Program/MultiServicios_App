@@ -130,6 +130,9 @@ export class EquipoComponent implements OnInit {
             text: "Equipo actualizado",
             icon: 'success'
           });
+          if (this.idPersona) {
+            this.getEquipmentActiveInactive(this.idPersona);
+          }
           this.clearInput();
         }
       });
@@ -156,6 +159,7 @@ export class EquipoComponent implements OnInit {
   }
 
   private initForm() {
+    this.clearInput();
     this.newEquipment = true;
     this.equipmentForm = this.formBuilder.group({
       idEquipo: [''],

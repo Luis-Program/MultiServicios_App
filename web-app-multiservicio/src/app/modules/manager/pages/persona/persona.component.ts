@@ -142,6 +142,7 @@ export class PersonaComponent implements OnInit {
       this.getAllPersonsWithRelations();
       this.tipo = tipo;
     }
+    this.clearInput();
   }
 
   protected get type() {
@@ -265,6 +266,7 @@ export class PersonaComponent implements OnInit {
 
   protected initForm() {
     this.newItem = true;
+    this.clearInput();
     this.Form = this.fb.group({
       idPersona: [''],
       nombre: ['', [Validators.required, Validators.maxLength(20)]],

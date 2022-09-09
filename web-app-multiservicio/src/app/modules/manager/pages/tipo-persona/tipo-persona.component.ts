@@ -110,6 +110,7 @@ export class TipoPersonaComponent implements OnInit {
 
   protected initForm() {
     this.newItem = true;
+    this.clearInput();
     this.Form = this.fb.group({
       idTipo: [''],
       tipo: ['', Validators.required],

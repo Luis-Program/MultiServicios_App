@@ -129,6 +129,7 @@ export class RepuestoComponent implements OnInit {
 
   protected openModalByReplacement(replacement?: RepuestoRelaciones) {
     this.initForm();
+    this.clearInput();
     if (replacement) {
       this.newReplacement = false;
       this.maxValueInput = replacement.cantidadDisponible;

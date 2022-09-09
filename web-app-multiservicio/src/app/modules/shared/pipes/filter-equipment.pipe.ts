@@ -14,8 +14,7 @@ export class FilterEquipmentPipe implements PipeTransform {
       if (rol === "Gerente General") {
         if (object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
           || object.modelo.toLowerCase().indexOf(arg.toLowerCase()) > -1
-          || object.Persona.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
-          || object.Persona.apellidos.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
+          || (object.Persona.nombre + object.Persona.apellidos).replace(/ /g, "").toLowerCase().indexOf(arg.toLowerCase().replace(/ /g, "")) > -1) {
           resultFilter.push(object);
         }
       } else {

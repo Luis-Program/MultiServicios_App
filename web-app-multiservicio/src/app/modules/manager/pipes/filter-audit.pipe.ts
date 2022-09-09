@@ -13,7 +13,7 @@ export class FilterAuditPipe implements PipeTransform {
       if (object.tipoServicio.toLowerCase().indexOf(arg.toLowerCase()) > -1
         || object.nombreEquipo.toLowerCase().indexOf(arg.toLowerCase()) > -1
         || object.nombreCliente.toLowerCase().indexOf(arg.toLowerCase()) > -1
-        || String(formatDate(object.fechaHoraCreado, 'medium', 'en')).toLowerCase().indexOf(arg) > -1
+        || String(formatDate(object.fechaHoraCreado, 'medium', 'es')).toLowerCase().indexOf(arg) > -1
         || (object.nombreTrabajador && object.nombreTrabajador.toLowerCase().indexOf(arg.toLowerCase()) > -1)
         || object.estado.toLowerCase().indexOf(arg.toLowerCase()) > -1) {
         resultFilter.push(object);

@@ -27,7 +27,7 @@ export class FilterServicePipe implements PipeTransform {
             || (object.Tipo_Servicio.tipoServicio.toLowerCase().indexOf(arg.toLowerCase()) > -1)
             || (object.estado.toLowerCase().indexOf(arg.toLowerCase()) > -1)
             || String(formatDate(object.fechaCreado, 'medium', 'es')).toLowerCase().indexOf(arg.toLowerCase()) > -1
-            || (object.Trabajador && String(object.Trabajador.nombre + " " + object.Trabajador.apellidos).toLowerCase().indexOf(arg.toLocaleLowerCase()) > -1)
+            || (object.Trabajador && (object.Trabajador.nombre + object.Trabajador.apellidos).replace(/ /g, "").toLowerCase().indexOf(arg.toLowerCase().replace(/ /g, "")) > -1)
             || (object.fechaHoraRealizar && String(formatDate(object.fechaHoraRealizar, 'medium', 'es')).toLowerCase().indexOf(arg.toLowerCase()) > -1)
             || (object.fechaFinalizado && String(formatDate(object.fechaFinalizado, 'medium', 'es')).toLowerCase().indexOf(arg.toLowerCase()) > -1)) {
             resultFilter.push(object);

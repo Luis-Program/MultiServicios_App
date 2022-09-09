@@ -42,6 +42,7 @@ export class AuditoriaServicioComponent implements OnInit {
 
   openModal(auditoria: Auditoria_servicio) {
     this.initForm();
+    this.clearInput();
     this.setForm(auditoria);
   }
 
@@ -74,11 +75,11 @@ export class AuditoriaServicioComponent implements OnInit {
       empresaCliente: auditoria.empresaCliente,
       empresaClienteNit: auditoria.empresaClienteNit ? auditoria.empresaClienteNit : 'No ingresado',
       estado: auditoria.estado,
-      fechaHora: formatDate(auditoria.fechaHora,'medium','en'),
-      fechaHoraAsignadoTrabajador: auditoria.fechaHoraAsignadoTrabajador ? formatDate(auditoria.fechaHoraAsignadoTrabajador,'medium','en') : 'No ingresado',
-      fechaHoraCreado: formatDate(auditoria.fechaHoraCreado,'medium','en'),
-      fechaHoraFinalizado: auditoria.fechaHoraFinalizado ? formatDate(auditoria.fechaHoraFinalizado,'medium','en') : 'No ingresado',
-      fechaHoraRealizar: auditoria.fechaHoraRealizar ? formatDate(auditoria.fechaHoraRealizar,'medium','en') : 'No ingresado',
+      fechaHora: formatDate(auditoria.fechaHora,'medium','es'),
+      fechaHoraAsignadoTrabajador: auditoria.fechaHoraAsignadoTrabajador ? formatDate(auditoria.fechaHoraAsignadoTrabajador,'medium','es') : 'No ingresado',
+      fechaHoraCreado: formatDate(auditoria.fechaHoraCreado,'medium','es'),
+      fechaHoraFinalizado: auditoria.fechaHoraFinalizado ? formatDate(auditoria.fechaHoraFinalizado,'medium','es') : 'No ingresado',
+      fechaHoraRealizar: auditoria.fechaHoraRealizar ? formatDate(auditoria.fechaHoraRealizar,'medium','es') : 'No ingresado',
       idAuditoriaServicio: auditoria.idAuditoriaServicio,
       idServicio: auditoria.idServicio,
       nombreCliente: auditoria.nombreCliente,

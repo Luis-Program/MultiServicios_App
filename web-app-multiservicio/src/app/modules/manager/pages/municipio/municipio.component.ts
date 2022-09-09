@@ -51,12 +51,11 @@ export class MunicipioComponent implements OnInit {
       });
   }
 
-  protected getOneMunicipality(idMunicipio: number) {
-    this.municipio = this.municipios.find(municipality => municipality.idMunicipio = idMunicipio) as MunicipioRelacionesAnidadas;
-    if (this.municipio) {
-      // show content
-    }
-  }
+  // protected getOneMunicipality(idMunicipio: number) {
+  //   this.municipio = this.municipios.find(municipality => municipality.idMunicipio = idMunicipio) as MunicipioRelacionesAnidadas;
+  //   if (this.municipio) {
+  //   }
+  // }
 
   protected createMunicipality(municipio: CreateMunicipioDTO) {
     this.municipioService.create(municipio)
@@ -70,7 +69,7 @@ export class MunicipioComponent implements OnInit {
             text: 'Municipio creado'
           })
         }
-        this.getAllMunicipalitiesWithRelations();
+        // this.getAllMunicipalitiesWithRelations();
       });
   }
 
@@ -87,7 +86,7 @@ export class MunicipioComponent implements OnInit {
             title: 'Actualizado',
             text: 'Municipio actualizado'
           })
-          this.getAllMunicipalitiesWithRelations();
+          // this.getAllMunicipalitiesWithRelations();
         }
       });
   }
@@ -105,7 +104,7 @@ export class MunicipioComponent implements OnInit {
             title: 'Eliminado',
             text: 'Municipio eliminado'
           })
-          this.getAllMunicipalitiesWithRelations();
+          // this.getAllMunicipalitiesWithRelations();
         }
       });
   }
@@ -121,10 +120,9 @@ export class MunicipioComponent implements OnInit {
   }
 
   protected setForm(municipio: MunicipioRelacionesAnidadas) {
-
+    this.municipio = municipio;
     let departamento = null;
-
-    (municipio.Departamento?.idDepartamento) ? departamento = municipio.Departamento.idDepartamento : departamento = 0;
+    (municipio.Departamento && municipio.Departamento.idDepartamento) ? departamento = municipio.Departamento.idDepartamento : departamento = 0;
 
     this.Form.setValue({
       idMunicipio: municipio.idMunicipio,
@@ -132,13 +130,12 @@ export class MunicipioComponent implements OnInit {
       codigo: municipio.codigo,
       idDepartamento: departamento
     })
-    this.Form.addControl('pais', this.fb.control(municipio.Departamento?.Pais?.nombre, []))
     this.idItem = municipio.idMunicipio;
   }
 
   protected openModal(municipio?: MunicipioRelacionesAnidadas) {
     this.initForm();
-
+    this.clearInput();
     if (municipio) {
       this.newItem = false;
       return this.setForm(municipio);
@@ -147,13 +144,10 @@ export class MunicipioComponent implements OnInit {
 
   protected createItem() {
     if (this.Form.invalid) return Object.values(this.Form.controls).forEach(c => c.markAsTouched());
-
     const { idMunicipio, pais, ...rest } = this.Form.value;
-
     if (idMunicipio) {
       return this.updateMunicipality(idMunicipio, rest);
     }
-
     this.createMunicipality(rest);
   }
 
@@ -177,12 +171,8 @@ export class MunicipioComponent implements OnInit {
     return this.Form
   }
 
-  protected get idMunicipio() {
-    return this.Form.get('idDepartamento')?.value;
-  }
-
   protected get nameCountry() {
-    return this.Form.get('pais')?.value;
+    return this.municipio?.Departamento?.Pais?.nombre;
   }
 
   protected get nombreMunicipio() {

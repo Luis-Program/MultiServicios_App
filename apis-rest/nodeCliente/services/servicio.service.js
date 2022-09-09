@@ -57,13 +57,13 @@ class ServicioService {
     const finalizados = await models.Persona.sequelize.query(`SELECT count(idServicio) AS finalizados FROM MultiServicios.Equipo e
     INNER JOIN MultiServicios.Servicio s
     ON e.idEquipo = s.idEquipo
-    WHERE e.idEquipo = ${idEquipo} AND s.fechaFinalizado IS NULL`, {
+    WHERE e.idEquipo = ${idEquipo} AND s.fechaFinalizado IS NOT NULL`, {
       type: QueryTypes.SELECT
     });
     const pendientes = await models.Persona.sequelize.query(`SELECT count(idServicio) AS pendientes FROM MultiServicios.Equipo e
     INNER JOIN MultiServicios.Servicio s
     ON e.idEquipo = s.idEquipo
-    WHERE e.idEquipo = ${idEquipo} AND s.fechaFinalizado IS NOT NULL`, {
+    WHERE e.idEquipo = ${idEquipo} AND s.fechaFinalizado IS NULL`, {
       type: QueryTypes.SELECT
     });
     return {pendientes: pendientes[0].pendientes, finalizados : finalizados[0].finalizados};

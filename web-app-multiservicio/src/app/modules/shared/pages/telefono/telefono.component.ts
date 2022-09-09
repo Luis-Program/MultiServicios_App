@@ -111,6 +111,7 @@ export class TelefonoComponent implements OnInit {
 
   protected openModalByPhone(phone?: TelefonoRelacionTipoTelefono) {
     this.initForm();
+    this.clearInput();
     if (phone) {
       this.newPhone = false;
       this.setPhone(phone);

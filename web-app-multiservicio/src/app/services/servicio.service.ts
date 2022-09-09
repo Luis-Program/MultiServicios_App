@@ -168,14 +168,14 @@ export class ServicioService {
         }));
   }
 
-  // public getOneGraphicsClient(idEquipo: number) {
-  //   this.getAPI();
-  //   return this.http.get<ServicioGraficaClientes>(`${this.apiUrl}/graficaequipo/${idEquipo}`)
-  //     .pipe(
-  //       catchError((error: HttpErrorResponse) => {
-  //         return manageError(error, this.router);
-  //       }));
-  // }
+  public getOneGraphicsClient(idEquipo: number) {
+    this.getAPI();
+    return this.http.get<ServicioGraficaClientes>(`${this.apiUrl}/graficaequipo/${idEquipo}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
 
   public create(dto: CreateServicioDTO) {
     this.getAPI();

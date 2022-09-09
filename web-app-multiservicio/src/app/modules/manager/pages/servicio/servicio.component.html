@@ -201,7 +201,12 @@
                             requerido</small>
                         </div>
                       </div>
-                      <label for="message-text" class="control-label">Trabajador*</label>
+                      <div class="form-group" *ngIf="viewCompletedService">
+                        <label for="recipient-name" class="control-label">Fecha y hora finalizado</label>
+                        <input type="text" class="form-control" id="recipient-name1"
+                          [value]="fechaFinalizado" readonly>
+                      </div>
+                      <label for="message-text" class="control-label">Trabajador</label>
                       <select class="form-control custom-select" formControlName="idTrabajador">
                         <option *ngFor="let trabajador of trabajadores" [value]="trabajador.idPersona">
                           {{ trabajador.nombre }}</option>

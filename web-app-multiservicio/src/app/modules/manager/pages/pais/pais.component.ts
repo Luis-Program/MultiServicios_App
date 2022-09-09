@@ -97,7 +97,7 @@ export class PaisComponent implements OnInit {
 
   protected openModalByCountry(country?: Pais) {
     this.initForm();
-
+    this.clearInput();
     if (country) {
       this.newCountry = false;
       this.setCountry(country);

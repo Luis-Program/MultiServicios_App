@@ -43,7 +43,8 @@ class MunicipioService {
 
   async update(idMunicipio, changes) {
     const municipio = await this.findOne(idMunicipio);
-    const response = await municipio.update(changes);
+    const update = await municipio.update(changes);
+    const response = await this.findOne(update.idMunicipio);
     return response;
   }
 
