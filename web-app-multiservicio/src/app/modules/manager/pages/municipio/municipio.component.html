@@ -7,18 +7,21 @@
             <h1>MUNICIPIOS</h1>
           </div>
         </div>
-        <div class="row mt-3">
-          <!-- ADD BUTTON -->
-          <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-            data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
-            <i class="mdi mdi-plus"></i>
-          </button>
-          <!-- /ADD BUTTON -->
+        <div class="row mt-2">
           <!-- INPUT SEARCH -->
           <div class="col-sm-12 col-md-12">
-            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
         </div>
         <loader></loader>
       </div>
@@ -30,29 +33,26 @@
         </div>
 
         <div class="row mt-2">
-          <!-- ADD BUTTON -->
-          <div class="col-1">
-            <div class="row">
-              <button
-                class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
-                <i class="mdi mdi-plus"></i>
-              </button>
-            </div>
-          </div>
-          <!-- /ADD BUTTON -->
-
           <!-- INPUT SEARCH -->
           <div class="col-sm-12 col-md-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
 
         <!-- CARD -->
-        <div class="row mt-5">
+        <div class="row mt-2">
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let municipio of municipios | filterNameCode:filter">
-            <div class="card card-outline-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+            <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
               (click)="openModal(municipio)">
               <div class="card-header bg-dark">
               </div>
@@ -103,20 +103,20 @@
                   <div class="form-group">
                     <label for="message-text" class="control-label">Departamento</label>
                     <select class="form-control custom-select" formControlName="idDepartamento">
-                      <option *ngFor="let departamento of departamentos" [value]="departamento.idPais">
+                      <option *ngFor="let departamento of departamentos" [value]="departamento.idDepartamento">
                         {{ departamento.nombre }}</option>
                     </select>
                     <!-- <small *ngIf="!idMunicipio" class="form-control-feedback">No ingresado *</small> -->
                     <div *ngIf="departamentoMunicipio?.invalid && departamentoMunicipio?.touched">
-                      <small *ngIf="departamentoMunicipio?.hasError('required')" class="text-danger">*Municipio
+                      <small *ngIf="departamentoMunicipio?.hasError('required')" class="text-danger">*Departamento
                         requerido</small>
                     </div>
                   </div>
-                  <div *ngIf="idMunicipio >= 1 && !newItem">
+                  <div *ngIf="nameCountry  && !newItem">
                     <hr>
                     <div class="form-group">
                       <label for="recipient-name" class="control-label">Nombre del país*</label>
-                      <input type="text" class="form-control" id="recipient-name1" formControlName="pais" readonly>
+                      <input type="text" class="form-control" id="recipient-name1" [value]="this.municipio?.Departamento?.Pais?.nombre" readonly>
                     </div>
                   </div>
                 </form>

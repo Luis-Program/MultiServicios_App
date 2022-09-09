@@ -63,6 +63,40 @@ router.get('/idequipo/:idEquipo',
     }
   });
 
+  router.get('/graficapenfin/:idPersona',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  validatorHandler(getAllServicioSchemaByIdPerson, 'params'),
+  async (req, res, next) => {
+    try {
+      const {
+        idPersona
+      } = req.params;
+      const servicios = await service.findAllGraphic(idPersona);
+      res.json(servicios);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get('/graficaequipo/:idEquipo',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  validatorHandler(paramIdEquipoSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const {
+        idEquipo
+      } = req.params;
+      const servicios = await service.findOneGraphic(idEquipo);
+      res.json(servicios);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.get('/pendientes/:idEquipo',
   passport.authenticate('oauth-bearer', {
     session: false

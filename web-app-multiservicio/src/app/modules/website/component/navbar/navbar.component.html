@@ -1,4 +1,11 @@
-<div class="page-index animate__animated animate__fadeIn">
+<div *ngIf="loading">
+    <div class="loader">
+      <div class="loader__figure"></div>
+      <p class="loader__label">MultiServicios S.A.</p>
+    </div>
+</div>
+
+<div class="page-index animate__animated animate__fadeIn" *ngIf="!loading">
     <!-- ======= Header ======= -->
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
@@ -24,10 +31,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-4">
-                    <h2 data-aos="fade-up">MultiServicios S.A.</h2>
+                    <h2 data-aos="fade-up">Empresa de Mantenimiento</h2>
                     <blockquote data-aos="fade-up" data-aos-delay="100">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis cum recusandae eum
-                            laboriosam voluptatem repudiandae odio, vel exercitationem officiis provident minima.
+                        <p>Todo lo necesario para el mantenimiento de sus equipos.
                         </p>
                     </blockquote>
                     <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
@@ -53,29 +59,26 @@
 
                 <div class="row gy-5">
 
-                    <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-6 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
                         <div class="icon flex-shrink-0"><i class="bi bi-briefcase" style="color: #f57813;"></i>
                         </div>
                         <div>
-                            <h4 class="title"><a href="#" class="stretched-link">Lorem Ipsum</a></h4>
-                            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias
-                                excepturi sint occaecati cupiditate non provident</p>
+                            <h4 class="title text-center"><a class="stretched-link">Mantenimiento Preventivo</a></h4>
+                            <p class="description text-center">Empleando cronogramas personalizados por equipo para garantizar el funcionamiento y aumentar el tiempo de vida.</p>
                         </div>
                     </div>
                     <!-- End Service Item -->
 
-                    <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+                    <div class="col-lg-6 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
                         <div class="icon flex-shrink-0"><i class="bi bi-card-checklist" style="color: #15a04a;"></i>
                         </div>
                         <div>
-                            <h4 class="title"><a href="#" class="stretched-link">Dolor Sitema</a></h4>
-                            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip
-                                ex ea commodo consequat tarad limino ata</p>
+                            <h4 class="title text-center"><a  class="stretched-link">Mantenimiento Correctivo</a></h4>
+                            <p class="description text-center">Ofrecemos soluciones garantizadas para la recuperación de sus equipos que procesan alimentos en el menor tiempo posible.</p>
                         </div>
                     </div><!-- End Service Item -->
 
-                    <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                    <!-- <div class="col-lg-6 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="300">
                         <div class="icon flex-shrink-0"><i class="bi bi-bar-chart" style="color: #d90769;"></i>
                         </div>
                         <div>
@@ -84,9 +87,9 @@
                                 cillum
                                 dolore eu fugiat nulla pariatur</p>
                         </div>
-                    </div><!-- End Service Item -->
+                    </div>
 
-                    <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                    <div class="col-lg-6 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="400">
                         <div class="icon flex-shrink-0"><i class="bi bi-binoculars" style="color: #15bfbc;"></i>
                         </div>
                         <div>
@@ -95,9 +98,9 @@
                                 officia
                                 deserunt mollit anim id est laborum</p>
                         </div>
-                    </div><!-- End Service Item -->
+                    </div> -->
 
-                    <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="500">
+                    <!-- <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="500">
                         <div class="icon flex-shrink-0"><i class="bi bi-brightness-high" style="color: #f5cf13;"></i>
                         </div>
                         <div>
@@ -106,7 +109,7 @@
                                 blanditiis
                                 praesentium voluptatum deleniti atque</p>
                         </div>
-                    </div><!-- End Service Item -->
+                    </div><
 
                     <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="600">
                         <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week" style="color: #1335f5;"></i>
@@ -117,7 +120,7 @@
                                 libero
                                 tempore, cum soluta nobis est eligendi</p>
                         </div>
-                    </div><!-- End Service Item -->
+                    </div> -->
 
                 </div>
 

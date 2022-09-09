@@ -37,6 +37,38 @@ class ServicioService {
     return servicios;
   }
 
+  async findAllGraphic(idPersona) {
+    const pendientes = await models.Persona.sequelize.query(`SELECT count(idServicio) as pendientes FROM (MultiServicios.Equipo e
+      INNER JOIN MultiServicios.Servicio s
+      ON e.idEquipo = s.idEquipo)
+      WHERE e.idPersona = ${idPersona} AND s.fechaFinalizado IS NULL`, {
+      type: QueryTypes.SELECT
+    });
+    const finalizados = await models.Persona.sequelize.query(`SELECT count(idServicio) as finalizados FROM (MultiServicios.Equipo e
+      INNER JOIN MultiServicios.Servicio s
+      ON e.idEquipo = s.idEquipo)
+      WHERE e.idPersona = ${idPersona} AND s.fechaFinalizado IS NOT NULL`, {
+      type: QueryTypes.SELECT
+    });
+    return {pendientes: pendientes[0].pendientes, finalizados : finalizados[0].finalizados};
+  }
+
+  async findOneGraphic(idEquipo) {
+    const finalizados = await models.Persona.sequelize.query(`SELECT count(idServicio) AS finalizados FROM MultiServicios.Equipo e
+    INNER JOIN MultiServicios.Servicio s
+    ON e.idEquipo = s.idEquipo
+    WHERE e.idEquipo = ${idEquipo} AND s.fechaFinalizado IS NOT NULL`, {
+      type: QueryTypes.SELECT
+    });
+    const pendientes = await models.Persona.sequelize.query(`SELECT count(idServicio) AS pendientes FROM MultiServicios.Equipo e
+    INNER JOIN MultiServicios.Servicio s
+    ON e.idEquipo = s.idEquipo
+    WHERE e.idEquipo = ${idEquipo} AND s.fechaFinalizado IS NULL`, {
+      type: QueryTypes.SELECT
+    });
+    return {pendientes: pendientes[0].pendientes, finalizados : finalizados[0].finalizados};
+  }
+
   async findCompleted(idEquipo) {
     const servicios = await models.Servicio.findAll({
       include: ['Tipo_Servicio', 'Trabajador'],
@@ -65,7 +97,7 @@ class ServicioService {
 
   async findOne(idServicio) {
     const servicio = await models.Servicio.findByPk(idServicio, {
-      include: ['Tipo_Servicio','Trabajador'],
+      include: ['Tipo_Servicio','Trabajador','Equipo'],
     });
     if (!servicio) {
       throw boom.notFound('Servicio no encontrado...');

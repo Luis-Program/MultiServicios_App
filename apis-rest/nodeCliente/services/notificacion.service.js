@@ -25,7 +25,7 @@ class NotificacionService {
     await models.Notificacion.sequelize.query(`UPDATE MultiServicios.Notificacion SET visto = true WHERE idPersona = ${idPersona}`, {
       type: QueryTypes.UPDATE
     });
-    return this.find();
+    return this.find(idPersona);
   }
 
   async deleteAllNotifications(idPersona) {

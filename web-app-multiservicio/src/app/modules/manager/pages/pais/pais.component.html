@@ -7,18 +7,21 @@
             <h1>PAISES</h1>
           </div>
         </div>
-        <div class="row mt-3">
-          <!-- ADD BUTTON -->
-          <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-          data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
-          <i class="mdi mdi-plus"></i>
-        </button>
-          <!-- /ADD BUTTON -->
+        <div class="row mt-2">
           <!-- INPUT SEARCH -->
           <div class="col-sm-12 col-md-12">
-            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByCountry()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
         </div>
         <loader></loader>
       </div>
@@ -31,25 +34,23 @@
         </div>
 
         <div class="row mt-2">
-          <!-- ADD COUNTRY BUTTON -->
-          <div class="col-1">
-            <div class="row">
-              <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
-                data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByCountry()">
-                <i class="mdi mdi-plus"></i>
-              </button>
-            </div>
-          </div>
-          <!-- /ADD COUNTRY BUTTON -->
-
           <!-- INPUT SEARCH -->
           <div class="col-sm-12 col-md-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>
           <!-- /INPUT SEARCH -->
         </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByCountry()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
 
-        <div class="row mt-5">
+        <div class="row mt-2">
           <!-- CARD -->
           <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let pais of paises | filterNameCode:filter">
             <div class="card card-outline-info" (click)="openModalByCountry(pais)" data-toggle="modal"

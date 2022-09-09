@@ -75,7 +75,7 @@ export class EmpresaComponent implements OnInit {
             title: 'Creado',
             text: 'Empresa creada'
           })
-          this.getAllEnterprises();
+          // this.getAllEnterprises();
         }
       });
   }
@@ -93,7 +93,7 @@ export class EmpresaComponent implements OnInit {
             title: 'Actualizado',
             text: 'Empresa actualizada'
           })
-          this.getAllEnterprises();
+          // this.getAllEnterprises();
         }
       });
   }
@@ -110,8 +110,8 @@ export class EmpresaComponent implements OnInit {
             icon: 'success',
             title: 'Eliminado',
             text: 'Empresa eliminada'
-          })
-          this.getAllEnterprises();
+          });
+          // this.getAllEnterprises();
         }
       });
   }
@@ -146,7 +146,7 @@ export class EmpresaComponent implements OnInit {
 
   protected openModal(empresa?: Empresa) {
     this.initForm();
-
+    this.clearInput();
     if (empresa) {
       this.newItem = false;
       return this.setForm(empresa);

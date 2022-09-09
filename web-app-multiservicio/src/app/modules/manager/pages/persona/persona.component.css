@@ -6,3 +6,7 @@
     display : grid;
     height  : 300px;
 }
+
+.min-with {
+  min-width: 100%
+}

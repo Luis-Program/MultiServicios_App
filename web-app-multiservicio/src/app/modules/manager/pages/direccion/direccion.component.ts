@@ -78,7 +78,7 @@ export class DireccionComponent implements OnInit {
             title : 'Actualizado',
             text  : 'Dirección actualizada'
           })
-          this.getAllAddressesWithRelations();
+          // this.getAllAddressesWithRelations();
         }
       });
   }
@@ -101,6 +101,7 @@ export class DireccionComponent implements OnInit {
   }
 
   protected initForm() {
+    this.clearInput();
     this.newItem = true;
     this.Form = this.fb.group({
       idDireccion : [''],

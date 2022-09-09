@@ -93,8 +93,8 @@ export class DepartamentoComponent implements OnInit {
             text: 'Departamento actualizado'
           })
         }
-        this.getAllDepartmentsWithRelations();
-        this.getAllCountriesToUpdateDepartment();
+        // this.getAllDepartmentsWithRelations();
+        // this.getAllCountriesToUpdateDepartment();
       });
   }
 
@@ -151,7 +151,7 @@ export class DepartamentoComponent implements OnInit {
   protected openModalByDepartment(department?: DepartamentoRelaciones) {
     this.initForm();
     this.listenCountry();
-
+    this.clearInput();
     if (department) {
       this.newDepartment = false;
       this.codeCountry = (department.Pais) ? department.Pais.codigo : null;

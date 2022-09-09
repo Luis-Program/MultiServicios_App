@@ -36,6 +36,15 @@ export class ServicioComponent implements OnInit {
   protected loading = false;
   protected filter = "";
 
+  // CHART
+  protected chartData  !: any[];
+  protected gradient: boolean = true;
+  protected showLegend: boolean = true;
+  protected showLabels: boolean = true;
+  protected isDoughnut: boolean = false;
+  protected colorScheme: string = 'ocean'
+  protected legendTitle: string = 'Total de Servicios';
+
   protected serviceForm!: FormGroup;
   protected newService!: Boolean;
   protected idService!: number;
@@ -55,9 +64,8 @@ export class ServicioComponent implements OnInit {
     this.getAllServiceTypes();
     if (this.idPersona) {
       this.getAllEquipment(this.idPersona);
-      if (this.idServicio) {
-        // this.getOneService(this.idServicio);
-      }
+      // DELETE THIS
+      this.getGraphicsAll()
     }
     this.initForm();
   }
@@ -68,6 +76,8 @@ export class ServicioComponent implements OnInit {
       this.noServices = this.typeServiceCompleted = this.typeServiceUncompleted = false;
       this.showEquipments = true;
       this.typeService = 'PENDIENTES';
+      this.equipo = null;
+      this.getGraphicsAll();
     } else {
       if (this.typeService === 'FINALIZADOS' && this.typeServiceCompleted && this.equipo) {
         this.getAllServicesWithRelationsCompleted(this.equipo.idEquipo);
@@ -79,34 +89,62 @@ export class ServicioComponent implements OnInit {
     }
   }
 
+  protected getGraphicsAll() {
+    if (this.idPersona) {
+      this.servicioService.getAllGraphicsClient(this.idPersona)
+        .subscribe(data => {
+          // this.graphicAll = data
+          this.chartData = [
+            {
+              name: 'Pendientes',
+              value: data.pendientes
+            },
+            {
+              name: 'Finalizados',
+              value: data.finalizados
+            }
+          ];
+        });
+    }
+  }
+
+  protected getGraphicsOne() {
+    if (this.equipo) {
+      this.servicioService.getOneGraphicsClient(this.equipo.idEquipo)
+        .subscribe(data => {
+          // this.graphicAll = data
+          this.chartData = [
+            {
+              name: 'Pendientes',
+              value: data.pendientes
+            },
+            {
+              name: 'Finalizados',
+              value: data.finalizados
+            }
+          ];
+        });
+    }
+  }
+
+
   protected getAllEquipment(idPersona: string) {
     this.loading = true;
     this.equipo = null;
     this.equipoService.getAllByIdPersona(idPersona)
       .subscribe(equipments => {
         this.equipos = equipments;
-        this.showEquipments = true;
+        if (this.idServicio) {
+          this.getOneService(this.idServicio);
+        } else {
+          this.showEquipments = true;
+        }
         this.loading = false;
       });
   }
 
-  // Aqui cambia a servicios
-  // protected getAllServicesWithRelations(equipo: EquipoCliente) {
-  //   this.loading = true;
-  //   this.equipo = this.equipos.find(equipo => equipo.idEquipo = Number(equipo.idEquipo)) as EquipoCliente;
-  //   this.servicioService.getAllByIdEquipo(equipo.idEquipo)
-  //     .subscribe(services => {
-  //       console.log(services.length)
-  //       this.servicios = services;
-  //       if (services.length > 0) {
-  //         this.showEquipments = false;
-  //       }else {
-  //         this.throwAlert();
-  //       }
-  //     });
-  // }
-
   protected getAllServicesByEquipment(equipo: EquipoCliente) {
+    this.clearInput();
     this.getAllServicesWithRelationsCompleted(equipo.idEquipo);
     this.getAllServicesWithRelationsNotCompleted(equipo.idEquipo);
 
@@ -117,12 +155,16 @@ export class ServicioComponent implements OnInit {
       (res) => res.idEquipo === id);
     this.equipo = this.equipos[equipmentIndex];
     this.title = 'SERVICIOS ' + this.equipo.nombre.toUpperCase() + ' ' + this.equipo.modelo.toUpperCase();
+    this.getGraphicsOne();
   }
 
   protected getAllServicesWithRelationsCompleted(idEquipo: number) {
     this.servicioService.getAllByIdEquipoCompleted(idEquipo)
       .subscribe(services => {
         this.serviciosCompletados = services;
+        if (this.idServicio) {
+          this.getAllServicesWithRelationsNotCompleted(idEquipo);
+        }
       });
   }
 
@@ -140,21 +182,41 @@ export class ServicioComponent implements OnInit {
             this.showEquipments = false;
           }
           if (!this.typeServiceCompleted && !this.typeServiceUncompleted) {
-            // this.throwAlert();
             this.noServices = true;
             this.typeServiceUncompleted = true;
             this.typeServiceCompleted = false;
             this.showEquipments = false;
           }
-          // if (this.typeServiceCompleted || this.typeServiceUncompleted) {
-          //   this.setEquipment(idEquipo);
-          // }
+          if (this.typeServiceCompleted && !this.typeServiceUncompleted) {
+            this.typeService = 'FINALIZADOS';
+          }
         }
-        // else {
-        //   this.setEquipment(idEquipo);
-        // }
+        if (this.idServicio) {
+          this.findService();
+        }
         this.setEquipment(idEquipo);
       });
+  }
+
+  protected findService() {
+    let found = false;
+    if (this.serviciosCompletados.length > 0) {
+      const serviceIndex = this.serviciosCompletados.findIndex(
+        (res) => res.idServicio === this.idServicio);
+      if (serviceIndex != -1) {
+        found = true;
+        this.typeService = 'FINALIZADOS';
+        this.filter = String(this.parseDate(this.serviciosCompletados[serviceIndex].fechaCreado));
+      }
+    }
+    if (this.serviciosPendientes.length > 0 && !found) {
+      const serviceIndex = this.serviciosPendientes.findIndex(
+        (res) => res.idServicio === this.idServicio);
+      if (serviceIndex != -1) {
+        found = true;
+        this.filter = String(this.parseDate(this.serviciosPendientes[serviceIndex].fechaCreado));
+      }
+    }
   }
 
   protected getAllServiceTypes() {
@@ -164,13 +226,13 @@ export class ServicioComponent implements OnInit {
       });
   }
 
-  // protected getOneService(idServicio: number) {
-  //   this.servicioService.getOne(idServicio)
-  //     .subscribe(service => {
-  //       this.getAllServicesWithRelations(service.Equipo.idEquipo);
-  //       this.filter = String(service.fechaCreado).replace("T", " ").substring(0,18);
-  //     });
-  // }
+  protected getOneService(idServicio: number) {
+    this.servicioService.getOne(idServicio)
+      .subscribe(service => {
+        this.getAllServicesWithRelationsCompleted(service.Equipo.idEquipo);
+
+      });
+  }
 
   protected createService(dto: CreateServicioDTO) {
     this.servicioService.createClient(dto)
@@ -186,6 +248,10 @@ export class ServicioComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+
+        }
+        if (this.equipo) {
+          this.getGraphicsOne();
         }
       });
   }
@@ -208,6 +274,9 @@ export class ServicioComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+          if (this.equipo) {
+            this.getGraphicsOne();
+          }
         }
       });
   }
@@ -217,31 +286,12 @@ export class ServicioComponent implements OnInit {
   }
 
   protected openModalByService(service?: ServicioCliente) {
-    console.log("Call")
     this.initForm();
+    this.clearInput();
     if (service) {
       this.newService = false;
       return this.setService(service);
     }
-  }
-
-  protected throwAlert() {
-    Swal.fire({
-      title: 'No existen servicios para el equipo',
-      text: '¿Desea crear un servicio?',
-      icon: 'warning',
-      showConfirmButton: true,
-      showCancelButton: true
-    }).then((res: any) => {
-      if (res.isConfirmed) {
-        this.noServices = true;
-        this.typeServiceUncompleted = true;
-        this.typeServiceCompleted = false;
-        this.showEquipments = false;
-      } else {
-        this.showEquipments = true;
-      }
-    });
   }
 
   private initForm() {
@@ -269,12 +319,15 @@ export class ServicioComponent implements OnInit {
     return this.serviceForm.get('idEquipo');
   }
 
-  protected parseDate(date: Date, modal?: boolean) {
-    if (modal) {
-      return formatDate(date, 'medium', 'en');
-    } else {
-      return formatDate(date, 'yyyy-MM-dd hh-mm-ss aaa', 'en');
+  protected parseDate(date: Date | null) {
+    if (date) {
+      return formatDate(date, 'medium', 'es');
     }
+    return 'No ingresado';
+  }
+
+  protected state(bol: boolean) {
+    return bol ? 'Activo' : 'Inactivo';
   }
 
   private setService(service: ServicioCliente) {

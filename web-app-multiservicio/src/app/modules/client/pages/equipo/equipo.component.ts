@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EquipoActivoInactivo, EquipoCliente, EquipoClienteServicios, EquipoMaxMinCliente, UpdateEquipoDTO } from 'src/app/models/equipo.model';
@@ -129,9 +130,23 @@ export class EquipoComponent implements OnInit {
             text: "Equipo actualizado",
             icon: 'success'
           });
+          if (this.idPersona) {
+            this.getEquipmentActiveInactive(this.idPersona);
+          }
           this.clearInput();
         }
       });
+  }
+
+  protected parseDate(date: Date | null) {
+    if (date) {
+      return formatDate(date, 'medium', 'es');
+    }
+    return 'No ingresada';
+  }
+
+  protected state(bol : boolean){
+    return bol ? 'Activo' : 'Inactivo';
   }
 
   protected openModalByEquipment(equipment?: EquipoCliente) {
@@ -144,6 +159,7 @@ export class EquipoComponent implements OnInit {
   }
 
   private initForm() {
+    this.clearInput();
     this.newEquipment = true;
     this.equipmentForm = this.formBuilder.group({
       idEquipo: [''],

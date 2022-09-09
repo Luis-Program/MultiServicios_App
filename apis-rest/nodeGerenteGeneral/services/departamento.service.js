@@ -38,7 +38,8 @@ class DepartamentoService {
 
   async update(idDepartamento, changes) {
     const departamento = await this.findOne(idDepartamento);
-    const response = await departamento.update(changes);
+    const update = await departamento.update(changes);
+    const response = await this.findOne(update.idDepartamento);
     return response;
   }
 

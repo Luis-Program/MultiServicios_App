@@ -23,6 +23,7 @@ export class ServicioComponent implements OnInit {
   protected serviciosCompletados: ServicioRelaciones[] = [];
   protected serviciosPendientes: ServicioRelaciones[] = [];
   protected trabajadores: TrabajadoresDropDown[] = [];
+  protected fechaFinalizado: string | null = null;
   protected prioridad = ['Alta', 'Media', 'Baja'];
   protected tiposServicios: TipoServicio[] = [];
   protected idServicio: number | null = null;
@@ -84,11 +85,11 @@ export class ServicioComponent implements OnInit {
 
   protected switchView() {
     if (this.viewCompletedService) {
-      this.title = "SERVICIOS COMPLETADOS";
+      this.title = "SERVICIOS PENDIENTES";
       this.viewCompletedService = false;
       this.getAllServicesWithRelationsNotCompleted(false);
     } else {
-      this.title = "SERVICIOS PENDIENTES";
+      this.title = "SERVICIOS COMPLETADOS";
       this.viewCompletedService = true;
       this.getAllServicesWithRelationsCompleted();
     }
@@ -193,7 +194,9 @@ export class ServicioComponent implements OnInit {
   protected getOneService(idServicio: number) {
     this.servicioService.getOne(idServicio)
       .subscribe(service => {
-        this.filter = String(service.fechaCreado).replace("T", " ").substring(0, 18);
+        if (service.fechaCreado) {
+          this.filter = String(this.parseDate(service.fechaCreado));
+        }
       });
   }
 
@@ -265,6 +268,7 @@ export class ServicioComponent implements OnInit {
   }
 
   protected openModalByService(service?: ServicioRelaciones, edit?: boolean) {
+    this.clearInput();
     if (edit) {
       this.initForm(true);
     } else {
@@ -317,10 +321,11 @@ export class ServicioComponent implements OnInit {
   }
 
   protected parseDate(date :Date){
-    return formatDate(date,'yyyy-MM-dd hh-mm-ss aaa','en')
+    return formatDate(date,'medium','es');
   }
 
   private setService(service: ServicioRelaciones) {
+    this.fechaFinalizado = service.fechaFinalizado ? this.parseDate(service.fechaFinalizado) : null;
     let idEquipo, idTipoServicio, idTrabajador = null;
     idEquipo = (service.Equipo.idEquipo) ? service.Equipo.idEquipo : 0;
     idTipoServicio = (service.Tipo_Servicio?.idTipoServicio) ? service.Tipo_Servicio.idTipoServicio : 0;
@@ -329,7 +334,7 @@ export class ServicioComponent implements OnInit {
     this.serviceForm.setValue({
       idServicio: service.idServicio,
       prioridad: service.prioridad,
-      fechaHoraRealizar: service.fechaHoraRealizar ? formatDate(service.fechaHoraRealizar,'dd/MM/yyy HH:mm aa','en') : 'No ingresado',
+      fechaHoraRealizar: service.fechaHoraRealizar ? formatDate(service.fechaHoraRealizar,'yyyy-MM-ddTHH:mm:ss','es') : 'No ingresado',
       idTipoServicio: (idTipoServicio > 2) ? 1 : idTipoServicio,
       idTrabajador: idTrabajador,
       idEquipo: idEquipo,

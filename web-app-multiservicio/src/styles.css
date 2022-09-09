@@ -12,3 +12,11 @@
 .scroll {
   overflow: hidden;
 }
+
+.card-height {
+  height: 90%;
+}
+
+.card-height-services {
+  height: 95%;
+}

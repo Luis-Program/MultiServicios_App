@@ -96,6 +96,7 @@ export class TipoTelefonoComponent implements OnInit {
   }
 
   private initForm() {
+    this.clearInput();
     this.newTypePhone = true;
     this.typePhoneForm = this.formBuilder.group({
       tipo: ['', [Validators.required, Validators.maxLength(30)]]

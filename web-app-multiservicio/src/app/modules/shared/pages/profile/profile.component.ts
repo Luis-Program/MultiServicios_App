@@ -64,8 +64,8 @@ export class ProfileComponent implements OnInit {
   protected initForm(persona: PersonaRelacionesLogin) {
     this.Form = this.formBuilder.group({
       idPersona : [persona.idPersona],
-      nombre    : [persona.nombre,    [Validators.required, Validators.maxLength(15)]],
-      apellidos : [persona.apellidos, [Validators.required, Validators.maxLength(15)]],
+      nombre    : [persona.nombre,    [Validators.required, Validators.maxLength(25)]],
+      apellidos : [persona.apellidos, [Validators.required, Validators.maxLength(25)]],
       correo    : [persona.correo,    [Validators.required, Validators.email]],
       dpi       : [persona.dpi,       [Validators.required, Validators.maxLength(13), Validators.minLength(13)]]
     })

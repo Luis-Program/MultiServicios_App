@@ -117,6 +117,7 @@ export class TelefonoComponent implements OnInit {
 
   private initForm() {
     this.newPhone = true;
+    this.clearInput();
     this.phoneForm = this.formBuilder.group({
       numero: ['', [Validators.required, Validators.maxLength(8)]],
       idPersona: ['', [Validators.required]],

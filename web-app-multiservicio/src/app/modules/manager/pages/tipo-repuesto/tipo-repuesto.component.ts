@@ -89,6 +89,7 @@ export class TipoRepuestoComponent implements OnInit {
 
   protected openModalByTypeReplacement(typeReplacement?: TipoRepuesto) {
     this.initForm();
+    this.clearInput();
     if (typeReplacement) {
       this.newTypeReplacement = false;
       this.setTypeReplacement(typeReplacement);
@@ -127,7 +128,7 @@ export class TipoRepuestoComponent implements OnInit {
       return this.updateReplacementType(idTipoRepuesto, rest);
     }
 
-    return this.createReplacementType(this.typeReplacementForm.value);
+    return this.createReplacementType(rest);
   }
 
   protected deleteTypeReplacementModal() {

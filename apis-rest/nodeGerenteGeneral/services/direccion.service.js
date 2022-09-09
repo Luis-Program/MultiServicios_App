@@ -62,7 +62,8 @@ class DireccionService {
 
   async update(idDireccion, changes) {
     const direccion = await this.findOne(idDireccion);
-    const response = await direccion.update(changes);
+    const update = await direccion.update(changes);
+    const response = await this.findOne(update.idDireccion);
     return response;
   }
 

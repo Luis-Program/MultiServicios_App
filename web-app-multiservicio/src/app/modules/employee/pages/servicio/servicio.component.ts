@@ -37,13 +37,13 @@ export class ServicioComponent implements OnInit {
   protected idService!: number;
 
   // CHART
-  public chartData  !: any[];
-  public gradient: boolean = true;
-  public showLegend: boolean = true;
-  public showLabels: boolean = true;
-  public isDoughnut: boolean = false;
-  public colorScheme: string = 'ocean'
-  public legendTitle: string = 'Servicios';
+  protected chartData  !: any[];
+  protected gradient: boolean = true;
+  protected showLegend: boolean = true;
+  protected showLabels: boolean = true;
+  protected isDoughnut: boolean = false;
+  protected colorScheme: string = 'ocean'
+  protected legendTitle: string = 'Servicios';
 
   constructor(
     private direccionService: DireccionService,
@@ -134,7 +134,7 @@ export class ServicioComponent implements OnInit {
   protected getOneService(idServicio: number) {
     this.servicioService.getOne(idServicio)
       .subscribe(service => {
-        this.filter = String(service.fechaCreado).replace("T", " ").substring(0, 18);
+        this.filter = String(this.parseDate(service.fechaCreado));
       });
   }
 
@@ -153,6 +153,7 @@ export class ServicioComponent implements OnInit {
           });
           if (this.idPersona) {
             this.getAmountServices(this.idPersona);
+
           }
           this.clearInput();
         }
@@ -194,9 +195,9 @@ export class ServicioComponent implements OnInit {
     });
   }
 
-  protected parseDate(date: Date | null, bol?: boolean) {
+  protected parseDate(date: Date | null) {
     if (date) {
-      return (bol) ? formatDate(date, 'medium', 'en') : formatDate(date, 'yyyy-MM-dd hh-mm-ss aaa', 'en');
+      return formatDate(date, 'medium', 'es');
     }
     return 'No ingresado';
   }
@@ -220,7 +221,7 @@ export class ServicioComponent implements OnInit {
       Swal.fire({
         title: '¡Atención!',
         text: `¿Está seguro de la fecha y hora finalizado?\n
-                ${formatDate(rest.fechaFinalizado, 'medium', 'en')}`,
+                ${formatDate(rest.fechaFinalizado, 'medium', 'es')}`,
         icon: 'warning',
         showConfirmButton: true,
         showCancelButton: true
