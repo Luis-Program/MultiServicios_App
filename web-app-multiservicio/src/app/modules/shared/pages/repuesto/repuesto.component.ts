@@ -5,6 +5,7 @@ import { TipoRepuesto } from 'src/app/models/tipo_repuesto.model';
 import { RepuestoService } from 'src/app/services/repuesto.service';
 import { TipoRepuestoService } from 'src/app/services/tipo-repuesto.service';
 import Swal from 'sweetalert2';
+import { getRol } from '../../local-storage/localStorage';
 
 @Component({
   selector: 'app-repuesto',
@@ -34,7 +35,7 @@ export class RepuestoComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.rol = localStorage.getItem('rol');
+    this.rol = getRol();
     const id = localStorage.getItem('idNoti')
     this.idRepuesto = Number(id);
     localStorage.removeItem('idNoti');

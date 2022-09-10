@@ -1,5 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
+import { getRol } from '../local-storage/localStorage';
 
 @Pipe({
   name: 'filterService',
@@ -9,7 +10,7 @@ export class FilterServicePipe implements PipeTransform {
 
   transform(value: any, arg: string) {
     const resultFilter = [];
-    const rol = localStorage.getItem("rol");
+    const rol = getRol();
     arg = arg.trim();
     for (const object of value) {
       switch (rol) {

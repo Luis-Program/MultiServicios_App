@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DireccionRelacionesAnidadas } from 'src/app/models/direccion.model';
 import { PersonaRelacionesLogin } from 'src/app/models/persona.model';
 import { ServiciosFinalizadosPendientesTrabajador, ServicioTrabajador, UpdateServicioDTO } from 'src/app/models/servicio.model';
+import { getIdPersona } from 'src/app/modules/shared/local-storage/localStorage';
 import { DireccionService } from 'src/app/services/direccion.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { ServicioService } from 'src/app/services/servicio.service';
@@ -56,7 +57,7 @@ export class ServicioComponent implements OnInit {
     const id = localStorage.getItem('idNoti');
     this.idServicio = Number(id);
     localStorage.removeItem('idNoti');
-    this.idPersona = localStorage.getItem('idPersona');
+    this.idPersona = getIdPersona();
     this.initForm();
     if (this.idPersona) {
       this.getAllServicesWithRelationsNotCompleted(this.idPersona, true);

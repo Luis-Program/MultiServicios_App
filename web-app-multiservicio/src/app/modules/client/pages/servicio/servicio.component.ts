@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EquipoCliente } from 'src/app/models/equipo.model';
 import { CreateServicioDTO, ServicioCliente, ServicioRelaciones } from 'src/app/models/servicio.model';
 import { TipoServicio } from 'src/app/models/tipo_servicio.model';
+import { getIdPersona } from 'src/app/modules/shared/local-storage/localStorage';
 import { EquipoService } from 'src/app/services/equipo.service';
 import { ServicioService } from 'src/app/services/servicio.service';
 import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
@@ -57,7 +58,7 @@ export class ServicioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.idPersona = localStorage.getItem('idPersona');
+    this.idPersona = getIdPersona();
     const id = localStorage.getItem('idNoti');
     this.idServicio = Number(id);
     localStorage.removeItem('idNoti');

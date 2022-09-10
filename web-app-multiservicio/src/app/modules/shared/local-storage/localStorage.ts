@@ -6,8 +6,8 @@ export function setData(rol: string, idPersona: number){
 }
 
 export function getRol(){
-  const data = localStorage.getItem("9th6-tg20-211t-3t65-3gqs-token-data-claims:r-t5rwz9-1fa3-mna-10");
-  let rol;
+  const data = localStorage.getItem("9th6-tg20-211t-3t65-3gqs-token-data-claims:r-t5rwz9-1fa3-mna-99");
+  let rol = null;
   if (data) {
     rol = data.substring(184,data.length);
   }
@@ -16,7 +16,7 @@ export function getRol(){
 
 export function getIdPersona(){
   const data = localStorage.getItem("9th6-tg20-211t-3t65-3gqs-token-data-claims:i-t5rwz9-1fa3-mna-10");
-  let idPersona;
+  let idPersona = null;
   if (data) {
     idPersona = data.substring(184,data.length);
   }

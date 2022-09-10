@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { getRol } from '../../local-storage/localStorage';
 import { IPermissions } from '../Intefaces/IPermissions';
 
 @Component({
@@ -22,13 +23,13 @@ export class HomeComponent implements OnInit {
   }
 
   protected getRol(): any {
-    this.rol = localStorage.getItem('rol');
+    this.rol = getRol();
     if (!this.rol) {
-      return this.router.navigate(['/']);
+      return this.router.navigate(['/home']);
+    }else{
+      this.getPermissions(this.rol!);
+      this.loader = false;
     }
-
-    this.getPermissions(this.rol!);
-    this.loader = false;
   }
 
   protected getPermissions(rol: string): any {

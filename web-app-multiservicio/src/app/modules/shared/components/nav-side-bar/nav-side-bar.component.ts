@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Notificacion } from 'src/app/models/notificacion.model';
 import { AuthB2cService } from 'src/app/services/auth-b2c.service';
 import { NotificacionService } from 'src/app/services/notificacion.service';
+import { getIdPersona, getRol } from '../../local-storage/localStorage';
 
 declare function customInitFunctions(): any;
 
@@ -31,8 +32,8 @@ export class NavSideBarComponent implements OnInit {
   }
 
   private getRolAndId() {
-    this.rol = localStorage.getItem('rol');
-    this.idPersona = localStorage.getItem('idPersona');
+    this.rol = getRol();
+    this.idPersona = getIdPersona();
     if (this.rol && this.idPersona) {
       this.getNotificationsById(this.idPersona);
     } else {
@@ -195,35 +196,50 @@ export class NavSideBarComponent implements OnInit {
       });
   }
 
-  protected logout() {
-    let route: string | null = null;
-    if (this.rol) {
-      switch (this.rol) {
-        case 'Gerente General':
-          route = 'gerente-general/home';
-          this.router.navigate(['gerente-general/home']);
-          break;
-        case 'Trabajador Operacional':
-          route = 'trabajador/home';
-          this.router.navigate(['trabajador/home']);
-          break;
-        case 'Cliente':
-          route = 'cliente/home';
-          this.router.navigate(['cliente/home']);
-          break;
-        default:
-          this.router.navigate(['home']);
-          break;
-      }
-    } else {
-      this.router.navigate(['home']);
-    }
-    if (route) {
-      this.authB2C.setRoute(route);
-      if (this.authB2C.getRoute()) {
-
-        this.authB2C.logout();
-      }
-    }
-  }
+  // protected logout() {
+  //   let route: string | null = null;
+  //   if (this.rol) {
+  //     switch (this.rol) {
+  //       // case 'Gerente General':
+  //       //   route = 'gerente-general/home';
+  //       //   this.router.navigate(['gerente-general/home']);
+  //       //   break;
+  //       // case 'Trabajador Operacional':
+  //       //   route = 'trabajador/home';
+  //       //   this.router.navigate(['trabajador/home']);
+  //       //   break;
+  //       // case 'Cliente':
+  //       //   route = 'cliente/home';
+  //       //   this.router.navigate(['cliente/home']);
+  //       //   break;
+  //       // default:
+  //       //   this.router.navigate(['home']);
+  //       //   break;
+  //       case 'Gerente General':
+  //         console.log("Inside")
+  //       route = '/home';
+  //       this.router.navigate(['']);
+  //       break;
+  //     case 'Trabajador Operacional':
+  //       route = '/home';
+  //       this.router.navigate(['trabajador/home']);
+  //       break;
+  //     case 'Cliente':
+  //       route = '/home';
+  //       this.router.navigate(['cliente/home']);
+  //       break;
+  //     default:
+  //       this.router.navigate(['/home']);
+  //       break;
+  //     }
+  //   } else {
+  //     this.router.navigate(['/home']);
+  //   }
+  //   if (route) {
+  //     this.authB2C.setRoute(route);
+  //     if (this.authB2C.getRoute()) {
+  //       this.authB2C.logout();
+  //     }
+  //   }
+  // }
 }

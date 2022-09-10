@@ -5,6 +5,7 @@ import { TipoTelefono } from 'src/app/models/tipo_telefono.model';
 import { TelefonoService } from 'src/app/services/telefono.service';
 import { TipoTelefonoService } from 'src/app/services/tipo-telefono.service';
 import Swal from 'sweetalert2';
+import { getIdPersona, getRol } from '../../local-storage/localStorage';
 
 @Component({
   selector: 'app-telefono',
@@ -31,8 +32,8 @@ export class TelefonoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.rol = localStorage.getItem('rol');
-    this.idPersona = localStorage.getItem('idPersona');
+    this.rol = getRol();
+    this.idPersona = getIdPersona();
     this.getDataByRol();
     this.initForm();
   }

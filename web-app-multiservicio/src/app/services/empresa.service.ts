@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { CreateEmpresaDTO, Empresa, EmpresaRelaciones, MinMaxEmpresa, UpdateEmpresaDTO } from '../models/empresa.model';
+import { CreateEmpresaDTO, Empresa, MinMaxEmpresa, UpdateEmpresaDTO } from '../models/empresa.model';
 import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'

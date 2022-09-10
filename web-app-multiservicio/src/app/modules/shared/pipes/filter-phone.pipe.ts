@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { getRol } from '../local-storage/localStorage';
 
 @Pipe({
   name: 'filterPhone',
@@ -7,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FilterPhonePipe implements PipeTransform {
 
   transform(value: any, arg: string) {
-    const rol = localStorage.getItem("rol");
+    const rol = getRol();
     const resultFilter = [];
     arg = arg.trim();
     for (const object of value) {
