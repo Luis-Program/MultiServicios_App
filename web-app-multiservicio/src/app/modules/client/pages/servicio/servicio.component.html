@@ -70,15 +70,15 @@
         <div class="row mt-2 text-center min-with">
           <div class="col-12">
             <!-- ADD BUTTON -->
-              <button *ngIf="!showEquipments" class="btn btn-outline-primary mr-3" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByService()">
+              <button *ngIf="!showEquipments" class="btn btn-inverse text-white mr-3" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByService()">
               Nuevo
             </button>
             <!-- /ADD BUTTON -->
-            <button class="btn btn-outline-primary mr-3" (click)="changeViewService()"
+            <button class="btn btn-inverse text-white mr-3" (click)="changeViewService()"
               *ngIf="typeServiceUncompleted && typeService != 'PENDIENTES'">Pendientes</button>
-            <button class="btn btn-outline-primary mr-3" (click)="changeViewService()"
+            <button class="btn btn-inverse text-white mr-3" (click)="changeViewService()"
               *ngIf="typeServiceCompleted && typeService != 'FINALIZADOS'">Completados</button>
-            <button class="btn btn-outline-primary mr-3" (click)="changeViewService(true)"
+            <button class="btn btn-inverse text-white mr-3" (click)="changeViewService(true)"
               *ngIf="!showEquipments">Equipos</button>
           </div>
           <!-- /ADD BUTTON, SEARCH, BUTTONS TYPE SERVICES-->
