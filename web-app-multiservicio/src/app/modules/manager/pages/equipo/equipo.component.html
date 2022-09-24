@@ -17,7 +17,7 @@
         <div class="row mt-2 ">
           <!-- ADD BUTTON -->
           <div class="col-12 text-center">
-            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByEquipment()">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByEquipment()">
             Nuevo
           </button>
           </div>
@@ -32,14 +32,14 @@
           </div>
         </div>
         <div class="row mt-2">
-          <div class="col-6 border">
+          <div class="col-sm-12 col-md-6 col-lg-6 border">
             <div class="chart-container">
               <ngx-charts-pie-chart [scheme]="colorScheme" [results]="activesCharts" [legend]="showLegend"
                 [legendTitle]="legendTitle" [gradient]="gradient" [labels]="showLabels" [doughnut]="isDoughnut">
               </ngx-charts-pie-chart>
             </div>
           </div>
-          <div class="col-6 border">
+          <div class="col-sm-12 col-md-6 col-lg-6 border">
             <div class="chart-container">
               <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="minMaxChart" [gradient]="gradient"
                 [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
@@ -58,7 +58,7 @@
         <div class="row mt-2 ">
           <!-- ADD BUTTON -->
           <div class="col-12 text-center">
-            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByEquipment()">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByEquipment()">
             Nuevo
           </button>
           </div>

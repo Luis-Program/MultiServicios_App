@@ -1,10 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
 import { AuthenticationResult, InteractionStatus, RedirectRequest, SilentRequest } from '@azure/msal-browser';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { b2cPolicies } from './../azure-b2c-config/auth-config';
-import { PersonaService } from './persona.service';
+import { clearData } from '../modules/shared/local-storage/localStorage';
+import { b2cPolicies, msalConfig } from './../azure-b2c-config/auth-config';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,14 @@ import { PersonaService } from './persona.service';
 export class AuthB2cService {
   isIframe = false;
   loginDisplay = false;
-  protected route: string | null = null;
+  // protected route: string | null = null;
   readonly _destroying$ = new Subject<void>();
 
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
-    private personaService: PersonaService
+    private router:Router
   ) { }
 
   public startB2c() {
@@ -54,29 +55,29 @@ export class AuthB2cService {
     }
   }
 
-  public setRoute(route: string) {
-    if (route) {
-      this.route = route;
-      // console.log(this.route)
-    }
-  }
+  // public setRoute(route: string) {
+  //   if (route) {
+  //     this.route = route;
+  //     // console.log(this.route)
+  //   }
+  // }
 
-  public getRoute() {
-    return this.route;
-  }
+  // public getRoute() {
+  //   return this.route;
+  // }
 
   public logout() {
-    localStorage.removeItem('rol');
-    localStorage.removeItem('idPersona');
+    localStorage.removeItem("9th6-tg20-211t-3t65-3gqs-token-data-claims:r-t5rwz9-1fa3-mna-10");
+    localStorage.removeItem("9th6-tg20-211t-3t65-3gqs-token-data-claims:i-t5rwz9-1fa3-mna-10");
     this.authService.instance.setActiveAccount(this.authService.instance.getAllAccounts()[0]); // If you have not set an active account, you may need to set one
-
     const request = {
-      redirectStartPage: this.route,
+      redirectStartPage: msalConfig.auth.redirectUri,
       scopes: ["openid", "profile",] // This is added to address issue raised in #3530
     };
     this.authService.acquireTokenSilent(request as SilentRequest).subscribe({
       next: (result: AuthenticationResult) => {
         this.authService.logoutRedirect({ idTokenHint: result.idToken });
+        localStorage.clear();
       },
       error: (error) => {
         // Do something with error here

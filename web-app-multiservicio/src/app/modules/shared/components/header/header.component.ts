@@ -6,6 +6,7 @@ import { PersonaRelacionesLogin, UpdatePersonaDTO } from 'src/app/models/persona
 import { PersonaService } from 'src/app/services/persona.service';
 import { Notificacion } from 'src/app/models/notificacion.model';
 import Swal from 'sweetalert2';
+import { getIdPersona, getRol } from '../../local-storage/localStorage';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -30,10 +31,10 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.idPersona = localStorage.getItem('idPersona');
-    this.getNotificationsById(this.idPersona!);
-    this.rol = localStorage.getItem('rol');
+    this.idPersona = getIdPersona();
+    this.rol = getRol();
     if (this.idPersona && this.rol) {
+      this.getNotificationsById(this.idPersona);
       this.getOnePerson(this.idPersona);
     } else {
       this.router.navigate(['/home']);
@@ -41,6 +42,7 @@ export class HeaderComponent implements OnInit {
   }
 
   protected logout() {
+    this.router.navigate(['/home']);
     this.authB2C.logout();
   }
 

@@ -4,6 +4,7 @@ import { PersonaRelacionesLogin, UpdatePersonaDTO } from 'src/app/models/persona
 import { PersonaService } from 'src/app/services/persona.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { getIdPersona, getRol } from '../../local-storage/localStorage';
 
 @Component({
   selector: 'app-profile',
@@ -27,8 +28,8 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.idPersona = localStorage.getItem('idPersona');
-    this.rol = localStorage.getItem('rol');
+    this.idPersona = getIdPersona();
+    this.rol = getRol();
     if (this.idPersona && this.rol) {
       this.getOnePerson(this.idPersona);
       this.loading = false;

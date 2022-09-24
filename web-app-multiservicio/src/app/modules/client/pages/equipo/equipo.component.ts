@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EquipoActivoInactivo, EquipoCliente, EquipoClienteServicios, EquipoMaxMinCliente, UpdateEquipoDTO } from 'src/app/models/equipo.model';
+import { getIdPersona } from 'src/app/modules/shared/local-storage/localStorage';
 import { EquipoService } from 'src/app/services/equipo.service';
 import Swal from 'sweetalert2';
 
@@ -51,7 +52,7 @@ export class EquipoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.idPersona = localStorage.getItem('idPersona');
+    this.idPersona = getIdPersona();
     if (this.idPersona) {
       this.getAllEquipment(this.idPersona);
       this.getServiceAmount(this.idPersona);

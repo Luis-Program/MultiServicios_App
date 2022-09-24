@@ -18,7 +18,7 @@
         <div class="row mt-2 ">
           <!-- ADD BUTTON -->
           <div class="col-12 text-center">
-            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByService()">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByService()">
             Nuevo
           </button>
           </div>
@@ -67,12 +67,12 @@
         <div class="row mt-2 text-center">
           <div class="col-12">
             <div class="col-12 text-center">
-              <button class="btn btn-outline-primary mr-3" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByService()">
+              <button class="btn btn-inverse text-white mr-3" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByService()">
               Nuevo
             </button>
-            <button class="btn btn-outline-primary mr-3" (click)="switchView()"
+            <button class="btn btn-inverse text-white mr-3" (click)="switchView()"
               *ngIf="viewCompletedService">Pendientes</button>
-            <button class="btn btn-outline-primary mr-3" (click)="switchView()"
+            <button class="btn btn-inverse text-white mr-3" (click)="switchView()"
               *ngIf="!viewCompletedService">Completados</button>
           </div>
 

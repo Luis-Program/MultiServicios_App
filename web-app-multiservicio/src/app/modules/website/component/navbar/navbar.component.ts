@@ -7,6 +7,7 @@ import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { EventMessage, EventType, AuthenticationResult, InteractionStatus } from '@azure/msal-browser';
 import { TipoPersonaRelaciones } from 'src/app/models/tipo_persona.model';
 import { PersonaService } from 'src/app/services/persona.service';
+import { getRol, setData } from 'src/app/modules/shared/local-storage/localStorage';
 
 @Component({
   selector: 'app-navbar',
@@ -54,7 +55,7 @@ export class NavbarComponent implements OnInit {
   }
 
   protected checkLogin() {
-    const rol = localStorage.getItem('rol');
+    const rol = getRol();
     if (rol) {
       this.loaded = true;
       return this.setRedirectByRol(rol);
@@ -98,10 +99,9 @@ export class NavbarComponent implements OnInit {
     if (email) {
       this.personaService.getOneByEmail(email)
         .subscribe(data => {
-          localStorage.setItem('idPersona', data.idPersona.toString());
           const tipopersona: TipoPersonaRelaciones | null = data.Tipo_Persona;
           if (tipopersona) {
-            localStorage.setItem('rol', tipopersona.tipo);
+            setData(tipopersona.tipo,data.idPersona)
             this.checkLogin();
             this.serviceInfo = true;
           } else {
