@@ -19,10 +19,10 @@ export class AnalisisRepuestoComponent implements OnInit {
   protected filter = "";
 
   public chartData      !: any[];
-  public gradient       : boolean = true;
-  public showLabels     : boolean = true;
-  public isDoughnut     : boolean = false;
-  public colorScheme    : string  = 'ocean';
+  public gradient: boolean = true;
+  public showLabels: boolean = true;
+  public isDoughnut: boolean = false;
+  public colorScheme: string = 'ocean';
 
   legend: boolean = true;
   animations: boolean = true;
@@ -30,8 +30,6 @@ export class AnalisisRepuestoComponent implements OnInit {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
-  // xAxisLabel: string = 'Fecha';
-  // yAxisLabel: string = 'Population';
   timeline: boolean = true;
 
   constructor(
@@ -44,17 +42,17 @@ export class AnalisisRepuestoComponent implements OnInit {
     this.getAllReplacementAnalysis();
   }
 
-  private getAllReplacementAnalysis(){
+  private getAllReplacementAnalysis() {
     this.analisisRepuestoService.getAll()
-    .subscribe(replacementsAnalysis => {
-      this.analisisRepuestos = replacementsAnalysis;
-      this.loading = false;
-    });
+      .subscribe(replacementsAnalysis => {
+        this.analisisRepuestos = replacementsAnalysis;
+        this.loading = false;
+      });
   }
 
-  protected downloadReport(){
+  protected downloadReport() {
     let array: any = [
-      ["id","Repuesto","Tipo","Cantidad previa","Cantidad despues","Diferencias","Fecha Hora","Acción"],
+      ["id", "Repuesto", "Tipo", "Cantidad previa", "Cantidad despues", "Diferencias", "Fecha Hora", "Acción"],
     ];
     for (let index = 0; index < this.analisisRepuestos.length; index++) {
       let alter: any = [
@@ -71,8 +69,8 @@ export class AnalisisRepuestoComponent implements OnInit {
     }
 
     let CsvString = "";
-    array.forEach((RowItem:any) => {
-      RowItem.forEach((colItem:any) => {
+    array.forEach((RowItem: any) => {
+      RowItem.forEach((colItem: any) => {
         CsvString += colItem + ',';
       });
       CsvString += '\r\n';
@@ -80,39 +78,68 @@ export class AnalisisRepuestoComponent implements OnInit {
     CsvString = "data:applications/csv;charset=utf-8,%EF%BB%BF" + encodeURIComponent(CsvString);
     let x = document.createElement("A");
     x.setAttribute("href", CsvString);
-    x.setAttribute("download","analisis-repuesto.csv")
+    x.setAttribute("download", "analisis-repuesto.csv")
     document.body.appendChild(x);
     x.click();
   }
 
-  private parseDate(date :Date){
-    return formatDate(date,'medium','es').replace(",",'');
+  private parseDate(date: Date) {
+    return formatDate(date, 'medium', 'es').replace(",", '');
   }
 
-  protected getDataGraphic(nombreRepuesto: string){
+  protected getDataGraphic(nombreRepuesto: string) {
     this.analisisRepuestoService.getDataGraphics(nombreRepuesto)
-    .subscribe((data: Graphics[]) => {
+      .subscribe((data: Graphics[]) => {
+        this.dataGraphic = data;
+        this.chartData = [
+          {
+            name: nombreRepuesto,
+            series: data.map(d => {
+              return {
+                name: this.datepipe.transform(d.timedate),
+                value: d.amount
+              }
+            })
+          }
+        ]
+        this.clearInput();
+      });
+  }
 
-      this.chartData = [
-        {
-          name: nombreRepuesto,
-          series: data.map(d =>{
-            return {
-              name: this.datepipe.transform(d.timedate),
-              value: d.amount
-            }
-          })
-        }
-      ]
-      this.clearInput();
-    });
+  protected getDataOne() {
+    if (this.dataGraphic && this.analisisRepuesto) {
+      let array: any = [
+        ["Cantidad", "Fecha Hora"],
+      ];
+      for (let index = 0; index < this.dataGraphic.length; index++) {
+        let alter: any = [
+          String(this.dataGraphic[index].amount),
+          String(this.parseDate(this.dataGraphic[index].timedate)),
+        ]
+        array.push(alter);
+      }
+
+      let CsvString = "";
+      array.forEach((RowItem: any) => {
+        RowItem.forEach((colItem: any) => {
+          CsvString += colItem + ',';
+        });
+        CsvString += '\r\n';
+      })
+      CsvString = "data:applications/csv;charset=utf-8,%EF%BB%BF" + encodeURIComponent(CsvString);
+      let x = document.createElement("A");
+      x.setAttribute("href", CsvString);
+      x.setAttribute("download", `${this.analisisRepuesto.nombreTipo}-${this.analisisRepuesto.nombreRepuesto}.csv`)
+      document.body.appendChild(x);
+      x.click();
+    }
   }
 
   private clearInput() {
     this.filter = "";
   }
 
-  openModal(analisis: Analisis_Repuesto) {
+  protected openModal(analisis: Analisis_Repuesto) {
     this.analisisRepuesto = analisis;
     this.getDataGraphic(analisis.nombreRepuesto)
   }

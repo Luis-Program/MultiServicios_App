@@ -86,7 +86,7 @@
                 <form [formGroup]="phoneForm">
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Número</label>
-                    <input type="number" class="form-control" min="10000000" max="99999999" id="recipient-name1"
+                    <input type="number" class="form-control" min="10000000" max="99999999" maxlength="8" id="recipient-name1"
                       formControlName="numero">
                     <div *ngIf="numero?.invalid && numero?.touched">
                       <small *ngIf="numero?.hasError('required')" class="text-danger">*Número requerido</small>

@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit {
   }
 
   protected logout() {
-    this.router.navigate(['/home']);
+    // this.router.navigate(['/home']);
     this.authB2C.logout();
   }
 

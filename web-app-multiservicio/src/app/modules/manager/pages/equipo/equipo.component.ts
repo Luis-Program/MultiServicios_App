@@ -213,6 +213,7 @@ export class EquipoComponent implements OnInit {
           });
           this.clearInput();
           this.getClientAmountMinMAx();
+          this.getEquipmentActiveInactive();
         }
       });
   }
@@ -314,9 +315,10 @@ export class EquipoComponent implements OnInit {
     if (!this.equipmentForm.touched) return;
     const { idEquipo, ...rest } = this.equipmentForm.value;
     if (idEquipo) {
-        this.updateEquipmentManager(idEquipo, rest);
-      }
-      return this.createEquipment(rest);
+      this.updateEquipmentManager(idEquipo, rest);
+    } else {
+      this.createEquipment(rest);
+    }
   }
 
   protected deleteEquipmentModal() {
