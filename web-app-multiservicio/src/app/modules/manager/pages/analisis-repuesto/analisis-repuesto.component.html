@@ -25,8 +25,18 @@
           </div>
         </div>
 
+        <div class="row mt-2">
+          <!-- REPORTING BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" (click)="downloadReport()">
+            Descargar
+          </button>
+          </div>
+          <!-- /REPORTING BUTTON -->
+        </div>
+
         <!-- INPUT SEARCH -->
-        <div class="row">
+        <div class="row mt-2">
           <div class="col-12">
             <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
           </div>

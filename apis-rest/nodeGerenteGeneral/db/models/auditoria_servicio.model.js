@@ -29,6 +29,10 @@ const Auditoria_ServicioSchema =  {
     allowNull: false,
     type: DataTypes.STRING
   },
+  modeloEquipo: {
+    allowNull: false,
+    type: DataTypes.STRING
+  },
   nombreCliente: {
     allowNull: false,
     type: DataTypes.STRING

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Analisis_Repuesto, Graphics } from 'src/app/models/analisis_repuesto.model';
 import { AnalisisRepuestoService } from 'src/app/services/analisis-repuesto.service';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-analisis-repuesto',
@@ -50,6 +50,43 @@ export class AnalisisRepuestoComponent implements OnInit {
       this.analisisRepuestos = replacementsAnalysis;
       this.loading = false;
     });
+  }
+
+  protected downloadReport(){
+    let array: any = [
+      ["id","Repuesto","Tipo","Cantidad previa","Cantidad despues","Diferencias","Fecha Hora","Acción"],
+    ];
+    for (let index = 0; index < this.analisisRepuestos.length; index++) {
+      let alter: any = [
+        this.analisisRepuestos[index].idAnalisisRepuesto,
+        this.analisisRepuestos[index].nombreRepuesto,
+        this.analisisRepuestos[index].nombreTipo,
+        String(this.analisisRepuestos[index].cantidadAntes),
+        String(this.analisisRepuestos[index].cantidadDespues),
+        String(this.analisisRepuestos[index].diferenciaCantidades),
+        String(this.parseDate(this.analisisRepuestos[index].fechaHora)),
+        this.analisisRepuestos[index].tipoAccion,
+      ]
+      array.push(alter);
+    }
+
+    let CsvString = "";
+    array.forEach((RowItem:any) => {
+      RowItem.forEach((colItem:any) => {
+        CsvString += colItem + ',';
+      });
+      CsvString += '\r\n';
+    })
+    CsvString = "data:applications/csv;charset=utf-8,%EF%BB%BF" + encodeURIComponent(CsvString);
+    let x = document.createElement("A");
+    x.setAttribute("href", CsvString);
+    x.setAttribute("download","analisis-repuesto.csv")
+    document.body.appendChild(x);
+    x.click();
+  }
+
+  private parseDate(date :Date){
+    return formatDate(date,'medium','es').replace(",",'');
   }
 
   protected getDataGraphic(nombreRepuesto: string){
