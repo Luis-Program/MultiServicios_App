@@ -1,74 +1,227 @@
-<h1>Personas</h1>
-<button (click)="changeTypePerson('all')" *ngIf="tipo != 'all'">Todo Tipo</button>
-<button (click)="changeTypePerson('client')" *ngIf="tipo != 'client'">Clientes</button>
-<button (click)="changeTypePerson('worker')" *ngIf="tipo != 'worker'">Trabajadores</button>
-<h3 *ngIf="loading">Cargando</h3>
-<div [ngSwitch]="tipo">
-  <div *ngSwitchCase="'all'">
-    <div *ngFor="let persona of personas">
-      <h3>Persona</h3>
-      <p>Id: {{persona.idPersona}}</p>
-      <p>Nombre: {{persona.nombre}}</p>
-      <p>Apellido: {{persona.apellidos}}</p>
-      <p>Correo: {{persona.correo}}</p>
-      <p>Dpi: {{persona.dpi}}</p>
-      <h4>Tipo Persona</h4>
-      <p>Rol: {{persona.Tipo_Persona ? persona.Tipo_Persona.tipo : 'No ingresada.'}}</p>
-      <h4>Empresa</h4>
-      <p>Nombre:
-        {{persona.Tipo_Persona && persona.Tipo_Persona.Empresa ? persona.Tipo_Persona.Empresa.nombre : 'No ingresada.'}}
-      </p>
-      <p>-----------------------------------------</p>
-    </div>
-  </div>
-  <div *ngSwitchCase="'client'">
-    <div *ngFor="let cliente of clientes">
-      <h3>Cliente</h3>
-      <p>Id: {{cliente.idPersona}}</p>
-      <p>Nombre: {{cliente.nombre}}</p>
-      <p>Apellido: {{cliente.apellidos}}</p>
-      <p>Correo: {{cliente.correo}}</p>
-      <p>Dpi: {{cliente.dpi}}</p>
-      <h4>Tipo Persona</h4>
-      <p>Rol: Cliente</p>
-      <h4>Equipos</h4>
-      <p>Cantidad de Equipos: {{cliente.cantidad}}</p>
-      <p>-----------------------------------------</p>
-    </div>
-  </div>
-  <div *ngSwitchCase="'worker'">
-    <!-- Cuando se selecciona ver solo trabajadores -->
-    <div *ngIf="trabajadoresMinMaxServices[0] && trabajadoresMinMaxServices[1]">
-      <h3>Trabajadores con mayor y menor cantidad de servicios </h3>
-      <p>Mayor cantidad de servicios realizados por: {{trabajadoresMinMaxServices[0].persona.nombre}}
-        {{trabajadoresMinMaxServices[0].persona.apellidos}}
-      </p>
-      <p>Cantidad: {{trabajadoresMinMaxServices[0].cantidadService}}</p>
-      <p>Menor cantidad de servicios realizados por: {{trabajadoresMinMaxServices[1].persona.nombre}}
-        {{trabajadoresMinMaxServices[1].persona.apellidos}}
-      </p>
-      <p>Cantidad: {{trabajadoresMinMaxServices[1].cantidadService}}</p>
-    </div>
-    <div *ngFor="let trabajador of trabajadores">
-      <h3>Trabajador</h3>
-      <p>Id: {{trabajador.idPersona}}</p>
-      <p>Nombre: {{trabajador.nombre}}</p>
-      <p>Apellido: {{trabajador.apellidos}}</p>
-      <p>Correo: {{trabajador.correo}}</p>
-      <p>Dpi: {{trabajador.dpi}}</p>
-      <h4>Tipo Persona</h4>
-      <p>Rol: Trabajador Operacional</p>
-      <h4>Servicios</h4>
-      <p>Cantidad: {{trabajador.cantidad}}</p>
-      <p>-----------------------------------------</p>
-    </div>
-  </div>
-</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>{{ title }}</h1>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- ADD BUTTON -->
+          <button class="right-side-toggle waves-effect waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10"
+          data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+          <i class="mdi mdi-plus"></i>
+        </button>
+          <!-- /ADD BUTTON -->
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
 
-<!-- Trabajador -->
-<!-- Cuando se selección un trabajador en personas -->
-<div *ngIf="trabajadorServicios">
-  <h3>Servicios de Trabajador</h3>
-  <p>Servicios Finalizados: {{trabajadorServicios.finalizados}}</p>
-  <p>Servicios Pendientes: {{trabajadorServicios.pendientes}}</p>
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>{{ title }}</h1>
+          </div>
+        </div>
+
+
+        <!-- MAIN CHART -->
+        <div class="row" *ngIf="showworkersChart && tipo != 'all'">
+          <div class="col-12 border">
+            <div class="main-chart-container">
+              <ngx-charts-bar-horizontal [scheme]="colorScheme" [legend]="showLegend" [results]="workersChart"
+                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                [legendTitle]="legendTitle">
+              </ngx-charts-bar-horizontal>
+            </div>
+          </div>
+        </div>
+        <!-- /MAIN CHART -->
+
+          <!-- INPUT SEARCH -->
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+
+        <div class="row mt-2 text-center">
+          <div class="col-12">
+            <div class="col-12 text-center">
+              <button class="btn btn-inverse text-white mr-1" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+              Nuevo
+            </button>
+            <button class="btn btn-inverse text-white btn-large mr-1" (click)="changeTypePerson('all')"
+              *ngIf="tipo != 'all'">Todos</button>
+            <button class="btn btn-inverse text-white btn-large mr-1" (click)="changeTypePerson('client')"
+              *ngIf="tipo != 'client'">Clientes</button>
+            <button class="btn btn-inverse text-white btn-large mr-1" (click)="changeTypePerson('worker')"
+              *ngIf="tipo != 'worker'">Trabajadores</button>
+          </div>
+        </div>
+        <!-- /INICIO BOTON -->
+
+        <!-- CARDS -->
+            <div class="row mt-3" style="min-width: 100%;" *ngIf="tipo === 'all'">
+              <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of personas | filterPerson:filter">
+                <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                  (click)="openModal(persona)">
+                  <div class="card-header bg-dark">
+                  </div>
+                  <div class="card-body border">
+                    <div class="row">
+                      <div class="col-10 text-left">
+                        <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
+                        <small><p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p>
+                        <p class="card-text">{{ persona.dpi }}</p>
+                        <p class="card-text">{{ persona.correo }}</p></small>
+                      </div>
+                      <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                        <i class="mdi mdi-account"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 min-with" *ngIf="tipo === 'client'">
+              <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of clientes | filterPerson:filter ">
+                <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                  (click)="openModal(persona)">
+                  <div class="card-header bg-dark">
+                  </div>
+                  <div class="card-body border">
+                    <div class="row">
+                      <div class="col-10 text-left">
+                        <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
+                        <!-- <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p> -->
+                        <p class="card-text">{{ persona.dpi }}</p>
+                        <p class="card-text">{{ persona.correo }}</p>
+                      </div>
+                      <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                        <i class="mdi mdi-account"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 min-with" *ngIf="tipo === 'worker'">
+              <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let persona of trabajadores | filterPerson:filter">
+                <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                  (click)="openModal(persona)">
+                  <div class="card-header bg-dark">
+                  </div>
+                  <div class="card-body border">
+                    <div class="row">
+                      <div class="col-10 text-left">
+                        <h3 class="card-title text-dark">{{ persona.nombre }} {{ persona.apellidos }}</h3>
+                        <!-- <p class="card-text">{{persona.tipo ? persona.tipo : 'Sin rol'}}</p> -->
+                        <p class="card-text">{{ persona.dpi }}</p>
+                        <p class="card-text">{{ persona.correo }}</p>
+                      </div>
+                      <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                        <i class="mdi mdi-account"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <!-- /CARDS -->
+      </div>
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">{{type}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+
+              <div class="modal-body">
+                <form [formGroup]="Form">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombres</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                    <div *ngIf="nombre?.invalid && nombre?.touched">
+                      <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*Nombre no debe exceder de 20 carácteres</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Apellidos</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="apellidos">
+                    <div *ngIf="apellidos?.invalid && apellidos?.touched">
+                      <small *ngIf="apellidos?.hasError('required')" class="text-danger">*Apellido requerido</small>
+                      <small *ngIf="apellidos?.hasError('maxlength')" class="text-danger">*El apellido no debe exceder de 20 carácteres</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Correo</label>
+                    <input type="email" class="form-control" id="recipient-name1" formControlName="correo">
+                    <div *ngIf="correo?.invalid && correo?.touched">
+                      <small *ngIf="correo?.hasError('required')" class="text-danger">*Correo requerido</small>
+                      <small *ngIf="correo?.hasError('email')" class="text-danger">*Debe ser un correo válido</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">DPI</label>
+                    <input type="text" class="form-control" id="recipient-name1" maxlength="13" formControlName="dpi">
+                    <div *ngIf="dpi?.invalid && dpi?.touched">
+                      <small *ngIf="dpi?.hasError('required')" class="text-danger">*DPI requerido</small>
+                      <small *ngIf="dpi?.hasError('maxlength') || dpi?.hasError('minlength')" class="text-danger">*El DPI debe ser de 13 carácteres</small>
+                    </div>
+                  </div>
+                  <div class="form-group" *ngIf="tipo != 'all' && !create && !newItem">
+                    <label for="recipient-name" class="control-label">{{amount}}</label>
+                    <input type="text" class="form-control" id="recipient-name1" [value]="amountPerson" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Rol</label>
+                    <select class="form-control custom-select" formControlName="idTipoPersona">
+                      <option *ngFor="let tiposPersona of tiposPersonas" [value]="tiposPersona.idTipoPersona">
+                        {{ tiposPersona.tipo }}</option>
+                    </select>
+                    <div *ngIf="tipoPersona?.invalid && tipoPersona?.touched">
+                      <small *ngIf="tipoPersona?.hasError('required')" class="text-danger">*Rol requerido</small>
+                    </div>
+                    <!-- <small *ngIf="idEmpresaValue <= 0" class="form-control-feedback">No ingresado *</small> -->
+                  </div>
+                </form>
+              </div>
+
+              <div class="row" *ngIf="showoperatorChart && worker && !create">
+                <div class="col-12">
+                  <div class="chart-container">
+                    <ngx-charts-pie-chart [scheme]="colorScheme" [results]="chartData" [gradient]="gradient"
+                      [labels]="showLabels" [doughnut]="isDoughnut">
+                    </ngx-charts-pie-chart>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newItem"
+                  (click)="deleteItem()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newItem"
+                  (click)="createItem()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newItem"
+                  (click)="createItem()">Editar</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,54 +1,173 @@
-<h1>Auditoria Servicios</h1>
-<h3 *ngIf="loading">Cargando</h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre" style="overflow-x: scroll">
 
-<div *ngFor="let auditoriaServicio of auditoriaServicios">
-  <p>Id: {{auditoriaServicio.idAuditoriaServicio}}</p>
-  <p>Fecha y Hora: {{auditoriaServicio.fechaHora}}</p>
-  <p>Id servicio: {{auditoriaServicio.idServicio}}</p>
-  <p>Tipo Servicio: {{auditoriaServicio.tipoServicio}}</p>
-  <p>Prioridad: {{auditoriaServicio.prioridad}}</p>
-  <p>Nombre del Equipo: {{auditoriaServicio.nombreEquipo}}</p>
-  <p>Nombre del Cliente: {{auditoriaServicio.nombreCliente}}</p>
-  <p>DPI Cliente{{auditoriaServicio.dpiCliente}}</p>
-  <p>Fecha y hora de creación: {{auditoriaServicio.fechaHoraCreado}}</p>
-  <p>Empresa: {{auditoriaServicio.empresaCliente ? auditoriaServicio.empresaCliente : 'No ingresado.'}}</p>
-  <p>Nit Empresa: {{auditoriaServicio.empresaClienteNit}}</p>
-  <p>Fecha y hora de finalización:
-    {{auditoriaServicio.fechaHoraFinalizado ? auditoriaServicio.fechaHoraFinalizado : 'No ingresado.'}}</p>
-  <p>Estado: {{auditoriaServicio.estado}}</p>
-  <p>Trabajador encargado: {{auditoriaServicio.nombreTrabajador ? auditoriaServicio.nombreTrabajador : 'No asignado.'}}
-  </p>
-  <p>DPI: {{auditoriaServicio.dpiTrabajador ? auditoriaServicio.dpiTrabajador : 'No asignado.'}}</p>
-  <p>Fecha y hora de asignación del trabajador:
-    {{auditoriaServicio.fechaHoraAsignadoTrabajador ? auditoriaServicio.fechaHoraAsignadoTrabajador : 'Sin asignación.'}}
-  </p>
-  <p>Fecha y hora a ejecutar:
-    {{auditoriaServicio.fechaHoraRealizar ? auditoriaServicio.fechaHoraRealizar : 'No asignado.'}}</p>
-</div>
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>AUDITORIA SERVICIO</h1>
+          </div>
+        </div>
 
-<button (click)="getOneServiceAudit(1)">Obtener</button>
+        <!-- INPUT SEARCH -->
+        <div class="row">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+        <loader></loader>
+      </div>
 
-<div *ngIf="auditoriaServicio">
-  <p>Id: {{auditoriaServicio.idAuditoriaServicio}}</p>
-  <p>Fecha y Hora: {{auditoriaServicio.fechaHora}}</p>
-  <p>Id servicio: {{auditoriaServicio.idServicio}}</p>
-  <p>Tipo Servicio: {{auditoriaServicio.tipoServicio}}</p>
-  <p>Prioridad: {{auditoriaServicio.prioridad}}</p>
-  <p>Nombre del Equipo: {{auditoriaServicio.nombreEquipo}}</p>
-  <p>Nombre del Cliente: {{auditoriaServicio.nombreCliente}}</p>
-  <p>DPI Cliente{{auditoriaServicio.dpiCliente}}</p>
-  <p>Fecha y hora de creación: {{auditoriaServicio.fechaHoraCreado}}</p>
-  <p>Empresa: {{auditoriaServicio.empresaCliente ? auditoriaServicio.empresaCliente : 'No ingresado.'}}</p>
-  <p>Nit Empresa: {{auditoriaServicio.empresaClienteNit}}</p>
-  <p>Fecha y hora de finalización:
-    {{auditoriaServicio.fechaHoraFinalizado ? auditoriaServicio.fechaHoraFinalizado : 'No ingresado.'}}</p>
-  <p>Estado: {{auditoriaServicio.estado}}</p>
-  <p>Trabajador encargado: {{auditoriaServicio.nombreTrabajador ? auditoriaServicio.nombreTrabajador : 'No asignado.'}}
-  </p>
-  <p>DPI: {{auditoriaServicio.dpiTrabajador ? auditoriaServicio.dpiTrabajador : 'No asignado.'}}</p>
-  <p>Fecha y hora de asignación del trabajador:
-    {{auditoriaServicio.fechaHoraAsignadoTrabajador ? auditoriaServicio.fechaHoraAsignadoTrabajador : 'Sin asignación.'}}
-  </p>
-  <p>Fecha y hora a ejecutar:
-    {{auditoriaServicio.fechaHoraRealizar ? auditoriaServicio.fechaHoraRealizar : 'No asignado.'}}</p>
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>AUDITORIA SERVICIO</h1>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <!-- REPORTING BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" (click)="downloadReport()">
+            Descargar
+          </button>
+          </div>
+          <!-- /REPORTING BUTTON -->
+        </div>
+
+        <!-- INPUT SEARCH -->
+        <div class="row mt-2">
+          <div class="col-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+        </div>
+        <!-- /INPUT SEARCH -->
+
+        <!-- TABLE -->
+        <div class="row mt-3">
+          <div class="col-12">
+            <table class="tablesaw table-striped table-hover table-bordered table" data-tablesaw-mode="columntoggle">
+              <thead>
+                <tr>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Equipo</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="3">Servicio</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Cliente</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="1">
+                    <!-- <abbr title="Rotten Tomato Rating">Prioridad</abbr> -->
+                    Estado
+                  </th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="4">Trabajador</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="2">Fecha Creado</th>
+                  <th scope="col" data-tablesaw-sortable-col data-tablesaw-priority="6"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let auditoriaServicio of auditoriaServicios | filterAudit:filter">
+                  <td class="title">{{ auditoriaServicio.nombreEquipo }}</td>
+                  <td>{{ auditoriaServicio.tipoServicio }}</td>
+                  <td>{{ auditoriaServicio.nombreCliente }}</td>
+                  <td>{{ auditoriaServicio.estado }}</td>
+                  <td>{{ auditoriaServicio.nombreTrabajador ? auditoriaServicio.nombreTrabajador : 'No asignado' }}</td>
+                  <td>{{ auditoriaServicio.fechaHoraCreado | date:'medium'}}</td>
+                  <td data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                    (click)="openModal(auditoriaServicio)"><i class="mdi mdi-chevron-right"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /TABLE -->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Auditoria</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="Form">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre del equipo*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="nombreEquipo">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tipo de servicio*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="tipoServicio">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Prioridad*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="prioridad">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Estado*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="estado">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre del cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="nombreCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">DPI Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly formControlName="dpiCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Empresa Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="empresaCliente">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">NIT Empresa Cliente*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="empresaClienteNit">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre del trabajador*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="nombreTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">DPI Trabajador*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="dpiTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha de creación*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                    formControlName="fechaHoraCreado" >
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha Trabajador Asignado*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="fechaHoraAsignadoTrabajador">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha realizado*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="fechaHoraRealizar">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha de finalización*</label>
+                    <input type="text" class="form-control" id="recipient-name1" readonly
+                      formControlName="fechaHoraFinalizado">
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+      </div>
+    </div>
+  </div>
 </div>

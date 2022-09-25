@@ -1,7 +1,10 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { EquipoActivoInactivo, EquipoCliente, EquipoClienteServicios, EquipoMaxMinCliente, UpdateEquipoDTO } from 'src/app/models/equipo.model';
+import { getIdPersona } from 'src/app/modules/shared/local-storage/localStorage';
 import { EquipoService } from 'src/app/services/equipo.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-equipo',
@@ -10,100 +13,208 @@ import { EquipoService } from 'src/app/services/equipo.service';
 })
 export class EquipoComponent implements OnInit {
 
+  protected list = [{ estado: "Activo", value: true }, { estado: "Inactivo", value: false }];
   protected cantidadServiciosFinPen: EquipoClienteServicios | null = null;
   protected cantidadActivoInactivo: EquipoActivoInactivo[] = [];
   protected equiposMaxMin: EquipoMaxMinCliente | null = null;
   protected equipo: EquipoCliente | null = null;
   protected equipos: EquipoCliente[] = [];
   private idPersona: string | null = null;
-  private idEquipo: string | null = null;
-  protected loadingGraphic1 = false; // Carga de graficos servicios pendientes y finalizados
-  protected loadingGraphic2 = false; // Carga de graficos cantidad de servicios activos e inactivos
-  protected loadingGraphic3 = false; // Carga de graficos de los equipos con menor y mayor cantidad de servicios
-  protected loadingMain = false; // Carga principal
+  protected loading = false;
+  protected filter = "";
+
+  //MODAL
+  protected equipmentForm!: FormGroup;
+  protected newEquipment!: Boolean;
+  protected idEquipment!: number;
+
+  // CHARTS
+  protected chartMinMax  !: any[];
+  protected activeInactiveChart !: any[];
+  protected endStartedServicesChart !: any[];
+
+  protected showXAxis = true;
+  protected showYAxis = true;
+  protected gradient = false;
+  protected showXAxisLabel = true;
+  protected xAxisLabel = 'Equipo';
+  protected showYAxisLabel = true;
+  protected yAxisLabel = 'Cantidad';
+  protected colorScheme = 'ocean'
+
+  // options
+  protected showLabels: boolean = true;
+  protected isDoughnut: boolean = false;
 
   constructor(
     private equipoService: EquipoService,
-    private router: Router
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
-    this.idPersona = localStorage.getItem('idPersona');
-    this.idEquipo = localStorage.getItem('idEquipo');
-    localStorage.removeItem('idEquipo');
+    this.idPersona = getIdPersona();
     if (this.idPersona) {
       this.getAllEquipment(this.idPersona);
       this.getServiceAmount(this.idPersona);
       this.getEquipmentActiveInactive(this.idPersona);
       this.getEquipmentMinMax(this.idPersona);
-      if (this.idEquipo) {
-        this.getOneEquipment(Number(this.idEquipo));
-        // Show one
-      }
+      this.initForm();
     }
   }
 
   private getAllEquipment(idPersona: string) {
-    this.loadingMain = true;
+    this.loading = true;
     this.equipoService.getAllByIdPersona(idPersona)
       .subscribe(equipments => {
         this.equipos = equipments;
-        this.loadingMain = false;
+        this.loading = false;
       });
   }
 
   private getServiceAmount(idPersona: string) {
-    this.loadingGraphic1 = true;
     this.equipoService.getServiceAmountClient(idPersona)
       .subscribe(data => {
         this.cantidadServiciosFinPen = data;
-        this.loadingGraphic1 = false;
+        this.endStartedServicesChart = [
+          {
+            name: 'Finalizados',
+            value: data.finalizados
+          },
+          {
+            name: 'Pendientes',
+            value: data.pendientes
+          }
+        ];
       });
   }
 
   private getEquipmentActiveInactive(idPersona: string) {
-    this.loadingGraphic2 = true;
     this.equipoService.getEquipmentsActiveInactiveClient(idPersona)
-      .subscribe(data => {
+      .subscribe((data: EquipoActivoInactivo[]) => {
         this.cantidadActivoInactivo = data;
-        this.loadingGraphic2 = false;
+
+        this.activeInactiveChart = data.map(d => {
+          return {
+            name: (d.estado) ? 'Activos' : 'Inactivos',
+            value: d.cantidad
+          }
+        });
       });
   }
 
   private getEquipmentMinMax(idPersona: string) {
-    this.loadingGraphic3 = true;
     this.equipoService.getEquipmentMaxMinClient(idPersona)
-      .subscribe(data => {
+      .subscribe((data: EquipoMaxMinCliente) => {
         this.equiposMaxMin = data;
-        this.loadingGraphic3 = false;
+        this.chartMinMax = [
+          {
+            name: data.equipmentMin.nombre + ' ' + data.equipmentMin.modelo,
+            value: data.equipmentMin.cantidad
+          },
+          {
+            name: data.equipmentMax.nombre + ' ' + data.equipmentMax.modelo,
+            value: data.equipmentMax.cantidad
+          }
+        ];
       });
   }
 
-  protected getOneEquipment(idEquipo: number) {
-    this.equipo = this.equipos.find(equipment => equipment.idEquipo = idEquipo) as EquipoCliente;
-    if (this.equipo) {
-      this.loadingMain = true;
-      // show content
-    }
-  }
-
   protected updateEquipmentManager(idEquipo: number, dto: UpdateEquipoDTO) {
-    this.loadingMain = true;
     this.equipoService.updateClient(idEquipo, dto)
       .subscribe(res => {
         if (res) {
           const equipmentIndex = this.equipos.findIndex(
             (res) => res.idEquipo === idEquipo);
           this.equipos[equipmentIndex] = res;
-          // Success
+          Swal.fire({
+            title: "Actualizado",
+            text: "Equipo actualizado",
+            icon: 'success'
+          });
+          if (this.idPersona) {
+            this.getEquipmentActiveInactive(this.idPersona);
+          }
+          this.clearInput();
         }
-        this.loadingMain = false;
       });
   }
 
-  protected goToServicesByIdEquipo(idEquipo: number){
-    localStorage.setItem("idEquipo", String(idEquipo));
-    this.router.navigate(['cliente/servicio'])
+  protected parseDate(date: Date | null) {
+    if (date) {
+      return formatDate(date, 'medium', 'es');
+    }
+    return 'No ingresada';
   }
 
+  protected state(bol : boolean){
+    return bol ? 'Activo' : 'Inactivo';
+  }
+
+  protected openModalByEquipment(equipment?: EquipoCliente) {
+    this.initForm();
+    if (equipment) {
+      this.equipo = equipment;
+      this.newEquipment = false;
+      return this.setEquipment(equipment);
+    }
+  }
+
+  private initForm() {
+    this.clearInput();
+    this.newEquipment = true;
+    this.equipmentForm = this.formBuilder.group({
+      idEquipo: [''],
+      estado: ['']
+    });
+  }
+
+  private setEquipment(equipment: EquipoCliente) {
+    this.equipmentForm.setValue({
+      idEquipo: equipment.idEquipo,
+      estado: equipment.estado
+    });
+    this.equipmentForm.addControl('estado', this.formBuilder.control(this.equipmentForm.value.estado, []));
+    this.idEquipment = equipment.idEquipo;
+  }
+
+  protected editEquipmentForm() {
+    if (this.equipmentForm.invalid) return Object.values(this.equipmentForm.controls).forEach(c => c.markAsTouched());
+    if (!this.equipmentForm.touched) return;
+    const { idEquipo, ...rest } = this.equipmentForm.value;
+    if (idEquipo) {
+      if (!this.equipo?.estado) {
+        this.updateEquipmentManager(idEquipo, rest);
+      } else {
+        Swal.fire({
+          title: '¡Atención!',
+          text: '¿Está seguro de desactivar el equipo?',
+          icon: 'warning',
+          showConfirmButton: true,
+          showCancelButton: true
+        }).then((res: any) => {
+          if (res.isConfirmed) {
+            this.updateEquipmentManager(idEquipo, rest);
+          }
+        });
+      }
+    }
+  }
+
+  protected get department() {
+    if (this.equipo && this.equipo.Direccion?.Municipio?.Departamento?.Pais) {
+      return this.equipo.Direccion?.Municipio?.Departamento?.Pais?.nombre + ", " + this.equipo.Direccion?.Municipio?.Departamento?.nombre
+    }
+    return "No ingresado"
+  }
+
+  protected get direction() {
+    if (this.equipo && this.equipo.Direccion?.Municipio) {
+      return this.equipo.Direccion?.Municipio.nombre + " " + this.equipo.Direccion.direccion
+    }
+    return "No ingresado"
+  }
+
+  private clearInput() {
+    this.filter = "";
+  }
 }

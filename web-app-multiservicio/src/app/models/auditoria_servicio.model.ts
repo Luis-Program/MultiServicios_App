@@ -5,6 +5,7 @@ export interface Auditoria_servicio {
   tipoServicio: string,
   prioridad: string,
   nombreEquipo: string,
+  modeloEquipo: string,
   nombreCliente: string,
   dpiCliente: string,
   fechaHoraCreado: Date,

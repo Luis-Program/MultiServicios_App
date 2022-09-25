@@ -26,6 +26,14 @@ export class TipoPersonaService {
         }));
   }
 
+  public getAllDropDown() {
+    return this.http.get<TipoPersona[]>(`${this.apiUrl}/dropdown`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
   public getAllWithRelations() {
     return this.http.get<TipoPersonaRelaciones[]>(`${this.apiUrl}/relaciones`)
       .pipe(

@@ -1,0 +1,8 @@
+.min-with {
+  min-width: 100%
+}
+
+.main-chart-container {
+  display : grid;
+  height  : 300px;
+}

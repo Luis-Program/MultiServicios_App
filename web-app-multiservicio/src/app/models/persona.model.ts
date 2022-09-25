@@ -10,9 +10,23 @@ export interface Persona {
   dpi: string,
   idTipoPersona: number | null
 }
+
+export interface PersonaDropdown {
+  idPersona:number,
+  nombre: string
+}
+
+// Login
+export interface PersonaRelacionesLogin extends Omit<Persona, 'idTipoPersona'> {
+  Tipo_Persona : TipoPersonaRelaciones
+}
+
 // route: /correo/:correo && / API Trabajador
-export interface PersonaRelaciones extends Omit<Persona, 'idTipoPersona'> {
-  Tipo_Persona: TipoPersonaRelaciones | null
+export interface PersonaRelaciones extends Persona {
+  tipo: string | null,
+  idEmpresa: number | null
+  nombreEmpresa: string | null
+  cantidad: number
 }
 // route: //:idPersona
 export interface PersonaUna extends Omit<Persona, 'idTipoPersona'> {
@@ -22,12 +36,19 @@ export interface PersonaUna extends Omit<Persona, 'idTipoPersona'> {
 }
 
 export interface Trabajadores extends Persona {
+  tipo: string | null,
+  idEmpresa: number | null
+  nombreEmpresa: string | null
   cantidad: number
 }
 
-export interface TrabajadoresMinMaxServicios {
-  cantidadService: number,
-  persona: Persona
+export interface TrabajadoresDropDown {
+  idPersona: number,
+  nombre: string
+}
+
+export interface TrabajadoresMinMaxServicios extends Persona{
+  cantidad: number
 }
 
 export interface ServiciosFinalizadosPendientes {

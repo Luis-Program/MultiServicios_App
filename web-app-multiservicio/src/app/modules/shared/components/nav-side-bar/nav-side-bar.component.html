@@ -1,61 +1,13 @@
-<div [ngSwitch]="rol">
-  <div *ngSwitchCase="'Gerente General'">
-    <h1>Gerente General</h1>
-    <ul>
-      <li><a routerLink="/gerente-general/home">Home</a></li>
-      <li><a routerLink="auditoria-servicio">Auditoria Servicio</a></li>
-      <li><a routerLink="analisis-repuesto">Analisis Repuesto</a></li>
-      <li><a routerLink="empresa">Empresa</a></li>
-      <li><a routerLink="direccion">Direccion</a></li>
-      <li><a routerLink="municipio">Municipio</a></li>
-      <li><a routerLink="departamento">Departamento</a></li>
-      <li><a routerLink="pais">Pais</a></li>
-      <li><a routerLink="tipo-telefono">Tipo Telefono</a></li>
-      <li><a routerLink="telefono">Telefono</a></li>
-      <li><a routerLink="persona">Persona</a></li>
-      <li><a routerLink="tipo-persona">Tipo Persona</a></li>
-      <li><a routerLink="tipo-repuesto">Tipo Repuesto</a></li>
-      <li><a routerLink="repuesto">Repuesto</a></li>
-      <li><a routerLink="equipo">Equipo</a></li>
-      <li><a routerLink="servicio">Servicio</a></li>
-      <li><a routerLink="perfil">Perfil</a></li>
-    </ul>
-  </div>
-  <div *ngSwitchCase="'Trabajador Operacional'">
-    <h1>Trabajador</h1>
-    <ul>
-      <li><a routerLink="home">Home</a></li>
-      <li><a routerLink="repuesto">Repuesto</a></li>
-      <li><a routerLink="servicio">Servicio</a></li>
-      <li><a routerLink="telefono">Telefono</a></li>
-      <li><a routerLink="perfil">Perfil</a></li>
-    </ul>
-  </div>
-  <div *ngSwitchCase="'Cliente'">
-    <h1>Cliente</h1>
-    <ul>
-      <li><a routerLink="home">Home</a></li>
-      <li><a routerLink="equipo">Equipo</a></li>
-      <li><a routerLink="servicio">Servicio</a></li>
-      <li><a routerLink="telefono">Telefono</a></li>
-      <li><a routerLink="perfil">Perfil</a></li>
-    </ul>
-  </div>
-  <div *ngSwitchDefault>
-    <h1>No Access</h1>
+<div id="main-wrapper">
+  <app-header></app-header>
+
+  <app-sidebar [role]="rol"></app-sidebar>
+
+  <div class="page-wrapper">
+    <div class="container-fluid">
+
+      <router-outlet></router-outlet>
+
+    </div>
   </div>
 </div>
-<button (click)="logout()">Cerrar Sesión</button>
-<!-- <br>
-<h1>Notificaciones</h1>
-<button (click)="deleteAll()">Eliminar todas</button>
-<button (click)="setAllRead()">Marca visto todos</button>
-<br>
-<div *ngFor="let notificacion of notificaciones">
-  <p>{{notificacion.Tipo_Notificacion.tipoNotificacion}}</p>
-  <p>{{notificacion.visto}}</p>
-<button (click)="setOneRead(notificacion.idNotificacion)">Marca visto</button>
-<button (click)="deleteOne(notificacion.idNotificacion)">Eliminar</button>
-<button (click)="goByNotification(notificacion)">Ir</button>
-</div> -->
-<router-outlet></router-outlet>

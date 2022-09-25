@@ -1,13 +1,166 @@
-<h1>Repuestos</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div *ngFor="let repuesto of repuestos">
-  <p>Id: {{repuesto.idRepuesto}}</p>
-  <p>Nombre: {{repuesto.nombre}}</p>
-  <p>Cantidad disponible: {{repuesto.cantidadDisponible}}</p>
-  <p>Limite inferior de notificación: {{repuesto.limiteInferior}}</p>
-  <h3>Tipo Repuesto</h3>
-  <p *ngIf="repuesto.Tipo_Repuesto; else without">Tipo: {{repuesto.Tipo_Repuesto.tipo}}</p>
-  <ng-template #without>
-    <p>Tipo: Sin categoria</p>
-  </ng-template>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>REPUESTOS</h1>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByReplacement()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
+        <loader></loader>
+
+      </div>
+
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>REPUESTOS</h1>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+
+        <div class="row mt-2" *ngIf="rol === 'Gerente General'">
+            <!-- ADD BUTTON -->
+            <div class="col-12 text-center">
+              <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByReplacement()">
+              Nuevo
+            </button>
+            </div>
+            <!-- /ADD BUTTON -->
+        </div>
+
+        <!-- CARD -->
+        <div class="row mt-3">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let repuesto of repuestos | filterReplacement:filter">
+            <div class="card card-outline-info" (click)="openModalByReplacement(repuesto)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ repuesto.nombre }}</h3>
+                    <p class="card-title text-dark">{{ repuesto.Tipo_Repuesto.tipo }}</p>
+                    <p class="card-text bold">Cantidad: {{ repuesto.cantidadDisponible }}</p>
+                    <p class="card-text bold" *ngIf="bolRol">Límite: {{ repuesto.limiteInferior }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-engine"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /CARD -->
+
+        </div>
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Repuesto</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="replacementForm">
+                  <div *ngIf="bolRol; else worker">
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Nombre:</label>
+                      <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                      <div *ngIf="nombre?.invalid && nombre?.touched">
+                        <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                        <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de
+                          25 carácteres</small>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Cantidad:</label>
+                      <input type="number" min="0" class="form-control" id="recipient-name1"
+                        formControlName="cantidadDisponible">
+                      <div *ngIf="cantidadDisponible?.invalid && cantidadDisponible?.touched">
+                        <small *ngIf="cantidadDisponible?.hasError('required')" class="text-danger">*Cantidad
+                          requerido</small>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Límite Inferior:</label>
+                      <input type="number" min="0" class="form-control" id="recipient-name1"
+                        formControlName="limiteInferior">
+                      <div *ngIf="limiteInferior?.invalid && limiteInferior?.touched">
+                        <small *ngIf="limiteInferior?.hasError('required')" class="text-danger">*Límite inferior
+                          requerido</small>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Tipo Repuesto:</label>
+                      <select class="form-control custom-select" formControlName="idTipoRepuesto">
+                        <option *ngFor="let tipoRepuesto of tipoRepuestos" [value]="tipoRepuesto.idTipoRepuesto">
+                          {{ tipoRepuesto.tipo }}</option>
+                      </select>
+                      <div *ngIf="idTipoRepuesto?.invalid && idTipoRepuesto?.touched">
+                        <small *ngIf="idTipoRepuesto?.hasError('required')" class="text-danger">*Tipo repuesto
+                          requerido</small>
+                      </div>
+                      <!-- <small *ngIf="idTipoRepuestoValue <= 0" class="form-control-feedback">No ingresado *</small> -->
+                    </div>
+                  </div>
+                  <ng-template #worker>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Nombre:</label>
+                      <input type="text" class="form-control" id="recipient-name1" formControlName="nombre" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Cantidad:</label>
+                      <input type="number" min="0" [max]="maxValueInput" class="form-control" id="recipient-name1"
+                        formControlName="cantidadDisponible">
+                      <div *ngIf="cantidadDisponible?.invalid && cantidadDisponible?.touched">
+                        <small *ngIf="cantidadDisponible?.hasError('required')" class="text-danger">*Cantidad
+                          requerido</small>
+                      </div>
+                    </div>
+                  </ng-template>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newReplacement && bolRol"
+                  (click)="deleteReplacementModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newReplacement && bolRol"
+                  (click)="createReplacementForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newReplacement"
+                  (click)="createReplacementForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+
+      </div>
+    </div>
+  </div>
 </div>

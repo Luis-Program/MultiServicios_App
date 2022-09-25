@@ -37,7 +37,8 @@ class TelefonoService {
 
   async update(idTelefono, changes) {
     const telefono = await this.findOne(idTelefono);
-    const response = await telefono.update(changes);
+    const phone = await telefono.update(changes);
+    const response = await this.findOne(phone.idTelefono);
     return response;
   }
 

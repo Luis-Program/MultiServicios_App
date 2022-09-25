@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
 import { TipoServicio } from '../models/tipo_servicio.model';
 import { Router } from '@angular/router';
+import { getRol } from '../modules/shared/local-storage/localStorage';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class TipoServicioService {
   ) { }
 
   private getAPI() {
-    const rol = localStorage.getItem('rol');
+    const rol = getRol();
     if (rol) {
       if (rol === 'Gerente General') {
         this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/tiposservicios`;

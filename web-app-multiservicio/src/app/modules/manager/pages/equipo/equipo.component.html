@@ -1,74 +1,195 @@
-<h1>Equipos Manager</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div *ngIf="equipoActivosInactivos[0] && equipoActivosInactivos[1]">
-  <h3>Gráfica de Equipos Activos Inactivos</h3>
-  <p>Inactivos {{equipoActivosInactivos[1].estado}} Cantidad: {{equipoActivosInactivos[1].cantidad}}</p>
-  <p>Activos {{equipoActivosInactivos[0].estado}} Cantidad: {{equipoActivosInactivos[0].cantidad}}</p>
-</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>EQUIPOS</h1>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByEquipment()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>EQUIPOS</h1>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm-12 col-md-6 col-lg-6 border">
+            <div class="chart-container">
+              <ngx-charts-pie-chart [scheme]="colorScheme" [results]="activesCharts" [legend]="showLegend"
+                [legendTitle]="legendTitle" [gradient]="gradient" [labels]="showLabels" [doughnut]="isDoughnut">
+              </ngx-charts-pie-chart>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 border">
+            <div class="chart-container">
+              <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="minMaxChart" [gradient]="gradient"
+                [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
+              </ngx-charts-bar-vertical>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByEquipment()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
 
-<div *ngIf="clientesEquiposMinMax[0] && clientesEquiposMinMax[1]">
-  <h3>Gráfica de Clientes con mayor y menor catidad de equipos</h3>
-  <p>Mayor cantidad, cliente {{clientesEquiposMinMax[0].nombre}} {{clientesEquiposMinMax[0].apellidos}} Cantidad: {{clientesEquiposMinMax[0].cantidad}}</p>
-  <p>Menor cantidad, cliente {{clientesEquiposMinMax[1].nombre}} {{clientesEquiposMinMax[0].apellidos}} Cantidad: {{clientesEquiposMinMax[0].cantidad}}</p>
-</div>
+        <!-- CARD -->
+        <div class="row mt-2">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let equipo of equipos | filterEquipment:filter">
+            <div class="card card-outline-info card-height" (click)="openModalByEquipment(equipo)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">
+                      {{ equipo.Persona ? equipo.Persona.nombre + " " + equipo.Persona.apellidos : "No ingresado" }}
+                    </h3>
+                    <p class="card-title">
+                      {{ equipo.nombre }}
+                    </p>
+                    <p class="card-title">{{ equipo.modelo }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-stove"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARD -->
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Equipo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="equipmentForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                    <div *ngIf="nombre?.invalid && nombre?.touched">
+                      <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 20
+                        carácteres</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Modelo</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="modelo">
+                    <div *ngIf="modelo?.invalid && modelo?.touched">
+                      <small *ngIf="modelo?.hasError('required')" class="text-danger">*Modelo requerido</small>
+                      <small *ngIf="modelo?.hasError('maxlength')" class="text-danger">*El modelo no debe exceder 20
+                        carácteres</small>
+                    </div>
+                  </div>
+                  <div class="form-group" *ngIf="!newEquipment">
+                    <label for="recipient-name" class="control-label">Estado</label>
+                    <select class="form-control custom-select" formControlName="estado">
+                      <option *ngFor="let l of list" [value]="l.value">
+                        {{ l.estado }}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Período del servicio</label>
+                    <input type="number" class="form-control" min="0" max="101" id="recipient-name1"
+                      formControlName="periodoDeServicio">
+                    <div *ngIf="periodoDeServicio?.invalid && periodoDeServicio?.touched">
+                      <small *ngIf="periodoDeServicio?.hasError('required')" class="text-danger">*Período
+                        requerido</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Fecha último sevicio</label>
+                    <input type="date" class="form-control" id="recipient-name1" formControlName="fechaUltimoServicio">
+                    <div *ngIf="fechaUltimoServicio?.invalid && fechaUltimoServicio?.touched">
+                      <small *ngIf="fechaUltimoServicio?.hasError('required')" class="text-danger">*Fecha
+                        requerida</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Dirección</label>
+                    <select class="form-control custom-select" formControlName="idDireccion">
+                      <option *ngFor="let ubicacion of direcciones" [value]="ubicacion.idDireccion">
+                        {{ ubicacion.direccion }}</option>
+                    </select>
+                    <div *ngIf="idDireccion?.invalid && idDireccion?.touched">
+                      <small *ngIf="idDireccion?.hasError('required')" class="text-danger">*Dirección requerida</small>
+                    </div>
+                    <!-- <small *ngIf="!idDireccion" class="form-control-feedback">No ingresado *</small> -->
+                  </div>
+                  <label for="message-text" class="control-label">Cliente</label>
+                  <select class="form-control custom-select" formControlName="idPersona">
+                    <option *ngFor="let cliente of clientes" [value]="cliente.idPersona">
+                      {{ cliente.nombre }}</option>
+                  </select>
+                  <div *ngIf="idPersona?.invalid && idPersona?.touched">
+                    <small *ngIf="idPersona?.hasError('required')" class="text-danger">*Cliente requerido</small>
+                  </div>
+                  <!-- <small *ngIf="!idPersona" class="form-control-feedback">No ingresado *</small> -->
+                </form>
+                <div class="row" *ngIf="!create && graphicEquipmentData">
+                  <div class="col-12">
+                    <div class="chart-container">
+                      <ngx-charts-pie-chart [scheme]="colorScheme" [results]="equipoChart" [gradient]="gradient"
+                        [labels]="showLabels" [doughnut]="isDoughnut">
+                      </ngx-charts-pie-chart>
+                    </div>
+                  </div>
+                </div>
 
-<div *ngFor="let equipo of equipos">
-  <h3>Equipo</h3>
-  <p>Id: {{equipo.idEquipo}}</p>
-  <p>Numero: {{equipo.nombre}}</p>
-  <p>Modelo: {{equipo.modelo}}</p>
-  <p>Estado: {{equipo.estado}}</p>
-  <p>Fecha de último servicio: {{equipo.fechaUltimoServicio}}</p>
-  <p>Plazo del servicio: {{equipo.periodoDeServicio}}</p>
-  <p>Servicio preventivo Activo: {{equipo.preventivoActivo}}</p>
-  <h4>Persona</h4>
-  <p>nombre: {{equipo.Persona.nombre}} {{equipo.Persona.apellidos}}</p>
-  <h4>Ubicación</h4>
-  <div *ngIf="equipo.Direccion; else nullDirection">
-    <p>Dirección: {{equipo.Direccion.direccion}}</p>
-    <p>{{equipo.Direccion.Municipio ? 'Municipio:  ' + equipo.Direccion.Municipio.nombre : 'No ingresado.'}}</p>
-    <p>
-      {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento ? 'Departamento: ' + equipo.Direccion.Municipio.Departamento.nombre : 'No ingresado.'}}
-    </p>
-    <p>
-      {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento && equipo.Direccion.Municipio.Departamento.Pais ? 'Pais: ' + equipo.Direccion.Municipio.Departamento.Pais.nombre : 'No ingresado.'}}
-    </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newEquipment"
+                  (click)="deleteEquipmentModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newEquipment"
+                  (click)="createEquipmentForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newEquipment"
+                  (click)="createEquipmentForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+      </div>
+    </div>
   </div>
-  <ng-template #nullDirection>
-    <p>No ingresada.</p>
-  </ng-template>
-  <p>------------------------------------</p>
 </div>
-  <!-- Cuando selecione uno -->
-  <div *ngIf="equipo">
-    <h3>Selección de un solo equipo</h3>
-    <p>Id: {{equipo.idEquipo}}</p>
-    <p>Numero: {{equipo.nombre}}</p>
-    <p>Modelo: {{equipo.modelo}}</p>
-    <p>Estado: {{equipo.estado}}</p>
-    <p>Fecha de último servicio: {{equipo.fechaUltimoServicio}}</p>
-    <p>Plazo del servicio: {{equipo.periodoDeServicio}}</p>
-    <p>Servicio preventivo Activo: {{equipo.preventivoActivo}}</p>
-    <h4>Persona</h4>
-    <p>nombre: {{equipo.Persona.nombre}} {{equipo.Persona.apellidos}}</p>
-    <h4>Ubicación</h4>
-    <div *ngIf="equipo.Direccion; else nullDirection">
-      <p>Dirección: {{equipo.Direccion.direccion}}</p>
-      <p>{{equipo.Direccion.Municipio ? 'Municipio:  ' + equipo.Direccion.Municipio.nombre : 'No ingresado.'}}</p>
-      <p>
-        {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento ? 'Departamento: ' + equipo.Direccion.Municipio.Departamento.nombre : 'No ingresado.'}}
-      </p>
-      <p>
-        {{equipo.Direccion.Municipio && equipo.Direccion.Municipio.Departamento && equipo.Direccion.Municipio.Departamento.Pais ? 'Pais: ' + equipo.Direccion.Municipio.Departamento.Pais.nombre : 'No ingresado.'}}
-      </p>
-    </div>
-    <ng-template #nullDirection>
-      <p>No ingresada.</p>
-    </ng-template>
-    <div *ngIf="unEquipoServicio">
-      <h3>Servicios</h3>
-      <p>Completados: {{unEquipoServicio.completada}}</p>
-      <p>Pendientes: {{unEquipoServicio.pendiente}}</p>
-    </div>
-  </div>
-  <button (click)="getOneEquipment(1)">Una Persona</button>

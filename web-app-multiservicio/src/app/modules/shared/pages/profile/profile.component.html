@@ -1,15 +1,88 @@
-<h1>Perfil</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div *ngIf="persona">
-  <h4>Empresa</h4>
-  <p>Nombre:
-    {{persona.Tipo_Persona && persona.Tipo_Persona.Empresa ? persona.Tipo_Persona.Empresa.nombre : 'No ingresada.'}}
-  </p>
-  <h3>Persona</h3>
-  <p>Rol: {{persona.Tipo_Persona ? persona.Tipo_Persona.tipo : 'No ingresada.'}}</p>
-  <p>Nombre: {{persona.nombre}}</p>
-  <p>Apellido: {{persona.apellidos}}</p>
-  <p>Correo: {{persona.correo}}</p>
-  <p>Dpi: {{persona.dpi}}</p>
-  <p>-----------------------------------------</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+      <div class="card-body">
+
+        <loader *ngIf="!persona"></loader>
+
+        <div class="row justify-content-md-center animate__animated animate__fadeIn" *ngIf="persona">
+          <!-- FORM -->
+          <div class="col-md-12 border">
+            <div class="card">
+              <div class="card-body">
+                <h1 class="card-title text-center">{{ persona.Tipo_Persona.Empresa ? persona.Tipo_Persona.Empresa.nombre : 'Empresa no ingresada'}}</h1>
+                <hr>
+                <h3 class="card-subtitle text-center">{{ persona.Tipo_Persona ? persona.Tipo_Persona.tipo : 'Sin rol'}}</h3>
+                <hr>
+                <form class="form p-t-20" [formGroup]="Form" (submit)="updateUser()">
+
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                      <div class="form-group">
+                        <label for="exampleInputuname">Nombres</label>
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="ti-user"></i></div>
+                          <input type="text" class="form-control" id="exampleInputuname" placeholder="Nombre" formControlName="nombre">
+                        </div>
+                        <div *ngIf="nombre?.invalid && nombre?.touched">
+                          <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                          <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder 25 carácteres</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                      <div class="form-group">
+                        <label for="exampleInputuname">Apellidos</label>
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="ti-user"></i></div>
+                          <input type="text" class="form-control" id="exampleInputuname" placeholder="Apellidos" formControlName="apellidos">
+                        </div>
+                        <div *ngIf="apellidos?.invalid && apellidos?.touched">
+                          <small *ngIf="apellidos?.hasError('required')" class="text-danger">*Apellido requerido</small>
+                          <small *ngIf="apellidos?.hasError('maxlength')" class="text-danger">*El apellido no debe exceder 25 carácteres</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Correo</label>
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="ti-email"></i></div>
+                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Correo" formControlName="correo" readonly>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">DPI</label>
+                        <div class="input-group">
+                          <div class="input-group-addon"><i class="mdi mdi-credit-card"></i></div>
+                          <input type="text" class="form-control" maxlength="13" minlength="13" id="exampleInputEmail1" placeholder="DPI" formControlName="dpi">
+                        </div>
+                        <div *ngIf="dpi?.invalid && dpi?.touched">
+                          <small *ngIf="dpi?.hasError('required')" class="text-danger">*DPI requerido</small>
+                          <small *ngIf="dpi?.hasError('maxlength') || dpi?.hasError('minlength')" class="text-danger">*El DPI debe ser de 13 carácteres</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn btn-success btn-block waves-effect waves-light m-r-10">
+                    <i class="fa fa-save"></i>
+                    Guardar cambios
+                  </button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+          <!-- /FORM -->
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>

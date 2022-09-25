@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { getRol } from '../modules/shared/local-storage/localStorage';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class ClientGuard implements CanActivate {
   }
 
   checkRol() {
-    const rol = localStorage.getItem('rol');
+    const rol = getRol();
     if (rol &&  rol === 'Cliente') {
       return true;
     } else {

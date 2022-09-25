@@ -1,19 +1,133 @@
-<h1>Empresas</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div *ngIf="maxMinClient[0] && maxMinClient[1]">
-  <h1>Gráficas</h1>
-  <h3>Empresa con mayor cantidad de clientes</h3>
-  <p>Nombre: {{maxMinClient[0].empresa}}</p>
-  <p>Cantidad: {{maxMinClient[0].cantidad}}</p>
-  <h3>Empresa con menor cantidad de clientes</h3>
-  <p>Nombre: {{maxMinClient[1].empresa}}</p>
-  <p>Cantidad: {{maxMinClient[1].cantidad}}</p>
-  <p>------------------------------------</p>
-</div>
-<div *ngFor="let empresa of empresas">
-  <h3>Empresa</h3>
-  <p>Id: {{empresa.idEmpresa}}</p>
-  <p>Nombre: {{empresa.nombre}}</p>
-  <p>Nit: {{empresa.nit}}</p>
-  <p>------------------------------------</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>EMPRESAS</h1>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center ">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>EMPRESAS</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 border">
+            <div class="chart-container">
+              <ngx-charts-bar-horizontal [scheme]="colorScheme" [results]="single" [gradient]="gradient"
+                [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                [xAxisLabel]="xAxisLabel" [legendTitle]="legendTitle">
+              </ngx-charts-bar-horizontal>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center ">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModal()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+
+        <!-- CARD -->
+        <div class="row mt-3">
+          <div class="col-lg-3 col-md-6 col-sm-12"  *ngFor="let empresa of empresas | filterBusiness:filter">
+            <div class="card card-outline-info card-height" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+              (click)="openModal(empresa)">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ empresa.nombre }}</h3>
+                    <p class="card-text">{{ empresa.nit }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-factory"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARD -->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Empresa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+
+              <div class="modal-body">
+                <form [formGroup]="Form">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                    <div *ngIf="nombre?.invalid && nombre?.touched">
+                      <small *ngIf="nombre?.hasError('required')" class="text-danger">*Nombre requerida</small>
+                      <small *ngIf="nombre?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder de 45
+                        carácteres</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">NIT</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nit">
+                    <div *ngIf="nit?.invalid && nit?.touched">
+                      <small *ngIf="nit?.hasError('required')" class="text-danger">*NIT requerida</small>
+                      <small *ngIf="nit?.hasError('maxlength')" class="text-danger">*El NIT no debe exceder de 20
+                        carácteres</small>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newItem"
+                  (click)="deleteItem()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newItem"
+                  (click)="createItem()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newItem"
+                  (click)="createItem()">Editar</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- /MODAL -->
+      </div>
+    </div>
+  </div>
 </div>

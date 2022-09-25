@@ -26,6 +26,11 @@ export interface ServiciosFinalizadosPendientesTrabajador {
   pendientes: number
 }
 
+export interface ServicioGraficaClientes {
+  pendientes: number,
+  finalizados: number
+}
+
 export interface ServiciosCantidad {
   serviciosCompletados: number,
   cantidadServicios: number,
@@ -49,8 +54,11 @@ export interface ServicioRelaciones extends Omit<Servicio, 'idTipoServicio' | 'i
 }
 
 export interface ServicioTrabajador extends Servicio {
-  Tipo_Servicio: TipoServicio | null,
-  Equipo: EquipoRelacionesAnidadas
+  nombre: string,
+  modelo: string,
+  idDireccion: number | null,
+  idPersona: number,
+  tipoServicio: string
 }
 
 export interface CreateServicioDTO extends Omit<Servicio, 'idServicio' | 'idTipoServicio'> {

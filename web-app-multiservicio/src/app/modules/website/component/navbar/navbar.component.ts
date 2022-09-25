@@ -7,6 +7,7 @@ import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { EventMessage, EventType, AuthenticationResult, InteractionStatus } from '@azure/msal-browser';
 import { TipoPersonaRelaciones } from 'src/app/models/tipo_persona.model';
 import { PersonaService } from 'src/app/services/persona.service';
+import { getRol, setData } from 'src/app/modules/shared/local-storage/localStorage';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +19,9 @@ export class NavbarComponent implements OnInit {
   private readonly _destroyingClaims$ = new Subject<void>();
   protected loggedIn = false;
   protected serviceInfo = false;
-  protected loading = false;
+  protected loading = true;
+
+  public loaded!: boolean;
 
   constructor(
     private router: Router,
@@ -29,6 +32,8 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.checkLogin();
+
     this.msalBroadcastService.msalSubject$
       .pipe(
         filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
@@ -50,9 +55,10 @@ export class NavbarComponent implements OnInit {
   }
 
   protected checkLogin() {
-    const rol = localStorage.getItem('rol');
+    const rol = getRol();
     if (rol) {
-      this.setRedirectByRol(rol);
+      this.loaded = true;
+      return this.setRedirectByRol(rol);
     }
   }
 
@@ -94,10 +100,10 @@ export class NavbarComponent implements OnInit {
       this.loading = true;
       this.personaService.getOneByEmail(email)
         .subscribe(data => {
-          localStorage.setItem('idPersona', data.idPersona.toString());
           const tipopersona: TipoPersonaRelaciones | null = data.Tipo_Persona;
           if (tipopersona) {
-            localStorage.setItem('rol', tipopersona.tipo);
+            setData(tipopersona.tipo,data.idPersona)
+            this.checkLogin();
             this.serviceInfo = true;
           } else {
             this.serviceInfo = true;
@@ -106,6 +112,7 @@ export class NavbarComponent implements OnInit {
           this.loading = false;
         });
     } else {
+      this.loading = false;
       localStorage.clear();
       this.loggedIn = true;
     }

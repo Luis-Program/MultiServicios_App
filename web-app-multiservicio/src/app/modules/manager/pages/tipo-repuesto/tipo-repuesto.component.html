@@ -1,7 +1,115 @@
-<h1>Tipos de repuestos</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div *ngFor="let tipoRepuesto of tipoRepuestos">
-  <p>Id: {{tipoRepuesto.idTipoRepuesto}}</p>
-  <p>Categoria: {{tipoRepuesto.tipo}}</p>
-</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>TIPOS DE REPUESTOS</h1>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByTypeReplacement()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
 
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>TIPOS DE REPUESTOS</h1>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByTypeReplacement()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
+        <!-- CARD -->
+        <div class="row mt-2">
+          <div class="col-lg-3 col-md-6 col-sm-12"
+            *ngFor="let tipoRepuesto of tipoRepuestos | filterTypePhoneReplacement:filter">
+            <div class="card card-outline-info card-height" (click)="openModalByTypeReplacement(tipoRepuesto)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ tipoRepuesto.tipo }}</h3>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-tag-multiple"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /CARD -->
+
+        </div>
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Tipo Repuesto</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="typeReplacementForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Tipo</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="tipo">
+                    <div *ngIf="tipo?.invalid && tipo?.touched">
+                      <small *ngIf="tipo?.hasError('required')" class="text-danger">*Tipo requerido</small>
+                      <small *ngIf="tipo?.hasError('maxlength')" class="text-danger">*El tipo no debe exceder de 20
+                        carácteres</small>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newTypeReplacement"
+                  (click)="deleteTypeReplacementModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newTypeReplacement"
+                  (click)="createTypeReplacementForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newTypeReplacement"
+                  (click)="createTypeReplacementForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- /MODAL -->
+
+      </div>
+    </div>
+  </div>
+</div>

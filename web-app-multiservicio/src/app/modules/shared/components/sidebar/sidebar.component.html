@@ -1,0 +1,200 @@
+<aside class="left-sidebar">
+  <div class="scroll-sidebar">
+    <!-- Sidebar navigation-->
+    <nav class="sidebar-nav" [ngSwitch]="role">
+      <ul id="sidebarnav" *ngSwitchCase="'Gerente General'">
+
+        <!-- USER ROLE -->
+        <li class="user-profile">
+          <a class="waves-effect waves-dark" aria-expanded="false">
+            <span class="hide-menu role">{{ role }}</span>
+          </a>
+        </li>
+        <!-- /USER ROLE -->
+        <li class="nav-devider"></li>
+
+        <!-- HOME -->
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['/gerente-general/home']" aria-expanded="false">
+            <i class="mdi mdi-home-variant"></i>
+            <span class="hide-menu">Home</span>
+          </a>
+        </li>
+        <!-- /HOME -->
+
+        <!-- AUDITORIA -->
+        <li>
+          <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
+            <i class="mdi mdi-file-find"></i>
+            <span class="hide-menu">Auditoria</span>
+          </a>
+          <ul aria-expanded="false" class="collapse">
+            <li><a [routerLink]="['auditoria-servicio']">Auditoria Servicio</a></li>
+            <li><a [routerLink]="['analisis-repuesto']">Analisis Repuesto</a></li>
+          </ul>
+        </li>
+        <!-- /AUDITORIA -->
+
+        <!-- EMPRESA -->
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['empresa']" aria-expanded="false">
+            <i class="mdi mdi-factory"></i>
+            <span class="hide-menu">Empresa</span>
+          </a>
+        </li>
+        <!-- /EMPRESA -->
+
+        <!-- UBICACIÓN -->
+        <li>
+          <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
+            <i class="mdi mdi-map-marker"></i>
+            <span class="hide-menu">Ubicación</span>
+          </a>
+          <ul aria-expanded="false" class="collapse">
+            <li><a [routerLink]="['direccion']">Dirección</a></li>
+            <li><a [routerLink]="['municipio']">Municipio</a></li>
+            <li><a [routerLink]="['departamento']">Departamento</a></li>
+            <li><a [routerLink]="['pais']">País</a></li>
+          </ul>
+        </li>
+        <!-- /UBICACIÓN -->
+
+        <!-- CONTACTO -->
+        <li>
+          <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
+            <i class="mdi mdi-phone-classic"></i>
+            <span class="hide-menu">Contacto</span>
+          </a>
+          <ul aria-expanded="false" class="collapse">
+            <li><a [routerLink]="['telefono']">Teléfono</a></li>
+            <li><a [routerLink]="['tipo-telefono']">Tipo telefono</a></li>
+          </ul>
+        </li>
+        <!-- /CONTACTO -->
+
+        <!-- USUARIO -->
+        <li>
+          <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
+            <i class="mdi mdi-account"></i>
+            <span class="hide-menu">Usuario</span>
+          </a>
+          <ul aria-expanded="false" class="collapse">
+            <li><a [routerLink]="['tipo-persona']">Rol persona</a></li>
+            <li><a [routerLink]="['persona']">Persona</a></li>
+          </ul>
+        </li>
+        <!-- /USUARIO -->
+
+        <!-- PIEZAS -->
+        <li>
+          <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
+            <i class="mdi mdi-engine"></i>
+            <span class="hide-menu">Piezas</span>
+          </a>
+          <ul aria-expanded="false" class="collapse">
+            <li><a [routerLink]="['tipo-repuesto']">Tipo Repuesto</a></li>
+            <li><a [routerLink]="['repuesto']">Repuesto</a></li>
+          </ul>
+        </li>
+        <!-- /PIEZAS -->
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['equipo']" aria-expanded="false">
+            <i class="mdi mdi-stove"></i>
+            <span class="hide-menu">Equipo</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['servicio']" aria-expanded="false">
+            <i class="mdi mdi-wrench"></i>
+            <span class="hide-menu">Servicio</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul id="sidebarnav" *ngSwitchCase="'Trabajador Operacional'">
+
+        <!-- USER ROLE -->
+        <li class="user-profile">
+          <a class="waves-effect waves-dark" aria-expanded="false">
+            <span class="hide-menu role">{{ role }}</span>
+          </a>
+        </li>
+        <!-- /USER ROLE -->
+
+        <li class="nav-devider"></li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['home']" aria-expanded="false">
+            <i class="mdi mdi-home-variant"></i>
+            <span class="hide-menu">Home</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['repuesto']" aria-expanded="false">
+            <i class="mdi mdi-engine"></i>
+            <span class="hide-menu">Repuesto</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['servicio']" aria-expanded="false">
+            <i class="mdi mdi-wrench"></i>
+            <span class="hide-menu">Servicio</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['telefono']" aria-expanded="false">
+            <i class="mdi mdi-phone"></i>
+            <span class="hide-menu">Teléfono</span>
+          </a>
+        </li>
+
+      </ul>
+
+      <ul id="sidebarnav" *ngSwitchCase="'Cliente'">
+        <!-- USER ROLE -->
+        <li class="user-profile">
+          <a class="waves-effect waves-dark" aria-expanded="false">
+            <span class="hide-menu role">{{ role }}</span>
+          </a>
+        </li>
+        <!-- /USER ROLE -->
+
+        <li class="nav-devider"></li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['home']" aria-expanded="false">
+            <i class="mdi mdi-home-variant"></i>
+            <span class="hide-menu">Home</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['equipo']" aria-expanded="false">
+            <i class="mdi mdi-stove"></i>
+            <span class="hide-menu">Equipo</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['servicio']" aria-expanded="false">
+            <i class="mdi mdi-wrench"></i>
+            <span class="hide-menu">Servicio</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="waves-effect waves-dark" [routerLink]="['telefono']" aria-expanded="false">
+            <i class="mdi mdi-phone"></i>
+            <span class="hide-menu">Teléfono</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- End Sidebar navigation -->
+  </div>
+</aside>

@@ -14,6 +14,11 @@ export interface Equipo {
   idPersona: number
 }
 
+export interface EquipoDropDown {
+  idEquipo: number,
+  nombre: string
+}
+
 export interface EquipoCantidad extends Equipo {
   cantidad: number
 }

@@ -31,19 +31,37 @@ router.get('/correo/:correo',
   }
 );
 
-// router.get('/trabajadores',
-//   passport.authenticate('oauth-bearer', {
-//     session: false
-//   }),
-//   async (req, res, next) => {
-//     try {
-//       const trabajadores = await service.findAllWorkers();
-//       res.json(trabajadores);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+router.get('/workersdropdown',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const trabajadores = await service.findAllWorkersDropDown();
+      res.json(trabajadores);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
+/***
+ * Obtiene todos las personas para el dropdown telefono
+ */
+router.get('/dropdown',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const personas = await service.findAllPersonDropdown();
+      res.json(personas);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 /***
  * Obtiene los trabajadores con la cantidad de servicios
@@ -72,6 +90,23 @@ router.get('/clientes',
   async (req, res, next) => {
     try {
       const clientes = await service.findAllClients();
+      res.json(clientes);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+/***
+ * Obtiene todos los clientes con la cantidad de equipos
+ */
+router.get('/clientesequipos',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const clientes = await service.findAllClientsEquipments();
       res.json(clientes);
     } catch (error) {
       next(error);
@@ -206,6 +241,26 @@ router.patch('/:idPersona',
       } = req.params;
       const body = req.body;
       const persona = await service.update(idPersona, body);
+      res.json(persona);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.patch('/update/:idPersona',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  validatorHandler(getPersonaSchema, 'params'),
+  validatorHandler(updatePersonaSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const {
+        idPersona
+      } = req.params;
+      const body = req.body;
+      const persona = await service.updateManger(idPersona, body);
       res.json(persona);
     } catch (error) {
       next(error);

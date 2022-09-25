@@ -1,20 +1,148 @@
-<h1>Nav</h1>
-<ul>
-  <li><a routerLink="home">Home</a></li>
-  <!-- <li> -->
-      <li *ngIf="serviceInfo">
-    <!-- <button (click)="checkLogin()">Cuenta</button> -->
-  </li>
-  <li *ngIf="loggedIn">
-    <button (click)="login()">Iniciar Sesión</button>
-  </li>
-  <!-- <li>
-    <button (click)="login()" *ngIf="!loggedIn; else log">Iniciar Sesión</button>
-    <ng-template #log>
-      <button (click)="logout()">Cerrar Sesión</button>
-    </ng-template>
-  </li> -->
-</ul>
+<div *ngIf="loading">
+    <div class="loader">
+      <div class="loader__figure"></div>
+      <p class="loader__label">MultiServicios S.A.</p>
+    </div>
+</div>
 
-<!-- <button (click)="checkLog()">Logged</button> -->
-<router-outlet></router-outlet>
+<div class="page-index animate__animated animate__fadeIn" *ngIf="!loading">
+    <!-- ======= Header ======= -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+            <a class="logo d-flex align-items-center">
+                <!-- Uncomment the line below if you also wish to use an image logo -->
+                <!-- <img src="assets/img/logo.png" alt=""> -->
+                <img src="../../../../../assets/images/logos/logo-fondo-negro-letras-blancas.png" alt="">
+                <h1 class="d-flex align-items-center" style="color: #ccc;">MultiServicios S.A.</h1>
+            </a>
+
+            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+            <nav id="navbar" class="navbar">
+            </nav><!-- .navbar -->
+
+        </div>
+    </header><!-- End Header -->
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="hero d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4">
+                    <h2 data-aos="fade-up">Empresa de Mantenimiento</h2>
+                    <blockquote data-aos="fade-up" data-aos-delay="100">
+                        <p>Todo lo necesario para el mantenimiento de sus equipos.
+                        </p>
+                    </blockquote>
+                    <div class="d-flex" data-aos="fade-up" data-aos-delay="200">
+                        <a (click)="login()" class="btn-get-started">Ingresar al portal</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section><!-- End Hero Section -->
+
+
+    <main id="main">
+
+        <!-- ======= Servicios ======= -->
+        <section id="services-list" class="services-list">
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-header">
+                    <h2>Nuestros servicios</h2>
+
+                </div>
+
+                <div class="row gy-5">
+
+                    <div class="col-lg-6 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+                        <div class="icon flex-shrink-0"><i class="bi bi-briefcase" style="color: #f57813;"></i>
+                        </div>
+                        <div>
+                            <h4 class="title text-center"><a class="stretched-link">Mantenimiento Preventivo</a></h4>
+                            <p class="description text-center">Empleando cronogramas personalizados por equipo para garantizar el funcionamiento y aumentar el tiempo de vida.</p>
+                        </div>
+                    </div>
+                    <!-- End Service Item -->
+
+                    <div class="col-lg-6 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+                        <div class="icon flex-shrink-0"><i class="bi bi-card-checklist" style="color: #15a04a;"></i>
+                        </div>
+                        <div>
+                            <h4 class="title text-center"><a  class="stretched-link">Mantenimiento Correctivo</a></h4>
+                            <p class="description text-center">Ofrecemos soluciones garantizadas para la recuperación de sus equipos que procesan alimentos en el menor tiempo posible.</p>
+                        </div>
+                    </div><!-- End Service Item -->
+
+                    <!-- <div class="col-lg-6 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                        <div class="icon flex-shrink-0"><i class="bi bi-bar-chart" style="color: #d90769;"></i>
+                        </div>
+                        <div>
+                            <h4 class="title"><a href="#" class="stretched-link">Sed ut perspiciatis</a></h4>
+                            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                cillum
+                                dolore eu fugiat nulla pariatur</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                        <div class="icon flex-shrink-0"><i class="bi bi-binoculars" style="color: #15bfbc;"></i>
+                        </div>
+                        <div>
+                            <h4 class="title"><a href="#" class="stretched-link">Magni Dolores</a></h4>
+                            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                officia
+                                deserunt mollit anim id est laborum</p>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="500">
+                        <div class="icon flex-shrink-0"><i class="bi bi-brightness-high" style="color: #f5cf13;"></i>
+                        </div>
+                        <div>
+                            <h4 class="title"><a href="#" class="stretched-link">Nemo Enim</a></h4>
+                            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                blanditiis
+                                praesentium voluptatum deleniti atque</p>
+                        </div>
+                    </div><
+
+                    <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="600">
+                        <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week" style="color: #1335f5;"></i>
+                        </div>
+                        <div>
+                            <h4 class="title"><a href="#" class="stretched-link">Eiusmod Tempor</a></h4>
+                            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam
+                                libero
+                                tempore, cum soluta nobis est eligendi</p>
+                        </div>
+                    </div> -->
+
+                </div>
+
+            </div>
+        </section><!-- End Our Services Section -->
+
+        <!-- ======= Call To Action Section ======= -->
+        <section id="call-to-action" class="call-to-action">
+            <div class="container" data-aos="fade-up">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <h3>MultiServicios S.A.</h3>
+                        <p>San José Pinula - 2022 &copy;</p>
+                        <!-- <a class="cta-btn" href="#">Call To Action</a> -->
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End Call To Action Section -->
+
+    </main><!-- End #main -->
+
+    <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+</div>

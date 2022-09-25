@@ -4,6 +4,7 @@ const personasRouter = require('./persona.router');
 const notificacionesRouter = require('./notificacion.router');
 const serviciosRouter = require('./servicio.router');
 const repuestosRouter = require('./repuesto.router');
+const direccionesRouter = require('./direccion.router');
 
 function routerApi(app) {
   const router = express.Router();
@@ -13,6 +14,7 @@ function routerApi(app) {
   router.use('/notificaciones', notificacionesRouter);
   router.use('/servicios', serviciosRouter);
   router.use('/repuestos', repuestosRouter);
+  router.use('/direcciones', direccionesRouter);
 }
 
 module.exports = routerApi;

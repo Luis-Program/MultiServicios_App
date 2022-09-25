@@ -1,18 +1,149 @@
-<h1>Departamentos</h1>
-<h3 *ngIf="loading">Cargando</h3>
-<div *ngFor="let departamento of departamentos">
-  <h3>Departamento</h3>
-  <p>Id: {{departamento.idDepartamento}}</p>
-  <p>Nombre: {{departamento.nombre}}</p>
-  <p>Código: {{departamento.codigo}}</p>
-  <h3>Pais</h3>
-  <div *ngIf="departamento.Pais; else nullCountry">
-    <p>idPais: {{departamento.Pais.idPais}}</p>
-    <p>Nombre: {{departamento.Pais.nombre}}</p>
-    <p>Código: {{departamento.Pais.codigo}}</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>DEPARTAMENTOS</h1>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByDepartment()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
+        <loader></loader>
+      </div>
+      <div class="card-body" *ngIf="!loading">
+
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>DEPARTAMENTOS</h1>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row mt-2 ">
+          <!-- ADD BUTTON -->
+          <div class="col-12 text-center">
+            <button class="btn btn-inverse text-white" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" (click)="openModalByDepartment()">
+            Nuevo
+          </button>
+          </div>
+          <!-- /ADD BUTTON -->
+        </div>
+
+        <!-- CARD -->
+        <div class="row mt-2">
+          <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let departamento of departamentos | filterNameCode:filter">
+            <div class="card card-outline-info card-height" (click)="openModalByDepartment(departamento)" data-toggle="modal"
+              data-target="#exampleModal" data-whatever="@mdo">
+              <div class="card-header bg-dark">
+              </div>
+              <div class="card-body border">
+                <div class="row">
+                  <div class="col-10">
+                    <h3 class="card-title text-dark">{{ departamento.nombre }}</h3>
+                    <p class="card-text">{{ departamento.codigo }}</p>
+                  </div>
+                  <div class="col-2 vh-100 d-flex justify-content-center align-items-center">
+                    <i class="mdi mdi-domain"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /CARDS -->
+
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel1">Departamento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="departmentForm">
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Nombre</label>
+                    <input type="text" class="form-control" id="recipient-name1" formControlName="nombre">
+                    <div *ngIf="nameControl?.invalid && nameControl?.touched">
+                      <small *ngIf="nameControl?.hasError('required')" class="text-danger">*Nombre requerido</small>
+                      <small *ngIf="nameControl?.hasError('maxlength')" class="text-danger">*El nombre no debe exceder
+                        de 50 carácteres</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Código</label>
+                    <input type="number" class="form-control" min="0" max="22" id="recipient-name1"
+                      formControlName="codigo">
+                    <div *ngIf="codeControl?.invalid && codeControl?.touched">
+                      <small *ngIf="codeControl?.hasError('required')" class="text-danger">*Código requerido</small>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="control-label">Pais</label>
+                    <select class="form-control custom-select" formControlName="idPais">
+                      <option *ngFor="let pais of paises" [value]="pais.idPais">
+                        {{ pais ? pais.nombre : 'No ingresado' }}</option>
+                    </select>
+                    <!-- <small *ngIf="idCountryValue <= 0" class="form-control-feedback">No ingresado *</small> -->
+
+                    <!-- <ng-multiselect-dropdown
+                    [settings]="dropdownSettings"
+                    [data]="paises"
+                    [placeholder]="'Seleccionar'"
+                    (onSelect)="onItemSelect($event)">
+                    </ng-multiselect-dropdown> -->
+
+                    <div *ngIf="country?.invalid && country?.touched">
+                      <small *ngIf="country?.hasError('required')" class="text-danger">*País requerido</small>
+                    </div>
+                  </div>
+
+                  <div *ngIf="idCountryValue >= 1 && !newDepartment">
+                    <hr>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Código del país*</label>
+                      <input type="text" class="form-control" id="recipient-name1" [value]="codeCountry" readonly>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" *ngIf="!newDepartment"
+                  (click)="deleteDepartmentModal()">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="newDepartment"
+                  (click)="createDepartmentForm()">Crear</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="!newDepartment"
+                  (click)="createDepartmentForm()">Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-  <ng-template #nullCountry>
-    <p>No ingresado</p>
-  </ng-template>
-  <p>------------------------------------</p>
 </div>

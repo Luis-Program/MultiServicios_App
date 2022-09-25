@@ -24,6 +24,16 @@ class PersonaService {
     return persona;
   }
 
+  async findAll() {
+    const personas = await models.Persona.findAll({
+      include: [{
+        association: 'Tipo_Persona',
+        include: ['Empresa']
+      }]
+    });
+    return personas;
+}
+
   async findOne(idPersona) {
       const persona = await models.Persona.findByPk(idPersona, {
         include: [{
@@ -39,10 +49,11 @@ class PersonaService {
 
   async update(idPersona, changes) {
     const persona = await this.findOne(idPersona);
-    const response = await persona.update(changes);
+    const updated = await persona.update(changes);
+    const response = await this.findOne(updated.idPersona);
     return response;
   }
-  
+
 }
 
 module.exports = PersonaService;

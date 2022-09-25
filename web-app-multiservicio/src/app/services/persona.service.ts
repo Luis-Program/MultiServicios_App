@@ -3,8 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { retry, catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { Clientes, CreatePersonaDTO, Persona, PersonaRelaciones, ServiciosFinalizadosPendientes, Trabajadores, TrabajadoresMinMaxServicios, UpdatePersonaDTO } from '../models/persona.model';
+import { Clientes, CreatePersonaDTO, Persona, PersonaDropdown, PersonaRelaciones, PersonaRelacionesLogin, ServiciosFinalizadosPendientes, Trabajadores, TrabajadoresDropDown, TrabajadoresMinMaxServicios, UpdatePersonaDTO } from '../models/persona.model';
 import { Router } from '@angular/router';
+import { getRol } from '../modules/shared/local-storage/localStorage';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class PersonaService {
   ) { }
 
   private getAPI() {
-    const rol = localStorage.getItem('rol');
+    const rol = getRol();
     if (rol) {
       if (rol === 'Gerente General') {
         this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
@@ -35,7 +36,7 @@ export class PersonaService {
     // this.apiUrl = `${environment.API_URL_EMPLOYEE}/api/v1/personas`;
     // this.apiUrl = `${environment.API_URL_CLIENT}/api/v1/personas`;
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
-    return this.http.get<PersonaRelaciones>(`${this.apiUrl}/correo/${email}`)
+    return this.http.get<PersonaRelacionesLogin>(`${this.apiUrl}/correo/${email}`)
       .pipe(
         retry(3),
         catchError((error: HttpErrorResponse) => {
@@ -61,6 +62,15 @@ export class PersonaService {
         }));
   }
 
+  public getAllDropDown(){
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas/dropdown`;
+    return this.http.get<PersonaDropdown[]>(this.apiUrl)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
   public getAllWorkersWithServices() {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
     return this.http.get<Trabajadores[]>(this.apiUrl + '/trabajadores')
@@ -69,6 +79,16 @@ export class PersonaService {
           return manageError(error, this.router);
         }));
   }
+
+  public getAllWorkersWithServicesDropDown() {
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
+    return this.http.get<TrabajadoresDropDown[]>(this.apiUrl + '/workersdropdown')
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
 
   public getWorkersMinMaxServices(){
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
@@ -81,7 +101,7 @@ export class PersonaService {
 
   public getClientsWithAmountEquipsMinMax() {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
-    return this.http.get<Clientes[]>(this.apiUrl + '/personasminmaxequipos')
+    return this.http.get<TrabajadoresMinMaxServicios[]>(this.apiUrl + '/personasminmaxequipos')
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);
@@ -90,7 +110,16 @@ export class PersonaService {
 
   public getAllCients() {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
-    return this.http.get<Persona[]>(this.apiUrl + '/clientes')
+    return this.http.get<PersonaDropdown[]>(this.apiUrl + '/clientes')
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
+  public getAllCientsEquipments() {
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
+    return this.http.get<Clientes[]>(this.apiUrl + '/clientesequipos')
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);
@@ -99,7 +128,16 @@ export class PersonaService {
 
   public getOne(idPersona: number | string) {
     this.getAPI();
-    return this.http.get<PersonaRelaciones>(`${this.apiUrl}/${idPersona}`)
+    return this.http.get<PersonaRelacionesLogin>(`${this.apiUrl}/${idPersona}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
+  public getAllPersonTypesForWorker() {
+    this.getAPI();
+    return this.http.get<PersonaRelacionesLogin[]>(`${this.apiUrl}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);
@@ -124,9 +162,18 @@ export class PersonaService {
         }));
   }
 
+  public updateManager(idPersona: number | string, dto: UpdatePersonaDTO) {
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
+    return this.http.patch<PersonaRelaciones>(`${this.apiUrl}/update/${idPersona}`, dto)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
   public update(idPersona: number | string, dto: UpdatePersonaDTO) {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/personas`;
-    return this.http.patch<PersonaRelaciones>(`${this.apiUrl}/${idPersona}`, dto)
+    return this.http.patch<PersonaRelacionesLogin>(`${this.apiUrl}/${idPersona}`, dto)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);

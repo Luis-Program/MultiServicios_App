@@ -1,0 +1,7 @@
+.noti {
+    /* overflow-x: scroll !important; */
+    /* background: red; */
+    text-overflow: clip !important;
+    overflow-x: auto !important;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}

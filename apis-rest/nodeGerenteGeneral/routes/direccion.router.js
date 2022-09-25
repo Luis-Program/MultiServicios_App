@@ -24,6 +24,19 @@ router.get('/relaciones',
     }
   });
 
+  router.get('/dropdown',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const direcciones = await service.findDropDown();
+      res.json(direcciones);
+    } catch (error) {
+      next(error);
+    }
+  });
+
 router.get('/',
   passport.authenticate('oauth-bearer', {
     session: false

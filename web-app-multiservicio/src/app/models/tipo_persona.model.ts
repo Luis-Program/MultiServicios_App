@@ -6,6 +6,11 @@ export interface TipoPersona {
   tipo: string,
   idEmpresa: number | null
 }
+
+export interface TipoPersonaDropDown {
+  idTipoPersona: number,
+  tipo: string
+}
 // route: /relaciones && /:idTipoPersona
 export interface TipoPersonaRelaciones extends Omit<TipoPersona, 'idEmpresa'> {
   Empresa: Empresa | null

@@ -29,24 +29,6 @@ router.get('/persona/:idPersona',
     }
   });
 
-// router.get('/:idNotificacion',
-//   passport.authenticate('oauth-bearer', {
-//     session: false
-//   }),
-//   validatorHandler(getNotificacionSchema, 'params'),
-//   async (req, res, next) => {
-//     try {
-//       const {
-//         idNotificacion
-//       } = req.params;
-//       const notificacion = await service.findOne(idNotificacion);
-//       res.json(notificacion);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
-
 router.get('/visto/:idPersona',
   passport.authenticate('oauth-bearer', {
     session: false
@@ -64,7 +46,7 @@ router.get('/visto/:idPersona',
     }
   });
 
-  router.get('/eliminar/:idPersona',
+  router.delete('/eliminar/:idPersona',
   passport.authenticate('oauth-bearer', {
     session: false
   }),

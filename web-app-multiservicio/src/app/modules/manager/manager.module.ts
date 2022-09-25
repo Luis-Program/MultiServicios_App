@@ -17,7 +17,18 @@ import { TipoPersonaComponent } from './pages/tipo-persona/tipo-persona.componen
 import { EquipoComponent } from './pages/equipo/equipo.component';
 import { ServicioComponent } from './pages/servicio/servicio.component';
 import { TelefonoComponent } from './pages/telefono/telefono.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterNameCodePipe } from './pipes/filter-name-code.pipe';
+import { FilterBusinessPipe } from './pipes/filter-business.pipe';
+import { FilterPersonPipe } from './pipes/filter-person.pipe';
+import { FilterTypePersonPipe } from './pipes/filter-type-person.pipe';
+import { FilterTypePhoneReplacementPipe } from './pipes/filter-type-phone-replacement.pipe';
+import { FilterDireccionPipe } from './pipes/filter-direccion.pipe';
 
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { FilterAuditPipe } from './pipes/filter-audit.pipe';
+import { FilterAnalysisPipe } from './pipes/filter-analysis.pipe';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -34,12 +45,24 @@ import { TelefonoComponent } from './pages/telefono/telefono.component';
     TipoPersonaComponent,
     EquipoComponent,
     ServicioComponent,
-    TelefonoComponent
+    TelefonoComponent,
+    FilterNameCodePipe,
+    FilterBusinessPipe,
+    FilterPersonPipe,
+    FilterTypePersonPipe,
+    FilterTypePhoneReplacementPipe,
+    FilterDireccionPipe,
+    FilterAuditPipe,
+    FilterAnalysisPipe,
   ],
   imports: [
     CommonModule,
     ManagerRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    NgxChartsModule
   ]
 })
 export class ManagerModule { }

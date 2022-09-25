@@ -1,16 +1,16 @@
 const Joi = require('joi');
 
 const idDireccion = Joi.number().integer();
-const Direccion = Joi.string();
+const direccion = Joi.string();
 const idMunicipio = Joi.number().integer();
 
 const createDireccionSchema = Joi.object({
-  Direccion: Direccion.required(),
+  direccion: direccion.required(),
   idMunicipio: idMunicipio.required(),
 });
 
 const updateDireccionSchema = Joi.object({
-  Direccion: Direccion,
+  direccion: direccion,
   idMunicipio,
 });
 

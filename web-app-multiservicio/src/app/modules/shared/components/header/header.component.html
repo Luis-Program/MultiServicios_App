@@ -1,0 +1,121 @@
+<header class="topbar">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <!-- ============================================================== -->
+        <!-- Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">
+                <!-- Logo icon --><b>
+                    <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                    <!-- Dark Logo icon -->
+                    <img src="../assets/images/logos/LogoMultiServicios.jpg" width="50" height="50" alt="homepage" class="dark-logo" />
+                    <!-- Light Logo icon -->
+                    <!-- <img src="../assets/images/logos/LogoMultiServicios.jpg" alt="homepage" class="light-logo" /> -->
+                </b>
+                <!--End Logo icon -->
+                <!-- Logo text --><span>
+                    <!-- dark Logo text -->
+                    <!-- <img src="../assets/images/logos/LogoMultiServicios.jpg" alt="homepage" class="dark-logo" /> -->
+                    <!-- Light Logo text -->
+                    <!-- <img src="../assets/images/logos/LogoMultiServicios.jpg" class="light-logo" alt="homepage" /> -->
+                </span>
+            </a>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-collapse">
+            <!-- ============================================================== -->
+            <!-- toggle and nav items -->
+            <!-- ============================================================== -->
+            <ul class="navbar-nav mr-auto">
+                <!-- This is  -->
+                <li class="nav-item">
+                    <a class="nav-link nav-toggler hidden-md-up" href="javascript:void(0)">
+                        <i class="ti-menu"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link sidebartoggler hidden-sm-down" href="javascript:void(0)">
+                        <i class="ti-menu"></i>
+                    </a>
+                </li>
+                <li class="nav-item hidden-sm-down"></li>
+            </ul>
+            <ul class="navbar-nav my-lg-0">
+
+                <!-- ============================================================== -->
+                <!-- NOTIFICATIONS -->
+                <!-- ============================================================== -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-bell-ring"></i>
+                        <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                    </a>
+                    <div class="dropdown-menu mailbox dropdown-menu-right animated bounceInDown" aria-labelledby="2">
+                        <ul>
+                            <li>
+                                <div class="row">
+                                    <div class="drop-title col-8 ml-2">Notificaciones</div>
+                                    <div class="drop-title col-1" (click)="setAllRead()"><i class="mdi mdi-bell-off"></i></div>
+                                    <div class="drop-title col-1" (click)="deleteAll()"><i class="mdi mdi-close"></i></div>
+                                    <!-- <div class="drop-title col-1"><i class="mdi mdi-bell-off"></i></div>
+                                    <div class="drop-title col-1"><i class="mdi mdi-close"></i></div> -->
+                                </div>
+                            </li>
+                            <li>
+                                <div class="message-center">
+                                    <!-- Message -->
+                                    <a *ngFor="let n of notificaciones" >
+
+                                      <div class="user-img">
+                                          <i class="mdi mdi-bell-ring ml-4"></i>
+                                          <span *ngIf="n.visto" class="profile-status online pull-right"></span>
+                                        </div>
+                                        <div class="mail-contnet">
+                                          <span class="time"><i class="mdi mdi-close" (click)="deleteOne(n.idNotificacion)"></i></span>
+                                          <a (click)="goByNotification(n)" >
+                                            <small>{{ n.textoNotificacion }}</small>
+                                          </a>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </li>
+                <!-- ============================================================== -->
+                <!-- End Messages -->
+                <!-- ============================================================== -->
+
+                <!-- ============================================================== -->
+                <!-- Profile -->
+                <!-- ============================================================== -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="mdi mdi-account-circle profile-pic"></i>
+                        </a>
+                    <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                        <ul class="dropdown-user">
+                            <li>
+                                <div class="dw-user-box">
+                                    <div class="u-img"><img src="../assets/images/logos/logo-fondo-negro-letras-blancas.png" alt="user"></div>
+                                    <div class="u-text">
+                                        <h4>{{ persona?.nombre }}</h4>
+                                        <h4>{{ persona?.apellidos }}</h4>
+                                        <p class="text-muted">{{ persona?.correo }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li (click)="navigateToProfile()" ><a><i class="ti-user"></i> Perfil</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li (click)="logout()" ><a><i class="fa fa-power-off"></i> Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

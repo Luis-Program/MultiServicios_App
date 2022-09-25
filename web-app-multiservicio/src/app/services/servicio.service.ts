@@ -3,8 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { CreateServicioDTO, Servicio, ServicioRelaciones, ServiciosCantidad, ServiciosCantidadPorTipoServicio, ServiciosFinalizadosPendientesTrabajador, ServicioTrabajador, UpdateServicioDTO } from '../models/servicio.model';
+import { CreateServicioDTO, Servicio, ServicioCliente, ServicioGraficaClientes, ServicioRelaciones, ServiciosCantidad, ServiciosCantidadPorTipoServicio, ServiciosFinalizadosPendientesTrabajador, ServicioTrabajador, UpdateServicioDTO } from '../models/servicio.model';
 import { Router } from '@angular/router';
+import { getRol } from '../modules/shared/local-storage/localStorage';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class ServicioService {
   ) { }
 
   private getAPI() {
-    const rol = localStorage.getItem('rol');
+    const rol = getRol();
     if (rol) {
       if (rol === 'Gerente General') {
         this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/servicios`;
@@ -94,18 +95,18 @@ export class ServicioService {
         }));
   }
   // Cliente
-  public getAllByIdEquipoCompleted(idEquipo: number | string) {
+  public getAllByIdEquipoCompleted(idEquipo: number) {
     this.apiUrl = `${environment.API_URL_CLIENT}/api/v1/servicios`;
-    return this.http.get<ServicioRelaciones[]>(`${this.apiUrl}/completados/${idEquipo}`)
+    return this.http.get<ServicioCliente[]>(`${this.apiUrl}/completados/${idEquipo}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);
         }));
   }
 
-  public getAllByIdEquipoNotCompleted(idEquipo: number | string) {
+  public getAllByIdEquipoNotCompleted(idEquipo: number) {
     this.apiUrl = `${environment.API_URL_CLIENT}/api/v1/servicios`;
-    return this.http.get<ServicioRelaciones[]>(`${this.apiUrl}/pendientes/${idEquipo}`)
+    return this.http.get<ServicioCliente[]>(`${this.apiUrl}/pendientes/${idEquipo}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);
@@ -159,9 +160,36 @@ export class ServicioService {
         }));
   }
 
+  public getAllGraphicsClient(idPersona: string) {
+    this.getAPI();
+    return this.http.get<ServicioGraficaClientes>(`${this.apiUrl}/graficapenfin/${idPersona}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
+  public getOneGraphicsClient(idEquipo: number) {
+    this.getAPI();
+    return this.http.get<ServicioGraficaClientes>(`${this.apiUrl}/graficaequipo/${idEquipo}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
   public create(dto: CreateServicioDTO) {
     this.getAPI();
     return this.http.post<ServicioRelaciones>(`${this.apiUrl}`, dto)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
+  public createClient(dto: CreateServicioDTO) {
+    this.getAPI();
+    return this.http.post<ServicioCliente>(`${this.apiUrl}`, dto)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);

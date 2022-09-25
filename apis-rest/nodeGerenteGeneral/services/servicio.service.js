@@ -56,9 +56,7 @@ class ServicioService {
         }]
       }],
       where: {
-        fechaFinalizado: {
-          [Op.ne]: null
-        }
+        estado: 'Servicio finalizado.'
       }
     });
     return servicios;
@@ -135,7 +133,8 @@ class ServicioService {
 
   async update(idServicio, changes) {
     const servicio = await this.findOne(idServicio);
-    const response = await servicio.update(changes);
+    const updated = await servicio.update(changes);
+    const response = await this.findOne(updated.idServicio);
     return response;
   }
 
