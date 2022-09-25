@@ -22,6 +22,7 @@ export class ServicioComponent implements OnInit {
   protected servicioPorTipo: ServiciosCantidadPorTipoServicio | null = null;
   protected serviciosCompletados: ServicioRelaciones[] = [];
   protected serviciosPendientes: ServicioRelaciones[] = [];
+  protected servicio: ServicioRelaciones | null = null;
   protected trabajadores: TrabajadoresDropDown[] = [];
   protected fechaFinalizado: string | null = null;
   protected prioridad = ['Alta', 'Media', 'Baja'];
@@ -164,6 +165,12 @@ export class ServicioComponent implements OnInit {
       });
   }
 
+  protected reloadGraphics(){
+    this.getServiceAmount();
+    this.getServiceByType();
+
+  }
+
   protected loadDataCreateDelete() {
     this.getAllServiceTypes();
     this.getAllEquipment();
@@ -202,6 +209,7 @@ export class ServicioComponent implements OnInit {
 
   protected createService(dto: CreateServicioDTO) {
     dto.fechaHoraRealizar = null;
+    dto.idTrabajador = null;
     this.servicioService.create(dto)
       .subscribe(service => {
         if (service) {
@@ -216,6 +224,7 @@ export class ServicioComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+          this.reloadGraphics();
         }
       });
   }
@@ -239,9 +248,10 @@ export class ServicioComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+          this.reloadGraphics();
+          this.getAllWorkers();
         }
       });
-      this.getAllWorkers();
   }
 
   protected deleteService(idServicio: number) {
@@ -263,6 +273,7 @@ export class ServicioComponent implements OnInit {
             icon: 'success'
           });
           this.clearInput();
+          this.reloadGraphics();
         }
       });
   }
@@ -293,9 +304,9 @@ export class ServicioComponent implements OnInit {
     this.serviceForm = this.formBuilder.group({
       idServicio: [''],
       prioridad: ['', [Validators.required]],
-      fechaHoraRealizar: ['', [Validators.required]],
+      fechaHoraRealizar: [''],
       idTipoServicio: ['', [Validators.required]],
-      idTrabajador: ['', [Validators.required]],
+      idTrabajador: [''],
       idEquipo: ['', [Validators.required]],
     });
   }
@@ -325,12 +336,12 @@ export class ServicioComponent implements OnInit {
   }
 
   private setService(service: ServicioRelaciones) {
+    this.servicio = service;
     this.fechaFinalizado = service.fechaFinalizado ? this.parseDate(service.fechaFinalizado) : null;
     let idEquipo, idTipoServicio, idTrabajador = null;
     idEquipo = (service.Equipo.idEquipo) ? service.Equipo.idEquipo : 0;
     idTipoServicio = (service.Tipo_Servicio?.idTipoServicio) ? service.Tipo_Servicio.idTipoServicio : 0;
     idTrabajador = (service.Trabajador?.idPersona) ? service.Trabajador.idPersona : 0;
-
     this.serviceForm.setValue({
       idServicio: service.idServicio,
       prioridad: service.prioridad,
@@ -339,11 +350,6 @@ export class ServicioComponent implements OnInit {
       idTrabajador: idTrabajador,
       idEquipo: idEquipo,
     });
-
-    this.serviceForm.addControl('fechaHoraRealizar', this.formBuilder.control(formatDate(service.fechaHoraRealizar!, 'yyyy-MM-ddTHH:mm:ss', 'en'), []))
-    this.serviceForm.addControl('idTrabajador', this.formBuilder.control(idTrabajador, []))
-
-    this.serviceForm.updateValueAndValidity();
     this.idService = service.idServicio;
   }
 
@@ -357,9 +363,8 @@ export class ServicioComponent implements OnInit {
       } else {
         this.throwAlert();
       }
-    }else{
-      return this.createService(rest);
     }
+    this.createService(rest);
   }
 
   protected deleteServiceModal() {

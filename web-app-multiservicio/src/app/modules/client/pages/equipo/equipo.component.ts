@@ -141,7 +141,7 @@ export class EquipoComponent implements OnInit {
 
   protected parseDate(date: Date | null) {
     if (date) {
-      return formatDate(date, 'medium', 'es');
+      return formatDate(date, 'MMMM d, y', 'es');
     }
     return 'No ingresada';
   }
