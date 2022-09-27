@@ -77,6 +77,7 @@ class PersonaService {
     const minServices = await models.Persona.sequelize.query(`SELECT p.*,count(s.idTrabajador) AS 'cantidad' FROM MultiServicios.Persona p
     LEFT JOIN MultiServicios.Servicio s
     ON p.idPersona = s.idTrabajador
+    WHERE p.idTipoPersona = 2
     GROUP BY p.idPersona ORDER BY cantidad ASC LIMIT 1`, {
       type: QueryTypes.SELECT
     });

@@ -109,7 +109,7 @@ export class NavbarComponent implements OnInit {
             this.serviceInfo = true;
             this.authB2C.logout();
           }
-          this.loading = false;
+          // this.loading = false;
         });
     } else {
       this.loading = false;
