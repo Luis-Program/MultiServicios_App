@@ -13,8 +13,10 @@ export class FilterEquipmentPipe implements PipeTransform {
     arg = arg.trim();
     for (const object of value) {
       if (rol === "Gerente General") {
+        const estado = (object.estado ? 'Activo' : 'Inactivo');
         if (object.nombre.toLowerCase().indexOf(arg.toLowerCase()) > -1
           || object.modelo.toLowerCase().indexOf(arg.toLowerCase()) > -1
+          || estado.toLocaleLowerCase().indexOf(arg.toLowerCase()) > -1
           || (object.Persona.nombre + object.Persona.apellidos).replace(/ /g, "").toLowerCase().indexOf(arg.toLowerCase().replace(/ /g, "")) > -1) {
           resultFilter.push(object);
         }
