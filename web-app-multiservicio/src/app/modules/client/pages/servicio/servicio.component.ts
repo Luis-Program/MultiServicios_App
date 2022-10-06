@@ -236,6 +236,7 @@ export class ServicioComponent implements OnInit {
   }
 
   protected createService(dto: CreateServicioDTO) {
+    dto.observaciones = null;
     this.servicioService.createClient(dto)
       .subscribe(service => {
         if (service) {
@@ -302,6 +303,7 @@ export class ServicioComponent implements OnInit {
       prioridad: ['', [Validators.required]],
       fechaHoraRealizar: [null],
       fechaFinalizado: [null],
+      observaciones : [''],
       idTipoServicio: ['', [Validators.required]],
       idTrabajador: [null],
       idEquipo: [this.equipo?.idEquipo, [Validators.required]],
@@ -340,6 +342,7 @@ export class ServicioComponent implements OnInit {
     this.serviceForm.setValue({
       idServicio: service.idServicio,
       prioridad: service.prioridad,
+      observaciones : service.observaciones ? service.observaciones : 'No ingresadas',
       fechaHoraRealizar: service.fechaHoraRealizar ? formatDate(service.fechaHoraRealizar, 'dd/MM/yyy HH:mm aa', 'en') : 'No ingresado',
       idTipoServicio: (idTipoServicio > 2) ? 1 : idTipoServicio,
       fechaFinalizado: service.fechaFinalizado,

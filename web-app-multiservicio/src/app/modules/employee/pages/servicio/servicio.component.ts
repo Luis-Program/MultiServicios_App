@@ -192,8 +192,17 @@ export class ServicioComponent implements OnInit {
     this.newService = true;
     this.serviceForm = this.formBuilder.group({
       idServicio: [''],
-      fechaFinalizado: ['', Validators.required]
+      fechaFinalizado: ['', Validators.required],
+      observaciones: ['', Validators.required, Validators.maxLength(500), Validators.minLength(3)]
     });
+  }
+
+  protected get fechaFinalizado() {
+    return this.serviceForm.get('fechaFinalizado');
+  }
+
+  protected get observaciones() {
+    return this.serviceForm.get('observaciones');
   }
 
   protected parseDate(date: Date | null) {
@@ -207,6 +216,7 @@ export class ServicioComponent implements OnInit {
     this.serviceForm.setValue({
       idServicio: service.idServicio,
       fechaFinalizado: service.fechaFinalizado ? formatDate(service.fechaFinalizado, 'dd/MM/yyy HH:mm aa', 'en') : 'No ingresado',
+      observaciones : service.observaciones
     });
 
     this.serviceForm.addControl('fechaFinalizado', this.formBuilder.control(formatDate(service.fechaFinalizado!, 'yyyy-MM-ddTHH:mm:ss', 'en'), []))

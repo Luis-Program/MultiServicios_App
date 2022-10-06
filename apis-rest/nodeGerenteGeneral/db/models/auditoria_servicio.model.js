@@ -77,6 +77,10 @@ const Auditoria_ServicioSchema =  {
     allowNull: true,
     type: DataTypes.DATE,
   },
+  observaciones: {
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
   }
 
 class Auditoria_Servicio extends Model {

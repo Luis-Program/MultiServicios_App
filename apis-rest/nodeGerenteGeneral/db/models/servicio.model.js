@@ -28,6 +28,10 @@ const ServicioSchema =  {
     allowNull: true,
     type: DataTypes.STRING,
   },
+  observaciones: {
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
   prioridad: {
     allowNull: false,
     type: DataTypes.STRING,

@@ -3,9 +3,11 @@ const Joi = require('joi');
 const idServicio = Joi.number().integer();
 const fechaFinalizado = Joi.date();
 const idTrabajador = Joi.number().integer();
+const observaciones = Joi.string().max(500);
 
 const updateServicioSchema = Joi.object({
-  fechaFinalizado: fechaFinalizado
+  fechaFinalizado: fechaFinalizado,
+  observaciones : observaciones.required()
 });
 
 const getAllServicioSchema = Joi.object({

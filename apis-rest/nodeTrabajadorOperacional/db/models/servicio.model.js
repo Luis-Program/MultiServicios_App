@@ -20,6 +20,10 @@ const ServicioSchema =  {
     allowNull: true,
     type: DataTypes.DATE,
   },
+  observaciones: {
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
   fechaFinalizado: {
     allowNull: true,
     type: DataTypes.DATE,

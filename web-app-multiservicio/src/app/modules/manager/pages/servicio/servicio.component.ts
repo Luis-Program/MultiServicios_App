@@ -210,6 +210,7 @@ export class ServicioComponent implements OnInit {
   protected createService(dto: CreateServicioDTO) {
     dto.fechaHoraRealizar = null;
     dto.idTrabajador = null;
+    dto.observaciones = null;
     this.servicioService.create(dto)
       .subscribe(service => {
         if (service) {
@@ -230,6 +231,7 @@ export class ServicioComponent implements OnInit {
   }
 
   protected updateService(idServicio: number, dto: UpdateServicioDTO) {
+    dto.observaciones = dto.observaciones === "No ingresadas" ? null : dto.observaciones;
     this.servicioService.update(idServicio, dto)
       .subscribe(res => {
         if (res) {
@@ -305,6 +307,7 @@ export class ServicioComponent implements OnInit {
       idServicio: [''],
       prioridad: ['', [Validators.required]],
       fechaHoraRealizar: [''],
+      observaciones : [''],
       idTipoServicio: ['', [Validators.required]],
       idTrabajador: [''],
       idEquipo: ['', [Validators.required]],
@@ -345,6 +348,7 @@ export class ServicioComponent implements OnInit {
     this.serviceForm.setValue({
       idServicio: service.idServicio,
       prioridad: service.prioridad,
+      observaciones : service.observaciones ? service.observaciones : 'No ingresadas',
       fechaHoraRealizar: service.fechaHoraRealizar ? formatDate(service.fechaHoraRealizar,'yyyy-MM-ddTHH:mm:ss','es') : 'No ingresado',
       idTipoServicio: (idTipoServicio > 2) ? 1 : idTipoServicio,
       idTrabajador: idTrabajador,

@@ -6,6 +6,7 @@ const fechaCreado = Joi.date().allow(null);
 const fechaFinalizado = Joi.date().allow(null);
 const estado = Joi.string().allow(null);
 const prioridad = Joi.string().max(20);
+const observaciones = Joi.string().max(500).allow(null);
 const fechaHoraAsignadoTrabajador = Joi.date().allow(null);
 const idTipoServicio = Joi.number().integer();
 const idEquipo = Joi.number().integer();
@@ -16,6 +17,7 @@ const createServicioSchema = Joi.object({
   fechaCreado: fechaHoraRealizar,
   fechaFinalizado: fechaFinalizado,
   estado: estado,
+  observaciones: observaciones,
   prioridad: prioridad.required(),
   fechaHoraAsignadoTrabajador: fechaHoraAsignadoTrabajador,
   idTipoServicio: idTipoServicio.required(),
@@ -28,6 +30,7 @@ const updateServicioSchema = Joi.object({
   fechaCreado: fechaCreado,
   fechaFinalizado: fechaFinalizado,
   estado: estado,
+  observaciones: observaciones,
   prioridad: prioridad,
   fechaHoraAsignadoTrabajador: fechaHoraAsignadoTrabajador,
   idTipoServicio: idTipoServicio,

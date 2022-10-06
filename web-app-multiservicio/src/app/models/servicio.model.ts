@@ -10,6 +10,7 @@ export interface Servicio {
   fechaFinalizado: Date | null,
   estado: string | null,
   prioridad: string,
+  observaciones: string | null,
   fechaHoraAsignadoTrabajador: Date | null,
   idTipoServicio: number | null,
   idEquipo: number,

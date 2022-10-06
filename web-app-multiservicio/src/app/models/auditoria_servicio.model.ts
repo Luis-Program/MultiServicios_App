@@ -8,6 +8,7 @@ export interface Auditoria_servicio {
   modeloEquipo: string,
   nombreCliente: string,
   dpiCliente: string,
+  observaciones: string | null,
   fechaHoraCreado: Date,
   empresaCliente: string,
   empresaClienteNit: string | null,

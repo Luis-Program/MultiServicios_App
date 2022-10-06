@@ -32,6 +32,10 @@ const ServicioSchema =  {
     allowNull: false,
     type: DataTypes.STRING,
   },
+  observaciones: {
+    allowNull: true,
+    type: DataTypes.STRING,
+  },
   fechaHoraAsignadoTrabajador: {
     allowNull: true,
     type: DataTypes.DATE,

@@ -138,29 +138,41 @@
                     aria-hidden="true">&times;</span></button>
               </div>
               <div class="modal-body">
-                <label for="recipient-name" class="control-label">Equipo</label>
-                <input type="text" class="form-control" id="recipient-name1"
-                  [value]="servicio ? servicio.nombre + ' ' + servicio.modelo : 'No ingresado'" readonly>
-                <label for="recipient-name" class="control-label">Tipo Servicio</label>
-                <input type="text" class="form-control" id="recipient-name1"
-                  [value]="servicio ? servicio.tipoServicio : 'No ingresado'" readonly>
-                <label for="recipient-name" class="control-label">Fecha y hora a realizar</label>
-                <input type="text" class="form-control" id="recipient-name1"
-                  [value]="servicio ? parseDate(servicio.fechaHoraRealizar) : 'No ingresado'" readonly>
-                <label for="recipient-name" class="control-label">Ubicación</label>
-                <input type="text" class="form-control" id="recipient-name1"
-                  *ngIf="direccion?.Municipio?.Departamento?.Pais"
-                  [value]="direccion?.Municipio?.Departamento?.Pais?.nombre + ', ' + direccion?.Municipio?.Departamento?.nombre "
-                  readonly>
-                <input type="text" class="form-control mt-3" id="recipient-name1" *ngIf="direccion?.Municipio"
-                  [value]="direccion?.Municipio?.nombre + ' ' + direccion?.direccion " readonly>
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Equipo</label>
+                  <input type="text" class="form-control" id="recipient-name1"
+                    [value]="servicio ? servicio.nombre + ' ' + servicio.modelo : 'No ingresado'" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Tipo Servicio</label>
+                  <input type="text" class="form-control" id="recipient-name1"
+                    [value]="servicio ? servicio.tipoServicio : 'No ingresado'" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Fecha y hora a realizar</label>
+                  <input type="text" class="form-control" id="recipient-name1"
+                    [value]="servicio ? parseDate(servicio.fechaHoraRealizar) : 'No ingresado'" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Ubicación</label>
+                  <input type="text" class="form-control" id="recipient-name1"
+                    *ngIf="direccion?.Municipio?.Departamento?.Pais"
+                    [value]="direccion?.Municipio?.Departamento?.Pais?.nombre + ', ' + direccion?.Municipio?.Departamento?.nombre "
+                    readonly>
+                  <input type="text" class="form-control mt-3" id="recipient-name1" *ngIf="direccion?.Municipio"
+                    [value]="direccion?.Municipio?.nombre + ' ' + direccion?.direccion " readonly>
+                </div>
                 <div *ngIf="persona">
-                  <label for="recipient-name" class="control-label">Cliente</label>
-                  <input type="text" class="form-control" id="recipient-name1"
-                    [value]="persona.nombre + ' ' + persona.apellidos" readonly>
-                  <label for="recipient-name" class="control-label">Empresa</label>
-                  <input type="text" class="form-control" id="recipient-name1"
-                    [value]="persona.Tipo_Persona.Empresa?.nombre" readonly>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Cliente</label>
+                    <input type="text" class="form-control" id="recipient-name1"
+                      [value]="persona.nombre + ' ' + persona.apellidos" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Empresa</label>
+                    <input type="text" class="form-control" id="recipient-name1"
+                      [value]="persona.Tipo_Persona.Empresa?.nombre" readonly>
+                  </div>
                 </div>
                 <form [formGroup]="serviceForm">
                   <div *ngIf="!newService">
@@ -170,7 +182,25 @@
                         *ngIf="!viewCompletedService" formControlName="fechaFinalizado">
                       <input type="text" class="form-control" id="recipient-name1" *ngIf="viewCompletedService"
                         [value]="servicio ? parseDate(servicio.fechaFinalizado) : 'No ingresado'" readonly>
-                      <!-- <small *ngIf="!tiposervicio.idServicio" class="form-control-feedback">No ingresado *</small> -->
+                      <div *ngIf="fechaFinalizado?.invalid && fechaFinalizado?.touched">
+                        <small *ngIf="fechaFinalizado?.hasError('required')" class="text-danger">*Fecha Finalizado
+                          requerido</small>
+                        <small *ngIf="fechaFinalizado?.hasError('required')" class="text-danger">*Fecha Finalizado
+                          requerido</small>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="control-label">Observaciones</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                        formControlName="observaciones" *ngIf="!viewCompletedService"></textarea>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                        formControlName="observaciones" *ngIf="viewCompletedService" readonly></textarea>
+                      <div *ngIf="observaciones?.invalid && observaciones?.touched">
+                        <small *ngIf="observaciones?.hasError('required')" class="text-danger">*Observaciones
+                          requeridas</small>
+                      <small *ngIf="observaciones?.hasError('maxlength')" class="text-danger">*No debe superar los 500 carácteres</small>
+                      <small *ngIf="observaciones?.hasError('minlength')" class="text-danger">*Debe ser mayor a 3 carácteres</small>
+                      </div>
                     </div>
                   </div>
                 </form>
