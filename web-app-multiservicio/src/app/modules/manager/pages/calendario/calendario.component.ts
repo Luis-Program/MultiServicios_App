@@ -51,7 +51,7 @@ export class CalendarioComponent implements OnInit {
   }
 
   filter = "";
-  
+
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
@@ -89,7 +89,7 @@ export class CalendarioComponent implements OnInit {
     {
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
-      title: 'Luis Diego Cáceres García 05:00PM',
+      title: 'Luis Diego Cáceres García 5:00PM',
       color: { ...colors['red'] },
       actions: this.actions,
       allDay: true,

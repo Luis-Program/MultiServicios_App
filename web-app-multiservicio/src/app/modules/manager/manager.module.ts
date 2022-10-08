@@ -32,6 +32,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CalendarioComponent } from './pages/calendario/calendario.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FilterCalendarPipe } from './pipes/filter-calendar.pipe';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     FilterAuditPipe,
     FilterAnalysisPipe,
     CalendarioComponent,
+    FilterCalendarPipe,
   ],
   imports: [
     CommonModule,

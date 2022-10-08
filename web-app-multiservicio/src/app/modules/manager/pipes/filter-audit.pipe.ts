@@ -19,12 +19,6 @@ export class FilterAuditPipe implements PipeTransform {
         resultFilter.push(object);
       }
     }
-    // for (const object of value) {
-    //   console.log(object['title'])
-    //   if (object['title'].toLowerCase().indexOf(arg.toLowerCase()) > -1) {
-    //     resultFilter.push(object);
-    //   }
-    // }
     return resultFilter;
   }
 
