@@ -21,6 +21,7 @@ import { PersonaComponent } from './pages/persona/persona.component';
 import { ErrorComponent } from 'src/app/pages/error/error.component';
 import { MsalGuard } from '@azure/msal-angular';
 import { TipoPersonaComponent } from './pages/tipo-persona/tipo-persona.component';
+import { CalendarioComponent } from './pages/calendario/calendario.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,11 @@ const routes: Routes = [
       {
         path: 'equipo',
         component: EquipoComponent,
+        canActivate: [ManagerGuard, MsalGuard]
+      },
+      {
+        path: 'calendario',
+        component: CalendarioComponent,
         canActivate: [ManagerGuard, MsalGuard]
       },
       {
