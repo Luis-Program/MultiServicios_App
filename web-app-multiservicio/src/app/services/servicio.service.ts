@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { manageError } from './shared/manage-error';
-import { CreateServicioDTO, Servicio, ServicioCliente, ServicioGraficaClientes, ServicioRelaciones, ServiciosCantidad, ServiciosCantidadPorTipoServicio, ServiciosFinalizadosPendientesTrabajador, ServicioTrabajador, UpdateServicioDTO } from '../models/servicio.model';
+import { Calendario, CreateServicioDTO, Servicio, ServicioCliente, ServicioGraficaClientes, ServicioRelaciones, ServiciosCantidad, ServiciosCantidadPorTipoServicio, ServiciosFinalizadosPendientesTrabajador, ServicioTrabajador, UpdateServicioDTO } from '../models/servicio.model';
 import { Router } from '@angular/router';
 import { getRol } from '../modules/shared/local-storage/localStorage';
 
@@ -62,6 +62,15 @@ export class ServicioService {
   public getAmountServicesCompletedAsigned() {
     this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/servicios/cantidadservicios`;
     return this.http.get<ServiciosCantidad>(this.apiUrl)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return manageError(error, this.router);
+        }));
+  }
+
+  public getDataCalendar() {
+    this.apiUrl = `${environment.API_URL_MANAGER}/api/v1/servicios/calendario`;
+    return this.http.get<Calendario[]>(this.apiUrl)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return manageError(error, this.router);

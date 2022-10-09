@@ -38,6 +38,13 @@ export interface ServiciosCantidad {
   serviciosAsignados: number
 }
 
+export interface Calendario {
+  nombre: string,
+  titulo: string,
+  fechaHoraRealizar: Date,
+  fechaFinalizado: Date,
+}
+
 export interface ServiciosCantidadPorTipoServicio {
   preventivo: number,
   correctivo: number

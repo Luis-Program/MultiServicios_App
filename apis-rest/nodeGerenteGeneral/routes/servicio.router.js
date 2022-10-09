@@ -37,6 +37,19 @@ router.get('/relaciones',
     }
   });
 
+  router.get('/calendario',
+  passport.authenticate('oauth-bearer', {
+    session: false
+  }),
+  async (req, res, next) => {
+    try {
+      const servicios = await service.findCalendar();
+      res.json(servicios);
+    } catch (error) {
+      next(error);
+    }
+  });
+
 router.get('/completados',
   passport.authenticate('oauth-bearer', {
     session: false

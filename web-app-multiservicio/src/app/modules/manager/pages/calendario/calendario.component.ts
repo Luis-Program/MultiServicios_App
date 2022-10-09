@@ -1,17 +1,13 @@
-import { Component,
-  ChangeDetectionStrategy,
+import {
+  Component,
   ViewChild,
   TemplateRef,
-  OnInit, } from '@angular/core';
+  OnInit,
+} from '@angular/core';
 import {
   startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
   isSameDay,
   isSameMonth,
-  addHours,
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import {
@@ -21,6 +17,7 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
+import { ServicioService } from 'src/app/services/servicio.service';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -31,41 +28,68 @@ const colors: Record<string, EventColor> = {
     primary: '#1e90ff',
     secondary: '#D1E8FF',
   },
+  orange: {
+    primary: '#ad7521',
+    secondary: '#ad7521',
+  },
+  greenLight: {
+    primary: '#91ad21',
+    secondary: '#91ad21',
+  },
   yellow: {
     primary: '#e3bc08',
     secondary: '#FDF1BA',
+  },
+  green: {
+    primary: '#50ad21',
+    secondary: '#50ad21',
+  },
+  ocean: {
+    primary: '#21ad85',
+    secondary: '#21ad85',
+  },
+  lightBlue: {
+    primary: '#21ada8',
+    secondary: '#21ada8',
+  },
+  pink: {
+    primary: '#ad2196',
+    secondary: '#ad2196',
+  },
+  blackBlue: {
+    primary: '#4921ad',
+    secondary: '#4921ad',
+  },
+  purple: {
+    primary: '#8521ad',
+    secondary: '#8521ad',
   },
 };
 
 @Component({
   selector: 'app-calendario',
   templateUrl: './calendario.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./calendario.component.css']
 })
 export class CalendarioComponent implements OnInit {
 
-  constructor() {}
+  protected view: CalendarView = CalendarView.Month;
+  protected refresh = new Subject<void>();
+  protected events: CalendarEvent[] = [];
+  protected CalendarView = CalendarView;
+  protected viewDate: Date = new Date();
+  protected loading = false;
+  protected nameColors = ['red', 'green','purple','lightBlue', 'blue', 'pink', 'blackBlue', 'orange', 'yellow', 'ocean'];
+  protected filter = "";
 
-  ngOnInit(): void {
-  }
-
-  filter = "";
-
-  @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
-
-  view: CalendarView = CalendarView.Month;
-
-  CalendarView = CalendarView;
-
-  viewDate: Date = new Date();
-
-  modalData!: {
+  protected modalData!: {
     action: string;
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
+  @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
+
+  protected actions: CalendarEventAction[] = [
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
@@ -83,52 +107,93 @@ export class CalendarioComponent implements OnInit {
     },
   ];
 
-  refresh = new Subject<void>();
+  constructor(private servicioService: ServicioService) { }
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'Luis Diego Cáceres García 5:00PM',
-      color: { ...colors['red'] },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: false,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...colors['blue'] },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  ngOnInit(): void {
+    this.dataCalendar();
+  }
 
-  activeDayIsOpen: boolean = true;
+  private dataCalendar() {
+    this.servicioService.getDataCalendar()
+      .subscribe(data => {
+        this.loading = true;
+        let nameColor = new Map();
+        let count = 0;
+        let alter: CalendarEvent[] = [];
+        for (let index = 0; index < data.length; index++) {
+          var color = '';
+          if (nameColor.has(data[index].nombre)) {
+            color = nameColor.get(data[index].nombre);
+          } else {
+            if (count < this.nameColors.length) {
+              nameColor.set(data[index].nombre, this.nameColors[count]);
+              color = this.nameColors[count];
+              count++;
+            } else {
+              count = 0;
+              nameColor.set(data[index].nombre, this.nameColors[count]);
+              color = this.nameColors[count];
+              count++;
+            }
+          }
+          alter.push(
+            {
+              start: startOfDay(new Date(data[index].fechaHoraRealizar)),
+              title: data[index].titulo,
+              color: { ...colors[color] },
+              allDay: true,
+            }
+          );
+        }
+        this.events = alter;
+        this.loading = false;
+      });
+  }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  // this.events = [
+  //   {
+  //     start: subDays(startOfDay(new Date()), 1),
+  //     end: addDays(new Date(), 1),
+  //     title: 'Luis Diego Cáceres García 5:00PM',
+  //     color: { ...colors['red'] },
+  //     actions: this.actions,
+  //     allDay: true,
+  //     resizable: {
+  //       beforeStart: true,
+  //       afterEnd: true,
+  //     },
+  //     draggable: false,
+  //   },
+  //   {
+  //     start: startOfDay(new Date()),
+  //     title: 'An event with no end date',
+  //     color: { ...colors['yellow'] },
+  //     actions: this.actions,
+  //   },
+  //   {
+  //     start: subDays(endOfMonth(new Date()), 3),
+  //     end: addDays(endOfMonth(new Date()), 3),
+  //     title: 'A long event that spans 2 months',
+  //     color: { ...colors['blue'] },
+  //     allDay: true,
+  //   },
+  //   {
+  //     start: addHours(startOfDay(new Date()), 2),
+  //     end: addHours(new Date(), 2),
+  //     title: 'A draggable and resizable event',
+  //     color: { ...colors['yellow'] },
+  //     actions: this.actions,
+  //     resizable: {
+  //       beforeStart: true,
+  //       afterEnd: true,
+  //     },
+  //     draggable: true,
+  //   },
+  // ];
+
+  protected activeDayIsOpen: boolean = false;
+
+  protected dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -142,7 +207,7 @@ export class CalendarioComponent implements OnInit {
     }
   }
 
-  eventTimesChanged({
+  protected eventTimesChanged({
     event,
     newStart,
     newEnd,
@@ -160,36 +225,17 @@ export class CalendarioComponent implements OnInit {
     this.handleEvent('Dropped or resized', event);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
+  protected handleEvent(action: string, event?: CalendarEvent): void {
+    if (event) {
+      this.modalData = { event, action };
+    }
   }
 
-  // addEvent(): void {
-  //   this.events = [
-  //     ...this.events,
-  //     {
-  //       title: 'New event',
-  //       start: startOfDay(new Date()),
-  //       end: endOfDay(new Date()),
-  //       color: colors['red'],
-  //       draggable: true,
-  //       resizable: {
-  //         beforeStart: true,
-  //         afterEnd: true,
-  //       },
-  //     },
-  //   ];
-  // }
-
-  // deleteEvent(eventToDelete: CalendarEvent) {
-  //   this.events = this.events.filter((event) => event !== eventToDelete);
-  // }
-
-  setView(view: CalendarView) {
+  protected setView(view: CalendarView) {
     this.view = view;
   }
 
-  closeOpenMonthViewDay() {
+  protected closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
 
