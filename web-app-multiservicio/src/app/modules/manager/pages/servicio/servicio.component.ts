@@ -10,6 +10,7 @@ import { ServicioService } from 'src/app/services/servicio.service';
 import { TipoServicioService } from 'src/app/services/tipo-servicio.service';
 import Swal from 'sweetalert2';
 import { formatDate } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-servicio',
@@ -53,6 +54,7 @@ export class ServicioComponent implements OnInit {
     private equipoService: EquipoService,
     private personaService: PersonaService,
     private formBuilder: FormBuilder,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
@@ -110,6 +112,10 @@ export class ServicioComponent implements OnInit {
         this.serviciosPendientes = services;
         this.loading = false;
       });
+  }
+
+  protected calendar(){
+    this.router.navigate(['gerente-general/calendario']);
   }
 
   private getServiceByType() {

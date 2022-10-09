@@ -1,6 +1,8 @@
 const boom = require('@hapi/boom');
-const{ QueryTypes,
-Op } = require('sequelize');
+const {
+  QueryTypes,
+  Op
+} = require('sequelize');
 const {
   models
 } = require('../libs/sequelize');
@@ -23,7 +25,7 @@ class ServicioService {
 
   async findAll() {
     const servicios = await models.Servicio.findAll({
-      include: ['Tipo_Servicio', 'Trabajador',{
+      include: ['Tipo_Servicio', 'Trabajador', {
         association: 'Equipo',
         include: ['Persona', {
           association: 'Direccion',
@@ -40,9 +42,26 @@ class ServicioService {
     return servicios;
   }
 
+  async findCalendar() {
+    const data = await models.Servicio.sequelize.query(`
+    SELECT CONCAT(p.nombre,' ',p.apellidos,' ',DATE_FORMAT(s.fechaHoraRealizar, '%r')) AS titulo,
+    CONCAT(p.nombre,' ',p.apellidos) AS nombre,
+    DATE(s.fechaHoraRealizar) AS fechaHoraRealizar, s.fechaFinalizado
+    FROM MultiServicios.Persona p
+    INNER JOIN MultiServicios.Servicio s
+    ON p.idPersona = s.idTrabajador`, {
+      type: QueryTypes.SELECT
+    });
+    const response = data;
+    for (let index = 0; index < response.length; index++) {
+      response[index].fechaFinalizado = response[index].fechaFinalizado ? new Date(response[index].fechaFinalizado) : new Date(response[index].fechaHoraRealizar);
+    }
+    return response;
+  }
+
   async findCompleted() {
     const servicios = await models.Servicio.findAll({
-      include: ['Tipo_Servicio', 'Trabajador',{
+      include: ['Tipo_Servicio', 'Trabajador', {
         association: 'Equipo',
         include: ['Persona', {
           association: 'Direccion',
@@ -64,7 +83,7 @@ class ServicioService {
 
   async findNotCompleted() {
     const servicios = await models.Servicio.findAll({
-      include: ['Tipo_Servicio', 'Trabajador',{
+      include: ['Tipo_Servicio', 'Trabajador', {
         association: 'Equipo',
         include: ['Persona', {
           association: 'Direccion',
@@ -86,23 +105,25 @@ class ServicioService {
     return servicios;
   }
 
-  async findGraphics(){
-    const data = await models.Servicio.sequelize.query("SELECT COUNT(fechaFinalizado) AS `serviciosCompletados`, COUNT(*) AS `cantidadServicios`, COUNT(idTrabajador) AS `serviciosAsignados` FROM MultiServicios.Servicio",
-    { type : QueryTypes.SELECT });
+  async findGraphics() {
+    const data = await models.Servicio.sequelize.query("SELECT COUNT(fechaFinalizado) AS `serviciosCompletados`, COUNT(*) AS `cantidadServicios`, COUNT(idTrabajador) AS `serviciosAsignados` FROM MultiServicios.Servicio", {
+      type: QueryTypes.SELECT
+    });
     return data[0];
   }
 
-  async findAmountByType(){
+  async findAmountByType() {
     let response = {
-      preventivo : 0,
-      correctivo : 0
+      preventivo: 0,
+      correctivo: 0
     }
-    const data = await models.Servicio.sequelize.query("SELECT t.tipoServicio, COUNT(*) AS 'cantidad' FROM MultiServicios.Servicio s INNER JOIN MultiServicios.Tipo_Servicio t ON t.idTipoServicio = s.idTipoServicio GROUP BY t.tipoServicio",
-    { type : QueryTypes.SELECT });
+    const data = await models.Servicio.sequelize.query("SELECT t.tipoServicio, COUNT(*) AS 'cantidad' FROM MultiServicios.Servicio s INNER JOIN MultiServicios.Tipo_Servicio t ON t.idTipoServicio = s.idTipoServicio GROUP BY t.tipoServicio", {
+      type: QueryTypes.SELECT
+    });
     for (let index = 0; index < data.length; index++) {
       if (data[index].tipoServicio != 'Correctivo') {
         response.preventivo += data[index].cantidad;
-      }else{
+      } else {
         response.correctivo += data[index].cantidad;
       }
     }

@@ -29,6 +29,10 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { FilterAuditPipe } from './pipes/filter-audit.pipe';
 import { FilterAnalysisPipe } from './pipes/filter-analysis.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarioComponent } from './pages/calendario/calendario.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FilterCalendarPipe } from './pipes/filter-calendar.pipe';
 
 @NgModule({
   declarations: [
@@ -54,6 +58,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     FilterDireccionPipe,
     FilterAuditPipe,
     FilterAnalysisPipe,
+    CalendarioComponent,
+    FilterCalendarPipe,
   ],
   imports: [
     CommonModule,
@@ -62,7 +68,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     FormsModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
-    NgxChartsModule
+    NgxChartsModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ]
 })
 export class ManagerModule { }

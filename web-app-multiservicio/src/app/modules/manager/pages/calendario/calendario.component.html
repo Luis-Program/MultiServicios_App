@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card padre">
+
+      <div class="card-body" *ngIf="loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>Calendario</h1>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <loader></loader>
+      </div>
+
+      <div class="card-body" *ngIf="!loading">
+        <div class="row">
+          <div class="col-12 text-center">
+            <h1>Calendario</h1>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <!-- INPUT SEARCH -->
+          <div class="col-sm-12 col-md-12">
+            <input type="text" class="form-control" name="filterName" placeholder="Buscador" [(ngModel)]="filter">
+          </div>
+          <!-- /INPUT SEARCH -->
+        </div>
+        <div class="row text-center">
+          <div class="col-12">
+            <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'es' }}</h3>
+          </div>
+        </div>
+        <div class="row mt-2 text-center">
+          <div class="col-12">
+            <div class="btn-group">
+              <div class="btn btn-inverse text-white" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()">
+                Anterior
+              </div>
+              <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+                Hoy
+              </div>
+              <div class="btn btn-inverse text-white" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()">
+                Siguiente
+              </div>
+            </div>
+          </div>
+        </div>
+          <!-- <div class="col-md-4">
+            <div class="btn-group">
+              <div class="btn btn-inverse text-white" (click)="setView(CalendarView.Month)"
+                [class.active]="view === CalendarView.Month">
+                Mes
+              </div>
+              <div class="btn btn-inverse text-white" (click)="setView(CalendarView.Week)"
+                [class.active]="view === CalendarView.Week">
+                Semana
+              </div>
+              <div class="btn btn-inverse text-white" (click)="setView(CalendarView.Day)"
+                [class.active]="view === CalendarView.Day">
+                Día
+              </div>
+            </div>
+          </div>
+        </div>-->
+        <br />
+        <div [ngSwitch]="view">
+          <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate"
+            [events]="events | filterCalendar : filter" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+            (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)">
+          </mwl-calendar-month-view>
+
+          <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+            >
+          </mwl-calendar-week-view>
+
+          <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)">
+          </mwl-calendar-day-view>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

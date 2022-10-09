@@ -76,6 +76,8 @@
                 *ngIf="viewCompletedService">Pendientes</button>
               <button class="btn btn-inverse text-white mr-3" (click)="switchView()"
                 *ngIf="!viewCompletedService">Completados</button>
+                <button class="btn btn-inverse text-white mr-3"
+                (click)="calendar()"><i class="mdi mdi-calendar"></i></button>
             </div>
 
             <!-- CARD UNCOMPLETED-->

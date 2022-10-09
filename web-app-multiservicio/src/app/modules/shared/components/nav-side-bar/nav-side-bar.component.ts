@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Notificacion } from 'src/app/models/notificacion.model';
-import { AuthB2cService } from 'src/app/services/auth-b2c.service';
 import { NotificacionService } from 'src/app/services/notificacion.service';
 import { getIdPersona, getRol } from '../../local-storage/localStorage';
 
@@ -22,7 +21,6 @@ export class NavSideBarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authB2C: AuthB2cService,
     private notificacionService: NotificacionService
   ) { }
 
@@ -61,11 +59,11 @@ export class NavSideBarComponent implements OnInit {
         case 'Gerente General':
           this.goByNotificationManager(notification);
           break;
-          case 'Cliente':
-            this.goByNotificationClient(notification);
-            break;
-          case 'Trabajador Operacional':
-            this.goByNotificationWorker(notification);
+        case 'Cliente':
+          this.goByNotificationClient(notification);
+          break;
+        case 'Trabajador Operacional':
+          this.goByNotificationWorker(notification);
           break;
         default:
           break;
@@ -187,9 +185,9 @@ export class NavSideBarComponent implements OnInit {
         if (resp) {
           const notificationIndex = this.notificaciones.findIndex(
             (res) => res.idNotificacion === idNotificacion);
-            if (!this.notificaciones[notificationIndex].visto) {
-              this.amountNotifications--;
-            }
+          if (!this.notificaciones[notificationIndex].visto) {
+            this.amountNotifications--;
+          }
           this.notificaciones.splice(notificationIndex, 1);
 
         }
